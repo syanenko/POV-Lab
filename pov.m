@@ -5,6 +5,7 @@ classdef pov < handle
         scene_file {mustBeNonempty} = "scene.pov";
         image_file {mustBeNonempty} = "image.png";
 
+        % Preview properties
         shade {mustBeNonempty} = "flat";
         alpha {mustBeNonempty} = 0.5;
         fh = 0;
@@ -22,26 +23,27 @@ classdef pov < handle
                 o.alpha = alpha;
             end
             
-            o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
-            s = sprintf('#version 3.7;\n');
-            s = sprintf('%sglobal_settings { assumed_gamma 1 }\n\n', s);
-            s = sprintf('%s#include "colors.inc"\n',   s);
-            s = sprintf('%s#include "woods.inc"\n',    s);
-            s = sprintf('%s#include "stones.inc"\n',   s);
-            s = sprintf('%s#include "metals.inc"\n',   s);
-            s = sprintf('%s#include "textures.inc"\n', s);
-            s = sprintf('%s#include "finish.inc"\n\n', s);
-            fprintf(o.fh, s);
+            b = sprintf('#version 3.7;\n');
+            b = sprintf('%sglobal_settings { assumed_gamma 1 }\n\n', b);
+            b = sprintf('%s#include "colors.inc"\n',   b);
+            b = sprintf('%s#include "woods.inc"\n',    b);
+            b = sprintf('%s#include "stones.inc"\n',   b);
+            b = sprintf('%s#include "metals.inc"\n',   b);
+            b = sprintf('%s#include "textures.inc"\n', b);
+            b = sprintf('%s#include "finish.inc"\n\n', b);
+            o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');            
+            fprintf(o.fh, b);
 
             figure;
         end
 
         % Camera
         function camera(o, angle, location, look_at)
-            fprintf(o.fh,'camera {perspective angle %d\n', angle);
-            fprintf(o.fh,'        location <%0.1f, %0.1f, %0.1f>\n', location(1), location(2), location(3));
-            fprintf(o.fh,'        right x*image_width/image_height\n');
-            fprintf(o.fh,'        look_at <%0.1f, %0.1f, %0.1f>}\n\n', look_at(1), look_at(2), look_at(3));
+            b = sprintf('camera {perspective angle %d\n', angle);
+            b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n',   b, location(1), location(2), location(3));
+            b = sprintf('%s        right x*image_width/image_height\n', b);
+            b = sprintf('%s        look_at <%0.1f, %0.1f, %0.1f>}\n\n', b, look_at(1), look_at(2), look_at(3));
+            fprintf(o.fh, b);
         end
 
         % Light
@@ -61,11 +63,13 @@ classdef pov < handle
         % Sphere
         function sphere(o, s, r, t, texture)
             % Write
-            fprintf(o.fh,'sphere {<0,0,0>, 1.00\n');
-            fprintf(o.fh,'        %s', texture);
-            fprintf(o.fh,'        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', ...
-                                  s(1), s(2), s(3), r(1), r(2), r(3), t(1), t(2), t(3));
-            % Show
+            b = sprintf('sphere {<0,0,0>, 1.00\n');
+            b = sprintf('%s        %s', b, texture);
+            b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
+                         s(1), s(2), s(3), r(1), r(2), r(3), t(1), t(2), t(3));
+            fprintf(o.fh, b);
+
+            % Preview
             [x,y,z] = sphere;
             surf( x * s(1) + t(1), y * s(2) + t(2), z * s(3) + t(3), 'FaceAlpha', o.alpha);
             shading(gca, o.shade);
