@@ -12,11 +12,11 @@ pov.camera(85, [3 -3 3], [0 12 0]);
 pov.light([-1000 1000 1000], [0.0 0.4 0.9]);
 pov.light([3000 -3000 3000], [0.8 0.8 0.8]);
 
-tex_red   = pov.texture([0.8 0.2 0.3], "phong 1 reflection {0.40 metallic 0.5}");
-tex_green = pov.texture([0.1 0.8 0.3], "phong 1 reflection {0.40 metallic 0.5}");
-tex_blue = pov.texture([0.1 0.3 0.8],  "phong 1 reflection {0.40 metallic 0.5}");
+tex_red   = pov.texture([0.8 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
+tex_green = pov.texture([0.1 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
+tex_blue  = pov.texture([0.1 0.3 0.8], "phong 1 reflection {0.10 metallic 0.8}");
 
-% pov.union_begin();
+pov.union_begin();
     pov.sphere([0.7 0.7 0.7], [0 0 0], [1 2 1], tex_green);
     pov.sphere([0.3 0.3 0.3], [0 0 0], [2 3 1], tex_red);
     pov.sphere([0.5 0.5 0.5], [0 0 0], [1 3 1], tex_green);
@@ -26,7 +26,7 @@ tex_blue = pov.texture([0.1 0.3 0.8],  "phong 1 reflection {0.40 metallic 0.5}")
     pov.sphere([0.1 0.1 0.1], [0 0 0], [4 1 3], tex_red);
     pov.sphere([0.3 0.3 0.3], [0 0 0], [2 3 2], tex_blue);
 
-% pov.union_end();
+pov.union_end();
 
 % pov.difference_begin();
 % pov.difference_end();

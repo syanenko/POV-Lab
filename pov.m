@@ -23,13 +23,15 @@ classdef pov < handle
             end
             
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
-            fprintf(o.fh,'#version 3.7;\nglobal_settings { assumed_gamma 1 }\n\n');
-            fprintf(o.fh,'#include "colors.inc"\n');
-            fprintf(o.fh,'#include "woods.inc"\n');
-            fprintf(o.fh,'#include "stones.inc"\n');
-            fprintf(o.fh,'#include "metals.inc"\n');
-            fprintf(o.fh,'#include "textures.inc"\n');
-            fprintf(o.fh,'#include "finish.inc"\n\n');
+            s = sprintf('#version 3.7;\n');
+            s = sprintf('%sglobal_settings { assumed_gamma 1 }\n\n', s);
+            s = sprintf('%s#include "colors.inc"\n',   s);
+            s = sprintf('%s#include "woods.inc"\n',    s);
+            s = sprintf('%s#include "stones.inc"\n',   s);
+            s = sprintf('%s#include "metals.inc"\n',   s);
+            s = sprintf('%s#include "textures.inc"\n', s);
+            s = sprintf('%s#include "finish.inc"\n\n', s);
+            fprintf(o.fh, s);
 
             figure;
         end
@@ -54,12 +56,10 @@ classdef pov < handle
             t = sprintf('texture { Polished_Chrome\n');
             t = sprintf('%s          pigment{ rgb<%0.2f, %0.2f, %0.2f>}\n', t, pigment(1), pigment(2), pigment(3));
             t = sprintf('%s          finish { %s }}\n', t, finish);
-            disp(t);
         end
         
         % Sphere
         function sphere(o, s, r, t, texture)
-            disp("QQ:pov:sphere()");
             % Write
             fprintf(o.fh,'sphere {<0,0,0>, 1.00\n');
             fprintf(o.fh,'        %s', texture);
@@ -75,11 +75,9 @@ classdef pov < handle
         
         % CSG:Union
         function union_begin(o)
-            disp("QQ:pov:union_begin()");
             fprintf(o.fh,'union {\n');
         end
         function union_end(o)
-            disp("QQ:pov:union_end()");
             fprintf(o.fh,'}\n\n');
         end 
 
