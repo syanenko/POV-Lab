@@ -7,6 +7,7 @@ pov = pov( "3.7",...
            "C:\Users\Serge\Documents\MATLAB\Apps\povlab\examples\out", ...
            "spheres_union.pov", "spheres_union.png", ...
            'interp', 0.5); % 'faceted' 'flat'
+
 pov.scene_begin();
 pov.global_settings("assumed_gamma 1");
 
@@ -28,8 +29,8 @@ tex_red   = pov.texture([0.8 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}")
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
 tex_blue  = pov.texture([0.1 0.3 0.8], "phong 1 reflection {0.10 metallic 0.8}");
 
-tex_axis_light = pov.declare("tex_axis_dark",  pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_dark  = pov.declare("tex_axis_light", pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_light = pov.declare("tex_axis_light", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_dark  = pov.declare("tex_axis_dark",  pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
 
 pov.axis([5 5 5], tex_axis_light, tex_axis_dark);
 
