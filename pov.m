@@ -7,27 +7,29 @@ classdef pov < handle
         image_file {mustBeNonempty} = "image.png";
 
         % Preview properties
-        shade {mustBeNonempty} = "flat";
+        shading {mustBeNonempty} = "flat";
         alpha {mustBeNonempty} = 0.5;
+        
         fh = 0;
     end
 
     methods
         % Constructor
-        function o = pov(version, pov_path, out_dir, scene_file, image_file, shade, alpha)
-            if nargin == 7
+        function o = pov(version, pov_path, out_dir)
+            if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
                 o.out_dir = out_dir;
-                o.scene_file = scene_file;
-                o.image_file = o.out_dir + "\" + image_file;
-                o.shade = shade;
-                o.alpha = alpha;
             end
         end
 
         % Begin scene
-        function scene_begin(o)
+        function scene_begin(o, scene_file, image_file, shading, alpha)
+            o.scene_file = scene_file;
+            o.image_file = o.out_dir + "\" + image_file;
+            o.shading = shading;
+            o.alpha = alpha;
+
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
 
@@ -97,7 +99,7 @@ classdef pov < handle
             % Preview
             [x,y,z] = sphere;
             surf( x * s(1) + t(1), y * s(2) + t(2), z * s(3) + t(3), 'FaceAlpha', o.alpha);
-            shading(gca, o.shade);
+            shading(gca, o.shading);
             axis equal;
             hold on;
         end

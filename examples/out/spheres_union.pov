@@ -1,12 +1,6 @@
 #version 3.7;
 global_settings { assumed_gamma 1 }
-#include "colors.inc"
-#include "woods.inc"
-#include "stones.inc"
-#include "metals.inc"
-#include "metals.inc"
 #include "textures.inc"
-#include "finish.inc"
 #include "axis.inc"
 camera {perspective angle 35
         location <14.0, 14.0, -14.0>
