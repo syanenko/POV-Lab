@@ -18,13 +18,13 @@ light_source{< -1000.0, 1000.0, 1000.0> rgb<0.00, 0.40, 0.90>}
 light_source{< 3000.0, -3000.0, -3000.0> rgb<0.80, 0.80, 0.80>}
 
 #declare tex_axis_dark = texture { Polished_Chrome
-          pigment{ rgb<0.80, 0.20, 0.30>}
+          pigment{ rgb<0.00, 1.00, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
 #declare tex_axis_light = texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.80, 0.30>}
-          finish { phong 1 reflection {0.20 metallic 0.1} }}
+          pigment{ rgb<0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
 object{ AxisXYZ( 5.0, 5.0, 5.0,
@@ -33,7 +33,7 @@ object{ AxisXYZ( 5.0, 5.0, 5.0,
 union {
 sphere {<0,0,0>, 1.00
         texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.80, 0.30>}
+          pigment{ rgb<0.40, 0.80, 0.30>}
           finish { phong 1 reflection {0.20 metallic 0.1} }}
         scale<0.70, 0.70, 0.70> rotate<0.00, 0.00, 0.00> translate<1.00, 2.00, 1.00>}
 
@@ -45,7 +45,7 @@ sphere {<0,0,0>, 1.00
 
 sphere {<0,0,0>, 1.00
         texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.80, 0.30>}
+          pigment{ rgb<0.40, 0.80, 0.30>}
           finish { phong 1 reflection {0.20 metallic 0.1} }}
         scale<0.50, 0.50, 0.50> rotate<0.00, 0.00, 0.00> translate<1.00, 3.00, 1.00>}
 
@@ -57,7 +57,7 @@ sphere {<0,0,0>, 1.00
 
 sphere {<0,0,0>, 1.00
         texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.80, 0.30>}
+          pigment{ rgb<0.40, 0.80, 0.30>}
           finish { phong 1 reflection {0.20 metallic 0.1} }}
         scale<0.20, 0.20, 0.20> rotate<0.00, 0.00, 0.00> translate<3.00, 3.00, 2.00>}
 
