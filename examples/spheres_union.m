@@ -2,6 +2,14 @@ addpath ("C:\Users\Serge\Documents\MATLAB\Apps\povlab");
 clear;
 clear pov;
 
+%
+% TODO
+%
+% 1. Axis - get rid of include, all parametrs + planes
+% 2. pov.text(...)
+% 3. mesh (surf)
+%
+
 pov = pov( "3.7",...
            "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
            "C:\Users\Serge\Documents\MATLAB\Apps\povlab\examples\out");
