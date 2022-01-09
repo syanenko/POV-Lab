@@ -22,7 +22,11 @@ classdef pov < handle
                 o.shade = shade;
                 o.alpha = alpha;
             end
-            
+        end
+
+        % Begin scene
+        function scene_begin(o)
+            o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
             b = sprintf('#version 3.7;\n');
             b = sprintf('%sglobal_settings { assumed_gamma 1 }\n\n', b);
             b = sprintf('%s#include "colors.inc"\n',   b);
@@ -31,12 +35,22 @@ classdef pov < handle
             b = sprintf('%s#include "metals.inc"\n',   b);
             b = sprintf('%s#include "textures.inc"\n', b);
             b = sprintf('%s#include "finish.inc"\n\n', b);
-            o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');            
+            b = sprintf('%s#include "axis.inc"\n\n',   b);
             fprintf(o.fh, b);
 
             figure;
         end
+        
+        % End scene
+        function scene_end(o)
+            fclose(o.fh);
+        end
 
+        % Declare
+        function declare(o, symbol, text)
+            fprintf(o.fh,'#declare %s = %s"\n', symbol, text);
+        end
+        
         % Camera
         function camera(o, angle, location, look_at)
             b = sprintf('camera {perspective angle %d\n', angle);
@@ -51,6 +65,13 @@ classdef pov < handle
             fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f>}\n\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3));
+        end
+       
+        % Axis
+        function axis(o, size, tex_light, text_dark)
+            fprintf(o.fh,'object{AxisXYZ( %0.1f, %0.1f, %0.1f,\n      %s,      %s)}\n\n', ...
+                    size(1), size(2), size(3), ...
+                    tex_light, text_dark);
         end
 
         % Texture
@@ -87,32 +108,31 @@ classdef pov < handle
 
         % CSG:Difference
         function difference_begin(o)
-            disp("QQ:pov:difference_begin()");
+            fprintf(o.fh,'difference {\n');
         end
         function difference_end(o)
-            disp("QQ:pov:difference_end()");
+            fprintf(o.fh,'}\n\n');
         end 
 
         % CSG:Intersection
         function intersection_begin(o)
-            disp("QQ:pov:intersection_begin()");
+            fprintf(o.fh,'intersection {\n');
         end
         function intersection_end(o)
-            disp("QQ:pov:intersection_end()");
+            fprintf(o.fh,'}\n\n');
         end
 
         % CSG:Merge
         function merge_begin(o)
-            disp("QQ:pov:merge_begin()");
+            fprintf(o.fh,'merge {\n');
         end
         function merge_end(o)
-            disp("QQ:pov:merge_end()");
+            fprintf(o.fh,'}\n\n');
         end
 
         % Render
         function render(o)
             disp("QQ:pov:render()");
-            fclose(o.fh);
             figure;
             system(sprintf('"%s" /RENDER %s\\%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
