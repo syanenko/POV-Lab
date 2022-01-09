@@ -1,5 +1,6 @@
 classdef pov < handle
     properties
+        version    {mustBeNonempty} = "3.7";
         pov_path   {mustBeNonempty} = "pvengine.exe";
         out_dir    {mustBeNonempty} = ".";
         scene_file {mustBeNonempty} = "scene.pov";
@@ -13,8 +14,9 @@ classdef pov < handle
 
     methods
         % Constructor
-        function o = pov(pov_path, out_dir, scene_file, image_file, shade, alpha)
-            if nargin == 6
+        function o = pov(version, pov_path, out_dir, scene_file, image_file, shade, alpha)
+            if nargin == 7
+                o.version = version;
                 o.pov_path = pov_path;
                 o.out_dir = out_dir;
                 o.scene_file = scene_file;
@@ -27,16 +29,7 @@ classdef pov < handle
         % Begin scene
         function scene_begin(o)
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
-            b = sprintf('#version 3.7;\n');
-            b = sprintf('%sglobal_settings { assumed_gamma 1 }\n\n', b);
-            b = sprintf('%s#include "colors.inc"\n',   b);
-            b = sprintf('%s#include "woods.inc"\n',    b);
-            b = sprintf('%s#include "stones.inc"\n',   b);
-            b = sprintf('%s#include "metals.inc"\n',   b);
-            b = sprintf('%s#include "textures.inc"\n', b);
-            b = sprintf('%s#include "finish.inc"\n\n', b);
-            b = sprintf('%s#include "axis.inc"\n\n',   b);
-            fprintf(o.fh, b);
+            fprintf(o.fh, '#version %s;\n', o.version);
 
             figure;
         end
@@ -46,9 +39,20 @@ classdef pov < handle
             fclose(o.fh);
         end
 
+        % Global settings
+        function global_settings(o, settings)
+            fprintf(o.fh, 'global_settings { %s }\n', settings);
+        end
+        
+        % Include
+        function include(o, text)
+            fprintf(o.fh, '#include "%s.inc"\n', text);
+        end
+        
         % Declare
-        function declare(o, symbol, text)
-            fprintf(o.fh,'#declare %s = %s"\n', symbol, text);
+        function s = declare(o, symbol, text)
+            fprintf(o.fh, '#declare %s = %s\n\n', symbol, text);
+            s = symbol;
         end
         
         % Camera
@@ -69,7 +73,7 @@ classdef pov < handle
        
         % Axis
         function axis(o, size, tex_light, text_dark)
-            fprintf(o.fh,'object{AxisXYZ( %0.1f, %0.1f, %0.1f,\n      %s,      %s)}\n\n', ...
+            fprintf(o.fh,'object{ AxisXYZ( %0.1f, %0.1f, %0.1f,\n        %s, %s)}\n\n', ...
                     size(1), size(2), size(3), ...
                     tex_light, text_dark);
         end
