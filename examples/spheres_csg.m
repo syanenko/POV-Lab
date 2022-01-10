@@ -10,12 +10,14 @@ close all;
 % 3. pov.mesh (surf)
 % 4. Render slices (voxels ?)
 % 5. pov.equation("x^ * 2")
+% 6. pov.grid(...)
+% Validate parameters
 
 pov = pov( "3.7",...
            "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
            "C:\Users\Serge\Documents\MATLAB\Apps\povlab\examples\out");
 
-pov.scene_begin("spheres_union.pov", "spheres_union.png", 'interp', 0.5); % TODO: Set image size
+pov.scene_begin("spheres_csg.pov", "spheres_csg.png", 'interp', 0.5); % TODO: Set image size
 pov.global_settings("assumed_gamma 1");
 
 pov.include("shapes");
@@ -41,11 +43,15 @@ pov.plane([1,0,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
 pov.plane([0,1,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
 pov.plane([0,0,1], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
 
+% Grid
+pov.grid_2D([1 1], [10 10], tex_plane);
+pov.grid_3D([1 1 1], [10 10 10], tex_plane);
+
 pov.difference_begin();
-    pov.sphere([0 0 1], 2, [1 1 1; 0 0 0; 1 1 1], tex_green);
+    pov.sphere([1 1 1], 2.1, [1 1 1; 0 0 0; 0 0 0], tex_green);
     pov.union_begin();
-        pov.sphere([0 0 0], 0.6, [1 1 1; 0 0 0; 3 1 2], tex_red);
-        pov.sphere([0 0 0], 0.8, [1 1 1; 0 0 0; 2 2 1], tex_blue);
+        pov.sphere([3 1 2], 0.6, [1 1 1; 0 0 0; 0 0 0], tex_red);
+        pov.sphere([0 0 0], 0.8, [1 1 1; 0 0 0; 2 3 1], tex_blue);
         pov.sphere([0 0 0], 1.0, [1 1 1; 0 0 0; 1 2 3], tex_green);
     pov.union_end();
 pov.difference_end();

@@ -85,8 +85,12 @@ classdef pov < handle
                     tex_light, text_dark);
         end
 
-        % Grid % TODO - Implement
-        function grid(o, size, tex_light, text_dark)
+        % Grid 2D % TODO - Implement
+        function grid_2D(o, cell_size, size, texture)
+        end
+        
+        % Grid 3D % TODO - Implement
+        function grid_3D(o, cell_size, size, texture)
         end
 
         % Texture
