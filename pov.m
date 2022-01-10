@@ -8,8 +8,8 @@ classdef pov < handle
 
         % Preview properties
         preview = false;
-        shading {mustBeNonempty} = "flat";
-        alpha {mustBeNonempty} = 0.5;
+        preview_shading {mustBeNonempty} = "flat";
+        preview_alpha {mustBeNonempty} = 0.5;
         
         fh = 0;
     end
@@ -24,18 +24,22 @@ classdef pov < handle
             end
         end
 
+        % Set previw options
+        function enable_preview(o, shading, alpha)
+            o.preview_shading = shading;
+            o.preview_alpha = alpha;
+            o.preview = true;
+        end
+
         % Begin scene
-        function scene_begin(o, scene_file, image_file, preview, shading, alpha)
+        function scene_begin(o, scene_file, image_file)
             o.scene_file = scene_file;
             o.image_file = o.out_dir + "\" + image_file;
-            o.shading = shading;
-            o.alpha = alpha;
-            o.preview = preview;
-
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
-
-            figure;
+            if o.preview
+                figure;
+            end
         end
         
         % End scene
@@ -123,8 +127,8 @@ classdef pov < handle
                 [x,y,z] = sphere;
                 surf( x * radius * trans(1,1) + position(1) + trans(3,1), ...
                       y * radius * trans(1,2) + position(2) + trans(3,2), ...
-                      z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.alpha);
-                shading(gca, o.shading);
+                      z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.preview_alpha);
+                shading(gca, o.preview_shading);
                 axis equal;
                 hold on;
             end
@@ -152,8 +156,8 @@ classdef pov < handle
 %             [x,y,z] = sphere;
 %             surf( x * trans(1,1) + trans(3,1), ...
 %                   y * trans(1,2) + trans(3,2), ...
-%                   z * trans(1,3) + trans(3,3), 'FaceAlpha', o.alpha);
-%             shading(gca, o.shading);
+%                   z * trans(1,3) + trans(3,3), 'FaceAlpha', o.preview_alpha);
+%             shading(gca, o.preview_shading);
 %             axis equal;
 %             hold on;
 %            end

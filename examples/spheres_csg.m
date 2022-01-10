@@ -16,8 +16,9 @@ close all;
 pov = pov( "3.7",...
            "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
            "C:\Users\Serge\Documents\MATLAB\Apps\povlab\examples\out");
+% pov.enable_preview('interp', 0.5);
 
-pov.scene_begin("spheres_csg.pov", "spheres_csg.png", false, 'interp', 0.5); % TODO: Set image size
+pov.scene_begin("spheres_csg.pov", "spheres_csg.png"); % TODO: Set image size
 pov.global_settings("assumed_gamma 1");
 
 pov.include("shapes");
