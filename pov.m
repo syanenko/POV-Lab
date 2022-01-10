@@ -7,6 +7,7 @@ classdef pov < handle
         image_file {mustBeNonempty} = "image.png";
 
         % Preview properties
+        preview = false;
         shading {mustBeNonempty} = "flat";
         alpha {mustBeNonempty} = 0.5;
         
@@ -24,11 +25,12 @@ classdef pov < handle
         end
 
         % Begin scene
-        function scene_begin(o, scene_file, image_file, shading, alpha)
+        function scene_begin(o, scene_file, image_file, preview, shading, alpha)
             o.scene_file = scene_file;
             o.image_file = o.out_dir + "\" + image_file;
             o.shading = shading;
             o.alpha = alpha;
+            o.preview = preview;
 
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
@@ -117,13 +119,15 @@ classdef pov < handle
             fprintf(o.fh, b);
 
             % Preview
-            [x,y,z] = sphere;
-            surf( x * radius * trans(1,1) + position(1) + trans(3,1), ...
-                  y * radius * trans(1,2) + position(2) + trans(3,2), ...
-                  z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.alpha);
-            shading(gca, o.shading);
-            axis equal;
-            hold on;
+            if(o.preview)
+                [x,y,z] = sphere;
+                surf( x * radius * trans(1,1) + position(1) + trans(3,1), ...
+                      y * radius * trans(1,2) + position(2) + trans(3,2), ...
+                      z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.alpha);
+                shading(gca, o.shading);
+                axis equal;
+                hold on;
+            end
         end
 
         % Plane
@@ -144,6 +148,7 @@ classdef pov < handle
 
             % Preview 
             % TODO
+%            if(o.preview)
 %             [x,y,z] = sphere;
 %             surf( x * trans(1,1) + trans(3,1), ...
 %                   y * trans(1,2) + trans(3,2), ...
@@ -151,6 +156,7 @@ classdef pov < handle
 %             shading(gca, o.shading);
 %             axis equal;
 %             hold on;
+%            end
         end
 
         % CSG:Union
