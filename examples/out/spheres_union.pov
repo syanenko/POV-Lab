@@ -33,41 +33,41 @@ plane {<1, 0, 0>, 0.00
 
 plane {<0, 1, 0>, 0.00
         texture { Polished_Chrome
-          pigment{ rgb<0.40, 0.80, 0.30>}
-          finish { phong 1 reflection {0.20 metallic 0.1} }}
+          pigment{ rgb<0.50, 0.50, 0.50>}
+          finish { phong 1 reflection {0.1 metallic 0.2} }}
         scale<0.00, 0.00, 0.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 plane {<0, 0, 1>, 0.00
         texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.30, 0.80>}
-          finish { phong 1 reflection {0.10 metallic 0.8} }}
+          pigment{ rgb<0.50, 0.50, 0.50>}
+          finish { phong 1 reflection {0.1 metallic 0.2} }}
         scale<0.00, 0.00, 0.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 difference {
-sphere {<0,0,0>, 1.00
-        texture { Polished_Chrome
-          pigment{ rgb<1.00, 0.20, 0.30>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-        scale<2.20, 2.20, 2.20> rotate<0.00, 0.00, 0.00> translate<1.00, 1.00, 1.00>}
-
-union {
-sphere {<0,0,0>, 1.00
-        texture { Polished_Chrome
-          pigment{ rgb<1.00, 0.20, 0.30>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-        scale<0.70, 0.70, 0.70> rotate<0.00, 0.00, 0.00> translate<3.00, 1.00, 2.00>}
-
-sphere {<0,0,0>, 1.00
-        texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.30, 0.80>}
-          finish { phong 1 reflection {0.10 metallic 0.8} }}
-        scale<0.80, 0.80, 0.80> rotate<0.00, 0.00, 0.00> translate<2.20, 2.70, 1.00>}
-
-sphere {<0,0,0>, 1.00
+sphere {<0.00, 0.00, 1.00>, 2.00
         texture { Polished_Chrome
           pigment{ rgb<0.40, 0.80, 0.30>}
           finish { phong 1 reflection {0.20 metallic 0.1} }}
-        scale<0.90, 0.90, 0.90> rotate<0.00, 0.00, 0.00> translate<1.00, 2.00, 3.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<1.00, 1.00, 1.00>}
+
+union {
+sphere {<0.00, 0.00, 0.00>, 0.60
+        texture { Polished_Chrome
+          pigment{ rgb<1.00, 0.20, 0.30>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<3.00, 1.00, 2.00>}
+
+sphere {<0.00, 0.00, 0.00>, 0.80
+        texture { Polished_Chrome
+          pigment{ rgb<0.10, 0.30, 0.80>}
+          finish { phong 1 reflection {0.10 metallic 0.8} }}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<2.00, 2.00, 1.00>}
+
+sphere {<0.00, 0.00, 0.00>, 1.00
+        texture { Polished_Chrome
+          pigment{ rgb<0.40, 0.80, 0.30>}
+          finish { phong 1 reflection {0.20 metallic 0.1} }}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<1.00, 2.00, 3.00>}
 
 }
 

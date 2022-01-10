@@ -85,6 +85,10 @@ classdef pov < handle
                     tex_light, text_dark);
         end
 
+        % Grid % TODO - Implement
+        function grid(o, size, tex_light, text_dark)
+        end
+
         % Texture
         function tex = texture(o, pigment, finish)
             tex = sprintf('texture { Polished_Chrome\n');
@@ -93,9 +97,9 @@ classdef pov < handle
         end
         
         % Sphere
-        function sphere(o, trans, texture)
+        function sphere(o, position, radius, trans, texture)
             % Write
-            b = sprintf('sphere {<0,0,0>, 1.00\n');
+            b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', position(1), position(2), position(3), radius);
             b = sprintf('%s        %s', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
                          trans(1,1), trans(1,2), trans(1,3), ...
@@ -105,9 +109,9 @@ classdef pov < handle
 
             % Preview
             [x,y,z] = sphere;
-            surf( x * trans(1,1) + trans(3,1), ...
-                  y * trans(1,2) + trans(3,2), ...
-                  z * trans(1,3) + trans(3,3), 'FaceAlpha', o.alpha);
+            surf( x * radius * trans(1,1) + position(1) + trans(3,1), ...
+                  y * radius * trans(1,2) + position(2) + trans(3,2), ...
+                  z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.alpha);
             shading(gca, o.shading);
             axis equal;
             hold on;
