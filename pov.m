@@ -56,7 +56,12 @@ classdef pov < handle
             fprintf(o.fh, '#declare %s = %s\n\n', symbol, text);
             s = symbol;
         end
-        
+
+        % Raw
+        function raw(o, text)
+            fprintf(o.fh, '%s\n\n', text);
+        end
+
         % Camera
         function camera(o, angle, location, look_at)
             b = sprintf('camera {perspective angle %d\n', angle);
@@ -88,17 +93,21 @@ classdef pov < handle
         end
         
         % Sphere
-        function sphere(o, s, r, t, texture)
+        function sphere(o, t, texture)
             % Write
             b = sprintf('sphere {<0,0,0>, 1.00\n');
             b = sprintf('%s        %s', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         s(1), s(2), s(3), r(1), r(2), r(3), t(1), t(2), t(3));
+                         t(1,1), t(1,2), t(1,3), ...
+                         t(2,1), t(2,2), t(2,3), ...
+                         t(3,1), t(3,2), t(3,3));
             fprintf(o.fh, b);
 
             % Preview
             [x,y,z] = sphere;
-            surf( x * s(1) + t(1), y * s(2) + t(2), z * s(3) + t(3), 'FaceAlpha', o.alpha);
+            surf( x * t(1,1) + t(3,1), ...
+                  y * t(1,2) + t(3,2), ...
+                  z * t(1,3) + t(3,3), 'FaceAlpha', o.alpha);
             shading(gca, o.shading);
             axis equal;
             hold on;
