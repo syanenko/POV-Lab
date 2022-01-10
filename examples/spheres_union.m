@@ -24,23 +24,31 @@ pov.include("axis");
 
 pov.camera(35, [12 12 12], [0 1 0]);
 
-pov.light([-1000  1000  1000], [0.0 0.4 0.9]);
-pov.light([ 3000 -3000 -3000], [0.8 0.8 0.8]);
+pov.light([ 1000  1000 2000], [0.0 0.4 0.9]);
+pov.light([ 3000  2000 3000], [0.8 0.8 0.8]);
 
 tex_red   = pov.texture([1.0 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
 tex_blue  = pov.texture([0.1 0.3 0.8], "phong 1 reflection {0.10 metallic 0.8}");
 
+tex_plane = pov.texture([0.5 0.5 0.5], "phong 1 reflection {0.1 metallic 0.2}");
+
 tex_axis_light = pov.declare("tex_axis_light", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
 tex_axis_dark  = pov.declare("tex_axis_dark",  pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
-
 pov.axis([5 5 5], tex_axis_light, tex_axis_dark);
 
-pov.union_begin();
-    pov.sphere([0.6 0.6 0.6; 0 0 0; 3 1 2], tex_red);
-    pov.sphere([0.8 0.8 0.8; 0 0 0; 2.2 2.7 1], tex_blue);
-    pov.sphere([0.7 0.7 0.7; 0 0 0; 1 2 3], tex_green);
-pov.union_end();
+pov.plane([1,0,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
+pov.plane([0,1,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_green);
+pov.plane([0,0,1], 0, [0 0 0; 0 0 0; 0 0 0], tex_blue);
+
+pov.difference_begin();
+    pov.sphere([2.2 2.2 2.2; 0 0 0; 1 1 1], tex_red);
+    pov.union_begin();
+        pov.sphere([0.7 0.7 0.7; 0 0 0; 3 1 2], tex_red);
+        pov.sphere([0.8 0.8 0.8; 0 0 0; 2.2 2.7 1], tex_blue);
+        pov.sphere([0.9 0.9 0.9; 0 0 0; 1 2 3], tex_green);
+    pov.union_end();
+pov.difference_end();
 
 pov.scene_end();
 pov.render();

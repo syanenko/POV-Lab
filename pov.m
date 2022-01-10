@@ -86,33 +86,55 @@ classdef pov < handle
         end
 
         % Texture
-        function t = texture(o, pigment, finish)
-            t = sprintf('texture { Polished_Chrome\n');
-            t = sprintf('%s          pigment{ rgb<%0.2f, %0.2f, %0.2f>}\n', t, pigment(1), pigment(2), pigment(3));
-            t = sprintf('%s          finish { %s }}\n', t, finish);
+        function tex = texture(o, pigment, finish)
+            tex = sprintf('texture { Polished_Chrome\n');
+            tex = sprintf('%s          pigment{ rgb<%0.2f, %0.2f, %0.2f>}\n', tex, pigment(1), pigment(2), pigment(3));
+            tex = sprintf('%s          finish { %s }}\n', tex, finish);
         end
         
         % Sphere
-        function sphere(o, t, texture)
+        function sphere(o, trans, texture)
             % Write
             b = sprintf('sphere {<0,0,0>, 1.00\n');
             b = sprintf('%s        %s', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         t(1,1), t(1,2), t(1,3), ...
-                         t(2,1), t(2,2), t(2,3), ...
-                         t(3,1), t(3,2), t(3,3));
+                         trans(1,1), trans(1,2), trans(1,3), ...
+                         trans(2,1), trans(2,2), trans(2,3), ...
+                         trans(3,1), trans(3,2), trans(3,3));
             fprintf(o.fh, b);
 
             % Preview
             [x,y,z] = sphere;
-            surf( x * t(1,1) + t(3,1), ...
-                  y * t(1,2) + t(3,2), ...
-                  z * t(1,3) + t(3,3), 'FaceAlpha', o.alpha);
+            surf( x * trans(1,1) + trans(3,1), ...
+                  y * trans(1,2) + trans(3,2), ...
+                  z * trans(1,3) + trans(3,3), 'FaceAlpha', o.alpha);
             shading(gca, o.shading);
             axis equal;
             hold on;
         end
-        
+
+        % Plane
+        function plane(o, normal, distance, trans, texture)
+            % Write
+            b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
+            b = sprintf('%s        %s', b, texture);
+            b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
+                         trans(1,1), trans(1,2), trans(1,3), ...
+                         trans(2,1), trans(2,2), trans(2,3), ...
+                         trans(3,1), trans(3,2), trans(3,3));
+            fprintf(o.fh, b);
+
+            % Preview 
+            % TODO
+%             [x,y,z] = sphere;
+%             surf( x * trans(1,1) + trans(3,1), ...
+%                   y * trans(1,2) + trans(3,2), ...
+%                   z * trans(1,3) + trans(3,3), 'FaceAlpha', o.alpha);
+%             shading(gca, o.shading);
+%             axis equal;
+%             hold on;
+        end
+
         % CSG:Union
         function union_begin(o)
             fprintf(o.fh,'union {\n');
