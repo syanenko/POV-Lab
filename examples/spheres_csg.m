@@ -11,7 +11,12 @@ close all;
 % 4. Render slices (voxels ?)
 % 5. pov.equation("x^ * 2")
 % 6. pov.grid(...)
-% Validate parameters
+% 7. Validate parameters
+% 8. Get data from figure:
+%      axObjs = fig.Children
+%      dataObjs = axObjs.Children
+%      dataObjs(1) - Light
+%      dataObjs(2).XData; ...; dataObjs(2).CData
 
 pov = pov( "3.7",...
            "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
@@ -23,7 +28,7 @@ pov.global_settings("assumed_gamma 1");
 
 pov.include("shapes");
 pov.include("textures");
-pov.include("axis");
+pov.declare_macros();
 
 pov.camera(35, [12 12 12], [0 1 0]);
 
@@ -33,32 +38,31 @@ pov.light([3000  2000 3000], [0.8 0.8 0.8]);
 tex_red   = pov.texture([1.0 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
 tex_blue  = pov.texture([0.1 0.3 0.8], "phong 1 reflection {0.10 metallic 0.8}");
-tex_plane = pov.texture([0.5 0.5 0.5], "phong 1 reflection {0.1 metallic 0.2}");
+tex_plane = pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.1 metallic 0.2}");
 
-tex_axis_light = pov.declare("tex_axis_light", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_dark  = pov.declare("tex_axis_dark",  pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
-pov.axis([5 5 5], tex_axis_light, tex_axis_dark);
+tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0.7 0.7 0.7], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+
+pov.axis([5 5 5], tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z);
 
 % Axis planes
 pov.plane([1,0,0], 0, tex_plane);
 pov.plane([0,1,0], 0, tex_plane);
 pov.plane([0,0,1], 0, tex_plane);
 
-% pov.plane([1,0,0], 0, tex_plane, [1 1 1; 0 0 0; -1 0 0]);
-% pov.plane([0,1,0], 0, tex_plane, [1 1 1; 0 0 0; 0 -2 0]);
-% pov.plane([0,0,1], 0, tex_plane, [1 1 1; 0 0 0; 0 0 -3]);
-
-% Grid
-pov.grid_2D([1 1], [10 10], tex_plane);
-pov.grid_3D([1 1 1], [10 10 10], tex_plane);
+% Grid - TODO: Implement
+% pov.grid_2D([1 1], [10 10], tex_plane);
+% pov.grid_3D([1 1 1], [10 10 10], tex_plane);
 
 pov.difference_begin();
     pov.sphere([1 1 1], 2.1, tex_green);
     pov.union_begin();
          pov.sphere([3 1 2], 0.6, tex_red);
-         pov.sphere([0 0 0], 0.8, tex_blue, [1 1 1; 0 0 0; 2 3 1]);
-         pov.sphere([0 0 0], 1.0, tex_green, [1 1 1; 0 0 0; 1 2 3]);
-pov.union_end();
+         pov.sphere([2 3 1], 0.8, tex_blue);
+         pov.sphere([1 2 3], 1.0, tex_green);
+    pov.union_end();
 pov.difference_end();
 
 pov.scene_end();

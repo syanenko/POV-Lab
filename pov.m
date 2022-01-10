@@ -63,6 +63,11 @@ classdef pov < handle
             s = symbol;
         end
 
+        % Macro
+        function macro(o, text)
+            fprintf(o.fh, '#macro %s#end\n\n', text);
+        end
+
         % Raw
         function raw(o, text)
             fprintf(o.fh, '%s\n\n', text);
@@ -85,10 +90,10 @@ classdef pov < handle
         end
        
         % Axis
-        function axis(o, size, tex_light, text_dark)
-            fprintf(o.fh,'object{ AxisXYZ( %0.1f, %0.1f, %0.1f,\n        %s, %s)}\n\n', ...
+        function axis(o, size, tex_common, tex_x, tex_y, tex_z)
+            fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s)}\n\n', ...
                     size(1), size(2), size(3), ...
-                    tex_light, text_dark);
+                    tex_common, tex_x, tex_y, tex_z);
         end
 
         % Grid 2D % TODO - Implement
@@ -201,6 +206,27 @@ classdef pov < handle
             figure;
             system(sprintf('"%s" /RENDER %s\\%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
+        end
+
+        % Declare macros
+        function declare_macros(o)
+            % Axis
+            b = sprintf('axis( len, tex_odd, tex_even)\n');
+            b = sprintf('%s  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.05\n', b);
+            b = sprintf('%s    texture{ checker\n', b);
+            b = sprintf('%s      texture{ tex_odd }\n', b);
+            b = sprintf('%s      texture{ tex_even }\n', b);
+            b = sprintf('%s   translate <0.1, 0, 0.1> }}\n', b);
+            axis = sprintf('%s  cone{<0, len, 0>, 0.2, <0, len+0.7, 0>, 0 texture{tex_even} }}\n', b);
+            o.macro(axis);
+                
+            % Axis_XYZ
+            b = sprintf('axis_xyz( len_x, len_y, len_z, tex_common, tex_x, tex_y, tex_z)\n');
+            b = sprintf('%sunion{\n', b);
+            b = sprintf('%s#if (len_x != 0) object { axis(len_x, tex_common, tex_x) rotate< 0, 0,-90>} #end\n', b);
+            b = sprintf('%s#if (len_y != 0) object { axis(len_y, tex_common, tex_y) rotate< 0, 0, 0>}  #end\n', b);
+            axis_xyz = sprintf('%s#if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }\n', b);
+            o.macro(axis_xyz);
         end
     end
 end
