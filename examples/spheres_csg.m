@@ -17,6 +17,8 @@ close all;
 %      dataObjs = axObjs.Children
 %      dataObjs(1) - Light
 %      dataObjs(2).XData; ...; dataObjs(2).CData
+% 9. Lights
+% 10. All shapes
 
 pov = pov( "3.7",...
            "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
