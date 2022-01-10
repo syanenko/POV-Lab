@@ -29,19 +29,19 @@ plane {<1, 0, 0>, 0.00
         texture { Polished_Chrome
           pigment{ rgb<0.50, 0.50, 0.50>}
           finish { phong 1 reflection {0.1 metallic 0.2} }}
-        scale<0.00, 0.00, 0.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 plane {<0, 1, 0>, 0.00
         texture { Polished_Chrome
           pigment{ rgb<0.50, 0.50, 0.50>}
           finish { phong 1 reflection {0.1 metallic 0.2} }}
-        scale<0.00, 0.00, 0.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 plane {<0, 0, 1>, 0.00
         texture { Polished_Chrome
           pigment{ rgb<0.50, 0.50, 0.50>}
           finish { phong 1 reflection {0.1 metallic 0.2} }}
-        scale<0.00, 0.00, 0.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 difference {
 sphere {<1.00, 1.00, 1.00>, 2.10

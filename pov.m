@@ -101,7 +101,12 @@ classdef pov < handle
         end
         
         % Sphere
-        function sphere(o, position, radius, trans, texture)
+        function sphere(o, position, radius, texture, varargin)
+            if nargin > 4
+                trans = varargin{1};
+            else
+                trans = [1 1 1; 0 0 0; 0 0 0];
+            end
             % Write
             b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', position(1), position(2), position(3), radius);
             b = sprintf('%s        %s', b, texture);
@@ -122,7 +127,12 @@ classdef pov < handle
         end
 
         % Plane
-        function plane(o, normal, distance, trans, texture)
+        function plane(o, normal, distance, texture, varargin)
+            if nargin > 4
+                trans = varargin{1};
+            else
+                trans = [1 1 1; 0 0 0; 0 0 0];
+            end
             % Write
             b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
             b = sprintf('%s        %s', b, texture);

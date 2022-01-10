@@ -26,8 +26,8 @@ pov.include("axis");
 
 pov.camera(35, [12 12 12], [0 1 0]);
 
-pov.light([ 1000  1000 2000], [0.0 0.4 0.9]);
-pov.light([ 3000  2000 3000], [0.8 0.8 0.8]);
+pov.light([1000  1000 2000], [0.0 0.4 0.9]);
+pov.light([3000  2000 3000], [0.8 0.8 0.8]);
 
 tex_red   = pov.texture([1.0 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
@@ -39,21 +39,25 @@ tex_axis_dark  = pov.declare("tex_axis_dark",  pov.texture([0.3 0.3 0.3], "phong
 pov.axis([5 5 5], tex_axis_light, tex_axis_dark);
 
 % Axis planes
-pov.plane([1,0,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
-pov.plane([0,1,0], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
-pov.plane([0,0,1], 0, [0 0 0; 0 0 0; 0 0 0], tex_plane);
+pov.plane([1,0,0], 0, tex_plane);
+pov.plane([0,1,0], 0, tex_plane);
+pov.plane([0,0,1], 0, tex_plane);
+
+% pov.plane([1,0,0], 0, tex_plane, [1 1 1; 0 0 0; -1 0 0]);
+% pov.plane([0,1,0], 0, tex_plane, [1 1 1; 0 0 0; 0 -2 0]);
+% pov.plane([0,0,1], 0, tex_plane, [1 1 1; 0 0 0; 0 0 -3]);
 
 % Grid
 pov.grid_2D([1 1], [10 10], tex_plane);
 pov.grid_3D([1 1 1], [10 10 10], tex_plane);
 
 pov.difference_begin();
-    pov.sphere([1 1 1], 2.1, [1 1 1; 0 0 0; 0 0 0], tex_green);
+    pov.sphere([1 1 1], 2.1, tex_green);
     pov.union_begin();
-        pov.sphere([3 1 2], 0.6, [1 1 1; 0 0 0; 0 0 0], tex_red);
-        pov.sphere([0 0 0], 0.8, [1 1 1; 0 0 0; 2 3 1], tex_blue);
-        pov.sphere([0 0 0], 1.0, [1 1 1; 0 0 0; 1 2 3], tex_green);
-    pov.union_end();
+         pov.sphere([3 1 2], 0.6, tex_red);
+         pov.sphere([0 0 0], 0.8, tex_blue, [1 1 1; 0 0 0; 2 3 1]);
+         pov.sphere([0 0 0], 1.0, tex_green, [1 1 1; 0 0 0; 1 2 3]);
+pov.union_end();
 pov.difference_end();
 
 pov.scene_end();
