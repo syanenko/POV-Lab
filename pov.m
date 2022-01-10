@@ -40,6 +40,7 @@ classdef pov < handle
             if o.preview
                 figure;
             end
+            o.declare_macros();
         end
         
         % End scene

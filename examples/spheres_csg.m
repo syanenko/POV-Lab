@@ -5,7 +5,7 @@ close all;
 %
 % TODO
 %
-% 1. Axis - get rid of include, all parametrs + planes
+% 1. Set axis color by default
 % 2. pov.text(...)
 % 3. pov.mesh (surf)
 % 4. Render slices (voxels ?)
@@ -28,7 +28,6 @@ pov.global_settings("assumed_gamma 1");
 
 pov.include("shapes");
 pov.include("textures");
-pov.declare_macros();
 
 pov.camera(35, [12 12 12], [0 1 0]);
 

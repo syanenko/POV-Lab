@@ -1,7 +1,4 @@
 #version 3.7;
-global_settings { assumed_gamma 1 }
-#include "shapes.inc"
-#include "textures.inc"
 #macro axis( len, tex_odd, tex_even)
   union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.05
     texture{ checker
@@ -18,6 +15,9 @@ union{
 #if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }
 #end
 
+global_settings { assumed_gamma 1 }
+#include "shapes.inc"
+#include "textures.inc"
 camera {perspective angle 35
         location <12.0, 12.0, 12.0>
         right x*image_width/image_height
@@ -47,7 +47,7 @@ light_source{< 3000.0, 2000.0, 3000.0> rgb<0.80, 0.80, 0.80>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
-object{ axis_xyz( 5.0, 5.0, 9.0,
+object{ axis_xyz( 5.0, 5.0, 5.0,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z)}
 
 plane {<1, 0, 0>, 0.00
