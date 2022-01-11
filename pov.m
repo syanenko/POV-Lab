@@ -28,8 +28,8 @@ classdef pov < handle
         function enable_preview(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'shading', 'interp', @(x) isstring(x) || ischar(x));
-            addParameter(p,'alpha', 0.5, @(x) isfloat(x) && isscalar(x) && (x >= 0) && (x <= 1));
+            addParameter(p,'shading', 'interp', @o.check_string);
+            addParameter(p,'alpha', 0.5, @o.check_positive_float_0_1);
             parse(p,varargin{:});
             
             % Save
@@ -42,8 +42,8 @@ classdef pov < handle
         function scene_begin(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'scene_file', 'out.pov', @(x) isstring(x) || ischar(x));
-            addParameter(p,'image_file', 'out.png', @(x) isstring(x) || ischar(x));
+            addParameter(p,'scene_file', 'out.pov', @o.check_string);
+            addParameter(p,'image_file', 'out.png', @o.check_string);
             parse(p,varargin{:});
 
             % Store
@@ -104,11 +104,11 @@ classdef pov < handle
         function camera(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'angle', 100, @(x) isfloat(x) && isscalar(x) && (x > 0));
-            addParameter(p,'location', [5 5 5], @isvector);
-            addParameter(p,'look_at', [0 0 0], @isvector);
+            addParameter(p,'angle', 100, @o.check_positive_float);
+            addParameter(p,'location', [5 5 5], @o.check_vector3);
+            addParameter(p,'look_at', [0 0 0], @o.check_vector3);
             parse(p,varargin{:});
-            
+
             % Write
             b = sprintf('camera {perspective angle %d\n', p.Results.angle);
             b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n', ...
@@ -245,7 +245,56 @@ classdef pov < handle
             imshow(o.image_file);
         end
 
+        %
+        % Validation functions
+        %
+        function r = check_vector3(o, x)
+            r = false;
+            if ~isvector(x)
+                error('Input is not a vector');
+            elseif (length(x) ~= 3)
+                error("Input vector size is not equal to '3'");
+            end
+            r = true;
+        end
+        
+        function r = check_positive_float(o, x)
+            r = false;
+            if ~isscalar(x)
+                error('Input is not scalar');
+            elseif ~isfloat(x)
+                error('Input is not float');
+            elseif (x < 0)
+                error('Input is negative');
+            end
+            r = true;
+        end
+
+        function r = check_positive_float_0_1(o, x)
+            r = false;
+            if ~isscalar(x)
+                error('Input is not scalar');
+            elseif ~isfloat(x)
+                error('Input is not float');
+            elseif (x < 0)
+                error('Input is negative');
+            elseif ((x < 0) || (x > 1))
+                error("Input is not in range '[0 1]'");
+            end
+            r = true;
+        end
+
+        function r = check_string(o, x)
+            r = false;
+            if (~isstring(x) && ~ischar(x))
+                error('Input is not a string');
+            end
+            r = true;
+        end
+
+        %
         % Declare macros
+        %
         function declare_macros(o)
             % Axis
             b = sprintf('axis( len, tex_odd, tex_even)\n');
