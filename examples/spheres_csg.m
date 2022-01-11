@@ -23,8 +23,8 @@ close all;
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-% pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
-pov.enable_preview();
+pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
+% pov.enable_preview();
 
 % pov.scene_begin(); % TODO: Set image size
 pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png'); % TODO: Set image size
@@ -37,11 +37,11 @@ pov.include("textures");
 %pov.camera('angle', 35, 'location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('angle', 35, 'look_at', [0 1 0]);
-pov.camera("angle", 15, 'location', [12 12 12]);
-% pov.camera();
+% pov.camera("angle", 15, 'location', [12 12 12]);
+pov.camera();
 
-pov.light([1000  1000 2000], [0.0 0.4 0.9]);
-pov.light([3000  2000 3000], [0.8 0.8 0.8]);
+pov.light();
+% pov.light( 'location', [3000 2000 3000], 'color', [1 1 1]);
 
 tex_red   = pov.texture([1.0 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
