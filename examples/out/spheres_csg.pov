@@ -18,10 +18,10 @@ union{
 global_settings { assumed_gamma 1 }
 #include "shapes.inc"
 #include "textures.inc"
-camera {perspective angle 35
-        location <12.0, 12.0, 12.0>
+camera {perspective angle 100
+        location <5.0, 5.0, 5.0>
         right x*image_width/image_height
-        look_at <0.0, 1.0, 0.0>}
+        look_at <0.0, 0.0, 0.0>}
 
 light_source{< 1000.0, 1000.0, 2000.0> rgb<0.00, 0.40, 0.90>}
 

@@ -75,11 +75,21 @@ classdef pov < handle
         end
 
         % Camera
-        function camera(o, angle, location, look_at)
-            b = sprintf('camera {perspective angle %d\n', angle);
-            b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n',   b, location(1), location(2), location(3));
+        function camera(o, varargin)
+            % Parse
+            p = inputParser;
+            addOptional(p,'angle', 100, @(x) isnumeric(x) && isscalar(x) && (x > 0));
+            addParameter(p,'location', [5 5 5], @isvector);
+            addParameter(p,'look_at', [0 0 0], @isvector);
+            parse(p,varargin{:});
+            
+            % Write
+            b = sprintf('camera {perspective angle %d\n', p.Results.angle);
+            b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n', ...
+                         b, p.Results.location(1), p.Results.location(2), p.Results.location(3));
             b = sprintf('%s        right x*image_width/image_height\n', b);
-            b = sprintf('%s        look_at <%0.1f, %0.1f, %0.1f>}\n\n', b, look_at(1), look_at(2), look_at(3));
+            b = sprintf('%s        look_at <%0.1f, %0.1f, %0.1f>}\n\n', ...
+                         b, p.Results.look_at(1), p.Results.look_at(2), p.Results.look_at(3));
             fprintf(o.fh, b);
         end
 

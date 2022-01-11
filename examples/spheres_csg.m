@@ -31,7 +31,11 @@ pov.global_settings("assumed_gamma 1");
 pov.include("shapes");
 pov.include("textures");
 
-pov.camera(35, [12 12 12], [0 1 0]);
+%pov.camera('angle', 35, 'location', [12 12 12], 'look_at', [0 1 0]);
+% pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
+% pov.camera('angle', 35, 'look_at', [0 1 0]);
+% pov.camera('angle', 35, 'location', [12 12 12]);
+pov.camera();
 
 pov.light([1000  1000 2000], [0.0 0.4 0.9]);
 pov.light([3000  2000 3000], [0.8 0.8 0.8]);
