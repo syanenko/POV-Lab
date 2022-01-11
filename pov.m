@@ -14,6 +14,8 @@ classdef pov < handle
         fh = 0;
 
         % Common textures
+        tex_default;
+
         tex_axis_common;
         tex_axis_x;
         tex_axis_y;
@@ -116,13 +118,17 @@ classdef pov < handle
             addParameter(p,'look_at',  [0 0 0], @o.check_vector3);
             parse(p,varargin{:});
 
+            angle = p.Results.angle;
+            location = p.Results.location;
+            look_at = p.Results.look_at;
+
             % Write
-            b = sprintf('camera {perspective angle %d\n', p.Results.angle);
+            b = sprintf('camera {perspective angle %d\n', angle);
             b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n', ...
-                         b, p.Results.location(1), p.Results.location(2), p.Results.location(3));
+                         b, location(1), location(2), location(3));
             b = sprintf('%s        right x*image_width/image_height\n', b);
             b = sprintf('%s        look_at <%0.1f, %0.1f, %0.1f>}\n\n', ...
-                         b, p.Results.look_at(1), p.Results.look_at(2), p.Results.look_at(3));
+                         b, look_at(1), look_at(2), look_at(3));
             fprintf(o.fh, b);
         end
 
@@ -133,11 +139,14 @@ classdef pov < handle
             addParameter(p,'location', [100 100 100], @o.check_vector3);
             addParameter(p,'color',    [1.0 1.0 1.0], @o.check_vector3);
             parse(p,varargin{:});
-            
+
+            location = p.Results.location;
+            color    = p.Results.color;
+
             % Write
             fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f>}\n\n', ...
-                          p.Results.location(1), p.Results.location(2), p.Results.location(3), ...
-                          p.Results.color(1), p.Results.color(2), p.Results.color(3));
+                          location(1), location(2), location(3), ...
+                          color(1), color(2), color(3));
         end
        
         % Axis
@@ -151,9 +160,16 @@ classdef pov < handle
             addParameter(p,'tex_z', "tex_axis_z", @o.check_string);
             parse(p,varargin{:});
             
+            % Write
+            size =       p.Results.size;
+            tex_common = p.Results.tex_common;
+            tex_x =      p.Results.tex_x;
+            tex_y =      p.Results.tex_y;
+            tex_z =      p.Results.tex_z;
+
             fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s)}\n\n', ...
-                    p.Results.size(1), p.Results.size(2), p.Results.size(3), ...
-                    p.Results.tex_common, p.Results.tex_x, p.Results.tex_y, p.Results.tex_z);
+                    size(1), size(2), size(3), ...
+                    tex_common, tex_x, tex_y, tex_z);
         end
 
         % Grid 2D % TODO - Implement
@@ -172,27 +188,36 @@ classdef pov < handle
         end
         
         % Sphere
-        function sphere(o, position, radius, texture, varargin)
-            if nargin > 4
-                trans = varargin{1};
-            else
-                trans = [1 1 1; 0 0 0; 0 0 0];
-            end
+        function sphere(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'position',                [0 0 0], @o.check_vector3);
+            addParameter(p,'radius',                        1, @o.check_positive_float);
+            addParameter(p,'texture',           "tex_default", @o.check_string);
+            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix33);
+            parse(p,varargin{:});
+
+            position  = p.Results.position;
+            radius    = p.Results.radius;
+            texture   = p.Results.texture;
+            transform = p.Results.transform;
+
             % Write
-            b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', position(1), position(2), position(3), radius);
-            b = sprintf('%s        %s', b, texture);
+            b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', ...
+                        position(1), position(2), position(3), radius);
+            b = sprintf('%s        texture { %s }\n', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         trans(1,1), trans(1,2), trans(1,3), ...
-                         trans(2,1), trans(2,2), trans(2,3), ...
-                         trans(3,1), trans(3,2), trans(3,3));
+                         transform(1,1), transform(1,2), transform(1,3), ...
+                         transform(2,1), transform(2,2), transform(2,3), ...
+                         transform(3,1), transform(3,2), transform(3,3));
             fprintf(o.fh, b);
 
             % Preview
             if(o.preview)
                 [x,y,z] = sphere;
-                surf( x * radius * trans(1,1) + position(1) + trans(3,1), ...
-                      y * radius * trans(1,2) + position(2) + trans(3,2), ...
-                      z * radius * trans(1,3) + position(3) + trans(3,3), 'FaceAlpha', o.preview_alpha);
+                surf( x * radius * transform(1,1) + position(1) + transform(3,1), ...
+                      y * radius * transform(1,2) + position(2) + transform(3,2), ...
+                      z * radius * transform(1,3) + position(3) + transform(3,3), 'FaceAlpha', o.preview_alpha);
                 shading(gca, o.preview_shading);
                 axis equal;
                 hold on;
@@ -202,26 +227,26 @@ classdef pov < handle
         % Plane
         function plane(o, normal, distance, texture, varargin)
             if nargin > 4
-                trans = varargin{1};
+                transform = varargin{1};
             else
-                trans = [1 1 1; 0 0 0; 0 0 0];
+                transform = [1 1 1; 0 0 0; 0 0 0];
             end
             % Write
             b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
             b = sprintf('%s        %s', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         trans(1,1), trans(1,2), trans(1,3), ...
-                         trans(2,1), trans(2,2), trans(2,3), ...
-                         trans(3,1), trans(3,2), trans(3,3));
+                         transform(1,1), transform(1,2), transform(1,3), ...
+                         transform(2,1), transform(2,2), transform(2,3), ...
+                         transform(3,1), transform(3,2), transform(3,3));
             fprintf(o.fh, b);
 
-            % Preview 
+            % Preview
             % TODO
 %            if(o.preview)
 %             [x,y,z] = sphere;
-%             surf( x * trans(1,1) + trans(3,1), ...
-%                   y * trans(1,2) + trans(3,2), ...
-%                   z * trans(1,3) + trans(3,3), 'FaceAlpha', o.preview_alpha);
+%             surf( x * transform(1,1) + transform(3,1), ...
+%                   y * transform(1,2) + transform(3,2), ...
+%                   z * transform(1,3) + transform(3,3), 'FaceAlpha', o.preview_alpha);
 %             shading(gca, o.preview_shading);
 %             axis equal;
 %             hold on;
@@ -262,7 +287,6 @@ classdef pov < handle
 
         % Render
         function render(o)
-            disp("QQ:pov:render()");
             figure;
             system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
@@ -271,6 +295,8 @@ classdef pov < handle
         %
         % Validation functions
         %
+        
+        % Vector of size '3'
         function r = check_vector3(o, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 3)
@@ -279,6 +305,7 @@ classdef pov < handle
             r = true;
         end
         
+        % Positive float
         function r = check_positive_float(o, x)
             r = false;
             if ~isscalar(x)
@@ -291,12 +318,13 @@ classdef pov < handle
             r = true;
         end
 
+        % Positive float in range 0..1
         function r = check_positive_float_0_1(o, x)
             r = false;
             if ~isscalar(x)
                 error('Input is not scalar');
             elseif ~isfloat(x)
-                error('Input is not float');
+                error('Input is not a float');
             elseif (x < 0)
                 error('Input is negative');
             elseif ((x < 0) || (x > 1))
@@ -305,10 +333,20 @@ classdef pov < handle
             r = true;
         end
 
+        % String
         function r = check_string(o, x)
             r = false;
             if (~isstring(x) && ~ischar(x))
                 error('Input is not a string');
+            end
+            r = true;
+        end
+
+        % Transformation matrix
+        function r = check_matrix33(o, x)
+            r = false;
+            if (~isequal(size(x), [3 3]))
+                error("Input is not a matrix of size '3 x 3'");
             end
             r = true;
         end
@@ -337,10 +375,15 @@ classdef pov < handle
         end
         
         %
-        % Declare textures
+        % Declare common textures
         %
         function declare_textures(o)
             o.include("textures");
+            
+            % Default
+            o.tex_default = o.declare("tex_default", o.texture([0 0.7 0], "phong 1 reflection {0.10 metallic 0.4}"));
+
+            % Axis
             o.tex_axis_common = o.declare("tex_axis_common", o.texture([0.7 0.7 0.7], "phong 1 reflection {0.10 metallic 0.4}"));
             o.tex_axis_x = o.declare("tex_axis_x", o.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
             o.tex_axis_y = o.declare("tex_axis_y", o.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));

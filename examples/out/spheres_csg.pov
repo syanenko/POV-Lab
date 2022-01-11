@@ -15,17 +15,11 @@ union{
 #if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }
 #end
 
-global_settings { assumed_gamma 1 }
-#include "shapes.inc"
 #include "textures.inc"
-camera {perspective angle 100
-        location <5.0, 5.0, 5.0>
-        right x*image_width/image_height
-        look_at <0.0, 0.0, 0.0>}
+#declare tex_default = texture { Polished_Chrome
+          pigment{ rgb<0.00, 0.70, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
 
-light_source{< 1000.0, 1000.0, 2000.0> rgb<0.00, 0.40, 0.90>}
-
-light_source{< 3000.0, 2000.0, 3000.0> rgb<0.80, 0.80, 0.80>}
 
 #declare tex_axis_common = texture { Polished_Chrome
           pigment{ rgb<0.70, 0.70, 0.70>}
@@ -46,6 +40,15 @@ light_source{< 3000.0, 2000.0, 3000.0> rgb<0.80, 0.80, 0.80>}
           pigment{ rgb<0.00, 0.00, 1.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
+
+global_settings { assumed_gamma 1 }
+#include "shapes.inc"
+camera {perspective angle 100
+        location <5.0, 5.0, 5.0>
+        right x*image_width/image_height
+        look_at <0.0, 0.0, 0.0>}
+
+light_source{< 100.0, 100.0, 100.0> rgb<1.00, 1.00, 1.00>}
 
 object{ axis_xyz( 5.0, 5.0, 5.0,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z)}
@@ -68,30 +71,37 @@ plane {<0, 0, 1>, 0.00
           finish { phong 1 reflection {0.1 metallic 0.2} }}
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
+#declare tex_red = texture { Polished_Chrome
+          pigment{ rgb<1.00, 0.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_green = texture { Polished_Chrome
+          pigment{ rgb<0.00, 1.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_blue = texture { Polished_Chrome
+          pigment{ rgb<0.00, 0.00, 1.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
 difference {
-sphere {<1.00, 1.00, 1.00>, 2.10
-        texture { Polished_Chrome
-          pigment{ rgb<0.40, 0.80, 0.30>}
-          finish { phong 1 reflection {0.20 metallic 0.1} }}
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+sphere {<1.00, 1.00, 1.00>, 2.00
+        texture { tex_green }
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 1.00, 0.00>}
 
 union {
 sphere {<3.00, 1.00, 2.00>, 0.60
-        texture { Polished_Chrome
-          pigment{ rgb<1.00, 0.20, 0.30>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
+        texture { tex_red }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 sphere {<2.00, 3.00, 1.00>, 0.80
-        texture { Polished_Chrome
-          pigment{ rgb<0.10, 0.30, 0.80>}
-          finish { phong 1 reflection {0.10 metallic 0.8} }}
+        texture { tex_blue }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 sphere {<1.00, 2.00, 3.00>, 1.00
-        texture { Polished_Chrome
-          pigment{ rgb<0.40, 0.80, 0.30>}
-          finish { phong 1 reflection {0.20 metallic 0.1} }}
+        texture { tex_green }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 }
