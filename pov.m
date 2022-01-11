@@ -12,6 +12,12 @@ classdef pov < handle
         preview_alpha {mustBeNonempty} = 0.5;
         
         fh = 0;
+
+        % Common textures
+        tex_axis_common;
+        tex_axis_x;
+        tex_axis_y;
+        tex_axis_z;
     end
 
     methods
@@ -67,6 +73,7 @@ classdef pov < handle
                 figure;
             end
             o.declare_macros();
+            o.declare_textures();
         end
         
         % End scene
@@ -127,16 +134,26 @@ classdef pov < handle
             addParameter(p,'color',    [1.0 1.0 1.0], @o.check_vector3);
             parse(p,varargin{:});
             
+            % Write
             fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f>}\n\n', ...
                           p.Results.location(1), p.Results.location(2), p.Results.location(3), ...
                           p.Results.color(1), p.Results.color(2), p.Results.color(3));
         end
        
         % Axis
-        function axis(o, size, tex_common, tex_x, tex_y, tex_z)
+        function axis(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'size', [5 5 5], @o.check_vector3);
+            addParameter(p,'tex_common', "tex_axis_common", @o.check_string);
+            addParameter(p,'tex_x', "tex_axis_x", @o.check_string);
+            addParameter(p,'tex_y', "tex_axis_y", @o.check_string);
+            addParameter(p,'tex_z', "tex_axis_z", @o.check_string);
+            parse(p,varargin{:});
+            
             fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s)}\n\n', ...
-                    size(1), size(2), size(3), ...
-                    tex_common, tex_x, tex_y, tex_z);
+                    p.Results.size(1), p.Results.size(2), p.Results.size(3), ...
+                    p.Results.tex_common, p.Results.tex_x, p.Results.tex_y, p.Results.tex_z);
         end
 
         % Grid 2D % TODO - Implement
@@ -317,6 +334,17 @@ classdef pov < handle
             b = sprintf('%s#if (len_y != 0) object { axis(len_y, tex_common, tex_y) rotate< 0, 0, 0>}  #end\n', b);
             axis_xyz = sprintf('%s#if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }\n', b);
             o.macro(axis_xyz);
+        end
+        
+        %
+        % Declare textures
+        %
+        function declare_textures(o)
+            o.include("textures");
+            o.tex_axis_common = o.declare("tex_axis_common", o.texture([0.7 0.7 0.7], "phong 1 reflection {0.10 metallic 0.4}"));
+            o.tex_axis_x = o.declare("tex_axis_x", o.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
+            o.tex_axis_y = o.declare("tex_axis_y", o.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
+            o.tex_axis_z = o.declare("tex_axis_z", o.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
         end
     end
 end

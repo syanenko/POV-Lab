@@ -32,7 +32,7 @@ pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png'
 pov.global_settings("assumed_gamma 1");
 
 pov.include("shapes");
-pov.include("textures");
+% pov.include("textures");
 
 %pov.camera('angle', 35, 'location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -41,19 +41,19 @@ pov.include("textures");
 pov.camera();
 
 pov.light();
-% pov.light( 'location', [3000 2000 3000], 'color', [1 1 1]);
+%pov.light( 'location', [1000 2000 3000], 'color', [1 1 1]);
 
 tex_red   = pov.texture([1.0 0.2 0.3], "phong 1 reflection {0.10 metallic 0.4}");
 tex_green = pov.texture([0.4 0.8 0.3], "phong 1 reflection {0.20 metallic 0.1}");
 tex_blue  = pov.texture([0.1 0.3 0.8], "phong 1 reflection {0.10 metallic 0.8}");
 tex_plane = pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.1 metallic 0.2}");
 
-tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0.7 0.7 0.7], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
-
-pov.axis([5 5 5], tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z);
+% tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0. 0. 0.], "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 1 1], "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+pov.axis();
+% pov.axis([5 5 5], tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z);
 
 % Axis planes
 pov.plane([1,0,0], 0, tex_plane);
