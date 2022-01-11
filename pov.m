@@ -29,7 +29,7 @@ classdef pov < handle
             % Parse
             p = inputParser;
             addParameter(p,'shading', 'interp', @o.check_string);
-            addParameter(p,'alpha', 0.5, @o.check_positive_float_0_1);
+            addParameter(p,'alpha',        0.5, @o.check_positive_float_0_1);
             parse(p,varargin{:});
             
             % Save
@@ -104,9 +104,9 @@ classdef pov < handle
         function camera(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'angle', 100, @o.check_positive_float);
+            addParameter(p,'angle',    100,     @o.check_positive_float);
             addParameter(p,'location', [5 5 5], @o.check_vector3);
-            addParameter(p,'look_at', [0 0 0], @o.check_vector3);
+            addParameter(p,'look_at',  [0 0 0], @o.check_vector3);
             parse(p,varargin{:});
 
             % Write
@@ -120,10 +120,16 @@ classdef pov < handle
         end
 
         % Light
-        function light(o, location, color)
+        function light(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'location', [100 100 100], @o.check_vector3);
+            addParameter(p,'color',    [1.0 1.0 1.0], @o.check_vector3);
+            parse(p,varargin{:});
+            
             fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f>}\n\n', ...
-                          location(1), location(2), location(3), ...
-                          color(1), color(2), color(3));
+                          p.Results.location(1), p.Results.location(2), p.Results.location(3), ...
+                          p.Results.color(1), p.Results.color(2), p.Results.color(3));
         end
        
         % Axis
@@ -250,10 +256,8 @@ classdef pov < handle
         %
         function r = check_vector3(o, x)
             r = false;
-            if ~isvector(x)
-                error('Input is not a vector');
-            elseif (length(x) ~= 3)
-                error("Input vector size is not equal to '3'");
+            if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 3)
+                error("Input is not a float vector of size '3'");
             end
             r = true;
         end
