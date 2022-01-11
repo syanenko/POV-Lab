@@ -86,13 +86,18 @@ plane {<0, 0, 1>, 0.00
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
+#declare tex_pink = texture { Polished_Chrome
+          pigment{ rgb<8.00, 2.00, 3.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
 difference {
 sphere {<1.00, 1.00, 1.00>, 2.00
         texture { tex_green }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 1.00, 0.00>}
 
 union {
-sphere {<3.00, 1.00, 2.00>, 0.60
+sphere {<2.00, 1.00, 2.00>, 0.70
         texture { tex_red }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
@@ -101,7 +106,7 @@ sphere {<2.00, 3.00, 1.00>, 0.80
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 sphere {<1.00, 2.00, 3.00>, 1.00
-        texture { tex_green }
+        texture { tex_pink }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
 }
