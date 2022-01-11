@@ -25,16 +25,31 @@ classdef pov < handle
         end
 
         % Set previw options
-        function enable_preview(o, shading, alpha)
-            o.preview_shading = shading;
-            o.preview_alpha = alpha;
+        function enable_preview(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'shading', 'interp', @(x) isstring(x) || ischar(x));
+            addParameter(p,'alpha', 0.5, @(x) isfloat(x) && isscalar(x) && (x >= 0) && (x <= 1));
+            parse(p,varargin{:});
+            
+            % Save
+            o.preview_shading = p.Results.shading;
+            o.preview_alpha = p.Results.alpha;
             o.preview = true;
         end
 
         % Begin scene
-        function scene_begin(o, scene_file, image_file)
-            o.scene_file = scene_file;
-            o.image_file = o.out_dir + "\" + image_file;
+        function scene_begin(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'scene_file', 'out.pov', @(x) isstring(x) || ischar(x));
+            addParameter(p,'image_file', 'out.png', @(x) isstring(x) || ischar(x));
+            parse(p,varargin{:});
+
+            % Write
+            o.scene_file = p.Results.scene_file;
+            o.image_file = o.out_dir + "\" + p.Results.image_file;
+
             o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
             if o.preview
@@ -78,7 +93,7 @@ classdef pov < handle
         function camera(o, varargin)
             % Parse
             p = inputParser;
-            addOptional(p,'angle', 100, @(x) isnumeric(x) && isscalar(x) && (x > 0));
+            addParameter(p,'angle', 100, @(x) isfloat(x) && isscalar(x) && (x > 0));
             addParameter(p,'location', [5 5 5], @isvector);
             addParameter(p,'look_at', [0 0 0], @isvector);
             parse(p,varargin{:});
