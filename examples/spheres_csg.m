@@ -38,27 +38,34 @@ pov.camera();
 % pov.camera('angle', 35, 'look_at', [0 1 0]);
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
-pov.light();
-%pov.light( 'location', [1000 2000 3000], 'color', [1 1 1]);
+%pov.light();
+pov.light( 'location', [1000 2000 3000], 'color', [1 1 1]);
 
+% Axis textures
 % tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0. 0. 0.], "phong 1 reflection {0.10 metallic 0.4}"));
 % tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 1 1], "phong 1 reflection {0.10 metallic 0.4}"));
 % tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
 % tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+
+% Axis
 pov.axis();
 % pov.axis('size', [5 6 7], 'tex_common', pov.tex_axis_x, 'tex_x', pov.tex_axis_z);
 
-% Axis planes
-tex_plane = pov.texture([0.3 0.3 0.3], "phong 1 reflection {0.1 metallic 0.2}");
+% Axis planes textures
+tex_plane_red   = pov.declare("tex_plane_red",   pov.texture([0.8 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_green = pov.declare("tex_plane_green", pov.texture([0.3 0.8 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture([0.3 0.3 0.8], "phong 1 reflection {0.10 metallic 0.4}"));
 
-pov.plane([1,0,0], 0, tex_plane);
-pov.plane([0,1,0], 0, tex_plane);
-pov.plane([0,0,1], 0, tex_plane);
+% Axis planes
+pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red);
+pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green);
+pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue);
 
 % Grid - TODO: Implement
 % pov.grid_2D([1 1], [10 10], tex_plane);
 % pov.grid_3D([1 1 1], [10 10 10], tex_plane);
 
+% Objects textures
 tex_red   = pov.declare("tex_red",   pov.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
 tex_green = pov.declare("tex_green", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
 tex_blue  = pov.declare("tex_blue",  pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));

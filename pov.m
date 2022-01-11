@@ -20,6 +20,7 @@ classdef pov < handle
         tex_axis_x;
         tex_axis_y;
         tex_axis_z;
+        tex_plane;
     end
 
     methods
@@ -194,7 +195,7 @@ classdef pov < handle
             addParameter(p,'position',                [0 0 0], @o.check_vector3);
             addParameter(p,'radius',                        1, @o.check_positive_float);
             addParameter(p,'texture',           "tex_default", @o.check_string);
-            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix33);
+            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix_3x3);
             parse(p,varargin{:});
 
             position  = p.Results.position;
@@ -225,15 +226,23 @@ classdef pov < handle
         end
 
         % Plane
-        function plane(o, normal, distance, texture, varargin)
-            if nargin > 4
-                transform = varargin{1};
-            else
-                transform = [1 1 1; 0 0 0; 0 0 0];
-            end
+        function plane(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'normal',                [0 1 0],   @o.check_vector3);
+            addParameter(p,'distance',                    1,   @o.check_float);
+            addParameter(p,'texture',           "tex_plane",   @o.check_string);
+            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix_3x3);
+            parse(p,varargin{:});
+
+            normal    = p.Results.normal;
+            distance  = p.Results.distance;
+            texture   = p.Results.texture;
+            transform = p.Results.transform;
+            
             % Write
             b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
-            b = sprintf('%s        %s', b, texture);
+            b = sprintf('%s        texture { %s }\n', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
                          transform(1,1), transform(1,2), transform(1,3), ...
                          transform(2,1), transform(2,2), transform(2,3), ...
@@ -304,7 +313,18 @@ classdef pov < handle
             end
             r = true;
         end
-        
+
+        % Float
+        function r = check_float(o, x)
+            r = false;
+            if ~isscalar(x)
+                error('Input is not scalar');
+            elseif ~isfloat(x)
+                error('Input is not float');
+            end
+            r = true;
+        end
+
         % Positive float
         function r = check_positive_float(o, x)
             r = false;
@@ -342,8 +362,8 @@ classdef pov < handle
             r = true;
         end
 
-        % Transformation matrix
-        function r = check_matrix33(o, x)
+        % Transformation matrix '3 x 3'
+        function r = check_matrix_3x3(o, x)
             r = false;
             if (~isequal(size(x), [3 3]))
                 error("Input is not a matrix of size '3 x 3'");
@@ -388,6 +408,9 @@ classdef pov < handle
             o.tex_axis_x = o.declare("tex_axis_x", o.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
             o.tex_axis_y = o.declare("tex_axis_y", o.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
             o.tex_axis_z = o.declare("tex_axis_z", o.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+            
+            % Planes
+            o.tex_plane = o.declare("tex_plane", o.texture([0.3 0.3 0.3], "phong 1 reflection {0.1 metallic 0.2}"));
         end
     end
 end
