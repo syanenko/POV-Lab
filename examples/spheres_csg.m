@@ -4,7 +4,9 @@ clear pov;
 close all;
 %
 % TODO
+% 0. Varargsin for texture -> material + structure
 % 1. Pass texture and texture_ref (?)
+% 1.1 transform -> scale, rotate, transfer
 % 2. pov.text(...)
 % 3. pov.mesh (surf)
 % 4. Render slices (voxels ?)
@@ -17,7 +19,8 @@ close all;
 %      dataObjs(2).XData; ...; dataObjs(2).CData
 % 9. Lights
 % 10. Check preview axis misleading
-% 11. All shapes
+% 11. Notations (markers)
+% 12. All shapes
 
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
@@ -39,7 +42,7 @@ pov.camera();
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 %pov.light();
-pov.light( 'location', [1000 2000 3000], 'color', [1 1 1]);
+pov.light('location', [1000 2000 3000], 'color', [1 1 1]);
 
 % Axis textures
 % tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0. 0. 0.], "phong 1 reflection {0.10 metallic 0.4}"));
@@ -57,9 +60,9 @@ tex_plane_green = pov.declare("tex_plane_green", pov.texture([0.3 0.8 0.3], "pho
 tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture([0.3 0.3 0.8], "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis planes
-pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red);
-pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green);
-pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue);
+pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
+pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
+pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
 
 % Grid - TODO: Implement
 % pov.grid_2D([1 1], [10 10], tex_plane);
@@ -73,11 +76,11 @@ tex_pink  = pov.declare("tex_pink",  pov.texture([8 2 3], "phong 1 reflection {0
 
 pov.difference_begin();
     %pov.sphere();
-    pov.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'transform', [1 1 1; 0 0 0; 0 1 0]);
+    pov.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 1 0]);
     pov.union_begin();
-          pov.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'transform', [1 1 1; 0 0 0; 0 0 0]);
-          pov.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'transform', [1 1 1; 0 0 0; 0 0 0]);
-          pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'transform', [1 1 1; 0 0 0; 0 0 0]);
+          pov.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
+          pov.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
+          pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'transfer', [0 0 0]);
      pov.union_end();
 pov.difference_end();
 

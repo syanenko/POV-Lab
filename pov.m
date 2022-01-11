@@ -192,33 +192,36 @@ classdef pov < handle
         function sphere(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'position',                [0 0 0], @o.check_vector3);
-            addParameter(p,'radius',                        1, @o.check_positive_float);
-            addParameter(p,'texture',           "tex_default", @o.check_string);
-            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix_3x3);
+            addParameter(p,'position', [0 0 0],       @o.check_vector3);
+            addParameter(p,'radius',   1.0,           @o.check_positive_float);
+            addParameter(p,'texture',  "tex_default", @o.check_string);
+            addParameter(p,'scale',    [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',   [0 0 0],       @o.check_vector3);
+            addParameter(p,'transfer', [0 0 0],       @o.check_vector3);
+
             parse(p,varargin{:});
 
-            position  = p.Results.position;
-            radius    = p.Results.radius;
-            texture   = p.Results.texture;
-            transform = p.Results.transform;
+            position = p.Results.position;
+            radius   = p.Results.radius;
+            texture  = p.Results.texture;
+            scale    = p.Results.scale;
+            rotate   = p.Results.rotate;
+            transfer = p.Results.transfer;
 
             % Write
             b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', ...
                         position(1), position(2), position(3), radius);
             b = sprintf('%s        texture { %s }\n', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         transform(1,1), transform(1,2), transform(1,3), ...
-                         transform(2,1), transform(2,2), transform(2,3), ...
-                         transform(3,1), transform(3,2), transform(3,3));
+                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), transfer(1), transfer(2), transfer(3));
             fprintf(o.fh, b);
 
             % Preview
             if(o.preview)
                 [x,y,z] = sphere;
-                surf( x * radius * transform(1,1) + position(1) + transform(3,1), ...
-                      y * radius * transform(1,2) + position(2) + transform(3,2), ...
-                      z * radius * transform(1,3) + position(3) + transform(3,3), 'FaceAlpha', o.preview_alpha);
+                surf( x * radius * scale(1) + position(1) + transfer(1), ...
+                      y * radius * scale(2) + position(2) + transfer(2), ...
+                      z * radius * scale(3) + position(3) + transfer(3), 'FaceAlpha', o.preview_alpha);
                 shading(gca, o.preview_shading);
                 axis equal;
                 hold on;
@@ -232,34 +235,36 @@ classdef pov < handle
             addParameter(p,'normal',                [0 1 0],   @o.check_vector3);
             addParameter(p,'distance',                    1,   @o.check_float);
             addParameter(p,'texture',           "tex_plane",   @o.check_string);
-            addParameter(p,'transform', [1 1 1; 0 0 0; 0 0 0], @o.check_matrix_3x3);
+            addParameter(p,'scale',    [1 1 1], @o.check_vector3);
+            addParameter(p,'rotate',   [0 0 0], @o.check_vector3);
+            addParameter(p,'transfer', [0 0 0], @o.check_vector3);
             parse(p,varargin{:});
 
             normal    = p.Results.normal;
             distance  = p.Results.distance;
             texture   = p.Results.texture;
-            transform = p.Results.transform;
+            scale    = p.Results.scale;
+            rotate   = p.Results.rotate;
+            transfer = p.Results.transfer;
             
             % Write
             b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
             b = sprintf('%s        texture { %s }\n', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         transform(1,1), transform(1,2), transform(1,3), ...
-                         transform(2,1), transform(2,2), transform(2,3), ...
-                         transform(3,1), transform(3,2), transform(3,3));
+                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), transfer(1), transfer(2), transfer(3));
             fprintf(o.fh, b);
 
             % Preview
             % TODO
-%            if(o.preview)
-%             [x,y,z] = sphere;
-%             surf( x * transform(1,1) + transform(3,1), ...
-%                   y * transform(1,2) + transform(3,2), ...
-%                   z * transform(1,3) + transform(3,3), 'FaceAlpha', o.preview_alpha);
-%             shading(gca, o.preview_shading);
-%             axis equal;
-%             hold on;
-%            end
+%             if(o.preview)
+%                 [x,y,z] = sphere;
+%                 surf( x * radius * scale(1) + position(1) + transfer(1), ...
+%                       y * radius * scale(2) + position(2) + transfer(2), ...
+%                       z * radius * scale(3) + position(3) + transfer(3), 'FaceAlpha', o.preview_alpha);
+%                 shading(gca, o.preview_shading);
+%                 axis equal;
+%                 hold on;
+%             end
         end
 
         % CSG:Union
