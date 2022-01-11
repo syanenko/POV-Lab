@@ -1,4 +1,4 @@
-addpath ("C:\Users\Serge\Documents\MATLAB\Apps\povlab");
+addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
 clear;
 clear pov;
 close all;
@@ -21,8 +21,8 @@ close all;
 % 10. All shapes
 
 pov = pov( "3.7",...
-           "C:\Program Files\POV-Ray\v3.7\bin\pvengine64.exe", ...
-           "C:\Users\Serge\Documents\MATLAB\Apps\povlab\examples\out");
+           "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
+           "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 pov.enable_preview();
 
@@ -37,8 +37,8 @@ pov.include("textures");
 %pov.camera('angle', 35, 'location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('angle', 35, 'look_at', [0 1 0]);
-% pov.camera("angle", 15, 'location', [12 12 12]);
-pov.camera();
+pov.camera("angle", 15, 'location', [12 12 12]);
+% pov.camera();
 
 pov.light([1000  1000 2000], [0.0 0.4 0.9]);
 pov.light([3000  2000 3000], [0.8 0.8 0.8]);

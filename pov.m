@@ -46,12 +46,23 @@ classdef pov < handle
             addParameter(p,'image_file', 'out.png', @(x) isstring(x) || ischar(x));
             parse(p,varargin{:});
 
-            % Write
+            % Store
             o.scene_file = p.Results.scene_file;
-            o.image_file = o.out_dir + "\" + p.Results.image_file;
+            o.image_file = o.out_dir + "/" + p.Results.image_file;
+            
+            sf = o.out_dir + "/" + o.scene_file;
+            if exist(sf, 'file')==2
+                delete(sf);
+            end
+            if exist(o.image_file, 'file')==2
+                delete(o.image_file);
+            end
 
-            o.fh = fopen(o.out_dir + "\" + o.scene_file,'w');
+            % Write
+            o.fh = fopen(o.out_dir + "/" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
+
+            % Preview
             if o.preview
                 figure;
             end
@@ -230,7 +241,7 @@ classdef pov < handle
         function render(o)
             disp("QQ:pov:render()");
             figure;
-            system(sprintf('"%s" /RENDER %s\\%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
+            system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
         end
 
