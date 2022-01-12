@@ -175,6 +175,45 @@ classdef pov < handle
 
         % Grid 2D % TODO - Implement
         function grid_2D(o, cell_size, size, texture)
+            % #declare tex_even  = texture { pigment{ color rgb<1.0, 0.8, 0.0>}
+            %                                finish { phong 1}}
+            %                             
+            % #declare tex_odd = texture { pigment{ color rgb<0, 1, 0>}
+            %                              finish { phong 1}}
+            % #local cell_size = 1;
+            % #local grid_size_cells = 10;
+            % #local grid_size = cell_size * grid_size_cells;
+            % #local grid_half = grid_size / 2;
+            % #local diam  =  0.01;
+            % 
+            % #declare lines = 
+            %     union{
+            %         #local i = 0;
+            %         #while (i <= grid_size_cells)
+            %          
+            %             cylinder { <-grid_half, 0, 0>, <grid_half, 0, 0>, diam
+            %                            texture{checker texture{ tex_odd }
+            %                                            texture{ tex_even }
+            %                                    translate<0.1, 0, 0.1>
+            %                                    scale 1
+            %                                    }
+            %     
+            %                        translate<0, 0, i * cell_size>}
+            %     
+            %             #local i = i + 1;
+            %         #end
+            %         translate<0, 0, -grid_half>
+            %     }
+            % 
+            % #declare grid =
+            %     union{
+            %     
+            %         object  { lines }
+            %         object  { lines rotate <0, 90, 0>}
+            %         
+            %     
+            %     }
+            % object  { grid translate<0, 0, 0> }
         end
         
         % Grid 3D % TODO - Implement
