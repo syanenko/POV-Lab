@@ -169,8 +169,8 @@ classdef pov < handle
             tex_z =      p.Results.tex_z;
 
             fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s)}\n\n', ...
-                    size(1), size(2), size(3), ...
-                    tex_common, tex_x, tex_y, tex_z);
+                          size(1), size(2), size(3), ...
+                          tex_common, tex_x, tex_y, tex_z);
         end
 
         % Grid 2D % TODO - Implement
@@ -249,12 +249,12 @@ classdef pov < handle
             translate = p.Results.translate;
             
             % Write
-            b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
-            b = sprintf('%s        texture { %s }\n', b, texture);
-            b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-            fprintf(o.fh, b);
-
+            fprintf(o.fh,['plane {<%d, %d, %d>, %0.2f\n'...
+                          '        texture { %s }\n'...
+                          '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n'],...
+                          normal(1), normal(2), normal(3), distance,...
+                          texture,...
+                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
             % Preview
             % TODO
 %             if(o.preview)
