@@ -24,7 +24,7 @@ global_settings{ assumed_gamma 1.0 }
                             right     x*image_width/image_height
                             look_at   <0.0 , 1.0 , 0.0>}
 #declare Camera_1 = camera {/*ultra_wide_angle*/ angle 15   // diagonal view
-                            location  <10.0 , 10.0 ,10.0>
+                            location  <40.0, 40.0, 40.0>
                             right     x*image_width/image_height
                             look_at   <0.0 , 0 , 0.0>}
 #declare Camera_2 = camera {/*ultra_wide_angle*/ angle 90  //right side view
@@ -81,66 +81,55 @@ union{
 object { //Round_Cylinder(point A, point B, Radius, EdgeRadius, UseMerge)
          Round_Cylinder(<0,0,0>, <0,1.5,0>, 0.50 ,       0.20,   0)  
 
-         texture{ pigment{ color rgb<1,0.2,0.35> }
+         texture{ pigment{ color rgb<1, 0.2, 0.35> }
                   //normal { radial sine_wave frequency 30 scale 0.25 }
                   finish { phong 1 }}
 
-         scale<0.8,0.8,0.8>  rotate<0, 0,0> translate<0,-0.3,0> }
 
-#declare tex_even  = texture { pigment{ color rgb<0.8,0.8,0.8>}
+    scale<0.8,0.8,0.8>  rotate<0, 0, 0> translate<0,-0.3,0> }
+         
+
+#declare tex_even  = texture { pigment{ color rgb<1.0, 0.8, 0.0>}
                                finish { phong 1}}
                              
-#declare tex_odd = texture { pigment{ color rgb<1,1,1>}
+#declare tex_odd = texture { pigment{ color rgb<0, 1, 0>}
                              finish { phong 1}}
 
-#local cell_size = 0.2;
-#local grid_cell_size = 50;
-#local grid_size = cell_size * grid_cell_size;
+#local cell_size = 1;
+#local grid_size_cells = 10;
+#local grid_size = cell_size * grid_size_cells;
 #local grid_half = grid_size / 2;
-#local diam  =  0.005;
+#local diam  =  0.01;
 
-union{
 
+#declare lines = 
     union{
         #local i = 0;
-        #while (i <= grid_cell_size) 
+        #while (i <= grid_size_cells)
          
             cylinder { <-grid_half, 0, 0>, <grid_half, 0, 0>, diam
-                           texture{checker texture{ tex_even }
+                           texture{checker texture{ tex_odd }
                                            texture{ tex_even }
                                    translate<0.1, 0, 0.1>
-                                   scale .5
+                                   scale 1
                                    }
-
+    
                        translate<0, 0, i * cell_size>}
-
-        #local i = i + 1;
+    
+            #local i = i + 1;
         #end
-        translate<0,0, -grid_half>
+        translate<0, 0, -grid_half>
     }
+
+
+#declare grid =
 
     union{
-        #local i = 0;
-        #while (i <= grid_cell_size) 
-
-            cylinder { <0, 0, -grid_half>, <0, 0, grid_half>, diam
-                           texture{checker texture{ tex_even }
-                                           texture{ tex_even }
-                                   translate<0.1, 0, 0.1>
-                                   scale .5
-                                   }
-
-                       translate<i * cell_size, 0, 0>}
-
-        #local i = i + 1;
-        #end
-        translate<-grid_half, 0, 0>
+    
+        object  { lines }
+        object  { lines rotate <0, 90, 0>}
+        
+    
     }
-}
 
-
-plane {<0, 1, 0>, 0.00
-        texture { Polished_Chrome
-          pigment{ rgb<0.3, 0.3, 0.3>}
-          finish { phong 1 reflection {0.1 metallic 0.1} }}
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+object  { grid translate<0, 0, 0> }

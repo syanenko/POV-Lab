@@ -124,13 +124,13 @@ classdef pov < handle
             look_at = p.Results.look_at;
 
             % Write
-            b = sprintf('camera {perspective angle %d\n', angle);
-            b = sprintf('%s        location <%0.1f, %0.1f, %0.1f>\n', ...
-                         b, location(1), location(2), location(3));
-            b = sprintf('%s        right x*image_width/image_height\n', b);
-            b = sprintf('%s        look_at <%0.1f, %0.1f, %0.1f>}\n\n', ...
-                         b, look_at(1), look_at(2), look_at(3));
-            fprintf(o.fh, b);
+            fprintf(o.fh, ['camera { perspective angle %d\n' ...
+                           '         location <%0.1f, %0.1f, %0.1f>\n' ...
+                           '         right x * image_width / image_height\n' ...
+                           '         look_at <%0.1f, %0.1f, %0.1f> }\n\n'], ...
+                            angle, ...
+                            location(1), location(2), location(3), ...
+                            look_at(1), look_at(2), look_at(3));
         end
 
         % Light
@@ -183,21 +183,23 @@ classdef pov < handle
 
         % Texture
         function tex = texture(o, pigment, finish)
-            tex = sprintf('texture { Polished_Chrome\n');
-            tex = sprintf('%s          pigment{ rgb<%0.2f, %0.2f, %0.2f>}\n', tex, pigment(1), pigment(2), pigment(3));
-            tex = sprintf('%s          finish { %s }}\n', tex, finish);
+            tex = sprintf(['texture { Polished_Chrome\n' ...
+                           '          pigment{ rgb <%0.2f, %0.2f, %0.2f>}\n'...
+                           '          finish { %s }}\n'], ...
+                           pigment(1), pigment(2), pigment(3), ...
+                           finish);
         end
         
         % Sphere
         function sphere(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'position', [0 0 0],       @o.check_vector3);
-            addParameter(p,'radius',   1.0,           @o.check_positive_float);
-            addParameter(p,'texture',  "tex_default", @o.check_string);
-            addParameter(p,'scale',    [1 1 1],       @o.check_vector3);
-            addParameter(p,'rotate',   [0 0 0],       @o.check_vector3);
-            addParameter(p,'transfer', [0 0 0],       @o.check_vector3);
+            addParameter(p,'position',  [0 0 0],       @o.check_vector3);
+            addParameter(p,'radius',    1.0,           @o.check_positive_float);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
 
             parse(p,varargin{:});
 
@@ -206,22 +208,21 @@ classdef pov < handle
             texture  = p.Results.texture;
             scale    = p.Results.scale;
             rotate   = p.Results.rotate;
-            transfer = p.Results.transfer;
+            translate = p.Results.translate;
 
             % Write
-            b = sprintf('sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n', ...
-                        position(1), position(2), position(3), radius);
-            b = sprintf('%s        texture { %s }\n', b, texture);
-            b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), transfer(1), transfer(2), transfer(3));
-            fprintf(o.fh, b);
-
+            fprintf(o.fh, ['sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n'...
+                           '        texture { %s }\n'...
+                           '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           position(1), position(2), position(3), radius,...
+                           texture,...
+                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
             % Preview
             if(o.preview)
                 [x,y,z] = sphere;
-                surf( x * radius * scale(1) + position(1) + transfer(1), ...
-                      y * radius * scale(2) + position(2) + transfer(2), ...
-                      z * radius * scale(3) + position(3) + transfer(3), 'FaceAlpha', o.preview_alpha);
+                surf( x * radius * scale(1) + position(1) + translate(1), ...
+                      y * radius * scale(2) + position(2) + translate(2), ...
+                      z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
                 shading(gca, o.preview_shading);
                 axis equal;
                 hold on;
@@ -232,12 +233,12 @@ classdef pov < handle
         function plane(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'normal',                [0 1 0],   @o.check_vector3);
-            addParameter(p,'distance',                    1,   @o.check_float);
-            addParameter(p,'texture',           "tex_plane",   @o.check_string);
-            addParameter(p,'scale',    [1 1 1], @o.check_vector3);
-            addParameter(p,'rotate',   [0 0 0], @o.check_vector3);
-            addParameter(p,'transfer', [0 0 0], @o.check_vector3);
+            addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
+            addParameter(p,'distance',  1,           @o.check_float);
+            addParameter(p,'texture',   "tex_plane", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],     @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],     @o.check_vector3);
             parse(p,varargin{:});
 
             normal    = p.Results.normal;
@@ -245,22 +246,22 @@ classdef pov < handle
             texture   = p.Results.texture;
             scale    = p.Results.scale;
             rotate   = p.Results.rotate;
-            transfer = p.Results.transfer;
+            translate = p.Results.translate;
             
             % Write
             b = sprintf('plane {<%d, %d, %d>, %0.2f\n', normal(1), normal(2), normal(3), distance);
             b = sprintf('%s        texture { %s }\n', b, texture);
             b = sprintf('%s        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n', b, ...
-                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), transfer(1), transfer(2), transfer(3));
+                         scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
             fprintf(o.fh, b);
 
             % Preview
             % TODO
 %             if(o.preview)
 %                 [x,y,z] = sphere;
-%                 surf( x * radius * scale(1) + position(1) + transfer(1), ...
-%                       y * radius * scale(2) + position(2) + transfer(2), ...
-%                       z * radius * scale(3) + position(3) + transfer(3), 'FaceAlpha', o.preview_alpha);
+%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
+%                       y * radius * scale(2) + position(2) + translate(2), ...
+%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
 %                 shading(gca, o.preview_shading);
 %                 axis equal;
 %                 hold on;
