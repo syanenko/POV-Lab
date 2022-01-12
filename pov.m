@@ -242,11 +242,11 @@ classdef pov < handle
 
             parse(p,varargin{:});
 
-            position = p.Results.position;
-            radius   = p.Results.radius;
-            texture  = p.Results.texture;
-            scale    = p.Results.scale;
-            rotate   = p.Results.rotate;
+            position  = p.Results.position;
+            radius    = p.Results.radius;
+            texture   = p.Results.texture;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
             translate = p.Results.translate;
 
             % Write
@@ -283,8 +283,8 @@ classdef pov < handle
             normal    = p.Results.normal;
             distance  = p.Results.distance;
             texture   = p.Results.texture;
-            scale    = p.Results.scale;
-            rotate   = p.Results.rotate;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
             translate = p.Results.translate;
             
             % Write
