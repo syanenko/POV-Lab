@@ -109,3 +109,16 @@ union{
 #declare tex_plane = texture { Polished_Chrome
           pigment{ rgb <0.30, 0.30, 0.30>}
           finish { phong 1 reflection {0.1 metallic 0.2} }}
+
+//
+// Functions
+//
+#macro plot_function(X, max_X, f, w, c)
+union{
+    #while ( X < max_X )
+        sphere{ <0,0,0>, w pigment{ color rgb c } translate<X, f(X), 0>}
+        
+        #declare X = X + 0.002;  // next Nr  <<<- increase this value, if you have not enough RAM or if your computer is too slow!
+    #end
+}
+#end
