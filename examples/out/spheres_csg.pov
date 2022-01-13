@@ -1,7 +1,8 @@
 #version 3.7;
 #include "povlab.inc"
-global_settings { assumed_gamma 1 }
 #include "shapes.inc"
+global_settings { assumed_gamma 1 }
+
 camera { perspective angle 35
          location <23.0, 12.0, 23.0>
          right x * image_width / image_height
@@ -27,17 +28,17 @@ object{ axis_xyz( 10.0, 10.0, 10.0,
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
-plane {<1, 0, 0>, 0.00
+plane { <1, 0, 0>, 0.00
         texture { tex_plane_red }
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00> }
 
-plane {<0, 1, 0>, 0.00
+plane { <0, 1, 0>, 0.00
         texture { tex_plane_green }
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00> }
 
-plane {<0, 0, 1>, 0.00
+plane { <0, 0, 1>, 0.00
         texture { tex_plane_blue }
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00> }
 
 #declare tex_grid_gray = texture { Polished_Chrome
           pigment{ rgb <0.50, 0.50, 0.50>}
@@ -59,12 +60,15 @@ plane {<0, 0, 1>, 0.00
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
-#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
-object {grid_name scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<5.00, 0.00, 5.00>}
-#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
-object {grid_name scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 90.00> translate<0.00, 5.00, 5.00>}
-#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
-object {grid_name scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<5.00, 5.00, 0.00>}
+#local gid = "gid"grid(gid, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object { gid scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<5.00, 0.00, 5.00> }
+
+#local gid = "gid"grid(gid, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object { gid scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 90.00> translate<0.00, 5.00, 5.00> }
+
+#local gid = "gid"grid(gid, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object { gid scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<5.00, 5.00, 0.00> }
+
 #declare tex_red = texture { Polished_Chrome
           pigment{ rgb <1.00, 0.00, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}

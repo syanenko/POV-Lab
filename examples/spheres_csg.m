@@ -29,10 +29,9 @@ pov = pov( "3.7",...
 
 % pov.scene_begin(); % TODO: Set image size
 pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png');
+pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
-
-pov.include("shapes");
 
 pov.camera('angle', 35, 'location', [23 12 23], 'look_at', [0 4 0]);
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
