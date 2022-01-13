@@ -76,7 +76,6 @@ classdef pov < handle
                 figure;
             end
             o.include("povlab");
-            o.declare_macros();
             o.declare_textures();
         end
         
@@ -451,31 +450,8 @@ classdef pov < handle
         end
 
         %
-        % Declare macros
-        %
-        function declare_macros(o)
-            % Axis
-            b = sprintf('axis( len, tex_odd, tex_even)\n');
-            b = sprintf('%s  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.1\n', b);
-            b = sprintf('%s    texture{ checker\n', b);
-            b = sprintf('%s      texture{ tex_odd }\n', b);
-            b = sprintf('%s      texture{ tex_even }\n', b);
-            b = sprintf('%s   translate <0.1, 0, 0.1> }}\n', b);
-            axis = sprintf('%s  cone{<0, len, 0>, 0.2, <0, len+0.7, 0>, 0 texture{tex_even} }}\n', b);
-            o.macro(axis);
-
-            % Axis_XYZ
-            b = sprintf('axis_xyz( len_x, len_y, len_z, tex_common, tex_x, tex_y, tex_z)\n');
-            b = sprintf('%sunion{\n', b);
-            b = sprintf('%s#if (len_x != 0) object { axis(len_x, tex_common, tex_x) rotate< 0, 0,-90>} #end\n', b);
-            b = sprintf('%s#if (len_y != 0) object { axis(len_y, tex_common, tex_y) rotate< 0, 0, 0>}  #end\n', b);
-            axis_xyz = sprintf('%s#if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }\n', b);
-            o.macro(axis_xyz);
-        end
-        
-        %
         % Declare common textures
-        %
+        % TODO: Move to povlab.inc
         function declare_textures(o)
             o.include("textures");
             
