@@ -137,17 +137,24 @@ classdef pov < handle
         function light(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'location', [100 100 100], @o.check_vector3);
-            addParameter(p,'color',    [1.0 1.0 1.0], @o.check_vector3);
+            addParameter(p,'location',   [100 100 100], @o.check_vector3);
+            addParameter(p,'color',      [1.0 1.0 1.0], @o.check_vector3);
+            addParameter(p,'shadowless', false,         @(x) islogical(x));
             parse(p,varargin{:});
 
-            location = p.Results.location;
-            color    = p.Results.color;
+            location   = p.Results.location;
+            color      = p.Results.color;
+            
+            shadowless = "";
+            if(p.Results.shadowless)
+                shadowless = "shadowless";
+            end
 
             % Write
-            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> shadowless}\n\n', ...
+            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> %s}\n\n', ...
                           location(1), location(2), location(3), ...
-                          color(1), color(2), color(3));
+                          color(1), color(2), color(3), ...
+                          shadowless);
         end
        
         % Axis

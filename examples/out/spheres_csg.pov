@@ -53,7 +53,7 @@ camera { perspective angle 100
          right x * image_width / image_height
          look_at <0.0, 0.0, 0.0> }
 
-light_source{< 1000.0, 2000.0, 3000.0> rgb<1.00, 1.00, 1.00> shadowless}
+light_source{< 100.0, 200.0, 300.0> rgb<1.00, 1.00, 1.00> shadowless}
 
 object{ axis_xyz( 5.0, 5.0, 5.0,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z)}

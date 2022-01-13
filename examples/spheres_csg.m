@@ -42,7 +42,7 @@ pov.camera();
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 %pov.light();
-pov.light('location', [1000 2000 3000], 'color', [1 1 1]);
+pov.light('location', [100 200 300], 'color', [1 1 1], 'shadowless', true);
 
 % Axis textures
 % tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0. 0. 0.], "phong 1 reflection {0.10 metallic 0.4}"));
