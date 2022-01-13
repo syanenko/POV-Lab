@@ -53,7 +53,7 @@ camera { perspective angle 100
          right x * image_width / image_height
          look_at <0.0, 0.0, 0.0> }
 
-light_source{< 1000.0, 2000.0, 3000.0> rgb<1.00, 1.00, 1.00>}
+light_source{< 1000.0, 2000.0, 3000.0> rgb<1.00, 1.00, 1.00> shadowless}
 
 object{ axis_xyz( 5.0, 5.0, 5.0,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z)}
@@ -84,6 +84,16 @@ plane {<0, 1, 0>, 0.00
 plane {<0, 0, 1>, 0.00
         texture { tex_plane_blue }
         scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+
+#declare tex_even = texture { Polished_Chrome
+          pigment{ rgb <1.00, 0.80, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_even = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.10, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
 
 #declare tex_red = texture { Polished_Chrome
           pigment{ rgb <1.00, 0.00, 0.00>}

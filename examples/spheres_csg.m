@@ -26,7 +26,7 @@ pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 % pov.enable_preview();
-pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
+% pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 
 % pov.scene_begin(); % TODO: Set image size
 pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png');
@@ -55,9 +55,9 @@ pov.axis();
 % pov.axis('size', [5 6 7], 'tex_common', pov.tex_axis_x, 'tex_x', pov.tex_axis_z);
 
 % Axis planes textures
-tex_plane_red   = pov.declare("tex_plane_red",   pov.texture([0.8 0.3 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_plane_green = pov.declare("tex_plane_green", pov.texture([0.3 0.8 0.3], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture([0.3 0.3 0.8], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.8 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis planes
 pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
@@ -65,14 +65,17 @@ pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale',
 pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
 
 % Grid - TODO: Implement
+tex_even = pov.declare("tex_even", pov.texture('pigment', [1.0 0.8 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_odd  = pov.declare("tex_even", pov.texture('pigment', [0.0 0.1 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+
 % pov.grid_2D([1 1], [10 10], tex_plane);
 % pov.grid_3D([1 1 1], [10 10 10], tex_plane);
 
 % Objects textures
-tex_red   = pov.declare("tex_red",   pov.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_green = pov.declare("tex_green", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_blue  = pov.declare("tex_blue",  pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
-tex_pink  = pov.declare("tex_pink",  pov.texture([8 2 3], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_red   = pov.declare("tex_red",   pov.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+tex_green = pov.declare("tex_green", pov.texture('pigment', [0 1 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
 pov.difference_begin();
     %pov.sphere();

@@ -145,7 +145,7 @@ classdef pov < handle
             color    = p.Results.color;
 
             % Write
-            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f>}\n\n', ...
+            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> shadowless}\n\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3));
         end
@@ -175,11 +175,6 @@ classdef pov < handle
 
         % Grid 2D % TODO - Implement
         function grid_2D(o, cell_size, size, texture)
-            % #declare tex_even  = texture { pigment{ color rgb<1.0, 0.8, 0.0>}
-            %                                finish { phong 1}}
-            %                             
-            % #declare tex_odd = texture { pigment{ color rgb<0, 1, 0>}
-            %                              finish { phong 1}}
             % #local cell_size = 1;
             % #local grid_size_cells = 10;
             % #local grid_size = cell_size * grid_size_cells;
@@ -221,7 +216,15 @@ classdef pov < handle
         end
 
         % Texture
-        function tex = texture(o, pigment, finish)
+        function tex = texture(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'pigment', [0 0 0],       @o.check_vector3);
+            addParameter(p,'finish',  "tex_default", @o.check_string);
+            parse(p,varargin{:});
+            pigment = p.Results.pigment;
+            finish  = p.Results.finish;
+
             tex = sprintf(['texture { Polished_Chrome\n' ...
                            '          pigment{ rgb <%0.2f, %0.2f, %0.2f>}\n'...
                            '          finish { %s }}\n'], ...
@@ -239,7 +242,6 @@ classdef pov < handle
             addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
             addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
             addParameter(p,'translate', [0 0 0],       @o.check_vector3);
-
             parse(p,varargin{:});
 
             position  = p.Results.position;
@@ -446,16 +448,16 @@ classdef pov < handle
             o.include("textures");
             
             % Default
-            o.tex_default = o.declare("tex_default", o.texture([0 0.7 0], "phong 1 reflection {0.10 metallic 0.4}"));
+            o.tex_default = o.declare("tex_default", o.texture('pigment', [0 0.7 0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
             % Axis
-            o.tex_axis_common = o.declare("tex_axis_common", o.texture([0.7 0.7 0.7], "phong 1 reflection {0.10 metallic 0.4}"));
-            o.tex_axis_x = o.declare("tex_axis_x", o.texture([1 0 0], "phong 1 reflection {0.10 metallic 0.4}"));
-            o.tex_axis_y = o.declare("tex_axis_y", o.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-            o.tex_axis_z = o.declare("tex_axis_z", o.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+            o.tex_axis_common = o.declare("tex_axis_common", o.texture('pigment', [0.7 0.7 0.7], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+            o.tex_axis_x = o.declare("tex_axis_x", o.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+            o.tex_axis_y = o.declare("tex_axis_y", o.texture('pigment', [0 1 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+            o.tex_axis_z = o.declare("tex_axis_z", o.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
             
             % Planes
-            o.tex_plane = o.declare("tex_plane", o.texture([0.3 0.3 0.3], "phong 1 reflection {0.1 metallic 0.2}"));
+            o.tex_plane = o.declare("tex_plane", o.texture('pigment', [0.3 0.3 0.3], 'finish', 'phong 1 reflection {0.1 metallic 0.2}'));
         end
     end
 end
