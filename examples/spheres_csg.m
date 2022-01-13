@@ -4,23 +4,22 @@ clear pov;
 close all;
 %
 % TODO
-% 0. Varargsin for texture -> material + structure
+% -2. Camera params
+% -1. Lights params
+% 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
-% 1.1 transform -> scale, rotate, translate
 % 2. pov.text(...)
 % 3. pov.mesh (surf)
-% 4. Render slices (voxels ?)
+% 4. Render volume: mri (df3), http://paulbourke.net/miscellaneous/povexamples/ 
 % 5. pov.equation("x^ * 2")
-% 6. pov.grid(...)
 % 8. Get data from figure:
 %      axObjs = fig.Children
 %      dataObjs = axObjs.Children
 %      dataObjs(1) - Light
 %      dataObjs(2).XData; ...; dataObjs(2).CData
-% 9. Lights
 % 10. Check preview axis misleading
 % 11. Notations (markers)
-% 12. All shapes
+% 12. All shapes (?)
 
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
