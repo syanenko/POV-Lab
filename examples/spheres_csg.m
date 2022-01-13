@@ -27,13 +27,19 @@ pov = pov( "3.7",...
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 
-% pov.scene_begin(); % TODO: Set image size
+
+% pov.scene_begin();
+% TODO: Set image size
 pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png');
 pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
 
-pov.camera('angle', 35, 'location', [23 12 23], 'look_at', [0 4 0]);
+% Camera
+% type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
+%       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
+pov.camera('angle', 35, 'location', [23 12 23], 'look_at', [0 4 0], 'type', 'perspective');
+
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
 % pov.camera('angle', 35, 'look_at', [0 1 0]);
