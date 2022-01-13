@@ -49,10 +49,8 @@ union{
                 cylinder { <-grid_height_half, 0, 0>, <grid_height_half, 0, 0>, 0.03
                                texture{checker texture{ tex_odd  }
                                                texture{ tex_even }
-                                       translate<0.1, 0, 0.1>
-                                       scale .5
-                                       }
-    
+                                       translate<0.1, 0, 0.1> }
+
                            translate<0, 0, i * cell_size>}
     
             #local i = i + 1;
@@ -67,9 +65,7 @@ union{
                 cylinder { <-grid_width_half, 0, 0>, <grid_width_half, 0, 0>, 0.03
                                texture{checker texture{ tex_odd  }
                                                texture{ tex_even }
-                                       translate<0.1, 0, 0.1>
-                                       scale .5
-                                       }
+                                       translate<0.1, 0, 0.1> }    
 
                            translate<0, 0, i * cell_size>}
     
