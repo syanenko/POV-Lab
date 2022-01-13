@@ -3,7 +3,7 @@
 #include "shapes.inc"
 global_settings { assumed_gamma 1 }
 
-camera { perspective angle 35
+camera { orthographic         angle 35
          location <23.0, 12.0, 23.0>
          right x * image_width / image_height
          look_at <0.0, 4.0, 0.0> }

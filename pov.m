@@ -110,24 +110,29 @@ classdef pov < handle
         end
 
         % Camera
+        % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
+        %       omnimax | panoramic | cylinder CylinderType | spherical
         function camera(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'angle',    100,     @o.check_positive_float);
-            addParameter(p,'location', [10 10 10], @o.check_vector3);
-            addParameter(p,'look_at',  [0 0 0], @o.check_vector3);
+            addParameter(p,'type',     'orthographic', @o.check_string);
+            addParameter(p,'angle',    100,            @o.check_positive_float);
+            addParameter(p,'location', [10 10 10],     @o.check_vector3);
+            addParameter(p,'look_at',  [0 0 0],        @o.check_vector3);
             parse(p,varargin{:});
 
+            type = p.Results.type;
             angle = p.Results.angle;
             location = p.Results.location;
             look_at = p.Results.look_at;
 
             % Write
-            fprintf(o.fh, ['camera { perspective angle %d\n' ...
+            fprintf(o.fh, ['camera { %s' ...
+                           '         angle %d\n' ...
                            '         location <%0.1f, %0.1f, %0.1f>\n' ...
                            '         right x * image_width / image_height\n' ...
                            '         look_at <%0.1f, %0.1f, %0.1f> }\n\n'], ...
-                            angle, ...
+                            type, angle, ...
                             location(1), location(2), location(3), ...
                             look_at(1), look_at(2), look_at(3));
         end
