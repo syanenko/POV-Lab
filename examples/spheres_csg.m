@@ -90,8 +90,8 @@ pov.difference_begin();
           pov.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
           pov.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
           pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-     pov.union_end();
-pov.difference_end();
+     pov.union_end('translate', [0.3 0.3 0.3]);
+pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 4 0]);
 
 pov.scene_end();
 pov.render();

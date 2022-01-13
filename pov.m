@@ -315,32 +315,50 @@ classdef pov < handle
         function union_begin(o)
             fprintf(o.fh,'union {\n');
         end
-        function union_end(o)
-            fprintf(o.fh,'}\n\n');
+        function union_end(o, varargin)
+            o.csg_end(varargin{:});
         end 
 
         % CSG:Difference
         function difference_begin(o)
             fprintf(o.fh,'difference {\n');
         end
-        function difference_end(o)
-            fprintf(o.fh,'}\n\n');
+        function difference_end(o, varargin)
+            o.csg_end(varargin{:});
         end 
 
         % CSG:Intersection
         function intersection_begin(o)
             fprintf(o.fh,'intersection {\n');
         end
-        function intersection_end(o)
-            fprintf(o.fh,'}\n\n');
+        function intersection_end(o, varargin)
+            o.csg_end(varargin{:});
         end
 
         % CSG:Merge
         function merge_begin(o)
             fprintf(o.fh,'merge {\n');
         end
-        function merge_end(o)
-            fprintf(o.fh,'}\n\n');
+        function merge_end(o, varargin)
+            o.csg_end(varargin{:});
+        end
+
+        % Common closing tag for all CSG functions
+        function csg_end(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'scale',     [1 1 1], @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
+            addParameter(p,'translate', [0 0 0], @o.check_vector3);
+            parse(p, varargin{:});
+
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+
+            % Write
+            fprintf(o.fh,['    scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n'],...
+                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
 
         % Render
