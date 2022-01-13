@@ -75,6 +75,7 @@ classdef pov < handle
             if o.preview
                 figure;
             end
+            o.include("povlab");
             o.declare_macros();
             o.declare_textures();
         end
@@ -115,7 +116,7 @@ classdef pov < handle
             % Parse
             p = inputParser;
             addParameter(p,'angle',    100,     @o.check_positive_float);
-            addParameter(p,'location', [5 5 5], @o.check_vector3);
+            addParameter(p,'location', [10 10 10], @o.check_vector3);
             addParameter(p,'look_at',  [0 0 0], @o.check_vector3);
             parse(p,varargin{:});
 
@@ -181,41 +182,35 @@ classdef pov < handle
         end
 
         % Grid 2D % TODO - Implement
-        function grid_2D(o, cell_size, size, texture)
-            % #local cell_size = 1;
-            % #local grid_size_cells = 10;
-            % #local grid_size = cell_size * grid_size_cells;
-            % #local grid_half = grid_size / 2;
-            % #local diam  =  0.01;
-            % 
-            % #declare lines = 
-            %     union{
-            %         #local i = 0;
-            %         #while (i <= grid_size_cells)
-            %          
-            %             cylinder { <-grid_half, 0, 0>, <grid_half, 0, 0>, diam
-            %                            texture{checker texture{ tex_odd }
-            %                                            texture{ tex_even }
-            %                                    translate<0.1, 0, 0.1>
-            %                                    scale 1
-            %                                    }
-            %     
-            %                        translate<0, 0, i * cell_size>}
-            %     
-            %             #local i = i + 1;
-            %         #end
-            %         translate<0, 0, -grid_half>
-            %     }
-            % 
-            % #declare grid =
-            %     union{
-            %     
-            %         object  { lines }
-            %         object  { lines rotate <0, 90, 0>}
-            %         
-            %     
-            %     }
-            % object  { grid translate<0, 0, 0> }
+        function grid_2D(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'cell_size',    1,               @o.check_positive_float);
+            addParameter(p,'width',        2,               @o.check_positive_int);
+            addParameter(p,'height',       2,               @o.check_positive_int);
+            addParameter(p,'texture_odd',  "tex_grid_odd",  @o.check_string);
+            addParameter(p,'texture_even', "tex_grid_even", @o.check_string);
+            addParameter(p,'scale',        [1 1 1],         @o.check_vector3);
+            addParameter(p,'rotate',       [0 0 0],         @o.check_vector3);
+            addParameter(p,'translate',    [0 0 0],         @o.check_vector3);
+            parse(p,varargin{:});
+
+            cell_size    = p.Results.cell_size;
+            width        = p.Results.width;
+            height       = p.Results.height;
+            texture_odd  = p.Results.texture_odd;
+            texture_even = p.Results.texture_even;
+            scale        = p.Results.scale;
+            rotate       = p.Results.rotate;
+            translate    = p.Results.translate;
+
+            % Write
+            fprintf(o.fh,['#local grid_name = "gn"' ...
+                          'grid(grid_name, %0.2f, %d, %d, %s, %s);\n'...
+                          'object {grid_name scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n'],...
+                          cell_size, width, height,...
+                          texture_odd, texture_even,...
+                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
         
         % Grid 3D % TODO - Implement
@@ -358,7 +353,6 @@ classdef pov < handle
         %
         % Validation functions
         %
-        
         % Vector of size '3'
         function r = check_vector3(o, x)
             r = false;
@@ -407,6 +401,19 @@ classdef pov < handle
             r = true;
         end
 
+        % Positive int
+        function r = check_positive_int(o, x)
+            r = false;
+            if ~isscalar(x)
+                error('Input is not scalar');
+            elseif floor(x) ~= ceil(x)
+                error('Input is not an integer');
+            elseif (x < 0)
+                error('Input is negative');
+            end
+            r = true;
+        end
+
         % String
         function r = check_string(o, x)
             r = false;
@@ -431,14 +438,14 @@ classdef pov < handle
         function declare_macros(o)
             % Axis
             b = sprintf('axis( len, tex_odd, tex_even)\n');
-            b = sprintf('%s  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.05\n', b);
+            b = sprintf('%s  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.1\n', b);
             b = sprintf('%s    texture{ checker\n', b);
             b = sprintf('%s      texture{ tex_odd }\n', b);
             b = sprintf('%s      texture{ tex_even }\n', b);
             b = sprintf('%s   translate <0.1, 0, 0.1> }}\n', b);
             axis = sprintf('%s  cone{<0, len, 0>, 0.2, <0, len+0.7, 0>, 0 texture{tex_even} }}\n', b);
             o.macro(axis);
-                
+
             % Axis_XYZ
             b = sprintf('axis_xyz( len_x, len_y, len_z, tex_common, tex_x, tex_y, tex_z)\n');
             b = sprintf('%sunion{\n', b);

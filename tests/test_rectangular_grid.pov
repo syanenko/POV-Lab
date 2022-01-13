@@ -18,6 +18,9 @@ global_settings{ assumed_gamma 1.0 }
 #include "functions.inc"
 #include "math.inc"
 #include "transforms.inc"
+
+#include "povlab.inc"
+
 //------------------------------------------------------------------------
 #declare Camera_0 = camera {/*ultra_wide_angle*/ angle 15      // front view
                             location  <0.0 , 1.0 ,-40.0>
@@ -81,57 +84,26 @@ union{
 object { //Round_Cylinder(point A, point B, Radius, EdgeRadius, UseMerge)
          Round_Cylinder(<0,0,0>, <0,1.5,0>, 0.50 ,       0.20,   0)  
 
-         texture{ pigment{ color rgb<1, 0.2, 0.35> }
+         texture{ pigment{ color rgb<1,0.2,0.35> }
                   //normal { radial sine_wave frequency 30 scale 0.25 }
                   finish { phong 1 }}
 
-
-    scale<0.8,0.8,0.8>  rotate<0, 0, 0> translate<0,-0.3,0> }
-         
-
-#declare tex_even  = texture { pigment{ color rgb<1.0, 0.8, 0.0>}
-                               finish { phong 1}}
-                             
-#declare tex_odd = texture { pigment{ color rgb<0, 1, 0>}
-                             finish { phong 1}}
-
-#local grid_cell_size = 1;
-#local grid_size_cells = 10;
-#local grid_size = grid_cell_size * grid_size_cells;
-#local grid_half = grid_size / 2;
-#local grid_radius  =  0.01;
-
-                 
-#declare lines = union{}
-
-#declare lines = 
-    union{
-        #local i = 0;
-        #while (i <= grid_size_cells)
-         
-            cylinder { <-grid_half, 0, 0>, <grid_half, 0, 0>, grid_radius
-                           texture{checker texture{ tex_odd }
-                                           texture{ tex_even }
-                                   translate<0.1, 0, 0.1>
-                                   scale 1
-                                   }
-    
-                       translate<0, 0, i * grid_cell_size>}
-    
-            #local i = i + 1;
-        #end
-        translate<0, 0, -grid_half>
-    }
+         scale<0.3,0.3,0.3>  rotate<0, 0,0> translate<0,0,0> }
 
 
-#declare grid =
+#local my_grid   = 0;
+#local cell_size = 0.5;
+#local grid_width  = 10;
+#local grid_height = 7;
 
-    union{
-    
-        object  { lines }
-        object  { lines rotate <0, 90, 0>}
+grid(my_grid, cell_size, grid_width, grid_height, tex_grid_odd, tex_grid_even)
+object {my_grid scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
+
+grid(my_grid, cell_size, grid_width, grid_height, tex_grid_odd, tex_grid_even)
+object {my_grid scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
         
-    
-    }
-
-object  { grid translate<0, 0, 0> }
+plane {<0, 1, 0>, 0.00
+        texture { Polished_Chrome
+          pigment{ rgb<0.4, 0.6, 0>}
+          finish { phong 1 reflection {0.1 metallic 0.1} }}
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}

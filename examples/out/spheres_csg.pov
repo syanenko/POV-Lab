@@ -1,6 +1,7 @@
 #version 3.7;
+#include "povlab.inc"
 #macro axis( len, tex_odd, tex_even)
-  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.05
+  union{ cylinder { <0, -len, 0>,<0, len, 0>, 0.1
     texture{ checker
       texture{ tex_odd }
       texture{ tex_even }
@@ -48,28 +49,28 @@ union{
 
 global_settings { assumed_gamma 1 }
 #include "shapes.inc"
-camera { perspective angle 100
-         location <5.0, 5.0, 5.0>
+camera { perspective angle 35
+         location <20.0, 20.0, 20.0>
          right x * image_width / image_height
          look_at <0.0, 0.0, 0.0> }
 
-light_source{< 100.0, 200.0, 300.0> rgb<1.00, 1.00, 1.00> shadowless}
+light_source{< 100.0, 200.0, 300.0> rgb<0.50, 0.50, 0.50> }
 
-object{ axis_xyz( 5.0, 5.0, 5.0,
+object{ axis_xyz( 8.0, 8.0, 8.0,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z)}
 
 #declare tex_plane_red = texture { Polished_Chrome
-          pigment{ rgb <0.80, 0.30, 0.30>}
+          pigment{ rgb <0.30, 0.30, 0.30>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
 #declare tex_plane_green = texture { Polished_Chrome
-          pigment{ rgb <0.30, 0.80, 0.30>}
+          pigment{ rgb <0.30, 0.30, 0.30>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
 #declare tex_plane_blue = texture { Polished_Chrome
-          pigment{ rgb <0.30, 0.30, 0.80>}
+          pigment{ rgb <0.30, 0.30, 0.30>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
@@ -95,6 +96,12 @@ plane {<0, 0, 1>, 0.00
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
+#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object {grid_name scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<5.00, 0.00, 5.00>}
+#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object {grid_name scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 90.00> translate<0.00, 5.00, 5.00>}
+#local grid_name = "gn"grid(grid_name, 1.00, 10, 10, tex_grid_odd, tex_grid_even);
+object {grid_name scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<5.00, 5.00, 0.00>}
 #declare tex_red = texture { Polished_Chrome
           pigment{ rgb <1.00, 0.00, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
