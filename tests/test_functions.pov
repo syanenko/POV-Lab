@@ -15,6 +15,7 @@ global_settings{ assumed_gamma 1.0 }
 #include "colors.inc"
 #include "textures.inc"
 #include "functions.inc"
+#include "povlab.inc"
 //------------------------------------------------------------------------
 #declare Camera_0 = camera { perspective
                              location  < 0.00, 0.00,-40.0>
@@ -143,15 +144,6 @@ plane { <0,1,0>, 0    // plane with layered textures
 //
 //
 
-#macro plot_function(X, max_X, f, w, c)
-union{
-    #while ( X < max_X )
-        sphere{ <0,0,0>, w pigment{ color rgb c } translate<X, f(X), 0>}
-
-        #declare X = X + 0.002;  // next Nr  <<<- increase this value, if you have not enough RAM or if your computer is too slow !
-    #end
-}
-#end
 
 #declare func = function(X) { atanh(X) }
 
