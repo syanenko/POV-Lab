@@ -76,7 +76,6 @@ classdef pov < handle
                 figure;
             end
             o.include("povlab");
-            o.declare_textures();
         end
         
         % End scene
@@ -447,25 +446,6 @@ classdef pov < handle
                 error("Input is not a matrix of size '3 x 3'");
             end
             r = true;
-        end
-
-        %
-        % Declare common textures
-        % TODO: Move to povlab.inc
-        function declare_textures(o)
-            o.include("textures");
-            
-            % Default
-            o.tex_default = o.declare("tex_default", o.texture('pigment', [0 0.7 0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-
-            % Axis
-            o.tex_axis_common = o.declare("tex_axis_common", o.texture('pigment', [0.7 0.7 0.7], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-            o.tex_axis_x = o.declare("tex_axis_x", o.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-            o.tex_axis_y = o.declare("tex_axis_y", o.texture('pigment', [0 1 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-            o.tex_axis_z = o.declare("tex_axis_z", o.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-            
-            % Planes
-            o.tex_plane = o.declare("tex_plane", o.texture('pigment', [0.3 0.3 0.3], 'finish', 'phong 1 reflection {0.1 metallic 0.2}'));
         end
     end
 end

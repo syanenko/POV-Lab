@@ -1,36 +1,5 @@
 #version 3.7;
 #include "povlab.inc"
-#include "textures.inc"
-#declare tex_default = texture { Polished_Chrome
-          pigment{ rgb <0.00, 0.70, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_axis_common = texture { Polished_Chrome
-          pigment{ rgb <0.70, 0.70, 0.70>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_axis_x = texture { Polished_Chrome
-          pigment{ rgb <1.00, 0.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_axis_y = texture { Polished_Chrome
-          pigment{ rgb <0.00, 1.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_axis_z = texture { Polished_Chrome
-          pigment{ rgb <0.00, 0.00, 1.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_plane = texture { Polished_Chrome
-          pigment{ rgb <0.30, 0.30, 0.30>}
-          finish { phong 1 reflection {0.1 metallic 0.2} }}
-
-
 global_settings { assumed_gamma 1 }
 #include "shapes.inc"
 camera { perspective angle 35

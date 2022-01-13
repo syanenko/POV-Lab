@@ -1,3 +1,5 @@
+#include "textures.inc"
+
 //
 // Axis
 //
@@ -68,7 +70,7 @@ union{
                                        translate<0.1, 0, 0.1>
                                        scale .5
                                        }
-    
+
                            translate<0, 0, i * cell_size>}
     
             #local i = i + 1;
@@ -79,3 +81,35 @@ union{
     }
 
 #end
+
+//
+// Default textures
+//
+#declare tex_default = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.70, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_axis_common = texture { Polished_Chrome
+          pigment{ rgb <0.70, 0.70, 0.70>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_axis_x = texture { Polished_Chrome
+          pigment{ rgb <1.00, 0.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_axis_y = texture { Polished_Chrome
+          pigment{ rgb <0.00, 1.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_axis_z = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.00, 1.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+
+#declare tex_plane = texture { Polished_Chrome
+          pigment{ rgb <0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.1 metallic 0.2} }}
