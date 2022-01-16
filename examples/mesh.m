@@ -117,7 +117,9 @@ s.VertexNormals;
 % shading flat
 % shading faceted
 % shading interp            
-pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'shading', 'interp' , 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'shading', 'flat', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'shading', 'flat', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
 %     %pov.sphere();
