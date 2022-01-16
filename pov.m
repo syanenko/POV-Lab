@@ -216,10 +216,6 @@ classdef pov < handle
                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
         
-        % Grid 3D % TODO - Implement
-        function grid_3D(o, cell_size, size, texture)
-        end
-
         % Texture
         function tex = texture(o, varargin)
             % Parse
@@ -314,6 +310,46 @@ classdef pov < handle
 %             end
         end
 
+        % Mesh
+        function mesh(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'surface', 0);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            parse(p,varargin{:});
+
+            surface   = p.Results.surface;
+            texture   = p.Results.texture;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+
+            % Write
+            fprintf(o.fh, 'mesh {\n');
+            % TODO: Loop
+            fprintf(o.fh, 'triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n', ...
+                                      surface.XData(1,1), surface.YData(1,1), surface.ZData(1,1),...
+                                      surface.XData(3,1), surface.YData(3,1), surface.ZData(3,1),...                          
+                                      surface.XData(1,2), surface.YData(1,2), surface.ZData(1,2));
+            fprintf(o.fh, ['        texture { %s }\n'...
+                           '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           texture,...
+                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+            % Preview
+%             if(o.preview)
+%                 [x,y,z] = sphere;
+%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
+%                       y * radius * scale(2) + position(2) + translate(2), ...
+%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
+%                 shading(gca, o.preview_shading);
+%                 axis equal;
+%                 hold on;
+%            end
+        end
+        
         % Function
         function function2D(o, varargin)
             % Parse
