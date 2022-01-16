@@ -4,8 +4,9 @@ clear pov;
 close all;
 %
 % TODO
-% -2. Mesh - Check dimentions, make edges, colormap, check global texture(?)
-% -1. Lights params
+% -3. Mesh - Check dimentions, make edges, colormap, check global texture(?)
+% -2. Lights params
+% -1. Mesh2
 % 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
 % 2. pov.text(...)
@@ -37,7 +38,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [15 25 -15], 'look_at', [0 0 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [30 30 -30], 'look_at', [0 0 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -45,9 +46,9 @@ pov.camera('angle', 35, 'location', [15 25 -15], 'look_at', [0 0 0], 'type', 'pe
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [10 10 -30], 'color', [0.8 0.8 0.8]);
-pov.light('location', [10 -10 -30], 'color', [0.8 0.8 0.8]);
-pov.light('location', [-10 10 -30], 'color', [0.8 0.8 0.8]);
+pov.light('location', [10 10 -30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [10 -10 -30], 'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [-10 10 -30], 'color', [0.8 0.8 0.8], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -103,11 +104,25 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 size = 40;
 f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
-CO(:,:,1) = zeros(size); % red
-CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
-CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
+s = surf(X,Y,Z);
+
+% x = -2:1:2;
+% y = 1:1:2;
+% [X,Y] = meshgrid(x,y);
+% Z = peaks(X,Y);
+% s = surf(X,Y,Z);
+
+% x = -2:0.5:2;
+% y = 1:0.2:2;
+% [X,Y] = meshgrid(x,y);
+% Z = peaks(X,Y);
+% s = surf(X,Y,Z);
+
+% CO(:,:,1) = zeros(size); % red
+% CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
+% CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
 % TODO: Check dimentions
-s = surf(X,Y,Z,CO);
+%s = surf(X,Y,Z,CO);
 % s = surf(rand(20, 30));
 
 % -- Textures --
@@ -132,11 +147,11 @@ s = surf(X,Y,Z,CO);
 % Brushed_Aluminum   (Dan Farmer)
 % Starfield          (Jeff Burton )
 % Shadow_Clouds      (Bill Pulver)
-% pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Ruby_Glass');
+% pov.mesh('surface', s, 'rotate', [90, 0, 0]);
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
-pov.mesh('surface', s, 'texture_odd', 'Yellow_Glass', 'texture_even', 'New_Penny', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'smooth', false, 'rotate', [-90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();

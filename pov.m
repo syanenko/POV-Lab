@@ -351,9 +351,9 @@ classdef pov < handle
 
             % Write
             fprintf(o.fh, 'mesh {\n');
-            % TODO: Loop
-            size_x = length(surface.XData) - 1;
-            size_y = length(surface.YData) - 1;
+            s = size(surface.XData) - 1;
+            size_x = s(1);
+            size_y = s(2);
             normals = surface.VertexNormals;
             if (smooth)
                 for i=1:size_x
@@ -364,7 +364,7 @@ classdef pov < handle
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n'], ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),      normals(i,j,2),     normals(i,j,3),...
                                       surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),   normals(i+1,j,1),    normals(i+1,j,2),   normals(i+1,j,3),...
-                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2),  normals(i+1,j+1,3), tex);
+                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2), normals(i+1,j+1,3), tex);
     
                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
