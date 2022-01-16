@@ -4,7 +4,7 @@ clear pov;
 close all;
 %
 % TODO
-% -2. Mesh - Check dimentions, Smooth nomals, ednges, colormap
+% -2. Mesh - Check dimentions, make edges, colormap, check global texture(?)
 % -1. Lights params
 % 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
@@ -101,25 +101,43 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
 size = 40;
+f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
 CO(:,:,1) = zeros(size); % red
 CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
 CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
-f = figure('Visible', 'off');
 % TODO: Check dimentions
 s = surf(X,Y,Z,CO);
-s.VertexNormals;
-%  = surfnorm(X,Y,Z);
-
 % s = surf(rand(20, 30));
+
+% -- Textures --
+% DMFWood6
+% NBglass            (Norm Bowler)
+% NBoldglass         (Norm Bowler)
+% NBwinebottle       (Norm Bowler)
+% NBbeerbottle       (Norm Bowler)
+% Ruby_Glass         (after Norm Bowler)
+% Dark_Green_Glass   (after Norm Bowler)
+% Yellow_Glass       (after Norm Bowler)
+% Orange_Glass       (after Norm Bowler)
+% Vicks_Bottle_Glass (after Norm Bowler)
+% Soft_Silver        (Dan Farmer)
+% New_Penny          (Dan Farmer)
+% Tinny_Brass        (Dan Farmer)
+% Gold_Nugget        (Dan Farmer)
+% Aluminum           (Dan Farmer)
+% Bright_Bronze      (Dan Farmer)
+% Lightening1        (Dan Farmer)
+% Lightening2        (Dan Farmer)
+% Brushed_Aluminum   (Dan Farmer)
+% Starfield          (Jeff Burton )
+% Shadow_Clouds      (Bill Pulver)
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Ruby_Glass');
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
-% shading flat
-% shading faceted
-% shading interp            
-% pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'shading', 'flat', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
-% pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'shading', 'flat', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
-pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+pov.mesh('surface', s, 'texture_odd', 'Yellow_Glass', 'texture_even', 'New_Penny', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
 %     %pov.sphere();
