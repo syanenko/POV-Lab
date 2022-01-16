@@ -314,6 +314,51 @@ classdef pov < handle
 %             end
         end
 
+        % Function
+        function function2D(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'funcion', 'X',             @o.check_string);
+            addParameter(p,'min_x',    -1,             @o.check_float);
+            addParameter(p,'max_x',     1,             @o.check_float);
+            addParameter(p,'width',     0.05,          @o.check_positive_float);
+            addParameter(p,'color',     [0.1 0.4 0.0], @o.check_vector3);
+            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            parse(p,varargin{:});
+
+            func      = p.Results.funcion;
+            min_x     = p.Results.min_x;
+            max_x     = p.Results.max_x;
+            width     = p.Results.width;
+            color     = p.Results.color;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+            
+            % Write
+            fprintf(o.fh,['#declare f = function(X) { %s }\n'...
+                          'union {plot_function(%0.2f, %0.2f, f, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n'...
+                          '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
+                          func,...
+                          min_x, max_x,...
+                          width,...
+                          color(1), color(2), color(3), ...
+                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+            % Preview
+            % TODO
+%             if(o.preview)
+%                 [x,y,z] = sphere;
+%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
+%                       y * radius * scale(2) + position(2) + translate(2), ...
+%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
+%                 shading(gca, o.preview_shading);
+%                 axis equal;
+%                 hold on;
+%             end
+        end
+
         % CSG:Union
         function union_begin(o)
             fprintf(o.fh,'union {\n');
