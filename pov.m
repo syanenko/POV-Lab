@@ -315,18 +315,20 @@ classdef pov < handle
             % Parse
             p = inputParser;
             addParameter(p,'surface', 0);
-            addParameter(p,'texture',   "tex_default", @o.check_string);
-            addParameter(p,'shading',   "flat",        @o.check_string);
-            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
-            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
-            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            addParameter(p,'texture_odd',  "tex_grid_odd",  @o.check_string);
+            addParameter(p,'texture_even', "tex_grid_even", @o.check_string);
+            addParameter(p,'shading',   "flat",             @o.check_string);
+            addParameter(p,'scale',     [1 1 1],            @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],            @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],            @o.check_vector3);
             parse(p,varargin{:});
 
-            surface   = p.Results.surface;
-            texture   = p.Results.texture;
-            scale     = p.Results.scale;
-            rotate    = p.Results.rotate;
-            translate = p.Results.translate;
+            surface      = p.Results.surface;
+            texture_odd  = p.Results.texture_odd;
+            texture_even = p.Results.texture_even;            
+            scale        = p.Results.scale;
+            rotate       = p.Results.rotate;
+            translate    = p.Results.translate;
 
             % Write
             fprintf(o.fh, 'mesh {\n');
@@ -334,23 +336,41 @@ classdef pov < handle
             size_x = length(surface.XData) - 1;
             size_y = length(surface.YData) - 1;
             normals = surface.VertexNormals;
-
             if ( strcmp(p.Results.shading, 'interp'))
                 for i=1:size_x
                     for j=1:size_y
+                        if(mod(i+j,2) == 1)
+                            texture = texture_odd;
+                        else
+                            texture = texture_even;
+                        end
                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n'], ...
+                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n'], ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),      normals(i,j,2),     normals(i,j,3),...
                                       surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),   normals(i+1,j,1),    normals(i+1,j,2),   normals(i+1,j,3),...
-                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2),  normals(i+1,j+1,3));
+                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2),  normals(i+1,j+1,3), texture);
     
                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n'], ...
+                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n'], ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),     normals(i,j,2),     normals(i,j,3),...
                                       surface.XData(i,j+1),   surface.YData(i,j+1),   surface.ZData(i,j+1),   normals(i,j+1,1),   normals(i,j+1,2),   normals(i,j+1,3),...
-                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1), normals(i+1,j+1,2), normals(i+1,j+1,3));
+                                      surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1), normals(i+1,j+1,2), normals(i+1,j+1,3), texture);
+
+%                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+%                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+%                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n'], ...
+%                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),      normals(i,j,2),     normals(i,j,3),...
+%                                       surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),   normals(i+1,j,1),    normals(i+1,j,2),   normals(i+1,j,3),...
+%                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2),  normals(i+1,j+1,3));
+%     
+%                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+%                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+%                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n'], ...
+%                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),     normals(i,j,2),     normals(i,j,3),...
+%                                       surface.XData(i,j+1),   surface.YData(i,j+1),   surface.ZData(i,j+1),   normals(i,j+1,1),   normals(i,j+1,2),   normals(i,j+1,3),...
+%                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1), normals(i+1,j+1,2), normals(i+1,j+1,3));
                     end
                 end
             else
