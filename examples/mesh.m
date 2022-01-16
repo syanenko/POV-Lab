@@ -4,7 +4,7 @@ clear pov;
 close all;
 %
 % TODO
-% -2. pov.mesh - Smooth nomals, ednges, colormap
+% -2. Mesh - Check dimentions, Smooth nomals, ednges, colormap
 % -1. Lights params
 % 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
@@ -100,13 +100,15 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-size = 50;
+size = 30;
 [X,Y,Z] = peaks(size);
 CO(:,:,1) = zeros(size); % red
 CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
 CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
 %f = figure('Visible', 'off');
+% TODO: Check dimentions
 s = surf(X,Y,Z,CO);
+% s = surf(rand(20, 30));
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Ruby_Glass');
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
 pov.mesh('surface', s, 'texture', 'Orange_Glass', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);

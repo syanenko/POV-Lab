@@ -330,9 +330,10 @@ classdef pov < handle
             % Write
             fprintf(o.fh, 'mesh {\n');
             % TODO: Loop
-            size = length(surface.XData) - 1;
-            for i=1:size
-                for j=1:size
+            size_x = length(surface.XData) - 1;
+            size_y = length(surface.YData) - 1;
+            for i=1:size_x
+                for j=1:size_y
                     fprintf(o.fh, '    triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> }\n', ...
                                   surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),...
                                   surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),...
