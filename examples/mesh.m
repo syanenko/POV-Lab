@@ -151,7 +151,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
-pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'smooth', false, 'rotate', [-90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [-90, 0, 0], 'scale', [2.5, 2.5, 1.0]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
