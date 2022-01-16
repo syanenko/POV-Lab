@@ -37,7 +37,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [15 25 -15], 'look_at', [0 0 0], 'type', 'orthographic');
+pov.camera('angle', 35, 'location', [15 25 -15], 'look_at', [0 0 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -100,18 +100,24 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-size = 30;
+size = 40;
 [X,Y,Z] = peaks(size);
 CO(:,:,1) = zeros(size); % red
 CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
 CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
-%f = figure('Visible', 'off');
+f = figure('Visible', 'off');
 % TODO: Check dimentions
 s = surf(X,Y,Z,CO);
+s.VertexNormals;
+%  = surfnorm(X,Y,Z);
+
 % s = surf(rand(20, 30));
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Ruby_Glass');
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
-pov.mesh('surface', s, 'texture', 'Orange_Glass', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+% shading flat
+% shading faceted
+% shading interp            
+pov.mesh('surface', s, 'texture', 'Orange_Glass', 'shading', 'interp' , 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
 %     %pov.sphere();

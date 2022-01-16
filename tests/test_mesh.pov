@@ -156,15 +156,38 @@ plane { <0,1,0>, 0    // plane with layered textures
 //
 //
 
-/* Object 'WHITE_KNIGHT' */
-mesh {
-/*	
-	smooth_triangle { <-3.5200, -4.1900, -5.0800>, <-0.941, 0.329, -0.081>, <-3.9100, -6.2100, -5.0800>, <-0.978, 0.189, 0.086>, <-3.4000, -6.2100, -7.0100>, <-0.893, 0.186, -0.409> }
-	smooth_triangle { <-3.4000, -6.2100, -7.0100>, <-0.893, 0.186, -0.409>, <-3.0700, -4.1900, -6.8200>, <-0.773, 0.335, -0.539>, <-3.5200, -4.1900, -5.0800>, <-0.941, 0.329, -0.081> }
-	smooth_triangle { <-3.0700, -4.1900, -6.8200>, <-0.773, 0.335, -0.539>, <-3.4000, -6.2100, -7.0100>, <-0.893, 0.186, -0.409>, <-1.9900, -6.2100, -8.4300>, <-0.566, 0.186, -0.803> }
-	smooth_triangle { <-1.9900, -6.2100, -8.4300>, <-0.566, 0.186, -0.803>, <-1.7900, -4.1900, -8.1000>, <-0.397, 0.333, -0.856>, <-3.0700, -4.1900, -6.8200>, <-0.773, 0.335, -0.539> }	
-*/		
-	triangle { <-0.0400, -6.2100, -5.0800>, <-3.4000, -6.2100, -7.0100>, <-3.9100, -6.2100, -5.0800> }
 
-    texture { Ruby_Glass }
+
+                                                                                    // triangle or smooth-triangle mesh FINITE (no CSG) shape
+// NOTE: Each triangle can be independently textured,
+//       remaining triangles get texture at bottom
+//       For the individual triangles you have to use declared textures
+
+#declare T1=texture { pigment { color rgb x } } 
+#declare T2=texture { pigment { color rgb y } } 
+#declare T3=texture { pigment { color rgb z } } 
+
+mesh { // box example here 
+  /* top side */
+  triangle { <-2,  2, -2>, < 2,  2, -2>, < 2,  2,  2> }
+  triangle { <-2,  2, -2>, <-2,  2,  2>, < 2,  2,  2> texture { T1 } }
+  /* bottom side */
+  triangle { <-2, -2, -2>, < 2, -2, -2>, < 2, -2,  2> }
+  triangle { <-2, -2, -2>, <-2, -2,  2>, < 2, -2,  2> }
+  /* left side */
+  triangle { <-2, -2, -2>, <-2, -2,  2>, <-2,  2,  2> }
+  triangle { <-2, -2, -2>, <-2,  2, -2>, <-2,  2,  2> }
+  /* right side */
+  triangle { < 2, -2, -2>, < 2, -2,  2>, < 2,  2,  2> texture { T2 } }
+  triangle { < 2, -2, -2>, < 2,  2, -2>, < 2,  2,  2> texture { T2 } }
+  /* front side */
+  triangle { <-2, -2, -2>, < 2, -2, -2>, <-2,  2, -2> texture { T3 } }
+  triangle { <-2,  2, -2>, < 2,  2, -2>, < 2, -2, -2> texture { T3 } }
+  /* back side */
+  triangle { <-2, -2,  2>, < 2, -2,  2>, <-2,  2,  2> }
+  triangle { <-2,  2,  2>, < 2,  2,  2>, < 2, -2,  2> }
+  texture
+  { // remaining triangles get this texture
+    pigment { color rgb<0.9, 0.9, 0.9> }
+  }
 }
