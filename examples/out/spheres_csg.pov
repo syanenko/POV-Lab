@@ -60,27 +60,15 @@ plane { <0, 0, 1>, 0.00
 #local gid = "gid"grid(gid, 1.00, 20, 20, tex_grid_odd, tex_grid_even);
 object { gid scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<0.00, 0.00, 0.00> }
 
-#declare tex_red = texture { Polished_Chrome
-          pigment{ rgb <1.00, 0.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
+#declare fgreen = function(X) { 4 * sin(X * pi/2) * ln(X) }
+union {plot_function(0.00, 8.00, fgreen, 0.10, <0.0, 0.8, 0.00>)
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, -0.10> }
 
+#declare fyellow = function(X) { sin(X * pi/2) * ln(-X) }
+union {plot_function(-8.00, 0.00, fyellow, 0.10, <1.0, 0.8, 0.00>)
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, -0.10> }
 
-#declare tex_green = texture { Polished_Chrome
-          pigment{ rgb <0.00, 1.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_blue = texture { Polished_Chrome
-          pigment{ rgb <0.00, 0.00, 1.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare tex_pink = texture { Polished_Chrome
-          pigment{ rgb <8.00, 2.00, 3.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-
-#declare f = function(X) { 4 * sin(X * pi /2) }
-union {plot_function(-10.00, 10.00, f, 0.05, <0.1, 0.8, 0.00>)
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, -0.20> }
+#declare fred = function(X) { X * X * X / 12 }
+union {plot_function(-8.00, 8.00, fred, 0.10, <1.0, 0.0, 0.00>)
+        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, -0.10> }
 
