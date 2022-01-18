@@ -116,25 +116,29 @@ classdef pov < handle
             % Parse
             p = inputParser;
             addParameter(p,'type',     'orthographic', @o.check_string);
-            addParameter(p,'angle',    100,            @o.check_positive_float);
-            addParameter(p,'location', [10 10 10],     @o.check_vector3);
+            addParameter(p,'angle',    65,             @o.check_positive_float);
+            addParameter(p,'location', [-10 -10 10],   @o.check_vector3);
             addParameter(p,'look_at',  [0 0 0],        @o.check_vector3);
+            addParameter(p,'right',    [-1.33 0 0],    @o.check_vector3); % Set right-handed system by default
             parse(p,varargin{:});
 
-            type = p.Results.type;
-            angle = p.Results.angle;
+            type     = p.Results.type;
+            angle    = p.Results.angle;
             location = p.Results.location;
-            look_at = p.Results.look_at;
+            look_at  = p.Results.look_at;
+            right    = p.Results.right;
 
             % Write
             fprintf(o.fh, ['camera { %s' ...
                            '         angle %d\n' ...
-                           '         location <%0.1f, %0.1f, %0.1f>\n' ...
+                           '         location <%0.2f, %0.2f, %0.2f>\n' ...
                            '         right x * image_width / image_height\n' ...
-                           '         look_at <%0.1f, %0.1f, %0.1f> }\n\n'], ...
+                           '         look_at <%0.2f, %0.2f, %0.2f>\n' ...
+                           '         right  <%0.2f, %0.2f, %0.2f0> rotate<90,0,0>}\n\n'], ...
                             type, angle, ...
-                            location(1), location(2), location(3), ...
-                            look_at(1), look_at(2), look_at(3));
+                            location(1), location(3), -location(2), ... % According to right-handed system
+                            look_at(1),  look_at(3),  -look_at(2), ...
+                            right(1), right(2), right(3));
         end
 
         % Light
@@ -179,7 +183,7 @@ classdef pov < handle
             tex_y =      p.Results.tex_y;
             tex_z =      p.Results.tex_z;
 
-            fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s)}\n\n', ...
+            fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s) }\n\n', ...
                           size(1), size(2), size(3), ...
                           tex_common, tex_x, tex_y, tex_z);
         end

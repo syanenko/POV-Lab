@@ -4,7 +4,7 @@ clear pov;
 close all;
 %
 % TODO
-% -3. Mesh - Check dimentions, make edges, colormap, write global texture(?)
+% -3. Mesh - Check dimentions, make edges, write global texture(?), use with CSG 
 % -2. Lights params
 % -1. Mesh2
 % 0. texture -> material + structure
@@ -40,7 +40,8 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [30 30 -30], 'look_at', [0 0 0], 'type', 'perspective');
+% pov.camera('angle', 55, 'location', [-10 -10 10], 'look_at', [0 0 0], 'right', [-1.33 0 0], 'type', 'perspective');
+pov.camera('angle', 65);
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -48,9 +49,9 @@ pov.camera('angle', 35, 'location', [30 30 -30], 'look_at', [0 0 0], 'type', 'pe
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [10 10 -30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [10 -10 -30], 'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [-10 10 -30], 'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [10 -10 30], 'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [-10 10 30], 'color', [0.8 0.8 0.8], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -60,14 +61,14 @@ pov.light('location', [-10 10 -30], 'color', [0.8 0.8 0.8], 'shadowless', true);
 % Axis textures
 tex_axis_gray = pov.declare("tex_axis_gray", pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 tex_axis_yellow = pov.declare("tex_axis_yellow", pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 1 1], "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_x = pov.declare("tex_axis_x", pov.texture('pigment', [1 1 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_y = pov.declare("tex_axis_y", pov.texture('pigment', [0 1 0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+% tex_axis_z = pov.declare("tex_axis_z", pov.texture('pigment', [0 0 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis
 % pov.axis();
-% pov.axis('size', [5 6 7], 'tex_common', pov.tex_axis_x, 'tex_x', pov.tex_axis_z);
-pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
+pov.axis('size', [6 6 6]);
+% pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
 
 % Axis planes textures
 % tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -108,8 +109,8 @@ size = 40;
 [X,Y,Z] = peaks(size);
 s = surf(X,Y,Z);
 
-% x = -2:1:2;
-% y = 1:1:2;
+% x = -2:0.1:2;
+% y = 1:0.1:2;
 % [X,Y] = meshgrid(x,y);
 % Z = peaks(X,Y);
 % s = surf(X,Y,Z);
@@ -120,12 +121,11 @@ s = surf(X,Y,Z);
 % Z = peaks(X,Y);
 % s = surf(X,Y,Z);
 
-% CO(:,:,1) = zeros(size); % red
-% CO(:,:,2) = ones(size).*linspace(0.5,0.6,size); % green
-% CO(:,:,3) = ones(size).*linspace(0,1,size); % blue
-% TODO: Check dimentions
-%s = surf(X,Y,Z,CO);
-% s = surf(rand(20, 30));
+% [X,Y] = meshgrid(1:0.5:10,1:20);
+% % Z = sin(X) + cos(Y);
+% C = X.*Y;
+% s = surf(X,Y,Z)
+% s = surf(X,Y,Z,C)
 
 % -- Textures --
 % DMFWood6
@@ -154,7 +154,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'jet(16)', 'rotate', [-90, 90, 0], 'scale', [2.5, 2.5, 1.0]);
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'hot(16)', 'scale', [1, 1, 1]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
