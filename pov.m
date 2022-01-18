@@ -310,27 +310,6 @@ classdef pov < handle
 %             end
         end
         
-        %
-        % Helper functions
-        %
-        % Write triangle
-        function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
-                    fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
-                                  s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1),...
-                                  s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2),...
-                                  s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), tex);
-        end
-        
-        % Write smooth triangle
-        function  write_smooth_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
-                    n = s.VertexNormals;
-                    fprintf(o.fh, ['    smooth_triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
-                                  s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...
-                                  s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
-                                  s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
-        end
         % Mesh
         function mesh(o, varargin)
             % Parse
@@ -411,11 +390,11 @@ classdef pov < handle
                     tex1 = get_texture(i,j,1);
                     tex2 = get_texture(i,j,2);
                     if (smooth)
-                        o.write_smooth_triangle(surface, i, j, i+1, j,   i+1, j+1, tex1);
-                        o.write_smooth_triangle(surface, i, j, i,   j+1, i+1, j+1, tex2);
+                        o.write_smooth_triangle(surface,i,j,i+1,j,  i+1,j+1,tex1);
+                        o.write_smooth_triangle(surface,i,j,i,  j+1,i+1,j+1,tex2);
                     else
-                        o.write_triangle(surface, i, j, i+1, j,   i+1, j+1, tex1);
-                        o.write_triangle(surface, i, j, i,   j+1, i+1, j+1, tex2);
+                        o.write_triangle(surface,i,j,i+1,j,  i+1,j+1,tex1);
+                        o.write_triangle(surface,i,j,i,  j+1,i+1,j+1,tex2);
                     end
                 end
             end
@@ -540,8 +519,31 @@ classdef pov < handle
         end
 
         %
-        % Validation functions
+        % Helper functions
+        % ----------------------------------------------------------------------
         %
+        % Write triangle
+        function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
+                    fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
+                                  s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1),...
+                                  s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2),...
+                                  s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), tex);
+        end
+        
+        % Write smooth triangle
+        function  write_smooth_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
+                    n = s.VertexNormals;
+                    fprintf(o.fh, ['    smooth_triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
+                                  s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...
+                                  s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
+                                  s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
+        end
+        
+        %
+        % Validation functions
+        % ----------------------------------------------------------------------
         % Vector of size '3'
         function r = check_vector3(o, x)
             r = false;
