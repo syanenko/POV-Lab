@@ -319,6 +319,7 @@ classdef pov < handle
             addParameter(p,'texture_odd',  "",            @o.check_string);
             addParameter(p,'texture_even', "",            @o.check_string);
             addParameter(p,'smooth',       true,          @islogical);
+            addParameter(p,'colormap',     'parula',      @o.check_string);
             addParameter(p,'scale',        [1 1 1],       @o.check_vector3);
             addParameter(p,'rotate',       [0 0 0],       @o.check_vector3);
             addParameter(p,'translate',    [0 0 0],       @o.check_vector3);
@@ -329,23 +330,56 @@ classdef pov < handle
             texture_odd  = p.Results.texture_odd;
             texture_even = p.Results.texture_even;            
             smooth       = p.Results.smooth;
+            cmap_name    = p.Results.colormap;
             scale        = p.Results.scale;
             rotate       = p.Results.rotate;
             translate    = p.Results.translate;
 
-            if(strcmp(texture_odd, "") )
+            no_tex_odd  = strcmp(texture_odd,  "");
+            no_tex_even = strcmp(texture_even, "");
+            if(no_tex_odd)
                 texture_odd = texture;
             end
-            
-            if(strcmp(texture_even, "") )
+
+            if(no_tex_even)
                 texture_even = texture;
             end
 
-            function tex = get_texture(i, j)
-                if(mod(i+j,2) == 1)
-                    tex = texture_odd;
+            if(no_tex_odd && no_tex_even)
+                cdata = surface.CData;
+                cmap = colormap(cmap_name);
+                cmin = min(cdata(:));
+                cmax = max(cdata(:));
+                m = length(cmap);
+                index = fix((cdata - cmin) / (cmax-cmin) * m) + 1;
+                RGB = ind2rgb(index,cmap);
+            end
+
+            function tex = get_texture(i,j,right)
+                if(no_tex_odd && no_tex_even)
+                     if(right)
+                         tex = sprintf(['                      #declare color1=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      #declare color2=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      #declare color3=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      texture_list {color1 color2 color3}\n'],...
+                                        RGB(i,j,  1),   RGB(i,j  ,2),   RGB(i,j,  3),...
+                                        RGB(i+1,j,1),   RGB(i+1,j,2),   RGB(i+1,j,3),...
+                                        RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
+                     else
+                         tex = sprintf(['                      #declare color1=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      #declare color2=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      #declare color3=texture { pigment {color rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                                        '                      texture_list {color1 color2 color3}\n'],...
+                                        RGB(i,j,  1),   RGB(i,j  ,2),   RGB(i,j,  3),...
+                                        RGB(i,j+1,1),   RGB(i,j+1,2),   RGB(i,j+1,3),...
+                                        RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
+                     end
                 else
-                    tex = texture_even;
+                    if(mod(i+j,2) == 1)
+                        tex = sprintf('texture{%s}', texture_odd);
+                    else
+                        tex = sprintf('texture{%s}', texture_even);
+                    end
                 end
             end
 
@@ -358,17 +392,18 @@ classdef pov < handle
             if (smooth)
                 for i=1:size_x
                     for j=1:size_y
-                        tex = get_texture(i, j);
+                        tex = get_texture(i,j,true);
                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n'], ...
+                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),      normals(i,j,2),     normals(i,j,3),...
                                       surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),   normals(i+1,j,1),    normals(i+1,j,2),   normals(i+1,j,3),...
                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1),  normals(i+1,j+1,2), normals(i+1,j+1,3), tex);
     
+                        tex = get_texture(i,j,false);
                         fprintf(o.fh, ['    smooth_triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                        '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n'], ...
+                                       '                      <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),     normals(i,j,1),     normals(i,j,2),     normals(i,j,3),...
                                       surface.XData(i,j+1),   surface.YData(i,j+1),   surface.ZData(i,j+1),   normals(i,j+1,1),   normals(i,j+1,2),   normals(i,j+1,3),...
                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), normals(i+1,j+1,1), normals(i+1,j+1,2), normals(i+1,j+1,3), tex);
@@ -377,13 +412,14 @@ classdef pov < handle
             else
                 for i=1:size_x
                     for j=1:size_y
-                        tex = get_texture(i, j);
-                        fprintf(o.fh, '    triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n', ...
+                        tex = get_texture(i,j,true);
+                        fprintf(o.fh, '    triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> %s}\n', ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),...
                                       surface.XData(i+1,j),   surface.YData(i+1,j),   surface.ZData(i+1,j),...
                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), tex);
-    
-                        fprintf(o.fh, '    triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> texture{%s}}\n', ...
+
+                        tex = get_texture(i,j,false);
+                        fprintf(o.fh, '    triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> %s}\n', ...
                                       surface.XData(i,j),     surface.YData(i,j),     surface.ZData(i,j),...
                                       surface.XData(i,j+1),   surface.YData(i,j+1),   surface.ZData(i,j+1),...
                                       surface.XData(i+1,j+1), surface.YData(i+1,j+1), surface.ZData(i+1,j+1), tex);

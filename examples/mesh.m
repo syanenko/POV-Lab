@@ -4,13 +4,13 @@ clear pov;
 close all;
 %
 % TODO
-% -3. Mesh - Check dimentions, make edges, colormap, check global texture(?)
+% -3. Mesh - Check dimentions, make edges, colormap, write global texture(?)
 % -2. Lights params
 % -1. Mesh2
 % 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
 % 2. pov.text(...)
-% 4. Render volume: mri (df3), http://paulbourke.net/miscellaneous/povexamples/ 
+% 4. Render volume: mri (df3), http://paulbourke.net/miscellaneous/povexamples/
 % 5. pov.equation("x^ * 2")
 % 8. Get data from figure:
 %      axObjs = fig.Children
@@ -20,13 +20,15 @@ close all;
 % 10. Check preview axis misleading
 % 11. Notations (markers)
 % 12. All shapes (?)
+% 13. Molecules:
+%     ubi = getpdb('1ubi');
+%     ubi.Model.Atom(2)
 
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
-
 
 % pov.scene_begin();
 % TODO: Set image size
@@ -102,9 +104,9 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
 size = 40;
-f = figure('Visible', 'off');
+% f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
-s = surf(X,Y,Z);
+s = surf(X,Y,Z)
 
 % x = -2:1:2;
 % y = 1:1:2;
@@ -151,7 +153,8 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'rotate', [90, 0, 0], 'texture', 'Dark_Green_Glass');
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
-pov.mesh('surface', s, 'texture_odd', 'Orange_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [-90, 0, 0], 'scale', [2.5, 2.5, 1.0]);
+
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'winter(8)', 'rotate', [-90, 90, 0], 'scale', [2.5, 2.5, 1.0]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
