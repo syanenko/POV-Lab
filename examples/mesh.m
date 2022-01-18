@@ -106,7 +106,7 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 size = 40;
 % f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
-s = surf(X,Y,Z)
+s = surf(X,Y,Z);
 
 % x = -2:1:2;
 % y = 1:1:2;
@@ -154,7 +154,7 @@ s = surf(X,Y,Z)
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'winter(8)', 'rotate', [-90, 90, 0], 'scale', [2.5, 2.5, 1.0]);
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'jet(16)', 'rotate', [-90, 90, 0], 'scale', [2.5, 2.5, 1.0]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
