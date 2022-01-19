@@ -15,6 +15,8 @@ light_source{< -10.0, 10.0, 30.0> rgb<0.80, 0.80, 0.80> shadowless}
 
 light_source{< 100.0, 200.0, 300.0> rgb<0.40, 0.40, 0.40> shadowless}
 
+sky_sphere{ pigment{ gradient <0,1,0> color_map{ [0   color rgb<1,1,1>         ] [0.4 color rgb<0.1,0.14,0.56>] [0.6 color rgb<0.1,0.14,0.56>]  [1.0 color rgb<1,1,1>         ]} scale 2  }}
+
 #declare tex_axis_gray = texture { Polished_Chrome
           pigment{ rgb <0.50, 0.50, 0.50>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}

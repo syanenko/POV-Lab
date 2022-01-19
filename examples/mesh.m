@@ -21,9 +21,14 @@ close all;
 % 10. Check preview axis misleading
 % 11. Notations (markers)
 % 12. All shapes (?)
-% 13. Molecules:
-%     ubi = getpdb('1ubi');
-%     ubi.Model.Atom(2)
+% 13. Sky
+% sky_sphere{ pigment{ gradient <0,1,0>
+%                      color_map{ [0   color rgb<1,1,1>         ]//White
+%                                 [0.4 color rgb<0.1,0.14,0.56>]//~Navy
+%                                 [0.6 color rgb<0.1,0.14,0.56>]//~Navy
+%                                 [1.0 color rgb<1,1,1>         ]//White
+%                               }
+%                      scale 2  }}
 tic % Time measure
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
@@ -54,6 +59,13 @@ pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
 % pov.light('location', [10 -10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
 pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
 pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+
+pov.raw(['sky_sphere{ pigment{ gradient <0,1,0> '...
+                     'color_map{ [0   color rgb<1,1,1>         ] '...
+                                '[0.4 color rgb<0.1,0.14,0.56>] '...
+                                '[0.6 color rgb<0.1,0.14,0.56>]  '...
+                                '[1.0 color rgb<1,1,1>         ]} '...
+                     'scale 2  }}']);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
 % pov.light('location', [0 100 0], 'color', [0.1 0.1 0.1]);
@@ -108,7 +120,7 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 size = 60;
 % f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
-s = surf(X,Y,Z);
+s = surf(X,Y,Z)
 
 % x = -2:0.1:2;
 % y = 1:0.1:2;
