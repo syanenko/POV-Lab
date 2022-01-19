@@ -317,10 +317,10 @@ classdef pov < handle
         end
         
         % Mesh
-        function mesh(o, varargin)
+        function surface(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'surface', 0);
+            addParameter(p,'surface',      0,             @o.check_surface);
             addParameter(p,'texture',      "tex_default", @o.check_string);
             addParameter(p,'texture_odd',  "",            @o.check_string);
             addParameter(p,'texture_even', "",            @o.check_string);
@@ -625,6 +625,15 @@ classdef pov < handle
             r = false;
             if (~isequal(size(x), [3 3]))
                 error("Input is not a matrix of size '3 x 3'");
+            end
+            r = true;
+        end
+
+        % Surface
+        function r = check_surface(o, x)
+            r = false;
+            if (~isa(x, 'matlab.graphics.chart.primitive.Surface'))
+                error('Input is not a surface');
             end
             r = true;
         end

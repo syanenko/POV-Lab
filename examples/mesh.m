@@ -29,6 +29,11 @@ close all;
 %                                 [1.0 color rgb<1,1,1>         ]//White
 %                               }
 %                      scale 2  }}
+% 14. Voliume
+% https://se.mathworks.com/help/matlab/visualize/visualizing-volume-data.html#VisualizingVolumesExample-4
+% 14.1 Streamline - as trace spheres
+%
+
 tic % Time measure
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
@@ -60,12 +65,12 @@ pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
 pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
 pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
-pov.raw(['sky_sphere{ pigment{ gradient <0,1,0> '...
-                     'color_map{ [0   color rgb<1,1,1>         ] '...
-                                '[0.4 color rgb<0.1,0.14,0.56>] '...
-                                '[0.6 color rgb<0.1,0.14,0.56>]  '...
-                                '[1.0 color rgb<1,1,1>         ]} '...
-                     'scale 2  }}']);
+% pov.raw(['sky_sphere{ pigment{ gradient <0,1,0> '...
+%                      'color_map{ [0   color rgb<1,1, 1>       ] '...
+%                                 '[0.4 color rgb<0.1, 0.1, 0.1>] '...
+%                                 '[0.8 color rgb<0.2, 0.2, 0.2>]  '...
+%                                 '[1.0 color rgb<0.7,0.7,0.7>  ]} '...
+%                      'scale 2  }}']);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
 % pov.light('location', [0 100 0], 'color', [0.1 0.1 0.1]);
@@ -167,8 +172,7 @@ s = surf(X,Y,Z)
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'hsv', 'scale', [1, 1, 3/10]);
-% pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
+pov.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
 
 % pov.difference_begin();
 %     %pov.sphere();
