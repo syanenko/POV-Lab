@@ -3,8 +3,8 @@
 #include "shapes.inc"
 global_settings { assumed_gamma 1 }
 
-camera { orthographic         angle 65
-         location <-10.00, 10.00, 10.00>
+camera { perspective         angle 45
+         location <-10.00, 7.00, 14.00>
          right x * image_width / image_height
          look_at <0.00, 0.00, -0.00>
          right  <-1.33, 0.00, 0.000> rotate<90,0,0>}
@@ -25,7 +25,7 @@ light_source{< -10.0, 10.0, 30.0> rgb<0.80, 0.80, 0.80> shadowless}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 
-object{ axis_xyz( 6.0, 6.0, 6.0,
+object{ axis_xyz( 5.00, 5.00, 4.00, 0.07,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z) }
 
 #declare tex_plane_red = texture { Polished_Chrome
@@ -15275,5 +15275,5 @@ mesh {
                      #declare color3=texture { pigment {color rgb<1.00, 0.33, 0.00>}}
                      texture_list {color1 color2 color3}}
 texture { tex_default }
-    scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00> }
+    scale<1.00, 1.00, 0.30> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00> }
 

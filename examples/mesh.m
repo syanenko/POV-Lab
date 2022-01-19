@@ -40,8 +40,8 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-% pov.camera('angle', 55, 'location', [-10 -10 10], 'look_at', [0 0 0], 'right', [-1.33 0 0], 'type', 'perspective');
-pov.camera('angle', 65);
+%pov.camera();
+pov.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -67,7 +67,7 @@ tex_axis_yellow = pov.declare("tex_axis_yellow", pov.texture('pigment', [1.0 1.0
 
 % Axis
 % pov.axis();
-pov.axis('size', [6 6 6]);
+pov.axis('size', [5 5 4], 'radius', 0.07);
 % pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
 
 % Axis planes textures
@@ -154,7 +154,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'hot(16)', 'scale', [1, 1, 1]);
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'hot(16)', 'scale', [1, 1, 3/10]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();

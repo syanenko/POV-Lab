@@ -3,22 +3,22 @@
 //
 // Axis
 //
-#macro axis( len, tex_odd, tex_even)
+#macro axis( len, rad, tex_odd, tex_even)
 union{
-    cylinder { <0, -len, 0>,<0, len, 0>, 0.1
+    cylinder { <0, -len, 0>,<0, len, 0>, rad
     
         texture{ checker texture{ tex_odd } texture{ tex_even }
                  translate <0.1, 0, 0.1> }}
 
-    cone{<0, len, 0>, 0.2, <0, len+0.7, 0>, 0 texture{tex_even}} }
+    cone{<0, len, 0>, rad * 2, <0, len + rad * 7, 0>, 0 texture{tex_even}} }
 # end
 
 
-#macro axis_xyz( len_x, len_y, len_z, tex_common, tex_x, tex_y, tex_z)
+#macro axis_xyz( len_x, len_y, len_z, rad, tex_common, tex_x, tex_y, tex_z)
 union{
-    #if (len_x != 0) object { axis(len_x, tex_common, tex_x) rotate< 0, 0,-90>} #end
-    #if (len_y != 0) object { axis(len_y, tex_common, tex_y) rotate< 0, 0, 0>}  #end
-    #if (len_z != 0) object { axis(len_z, tex_common, tex_z) rotate<90, 0, 0>}  #end }
+    #if (len_x != 0) object { axis(len_x, rad, tex_common, tex_x) rotate< 0, 0,-90>} #end
+    #if (len_y != 0) object { axis(len_y, rad, tex_common, tex_y) rotate< 0, 0, 0>}  #end
+    #if (len_z != 0) object { axis(len_z, rad, tex_common, tex_z) rotate<90, 0, 0>}  #end }
 #end
 
 

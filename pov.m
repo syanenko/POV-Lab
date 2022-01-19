@@ -174,6 +174,7 @@ classdef pov < handle
             addParameter(p,'tex_x', "tex_axis_x", @o.check_string);
             addParameter(p,'tex_y', "tex_axis_y", @o.check_string);
             addParameter(p,'tex_z', "tex_axis_z", @o.check_string);
+            addParameter(p,'radius', 0.05,        @o.check_positive_float);
             parse(p,varargin{:});
             
             % Write
@@ -182,9 +183,10 @@ classdef pov < handle
             tex_x =      p.Results.tex_x;
             tex_y =      p.Results.tex_y;
             tex_z =      p.Results.tex_z;
+            radius =     p.Results.radius;
 
-            fprintf(o.fh,'object{ axis_xyz( %0.1f, %0.1f, %0.1f,\n        %s, %s, %s, %s) }\n\n', ...
-                          size(1), size(2), size(3), ...
+            fprintf(o.fh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
+                          size(1), size(2), size(3), radius,...
                           tex_common, tex_x, tex_y, tex_z);
         end
 
