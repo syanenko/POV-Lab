@@ -7,7 +7,7 @@ close all;
 % -4 imshow() - at maximum resolution (!)
 % -3. Mesh - Check dimentions, make edges, write global texture(?), use with CSG 
 % -2. Lights params
-% -1. Mesh2
+% -1. Mesh2() - parsing is faster (!)
 % 0. texture -> material + structure
 % 1. Pass texture and texture_ref (?)
 % 2. pov.text(...)
@@ -24,7 +24,7 @@ close all;
 % 13. Molecules:
 %     ubi = getpdb('1ubi');
 %     ubi.Model.Atom(2)
-
+tic % Time measure
 pov = pov( "3.7",...
            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
@@ -77,7 +77,7 @@ pov.axis();
 % tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.0 metallic 0.0}"));
 tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis planes
@@ -105,7 +105,7 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-size = 40;
+size = 60;
 % f = figure('Visible', 'off');
 [X,Y,Z] = peaks(size);
 s = surf(X,Y,Z);
@@ -155,7 +155,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'winter(16)', 'scale', [1, 1, 3/10]);
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'hsv', 'scale', [1, 1, 3/10]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
@@ -170,5 +170,6 @@ pov.mesh('surface', s, 'smooth', false, 'colormap', 'winter(16)', 'scale', [1, 1
 
 pov.scene_end();
 pov.render();
+toc % Elapsed time
 
 %view(2);
