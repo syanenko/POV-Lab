@@ -519,7 +519,6 @@ classdef pov < handle
 
         % Render
         function render(o)
-            figure;
             system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
         end

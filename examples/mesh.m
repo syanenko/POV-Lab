@@ -4,6 +4,7 @@ clear pov;
 close all;
 %
 % TODO
+% -4 imshow() - at maximum resolution (!)
 % -3. Mesh - Check dimentions, make edges, write global texture(?), use with CSG 
 % -2. Lights params
 % -1. Mesh2
@@ -154,7 +155,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', true, 'colormap', 'winter(16)', 'scale', [1, 1, 3/10]);
+pov.mesh('surface', s, 'smooth', false, 'colormap', 'winter(16)', 'scale', [1, 1, 3/10]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
