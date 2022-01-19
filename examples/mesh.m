@@ -49,10 +49,10 @@ pov.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'pe
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [10 -10 30], 'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [-10 10 30], 'color', [0.8 0.8 0.8], 'shadowless', true);
-% pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
+% pov.light('location', [10 -10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
 % pov.light('location', [0 100 0], 'color', [0.1 0.1 0.1]);
@@ -66,8 +66,8 @@ tex_axis_yellow = pov.declare("tex_axis_yellow", pov.texture('pigment', [1.0 1.0
 % tex_axis_z = pov.declare("tex_axis_z", pov.texture('pigment', [0 0 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis
-% pov.axis();
-pov.axis('size', [5 5 4], 'radius', 0.07);
+pov.axis();
+% pov.axis('size', [5 5 4], 'radius', 0.07);
 % pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
 
 % Axis planes textures
@@ -154,7 +154,7 @@ s = surf(X,Y,Z);
 % pov.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 % pov.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
-pov.mesh('surface', s, 'smooth', false, 'colormap', 'hot(16)', 'scale', [1, 1, 3/10]);
+pov.mesh('surface', s, 'smooth', true, 'colormap', 'winter(16)', 'scale', [1, 1, 3/10]);
 % pov.mesh('surface', s, 'smooth', true, 'texture_odd', 'Aluminum', 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
 
 % pov.difference_begin();
