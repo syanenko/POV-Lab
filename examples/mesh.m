@@ -1,18 +1,11 @@
-% TODO: Check OS
-% if ismac
-%     % Code to run on Mac platform
-% elseif isunix
-%     % Code to run on Linux platform
-% elseif ispc
-%     % Code to run on Windows platform
-% else
-%     disp('Platform not supported')
-% end
-
-% Windows
-% addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
-% Linux
-addpath ("/home/serge/projects/povlab");
+% TODO: Find better way
+if isunix
+    addpath ("/home/serge/projects/povlab");
+elseif ispc
+    addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
+else
+    disp('Platform not supported')
+end
 
 clear;
 clear pov;
@@ -48,17 +41,21 @@ close all;
 % https://se.mathworks.com/help/matlab/visualize/visualizing-volume-data.html#VisualizingVolumesExample-4
 % 14.1 Streamline - as trace spheres
 %
-
 tic % Time measure
-% TODO: Check OS
-% Windows
-% pov = pov( "3.7",...
-%            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-%            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-% Linux
+
+% Check OS
+if isunix
 pov = pov( "3.7",...
            '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
            "/home/serge/projects/povlab/examples/out");
+elseif ispc
+    pov = pov( "3.7",...
+               "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
+               "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
+else
+    disp('Platform not supported')
+end
+
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 

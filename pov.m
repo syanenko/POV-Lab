@@ -521,22 +521,14 @@ classdef pov < handle
         function render(o)
             figure;
             
-            % TODO: Check OS
-            % if ismac
-            %     % Code to run on Mac platform
-            % elseif isunix
-            %     % Code to run on Linux platform
-            % elseif ispc
-            %     % Code to run on Windows platform
-            % else
-            %     disp('Platform not supported')
-            % end
-
-            % Windows
-            % system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
-            % Linux
-            setenv('LD_LIBRARY_PATH', '/usr/local/lib/');
-            system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
+            if isunix
+                setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?
+                system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
+            elseif ispc
+                system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
+            else
+                disp('Platform not supported')
+            end
             imshow(o.image_file);
         end
 
