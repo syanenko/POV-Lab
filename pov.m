@@ -519,8 +519,15 @@ classdef pov < handle
 
         % Render
         function render(o)
-            figure;            
-            system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
+            figure;
+            
+            % TODO: Check OS
+            % Windows
+            % system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
+            
+            % Linux
+            setenv('LD_LIBRARY_PATH', '/usr/local/lib/');
+            system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
             imshow(o.image_file);
         end
 
@@ -546,7 +553,7 @@ classdef pov < handle
                                   s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
                                   s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
         end
-        
+
         %
         % Validation functions
         % ----------------------------------------------------------------------

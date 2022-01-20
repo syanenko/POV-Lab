@@ -1,4 +1,9 @@
-addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
+% TODO: Check OS
+% Windows
+% addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
+% Linux
+addpath ("/home/serge/projects/povlab");
+
 clear;
 clear pov;
 close all;
@@ -35,9 +40,15 @@ close all;
 %
 
 tic % Time measure
+% TODO: Check OS
+% Windows
+% pov = pov( "3.7",...
+%            "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
+%            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
+% Linux
 pov = pov( "3.7",...
-           "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-           "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
+           '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
+           "/home/serge/projects/povlab/examples/out");
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 
