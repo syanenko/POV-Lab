@@ -518,7 +518,7 @@ classdef pov < handle
         end
 
         % Render
-        function render(o, img)
+        function img = render(o)
             if isunix
                 setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?
                 system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
@@ -528,14 +528,7 @@ classdef pov < handle
                 disp('Platform not supported')
             end
 
-            % TODO: Make it universal
-            % From script
-            % imshow(o.image_file);
-
-            % From app
-            imgLoad = imread(o.image_file);
-            img.ImageSource = imgLoad;
-            drawnow();
+            img = o.image_file;
         end
 
         %

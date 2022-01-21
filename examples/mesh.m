@@ -203,7 +203,8 @@ pov.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 
 % pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
 
 pov.scene_end();
-pov.render();
+image = pov.render();
+imshow(image);
 toc % Elapsed time
 
 %view(2);
