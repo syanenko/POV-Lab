@@ -2,14 +2,20 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        ui_figure         matlab.ui.Figure
-        image             matlab.ui.control.Image
-        panel             matlab.ui.container.Panel
-        bt_cam_loc_home   matlab.ui.control.Button
-        bt_cam_loc_down   matlab.ui.control.Button
-        bt_cam_loc_up     matlab.ui.control.Button
-        bt_cam_loc_left   matlab.ui.control.Button
-        bt_cam_loc_right  matlab.ui.control.Button
+        ui_figure          matlab.ui.Figure
+        panel_2            matlab.ui.container.Panel
+        bt_cam_look_home   matlab.ui.control.Button
+        bt_cam_look_down   matlab.ui.control.Button
+        image              matlab.ui.control.Image
+        panel              matlab.ui.container.Panel
+        bt_cam_look_up     matlab.ui.control.Button
+        bt_cam_look_left   matlab.ui.control.Button
+        bt_cam_look_right  matlab.ui.control.Button
+        bt_cam_loc_home    matlab.ui.control.Button
+        bt_cam_loc_down    matlab.ui.control.Button
+        bt_cam_loc_up      matlab.ui.control.Button
+        bt_cam_loc_left    matlab.ui.control.Button
+        bt_cam_loc_right   matlab.ui.control.Button
     end
 
     properties (Access = public)
@@ -18,6 +24,9 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         pov pov = 0;
         cam_location_default = [-10 -14 7];
         cam_location = 0;
+
+        cam_look_at_default = [0 0 0];
+        cam_look_at = 0;
     end
 
     % Callbacks that handle component events
@@ -25,8 +34,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         % Code that executes after component creation
         function startupFcn(app)
-
             app.cam_location = app.cam_location_default;
+            app.cam_look_at  = app.cam_look_at_default;
             createScene(app);
         end
 
@@ -65,7 +74,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
             %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
             %pov.camera();
-            app.pov.camera('angle', 45, 'location', app.cam_location, 'look_at', [0 0 0], 'type', 'perspective');
+            app.pov.camera('angle', 45, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', 'perspective');
             
             % pov.light();
             app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
@@ -139,6 +148,18 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_location = [app.cam_location(1) app.cam_location(2)-1 app.cam_location(3)];
             createScene(app);
         end
+
+        % Button pushed function: bt_cam_look_home
+        function on_bt_cam_look_home(app, event)
+            app.cam_look_at = app.cam_look_at_default;
+            createScene(app);
+        end
+
+        % Button pushed function: bt_cam_look_down
+        function on_bt_cam_look_down(app, event)
+            app.cam_look_at = [app.cam_look_at(1) app.cam_look_at(2) app.cam_look_at(3)+1];
+            createScene(app);
+        end
     end
 
     % Component initialization
@@ -159,43 +180,78 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel = uipanel(app.ui_figure);
             app.panel.AutoResizeChildren = 'off';
             app.panel.TitlePosition = 'centertop';
-            app.panel.Title = 'Camera';
+            app.panel.Title = 'Location';
             app.panel.BackgroundColor = [0.651 0.651 0.651];
-            app.panel.Position = [863 395 122 166];
+            app.panel.Position = [864 431 121 130];
 
             % Create bt_cam_loc_right
             app.bt_cam_loc_right = uibutton(app.panel, 'push');
             app.bt_cam_loc_right.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_loc_right, true);
-            app.bt_cam_loc_right.Position = [74 50 27 22];
+            app.bt_cam_loc_right.Position = [77 44 27 22];
             app.bt_cam_loc_right.Text = 'R';
 
             % Create bt_cam_loc_left
             app.bt_cam_loc_left = uibutton(app.panel, 'push');
             app.bt_cam_loc_left.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_loc_left, true);
-            app.bt_cam_loc_left.Position = [22 50 27 22];
+            app.bt_cam_loc_left.Position = [25 44 27 22];
             app.bt_cam_loc_left.Text = 'L';
 
             % Create bt_cam_loc_up
             app.bt_cam_loc_up = uibutton(app.panel, 'push');
             app.bt_cam_loc_up.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_loc_up, true);
-            app.bt_cam_loc_up.Position = [48 71 27 22];
+            app.bt_cam_loc_up.Position = [51 65 27 22];
             app.bt_cam_loc_up.Text = 'U';
 
             % Create bt_cam_loc_down
             app.bt_cam_loc_down = uibutton(app.panel, 'push');
             app.bt_cam_loc_down.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_loc_down, true);
-            app.bt_cam_loc_down.Position = [48 29 27 22];
+            app.bt_cam_loc_down.Position = [51 23 27 22];
             app.bt_cam_loc_down.Text = 'D';
 
             % Create bt_cam_loc_home
             app.bt_cam_loc_home = uibutton(app.panel, 'push');
             app.bt_cam_loc_home.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_loc_home, true);
-            app.bt_cam_loc_home.Position = [48 50 27 22];
+            app.bt_cam_loc_home.Position = [51 44 27 22];
             app.bt_cam_loc_home.Text = 'H';
 
             % Create image
             app.image = uiimage(app.ui_figure);
             app.image.Position = [47 33 794 528];
+
+            % Create panel_2
+            app.panel_2 = uipanel(app.ui_figure);
+            app.panel_2.AutoResizeChildren = 'off';
+            app.panel_2.TitlePosition = 'centertop';
+            app.panel_2.Title = 'Look at';
+            app.panel_2.BackgroundColor = [0.651 0.651 0.651];
+            app.panel_2.Position = [864 277 122 130];
+
+            % Create bt_cam_look_right
+            app.bt_cam_look_right = uibutton(app.panel_2, 'push');
+            app.bt_cam_look_right.Position = [76 49 27 22];
+            app.bt_cam_look_right.Text = 'R';
+
+            % Create bt_cam_look_left
+            app.bt_cam_look_left = uibutton(app.panel_2, 'push');
+            app.bt_cam_look_left.Position = [24 49 27 22];
+            app.bt_cam_look_left.Text = 'L';
+
+            % Create bt_cam_look_up
+            app.bt_cam_look_up = uibutton(app.panel_2, 'push');
+            app.bt_cam_look_up.Position = [50 70 27 22];
+            app.bt_cam_look_up.Text = 'U';
+
+            % Create bt_cam_look_down
+            app.bt_cam_look_down = uibutton(app.panel_2, 'push');
+            app.bt_cam_look_down.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_look_down, true);
+            app.bt_cam_look_down.Position = [50 28 27 22];
+            app.bt_cam_look_down.Text = 'D';
+
+            % Create bt_cam_look_home
+            app.bt_cam_look_home = uibutton(app.panel_2, 'push');
+            app.bt_cam_look_home.ButtonPushedFcn = createCallbackFcn(app, @on_bt_cam_look_home, true);
+            app.bt_cam_look_home.Position = [50 49 27 22];
+            app.bt_cam_look_home.Text = 'H';
 
             % Show the figure after all components are created
             app.ui_figure.Visible = 'on';

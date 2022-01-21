@@ -9,7 +9,7 @@ classdef pov < handle
         % Preview properties
         preview = false;
         preview_shading {mustBeNonempty} = "flat";
-        preview_alpha {mustBeNonempty} = 0.5;
+        preview_alpha {mustBeNonempty} = .5;
         
         fh = 0;
 
