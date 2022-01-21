@@ -4,6 +4,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     properties (Access = public)
         ui_figure          matlab.ui.Figure
         panel_3            matlab.ui.container.Panel
+        cam_angle          matlab.ui.control.Spinner
+        AngleSpinnerLabel  matlab.ui.control.Label
         bt_render          matlab.ui.control.Button
         panel_2            matlab.ui.container.Panel
         cam_look_at_z      matlab.ui.control.Spinner
@@ -90,8 +92,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             % Camera
             % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
             %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-            %pov.camera();
-            app.pov.camera('angle', 45, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', 'perspective');
+            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', 'perspective');
             
             % pov.light();
             app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
@@ -374,8 +375,19 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             % Create bt_render
             app.bt_render = uibutton(app.panel_3, 'push');
             app.bt_render.ButtonPushedFcn = createCallbackFcn(app, @on_bt_render, true);
-            app.bt_render.Position = [10 12 100 91];
+            app.bt_render.Position = [11 12 100 55];
             app.bt_render.Text = 'Render';
+
+            % Create AngleSpinnerLabel
+            app.AngleSpinnerLabel = uilabel(app.panel_3);
+            app.AngleSpinnerLabel.HorizontalAlignment = 'right';
+            app.AngleSpinnerLabel.Position = [3 80 46 22];
+            app.AngleSpinnerLabel.Text = 'Angle';
+
+            % Create cam_angle
+            app.cam_angle = uispinner(app.panel_3);
+            app.cam_angle.Position = [61 80 45 22];
+            app.cam_angle.Value = 45;
 
             % Show the figure after all components are created
             app.ui_figure.Visible = 'on';

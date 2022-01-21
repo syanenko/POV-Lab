@@ -3,8 +3,8 @@
 #include "shapes.inc"
 global_settings { assumed_gamma 1 }
 
-camera { perspective         angle 45
-         location <-10.00, 6.00, 14.00>
+camera { perspective         angle 50
+         location <0.00, 5.00, -8.00>
          right x * image_width / image_height
          look_at <0.00, 0.00, -0.00>
          right  <-1.33, 0.00, 0.000> rotate<90,0,0>}
