@@ -3,6 +3,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     % Properties that correspond to app components
     properties (Access = public)
         ui_figure          matlab.ui.Figure
+        image_panel        matlab.ui.container.Panel
+        image              matlab.ui.control.Image
         panel_3            matlab.ui.container.Panel
         cam_angle          matlab.ui.control.Spinner
         AngleSpinnerLabel  matlab.ui.control.Label
@@ -16,7 +18,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         xLabel             matlab.ui.control.Label
         cam_look_home      matlab.ui.control.Button
         bt_cam_look_down   matlab.ui.control.Button
-        image              matlab.ui.control.Image
         panel              matlab.ui.container.Panel
         cam_loc_z          matlab.ui.control.Spinner
         xLabel_6           matlab.ui.control.Label
@@ -215,7 +216,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.ui_figure = uifigure('Visible', 'off');
             app.ui_figure.AutoResizeChildren = 'off';
             app.ui_figure.Color = [0.651 0.651 0.651];
-            app.ui_figure.Position = [100 100 1009 593];
+            app.ui_figure.Position = [100 100 1001 593];
             app.ui_figure.Name = 'Graph presentation demo';
             app.ui_figure.Resize = 'off';
 
@@ -289,10 +290,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_loc_z = uispinner(app.panel);
             app.cam_loc_z.HorizontalAlignment = 'center';
             app.cam_loc_z.Position = [54 18 50 22];
-
-            % Create image
-            app.image = uiimage(app.ui_figure);
-            app.image.Position = [47 33 794 528];
 
             % Create panel_2
             app.panel_2 = uipanel(app.ui_figure);
@@ -388,6 +385,16 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_angle = uispinner(app.panel_3);
             app.cam_angle.Position = [61 80 45 22];
             app.cam_angle.Value = 45;
+
+            % Create image_panel
+            app.image_panel = uipanel(app.ui_figure);
+            app.image_panel.AutoResizeChildren = 'off';
+            app.image_panel.BackgroundColor = [0.651 0.651 0.651];
+            app.image_panel.Position = [15 21 840 540];
+
+            % Create image
+            app.image = uiimage(app.image_panel);
+            app.image.Position = [13 12 814 518];
 
             % Show the figure after all components are created
             app.ui_figure.Visible = 'on';
