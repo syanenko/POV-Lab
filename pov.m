@@ -528,12 +528,14 @@ classdef pov < handle
                 disp('Platform not supported')
             end
 
-            imshow(o.image_file);
+            % TODO: Make it universal
+            % From script
+            % imshow(o.image_file);
 
-            % For app
-            % imgLoad = imread(o.image_file);
-            % img.ImageSource = imgLoad;
-            % drawnow();
+            % From app
+            imgLoad = imread(o.image_file);
+            img.ImageSource = imgLoad;
+            drawnow();
         end
 
         %
