@@ -45,60 +45,9 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     end
 
     methods (Access = private)
-        % Create camera
-        function create_camera(app)
-            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
-        end
-        
-        % Create light
-        function create_lights(app)
-            app.pov.lights_begin();
-                if(app.light_1.Value)
-                    app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
-                end
-                if(app.light_2.Value)
-                    app.pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-                end
-                if(app.light_3.Value)
-                    app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
-                end
-            app.pov.lights_end();
-        end
 
-        % Render
-        function render(app)
-            tic % Measure rendering
-            % Render
-            img_file = app.pov.render();
-            img = imread(img_file);
-            app.image.ImageSource = img;
-            drawnow();
-            
-            disp("--Rendering time:");
-            toc;            
-        end
-    end   
-
-    % Callbacks that handle component events
-    methods (Access = private)
-
-        % Code that executes after component creation
-        function startup(app)
-            app.cam_location = app.cam_location_default;
-            app.cam_look_at  = app.cam_look_at_default;
-            app.cam_loc_x.Value = -10;
-            app.cam_loc_y.Value = -14;
-            app.cam_loc_z.Value = 7;
-            create_camera(app);
-            create_scene(app);
-            render(app);
-        end
-
-        % Callback function
-        function create_scene(app, event)
-            disp("QQ: createScene()");
-            tic % Time measure
-
+        % Init pov renderer interface
+        function init_pov(app)
             if isunix
                 addpath ("/home/serge/projects/povlab");
             elseif ispc
@@ -119,6 +68,32 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             else
                 disp('Platform not supported')
             end
+        end
+
+        % Create camera
+        function create_camera(app)
+            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
+        end
+        
+        % Create light
+        function create_lights(app)
+            app.pov.lights_begin();
+                if(app.light_1.Value)
+                    app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
+                end
+                if(app.light_2.Value)
+                    app.pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+                end
+                if(app.light_3.Value)
+                    app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+                end
+            app.pov.lights_end();
+        end
+
+        % Create scene
+        function create_scene(app)
+            disp("QQ: createScene()");
+            tic % Time measure
             
             app.pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
             app.pov.include("shapes");
@@ -152,6 +127,38 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             
             disp("--Scene creation time:");
             toc;
+        end
+
+        % Render
+        function render(app)
+            tic % Measure rendering
+            % Render
+            img_file = app.pov.render();
+            img = imread(img_file);
+            app.image.ImageSource = img;
+            drawnow();
+            
+            disp("--Rendering time:");
+            toc;            
+        end
+    end   
+
+    % Callbacks that handle component events
+    methods (Access = private)
+
+        % Code that executes after component creation
+        function startup(app)
+            app.cam_location = app.cam_location_default;
+            app.cam_look_at  = app.cam_look_at_default;
+            app.cam_loc_x.Value = -10;
+            app.cam_loc_y.Value = -14;
+            app.cam_loc_z.Value = 7;
+            
+            init_pov(app);
+            create_camera(app);
+            create_lights(app);
+            create_scene(app);
+            render(app);
         end
 
         % Button pushed function: bt_render
