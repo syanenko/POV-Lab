@@ -38,7 +38,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
     properties (Access = public)
         pov pov = 0;
-        cam_location_default = [-10 -14 7];
+        cam_location_default = [-7 -7 3];
         cam_location = 0;
 
         cam_look_at_default = [0 0 0];
@@ -436,7 +436,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_angle = uispinner(app.panel_3);
             app.cam_angle.ValueChangedFcn = createCallbackFcn(app, @on_cam_angle, true);
             app.cam_angle.Position = [66 47 45 22];
-            app.cam_angle.Value = 45;
+            app.cam_angle.Value = 48;
 
             % Create cam_type
             app.cam_type = uidropdown(app.panel_3);
@@ -481,7 +481,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.grid_enable.ValueChangedFcn = createCallbackFcn(app, @on_grid_enable, true);
             app.grid_enable.Text = 'Grid';
             app.grid_enable.Position = [39 57 45 22];
-            app.grid_enable.Value = true;
 
             % Create panel_5
             app.panel_5 = uipanel(app.ui_figure);
