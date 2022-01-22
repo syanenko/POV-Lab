@@ -123,7 +123,7 @@ classdef pov < handle
         
         % Declare
         function s = declare(o, symbol, text)
-            fprintf(o.fh, '#declare %s = %s\n\n', symbol, text);
+            fprintf(o.fh, '#declare %s = %s\n', symbol, text);
             s = symbol;
         end
 
