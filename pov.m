@@ -11,10 +11,7 @@ classdef pov < handle
         preview_shading {mustBeNonempty} = "flat";
         preview_alpha {mustBeNonempty} = .5;
         
-        fhs = 0; % Scene file
-        fhc = 0; % Camera file
-        fhl = 0; % Lights file
-        fhh = 0; % Helpers file
+        fh = 0;
 
         % Common textures
         tex_default;
@@ -50,6 +47,14 @@ classdef pov < handle
             o.preview = true;
         end
 
+        function include_begin(o, name)
+            o.fh = fopen(o.out_dir + "/" + name + ".inc",'w');
+        end
+
+        function include_end(o)
+            fclose(o.fh);
+        end
+        
         % Scene begin
         function scene_begin(o, varargin)
             % Parse
@@ -71,68 +76,65 @@ classdef pov < handle
             end
 
             % Write
-            o.fhs = fopen(o.out_dir + "/" + o.scene_file,'w');
-            fprintf(o.fhs, '#version %s;\n', o.version);
+            o.fh = fopen(o.out_dir + "/" + o.scene_file,'w');
+            fprintf(o.fh, '#version %s;\n', o.version);
 
             % Preview
             if o.preview
                 figure;
             end
             o.include("povlab");
-            o.include("camera");
-            o.include("lights");
-            o.include("helpers");
         end
         
         % Scene end
         function scene_end(o)
-            fclose(o.fhs);
+            fclose(o.fh);
         end
 
         % Lights begin
         function lights_begin(o)
-            o.fhl = fopen(o.out_dir + "/lights.inc",'w');
+            o.fh = fopen(o.out_dir + "/lights.inc",'w');
         end
         
         % Lights end
         function lights_end(o)
-            fclose(o.fhl);
+            fclose(o.fh);
         end
 
         % Helpers begin
         function helpers_begin(o)
-            o.fhh = fopen(o.out_dir + "/helpers.inc",'w');
+            o.fh = fopen(o.out_dir + "/helpers.inc",'w');
         end
         
         % Helpers end
         function helpers_end(o)
-            fclose(o.fhh);
+            fclose(o.fh);
         end
         
         % Global settings
         function global_settings(o, settings)
-            fprintf(o.fhs, 'global_settings { %s }\n\n', settings);
+            fprintf(o.fh, 'global_settings { %s }\n\n', settings);
         end
         
         % Include
         function include(o, text)
-            fprintf(o.fhs, '#include "%s.inc"\n', text);
+            fprintf(o.fh, '#include "%s.inc"\n', text);
         end
         
         % Declare
         function s = declare(o, symbol, text)
-            fprintf(o.fhs, '#declare %s = %s\n\n', symbol, text);
+            fprintf(o.fh, '#declare %s = %s\n\n', symbol, text);
             s = symbol;
         end
 
         % Macro
         function macro(o, text)
-            fprintf(o.fhs, '#macro %s#end\n\n', text);
+            fprintf(o.fh, '#macro %s#end\n\n', text);
         end
 
         % Raw
         function raw(o, text)
-            fprintf(o.fhs, '%s\n\n', text);
+            fprintf(o.fh, '%s\n\n', text);
         end
 
         % Camera
@@ -155,8 +157,7 @@ classdef pov < handle
             right    = p.Results.right;
 
             % Write
-            o.fhc = fopen(o.out_dir + "/camera.inc" ,'w');
-            fprintf(o.fhc, ['camera { %s' ...
+            fprintf(o.fh, ['camera { %s' ...
                            '         angle %d\n' ...
                            '         location <%0.2f, %0.2f, %0.2f>\n' ...
                            '         right x * image_width / image_height\n' ...
@@ -166,7 +167,6 @@ classdef pov < handle
                             location(1), location(3), -location(2), ... % According to right-handed system
                             look_at(1),  look_at(3),  -look_at(2), ...
                             right(1), right(2), right(3));
-            fclose(o.fhc);
         end
 
         % Light
@@ -187,7 +187,7 @@ classdef pov < handle
             end
 
             % Write
-            fprintf(o.fhl,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> %s}\n', ...
+            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> %s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
                           shadowless);
@@ -213,7 +213,7 @@ classdef pov < handle
             tex_z =      p.Results.tex_z;
             radius =     p.Results.radius;
 
-            fprintf(o.fhh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
+            fprintf(o.fh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
                           size(1), size(2), size(3), radius,...
                           tex_common, tex_x, tex_y, tex_z);
         end
@@ -242,7 +242,7 @@ classdef pov < handle
             translate    = p.Results.translate;
 
             % Write
-            fprintf(o.fhh,['#local gid = "gid"' ...
+            fprintf(o.fh,['#local gid = "gid"\n' ...
                           'grid(gid, %0.2f, %d, %d, %s, %s);\n'...
                           'object { gid scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
                           cell_size, width, height,...
@@ -287,7 +287,7 @@ classdef pov < handle
             translate = p.Results.translate;
 
             % Write
-            fprintf(o.fhs, ['sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n'...
+            fprintf(o.fh, ['sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n'...
                            '        texture { %s }\n'...
                            '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
                            position(1), position(2), position(3), radius,...
@@ -325,7 +325,7 @@ classdef pov < handle
             translate = p.Results.translate;
             
             % Write
-            fprintf(o.fhs,['plane { <%d, %d, %d>, %0.2f\n'...
+            fprintf(o.fh,['plane { <%d, %d, %d>, %0.2f\n'...
                           '        texture { %s }\n'...
                           '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
                           normal(1), normal(2), normal(3), distance,...
@@ -415,7 +415,7 @@ classdef pov < handle
             end
 
             % Write
-            fprintf(o.fhs, 'mesh {\n');
+            fprintf(o.fh, 'mesh {\n');
             s = size(surface.XData) - 1;
             size_x = s(1);
             size_y = s(2);
@@ -433,10 +433,10 @@ classdef pov < handle
                 end
             end
             if(~strcmp(texture, ""))
-                fprintf(o.fhs, 'texture { %s }\n', texture);
+                fprintf(o.fh, 'texture { %s }\n', texture);
             end
 
-            fprintf(o.fhs, '    scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f> }\n\n',...
+            fprintf(o.fh, '    scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f> }\n\n',...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
             % Preview
 %             if(o.preview)
@@ -476,7 +476,7 @@ classdef pov < handle
             translate = p.Results.translate;
             
             % Write
-            fprintf(o.fhs,['#declare %s = function(X) { %s }\n'...
+            fprintf(o.fh,['#declare %s = function(X) { %s }\n'...
                           'union {plot_function(%0.2f, %0.2f, %s, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n'...
                           '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
                           name, func,...
@@ -497,7 +497,7 @@ classdef pov < handle
 
         % CSG:Union
         function union_begin(o)
-            fprintf(o.fhs,'union {\n');
+            fprintf(o.fh,'union {\n');
         end
         function union_end(o, varargin)
             o.csg_end(varargin{:});
@@ -505,7 +505,7 @@ classdef pov < handle
 
         % CSG:Difference
         function difference_begin(o)
-            fprintf(o.fhs,'difference {\n');
+            fprintf(o.fh,'difference {\n');
         end
         function difference_end(o, varargin)
             o.csg_end(varargin{:});
@@ -513,7 +513,7 @@ classdef pov < handle
 
         % CSG:Intersection
         function intersection_begin(o)
-            fprintf(o.fhs,'intersection {\n');
+            fprintf(o.fh,'intersection {\n');
         end
         function intersection_end(o, varargin)
             o.csg_end(varargin{:});
@@ -521,7 +521,7 @@ classdef pov < handle
 
         % CSG:Merge
         function merge_begin(o)
-            fprintf(o.fhs,'merge {\n');
+            fprintf(o.fh,'merge {\n');
         end
         function merge_end(o, varargin)
             o.csg_end(varargin{:});
@@ -541,7 +541,7 @@ classdef pov < handle
             translate = p.Results.translate;
 
             % Write
-            fprintf(o.fhs,['    scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n'],...
+            fprintf(o.fh,['    scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n'],...
                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
 
@@ -567,7 +567,7 @@ classdef pov < handle
         %
         % Write triangle
         function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
-                    fprintf(o.fhs, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
+                    fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
                                   s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1),...
                                   s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2),...
                                   s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), tex);
@@ -576,7 +576,7 @@ classdef pov < handle
         % Write smooth triangle
         function  write_smooth_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     n = s.VertexNormals;
-                    fprintf(o.fhs, ['    smooth_triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
+                    fprintf(o.fh, ['    smooth_triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                    '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
                                    '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
                                   s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...

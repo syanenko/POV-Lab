@@ -59,31 +59,81 @@ end
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
 
-% pov.scene_begin();
-% TODO: Set image size
+%
+% Includes - TODO
+%
+pov.include_begin('camera');
+    % Camera
+    % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
+    %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
+    %pov.camera();
+    pov.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'perspective');
+    
+    % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
+    % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
+    % pov.camera('angle', 35, 'look_at', [0 1 0]);
+    % pov.camera("angle", 15, 'location', [12 12 12]);
+pov.include_end();
+
+pov.include_begin('lights');
+    % pov.light();
+    pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
+    % pov.light('location', [10 -10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+    pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+    pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+pov.include_end();
+
+pov.include_begin('helpers');
+    % Axis textures
+    tex_axis_gray = pov.declare("tex_axis_gray", pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    tex_axis_yellow = pov.declare("tex_axis_yellow", pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_axis_x = pov.declare("tex_axis_x", pov.texture('pigment', [1 1 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_axis_y = pov.declare("tex_axis_y", pov.texture('pigment', [0 1 0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_axis_z = pov.declare("tex_axis_z", pov.texture('pigment', [0 0 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    
+    % Axis
+    % pov.axis();
+    % pov.axis('size', [5 5 4], 'radius', 0.07);
+    pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
+    
+    % Grid
+    % tex_grid_gray  = pov.declare("tex_grid_gray",  pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_grid_red   = pov.declare("tex_grid_red",   pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_grid_green = pov.declare("tex_grid_green", pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    
+    pov.grid_2D('width', 10, 'height', 10);
+    %pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5], 'texture_odd', tex_grid_green, 'texture_even', tex_grid_gray);
+    % pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5], 'texture_odd', tex_grid_blue,  'texture_even', tex_grid_gray);
+    % pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0], 'texture_odd', tex_grid_red,   'texture_even', tex_grid_gray);
+    
+    % pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5]);
+    % pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5]);
+    % pov.grid_2D('width', 20, 'height', 20, 'rotate', [90 0  0], 'translate', [0 0 0]);
+
+    % Axis planes textures
+    % tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.8 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    % tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    
+    tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.0 metallic 0.0}"));
+    tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    
+    % Axis planes
+    % pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    % pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    % pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    
+pov.include_end();
+
 pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
+pov.include("camera");
+pov.include("lights");
+pov.include("helpers");
 pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
-
-% Camera
-% type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
-%       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-%pov.camera();
-pov.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'perspective');
-
-% pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
-% pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
-% pov.camera('angle', 35, 'look_at', [0 1 0]);
-% pov.camera("angle", 15, 'location', [12 12 12]);
-
-pov.lights_begin();
-% pov.light();
-pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
-% pov.light('location', [10 -10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
-pov.lights_end();
 
 % pov.raw(['sky_sphere{ pigment{ gradient <0,1,0> '...
 %                      'color_map{ [0   color rgb<1,1, 1>       ] '...
@@ -95,50 +145,6 @@ pov.lights_end();
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
 % pov.light('location', [0 100 0], 'color', [0.1 0.1 0.1]);
 % pov.light('location', [0 0 100], 'color', [0.1 0.1 0.1]);
-
-% Axis textures
-tex_axis_gray = pov.declare("tex_axis_gray", pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-tex_axis_yellow = pov.declare("tex_axis_yellow", pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_x = pov.declare("tex_axis_x", pov.texture('pigment', [1 1 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_y = pov.declare("tex_axis_y", pov.texture('pigment', [0 1 0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_z = pov.declare("tex_axis_z", pov.texture('pigment', [0 0 1], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-
-% Axis
-pov.helpers_begin();
-pov.axis();
-% pov.axis('size', [5 5 4], 'radius', 0.07);
-% pov.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
-
-% Grid
-% tex_grid_gray  = pov.declare("tex_grid_gray",  pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_red   = pov.declare("tex_grid_red",   pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_green = pov.declare("tex_grid_green", pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-
-pov.grid_2D('width', 10, 'height', 10);
-%pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5], 'texture_odd', tex_grid_green, 'texture_even', tex_grid_gray);
-% pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5], 'texture_odd', tex_grid_blue,  'texture_even', tex_grid_gray);
-% pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0], 'texture_odd', tex_grid_red,   'texture_even', tex_grid_gray);
-
-% pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5]);
-% pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5]);
-% pov.grid_2D('width', 20, 'height', 20, 'rotate', [90 0  0], 'translate', [0 0 0]);
-
-pov.helpers_end();
-
-% Axis planes textures
-% tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.8 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-
-tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.0 metallic 0.0}"));
-tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-
-% Axis planes
-% pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-% pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-% pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
 
 % Objects textures
 % tex_red   = pov.declare("tex_red",   pov.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
@@ -209,6 +215,7 @@ pov.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 
 % pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
 
 pov.scene_end();
+
 image = pov.render();
 imshow(image);
 toc % Elapsed time
