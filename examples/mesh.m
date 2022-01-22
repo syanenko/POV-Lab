@@ -77,11 +77,13 @@ pov.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'pe
 % pov.camera('angle', 35, 'look_at', [0 1 0]);
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
+pov.lights_begin();
 % pov.light();
 pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
 % pov.light('location', [10 -10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
 pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
 pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+pov.lights_end();
 
 % pov.raw(['sky_sphere{ pigment{ gradient <0,1,0> '...
 %                      'color_map{ [0   color rgb<1,1, 1>       ] '...

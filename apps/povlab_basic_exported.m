@@ -44,6 +44,41 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         cam_look_at = 0;
     end
 
+    methods (Access = private)
+        % Create camera
+        function create_camera(app)
+            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
+        end
+        
+        % Create light
+        function create_lights(app)
+            app.pov.lights_begin();
+                if(app.light_1.Value)
+                    app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
+                end
+                if(app.light_2.Value)
+                    app.pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+                end
+                if(app.light_3.Value)
+                    app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+                end
+            app.pov.lights_end();
+        end
+
+        % Render
+        function render(app)
+            tic % Measure rendering
+            % Render
+            img_file = app.pov.render();
+            img = imread(img_file);
+            app.image.ImageSource = img;
+            drawnow();
+            
+            disp("--Rendering time:");
+            toc;            
+        end
+    end   
+
     % Callbacks that handle component events
     methods (Access = private)
 
@@ -54,12 +89,15 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_loc_x.Value = -10;
             app.cam_loc_y.Value = -14;
             app.cam_loc_z.Value = 7;
+            create_camera(app);
             create_scene(app);
+            render(app);
         end
 
         % Callback function
         function create_scene(app, event)
             disp("QQ: createScene()");
+            tic % Time measure
 
             if isunix
                 addpath ("/home/serge/projects/povlab");
@@ -68,8 +106,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             else
                 disp('Platform not supported')
             end
-            
-            tic % Time measure
             
             % Check OS
             if isunix
@@ -87,21 +123,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
             app.pov.include("shapes");
             app.pov.global_settings("assumed_gamma 1");
-            
-            % Camera
-            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
-            
-            % Light
-            if(app.light_1.Value)
-                app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
-            end
-            if(app.light_2.Value)
-                app.pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
-            end
-            if(app.light_3.Value)
-                app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
-            end
-            
+           
             % Axis textures
             if(app.axis_enable.Value)
                 tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -123,22 +145,12 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             % f = figure('Visible', 'off');
             [X,Y,Z] = peaks(size);
             s = surf(X,Y,Z);
-            % app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
+            app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
        
-            app.pov.sphere();
+            % app.pov.sphere();
             app.pov.scene_end();
             
             disp("--Scene creation time:");
-            toc;
-            
-            tic % Measure rendering
-            % Render
-            img_file = app.pov.render();
-            img = imread(img_file);
-            app.image.ImageSource = img;
-            drawnow();
-            
-            disp("--Rendering time:");
             toc;
         end
 
@@ -147,67 +159,76 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_location = [app.cam_loc_x.Value app.cam_loc_y.Value app.cam_loc_z.Value];
             app.cam_look_at = [app.cam_look_at_x.Value app.cam_look_at_y.Value app.cam_look_at_z.Value];
             create_scene(app);
+            render(app);
         end
 
         % Value changed function: cam_loc_x
         function on_cam_loc_x(app, event)
             app.cam_location(1) = app.cam_loc_x.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_loc_y
         function on_cam_loc_y(app, event)
             app.cam_location(2) = app.cam_loc_y.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_loc_z
         function on_cam_loc_z(app, event)
             app.cam_location(3) = app.cam_loc_z.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_look_at_x
         function on_cam_look_at_x(app, event)
             app.cam_look_at(1) = app.cam_look_at_x.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_look_at_y
         function on_cam_look_at_y(app, event)
             app.cam_look_at(2) = app.cam_look_at_y.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_look_at_z
         function on_cam_look_at_z(app, event)
             app.cam_look_at(3) = app.cam_look_at_z.Value;
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_type
         function on_cam_type(app, event)
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: cam_angle
         function on_cam_angle(app, event)
+            create_camera(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end
         end
 
@@ -215,27 +236,31 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         function on_axis_enable(app, event)
             if(app.cam_responsive.Value)
                 create_scene(app);
+                render(app);
             end
         end
 
         % Value changed function: light_3
         function on_light_3(app, event)
+            create_lights(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end            
         end
 
         % Value changed function: light_2
         function on_light_2(app, event)
+            create_lights(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end            
         end
 
         % Value changed function: light_1
         function on_light_1(app, event)
+            create_lights(app);
             if(app.cam_responsive.Value)
-                create_scene(app);
+                render(app);
             end            
         end
     end
