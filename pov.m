@@ -14,6 +14,7 @@ classdef pov < handle
         fhs = 0; % Scene file
         fhc = 0; % Camera file
         fhl = 0; % Lights file
+        fhh = 0; % Helpers file
 
         % Common textures
         tex_default;
@@ -80,6 +81,7 @@ classdef pov < handle
             o.include("povlab");
             o.include("camera");
             o.include("lights");
+            o.include("helpers");
         end
         
         % Scene end
@@ -95,6 +97,16 @@ classdef pov < handle
         % Lights end
         function lights_end(o)
             fclose(o.fhl);
+        end
+
+        % Helpers begin
+        function helpers_begin(o)
+            o.fhh = fopen(o.out_dir + "/helpers.inc",'w');
+        end
+        
+        % Helpers end
+        function helpers_end(o)
+            fclose(o.fhh);
         end
         
         % Global settings
@@ -201,7 +213,7 @@ classdef pov < handle
             tex_z =      p.Results.tex_z;
             radius =     p.Results.radius;
 
-            fprintf(o.fhs,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
+            fprintf(o.fhh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
                           size(1), size(2), size(3), radius,...
                           tex_common, tex_x, tex_y, tex_z);
         end
@@ -230,7 +242,7 @@ classdef pov < handle
             translate    = p.Results.translate;
 
             % Write
-            fprintf(o.fhs,['#local gid = "gid"' ...
+            fprintf(o.fhh,['#local gid = "gid"' ...
                           'grid(gid, %0.2f, %d, %d, %s, %s);\n'...
                           'object { gid scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
                           cell_size, width, height,...
