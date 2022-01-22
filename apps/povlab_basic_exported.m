@@ -37,8 +37,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     end
 
     properties (Access = public)
-        h % Description
-        g % Graph
         pov pov = 0;
         cam_location_default = [-10 -14 7];
         cam_location = 0;
@@ -48,7 +46,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     end
 
     methods (Access = private)
-
         % Init pov renderer interface
         function init_pov(app)
             if isunix
@@ -128,15 +125,16 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 app.pov.include("camera");
                 app.pov.include("lights");
                 app.pov.include("helpers");
-                app.pov.include("shapes");
+                app.pov.include("textures");
                 
                 app.pov.global_settings("assumed_gamma 1");
                
-                size = 60;
+                size = 40;
                 % f = figure('Visible', 'off');
                 [X,Y,Z] = peaks(size);
                 s = surf(X,Y,Z);
-                app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
+                % app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
+                app.pov.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'Dark_Green_Glass');
            
                 % app.pov.sphere();
             app.pov.scene_end();
@@ -328,7 +326,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.ui_figure.AutoResizeChildren = 'off';
             app.ui_figure.Color = [0.651 0.651 0.651];
             app.ui_figure.Position = [100 100 1001 593];
-            app.ui_figure.Name = 'Graph presentation demo';
+            app.ui_figure.Name = 'POV-Lab / Surface rendering';
             app.ui_figure.Resize = 'off';
 
             % Create panel
@@ -443,7 +441,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_type = uidropdown(app.panel_3);
             app.cam_type.Items = {'orthographic', 'perspective', 'fisheye', 'ultra_wide_angle', 'spherical', 'omnimax', 'panoramic', 'cylinder 1', 'cylinder 2', 'cylinder 3', 'cylinder 4'};
             app.cam_type.ValueChangedFcn = createCallbackFcn(app, @on_cam_type, true);
-            app.cam_type.Position = [7 9 114 22];
+            app.cam_type.Position = [5 9 114 22];
             app.cam_type.Value = 'perspective';
 
             % Create ResetButton
