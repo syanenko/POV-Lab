@@ -520,7 +520,7 @@ classdef pov < handle
         % Render
         function img = render(o)
             
-            % TODO: Add camera on demand, render from temp.pov
+            % TODO: Add camera, axix, light, environment to "scene.inc"
             if isunix
                 setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?
                 system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
