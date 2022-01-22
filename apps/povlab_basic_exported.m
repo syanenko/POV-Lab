@@ -3,20 +3,23 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     % Properties that correspond to app components
     properties (Access = public)
         ui_figure          matlab.ui.Figure
+        panel_6            matlab.ui.container.Panel
+        bt_render          matlab.ui.control.Button
+        cam_responsive     matlab.ui.control.CheckBox
         panel_5            matlab.ui.container.Panel
         light_3            matlab.ui.control.CheckBox
         light_2            matlab.ui.control.CheckBox
         light_1            matlab.ui.control.CheckBox
         panel_4            matlab.ui.container.Panel
+        grid_enable        matlab.ui.control.CheckBox
         axis_enable        matlab.ui.control.CheckBox
         image_panel        matlab.ui.container.Panel
         image              matlab.ui.control.Image
         panel_3            matlab.ui.container.Panel
-        cam_responsive     matlab.ui.control.CheckBox
+        ResetButton        matlab.ui.control.Button
         cam_type           matlab.ui.control.DropDown
         cam_angle          matlab.ui.control.Spinner
         AngleSpinnerLabel  matlab.ui.control.Label
-        bt_render          matlab.ui.control.Button
         panel_2            matlab.ui.container.Panel
         cam_look_at_z      matlab.ui.control.Spinner
         xLabel_3           matlab.ui.control.Label
@@ -72,12 +75,14 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         % Create camera
         function create_camera(app)
-            app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
+            app.pov.include_begin('camera');
+                app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
+            app.pov.include_end();
         end
         
         % Create light
         function create_lights(app)
-            app.pov.lights_begin();
+            app.pov.include_begin('lights');
                 if(app.light_1.Value)
                     app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
                 end
@@ -87,44 +92,55 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 if(app.light_3.Value)
                     app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
                 end
-            app.pov.lights_end();
+            app.pov.include_end();
         end
 
+        % Create helpers
+        function create_helpers(app)
+            app.pov.include_begin('helpers');
+                % Axis
+                % TODO: Move textures to materials.inc
+                % tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_axis_yellow = app.pov.declare("tex_axis_yellow", app.pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                if(app.axis_enable.Value)
+                    app.pov.axis();
+                end
+
+                % Grid
+                % TODO: Move textures to materials.inc
+                % tex_grid_gray  = app.pov.declare("tex_grid_gray",  app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_red   = app.pov.declare("tex_grid_red",   app.pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_green = app.pov.declare("tex_grid_green", app.pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_blue  = app.pov.declare("tex_grid_blue",  app.pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
+                if(app.grid_enable.Value)
+                    app.pov.grid_2D('width', 10, 'height', 10);
+                end
+            app.pov.include_end();
+        end
+        
         % Create scene
         function create_scene(app)
-            disp("QQ: createScene()");
+            disp("QQ: create_scene()");
             tic % Time measure
-            
+
             app.pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
-            app.pov.include("shapes");
-            app.pov.global_settings("assumed_gamma 1");
+                app.pov.include("camera");
+                app.pov.include("lights");
+                app.pov.include("helpers");
+                app.pov.include("shapes");
+                
+                app.pov.global_settings("assumed_gamma 1");
+               
+                size = 60;
+                % f = figure('Visible', 'off');
+                [X,Y,Z] = peaks(size);
+                s = surf(X,Y,Z);
+                app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
            
-            % Axis textures
-            if(app.axis_enable.Value)
-                tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                tex_axis_yellow = app.pov.declare("tex_axis_yellow", app.pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                app.pov.axis();
-            end
-            
-            tex_plane_red   = app.pov.declare("tex_plane_red",   app.pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            tex_plane_green = app.pov.declare("tex_plane_green", app.pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.0 metallic 0.0}"));
-            tex_plane_blue  = app.pov.declare("tex_plane_blue",  app.pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            
-            % Grid
-            tex_grid_gray  = app.pov.declare("tex_grid_gray",  app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            tex_grid_red   = app.pov.declare("tex_grid_red",   app.pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            tex_grid_green = app.pov.declare("tex_grid_green", app.pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            tex_grid_blue  = app.pov.declare("tex_grid_blue",  app.pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-            
-            size = 30;
-            % f = figure('Visible', 'off');
-            [X,Y,Z] = peaks(size);
-            s = surf(X,Y,Z);
-            app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
-       
-            % app.pov.sphere();
+                % app.pov.sphere();
             app.pov.scene_end();
-            
+
             disp("--Scene creation time:");
             toc;
         end
@@ -157,6 +173,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             init_pov(app);
             create_camera(app);
             create_lights(app);
+            create_helpers(app);
             create_scene(app);
             render(app);
         end
@@ -165,7 +182,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         function on_bt_render(app, event)
             app.cam_location = [app.cam_loc_x.Value app.cam_loc_y.Value app.cam_loc_z.Value];
             app.cam_look_at = [app.cam_look_at_x.Value app.cam_look_at_y.Value app.cam_look_at_z.Value];
-            create_scene(app);
+            create_camera(app);
+            create_lights(app);
             render(app);
         end
 
@@ -242,7 +260,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         % Value changed function: axis_enable
         function on_axis_enable(app, event)
             if(app.cam_responsive.Value)
-                create_scene(app);
+                create_helpers(app);
                 render(app);
             end
         end
@@ -270,6 +288,33 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 render(app);
             end            
         end
+
+        % Value changed function: grid_enable
+        function on_grid_enable(app, event)
+            create_helpers(app);            
+            if(app.cam_responsive.Value)
+                render(app);
+            end
+        end
+
+        % Button pushed function: ResetButton
+        function on_cam_reset(app, event)
+            app.cam_location = app.cam_location_default;
+            app.cam_look_at  = app.cam_look_at_default;
+            
+            app.cam_look_at_x.Value = app.cam_look_at(1);
+            app.cam_look_at_y.Value = app.cam_look_at(2);
+            app.cam_look_at_z.Value = app.cam_look_at(3);
+
+            app.cam_loc_x.Value = app.cam_location(1);
+            app.cam_loc_y.Value = app.cam_location(2);
+            app.cam_loc_z.Value = app.cam_location(3);
+            app.cam_type.Value  = "perspective";
+            app.cam_angle.Value = 45;
+
+            create_camera(app);
+            render(app);
+        end
     end
 
     % Component initialization
@@ -292,7 +337,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel.TitlePosition = 'centertop';
             app.panel.Title = 'Location';
             app.panel.BackgroundColor = [0.651 0.651 0.651];
-            app.panel.Position = [864 444 121 117];
+            app.panel.Position = [867 297 121 117];
 
             % Create xLabel_4
             app.xLabel_4 = uilabel(app.panel);
@@ -336,7 +381,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_2.TitlePosition = 'centertop';
             app.panel_2.Title = 'Look at';
             app.panel_2.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_2.Position = [866 321 119 112];
+            app.panel_2.Position = [868 171 119 112];
 
             % Create xLabel
             app.xLabel = uilabel(app.panel_2);
@@ -380,38 +425,32 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_3.TitlePosition = 'centertop';
             app.panel_3.Title = 'Camera';
             app.panel_3.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_3.Position = [866 21 122 286];
-
-            % Create bt_render
-            app.bt_render = uibutton(app.panel_3, 'push');
-            app.bt_render.ButtonPushedFcn = createCallbackFcn(app, @on_bt_render, true);
-            app.bt_render.Position = [13 12 100 55];
-            app.bt_render.Text = 'Render';
+            app.panel_3.Position = [866 424 122 137];
 
             % Create AngleSpinnerLabel
             app.AngleSpinnerLabel = uilabel(app.panel_3);
             app.AngleSpinnerLabel.HorizontalAlignment = 'right';
-            app.AngleSpinnerLabel.Position = [6 222 46 22];
+            app.AngleSpinnerLabel.Position = [8 47 46 22];
             app.AngleSpinnerLabel.Text = 'Angle';
 
             % Create cam_angle
             app.cam_angle = uispinner(app.panel_3);
             app.cam_angle.ValueChangedFcn = createCallbackFcn(app, @on_cam_angle, true);
-            app.cam_angle.Position = [64 222 45 22];
+            app.cam_angle.Position = [66 47 45 22];
             app.cam_angle.Value = 45;
 
             % Create cam_type
             app.cam_type = uidropdown(app.panel_3);
             app.cam_type.Items = {'orthographic', 'perspective', 'fisheye', 'ultra_wide_angle', 'spherical', 'omnimax', 'panoramic', 'cylinder 1', 'cylinder 2', 'cylinder 3', 'cylinder 4'};
             app.cam_type.ValueChangedFcn = createCallbackFcn(app, @on_cam_type, true);
-            app.cam_type.Position = [5 184 114 22];
-            app.cam_type.Value = 'orthographic';
+            app.cam_type.Position = [7 9 114 22];
+            app.cam_type.Value = 'perspective';
 
-            % Create cam_responsive
-            app.cam_responsive = uicheckbox(app.panel_3);
-            app.cam_responsive.Text = 'Responsive';
-            app.cam_responsive.Position = [21 150 85 22];
-            app.cam_responsive.Value = true;
+            % Create ResetButton
+            app.ResetButton = uibutton(app.panel_3, 'push');
+            app.ResetButton.ButtonPushedFcn = createCallbackFcn(app, @on_cam_reset, true);
+            app.ResetButton.Position = [12 81 100 22];
+            app.ResetButton.Text = 'Reset';
 
             % Create image_panel
             app.image_panel = uipanel(app.ui_figure);
@@ -427,16 +466,23 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_4 = uipanel(app.ui_figure);
             app.panel_4.AutoResizeChildren = 'off';
             app.panel_4.TitlePosition = 'centertop';
-            app.panel_4.Title = 'Axis';
+            app.panel_4.Title = 'Helpers';
             app.panel_4.BackgroundColor = [0.651 0.651 0.651];
             app.panel_4.Position = [16 424 122 137];
 
             % Create axis_enable
             app.axis_enable = uicheckbox(app.panel_4);
             app.axis_enable.ValueChangedFcn = createCallbackFcn(app, @on_axis_enable, true);
-            app.axis_enable.Text = 'Enable';
-            app.axis_enable.Position = [38 81 59 22];
+            app.axis_enable.Text = 'Axis';
+            app.axis_enable.Position = [38 81 45 22];
             app.axis_enable.Value = true;
+
+            % Create grid_enable
+            app.grid_enable = uicheckbox(app.panel_4);
+            app.grid_enable.ValueChangedFcn = createCallbackFcn(app, @on_grid_enable, true);
+            app.grid_enable.Text = 'Grid';
+            app.grid_enable.Position = [39 57 45 22];
+            app.grid_enable.Value = true;
 
             % Create panel_5
             app.panel_5 = uipanel(app.ui_figure);
@@ -464,6 +510,26 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.light_3.ValueChangedFcn = createCallbackFcn(app, @on_light_3, true);
             app.light_3.Text = 'LIght 3';
             app.light_3.Position = [30 15 59 22];
+
+            % Create panel_6
+            app.panel_6 = uipanel(app.ui_figure);
+            app.panel_6.AutoResizeChildren = 'off';
+            app.panel_6.TitlePosition = 'centertop';
+            app.panel_6.Title = 'Rendering';
+            app.panel_6.BackgroundColor = [0.651 0.651 0.651];
+            app.panel_6.Position = [866 21 122 137];
+
+            % Create cam_responsive
+            app.cam_responsive = uicheckbox(app.panel_6);
+            app.cam_responsive.Text = 'Responsive';
+            app.cam_responsive.Position = [19 82 85 22];
+            app.cam_responsive.Value = true;
+
+            % Create bt_render
+            app.bt_render = uibutton(app.panel_6, 'push');
+            app.bt_render.ButtonPushedFcn = createCallbackFcn(app, @on_bt_render, true);
+            app.bt_render.Position = [12 19 100 55];
+            app.bt_render.Text = 'Render';
 
             % Show the figure after all components are created
             app.ui_figure.Visible = 'on';

@@ -1,4 +1,4 @@
-camera { orthographic         angle 30
+camera { perspective         angle 45
          location <-10.00, 7.00, 14.00>
          right x * image_width / image_height
          look_at <0.00, 0.00, -0.00>
