@@ -182,6 +182,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.cam_look_at = [app.cam_look_at_x.Value app.cam_look_at_y.Value app.cam_look_at_z.Value];
             create_camera(app);
             create_lights(app);
+            create_helpers(app);
             render(app);
         end
 
