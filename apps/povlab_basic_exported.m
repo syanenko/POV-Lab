@@ -163,11 +163,15 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         % Code that executes after component creation
         function startup(app)
             app.cam_location = app.cam_location_default;
-            app.cam_look_at  = app.cam_look_at_default;
-            app.cam_loc_x.Value = -10;
-            app.cam_loc_y.Value = -14;
-            app.cam_loc_z.Value = 7;
-            
+            app.cam_loc_x.Value = app.cam_location(1);
+            app.cam_loc_y.Value = app.cam_location(2);
+            app.cam_loc_z.Value = app.cam_location(3);
+
+            app.cam_look_at = app.cam_look_at_default;
+            app.cam_look_at_x.Value = app.cam_look_at(1);
+            app.cam_look_at_y.Value = app.cam_look_at(2);
+            app.cam_look_at_z.Value = app.cam_look_at(3);
+
             init_pov(app);
             create_camera(app);
             create_lights(app);
