@@ -3,6 +3,16 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     % Properties that correspond to app components
     properties (Access = public)
         ui_figure          matlab.ui.Figure
+        render_time        matlab.ui.control.Label
+        scene_time         matlab.ui.control.Label
+        panel_7            matlab.ui.container.Panel
+        surf_size          matlab.ui.control.Spinner
+        SizeSpinnerLabel   matlab.ui.control.Label
+        surf_texture_even  matlab.ui.control.DropDown
+        EvenDropDownLabel  matlab.ui.control.Label
+        surf_texture_odd   matlab.ui.control.DropDown
+        OddDropDownLabel   matlab.ui.control.Label
+        surf_smooth        matlab.ui.control.CheckBox
         panel_6            matlab.ui.container.Panel
         bt_render          matlab.ui.control.Button
         cam_responsive     matlab.ui.control.CheckBox
@@ -118,6 +128,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         
         % Create scene
         function create_scene(app)
+            % TODO: Show notification
             disp("QQ: create_scene()");
             tic % Time measure
 
@@ -129,18 +140,26 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 
                 app.pov.global_settings("assumed_gamma 1");
                
-                size = 40;
                 % f = figure('Visible', 'off');
-                [X,Y,Z] = peaks(size);
+                [X,Y,Z] = peaks(app.surf_size.Value);
                 s = surf(X,Y,Z);
-                % app.pov.surface('surface', s, 'smooth', true, 'colormap', 'turbo', 'scale', [1, 1, 3/10]);
-                app.pov.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'Dark_Green_Glass');
-           
-                % app.pov.sphere();
-            app.pov.scene_end();
+                
+                if(app.surf_texture_odd.Value == "None")
+                    texture_odd = "";
+                else
+                    texture_odd = app.surf_texture_odd.Value;
+                end
 
-            disp("--Scene creation time:");
-            toc;
+                if(app.surf_texture_even.Value == "None")
+                    texture_even = "";
+                else
+                    texture_even = app.surf_texture_even.Value;
+                end
+
+                app.pov.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', 'turbo', 'scale', [1, 1, 3/10],...
+                                'texture_odd', texture_odd, 'texture_even', texture_even);
+            app.pov.scene_end();
+            app.scene_time.Text = sprintf("Prepare time: %0.2f sec", toc);
         end
 
         % Render
@@ -151,9 +170,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             img = imread(img_file);
             app.image.ImageSource = img;
             drawnow();
-            
-            disp("--Rendering time:");
-            toc;            
+            app.render_time.Text = sprintf("Render time: %0.2f sec", toc);
         end
     end   
 
@@ -182,11 +199,11 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         % Button pushed function: bt_render
         function on_bt_render(app, event)
-            app.cam_location = [app.cam_loc_x.Value app.cam_loc_y.Value app.cam_loc_z.Value];
-            app.cam_look_at = [app.cam_look_at_x.Value app.cam_look_at_y.Value app.cam_look_at_z.Value];
-            create_camera(app);
-            create_lights(app);
-            create_helpers(app);
+%             app.cam_location = [app.cam_loc_x.Value app.cam_loc_y.Value app.cam_loc_z.Value];
+%             app.cam_look_at = [app.cam_look_at_x.Value app.cam_look_at_y.Value app.cam_look_at_z.Value];
+%             create_camera(app);
+%             create_lights(app);
+%             create_helpers(app);
             render(app);
         end
 
@@ -294,7 +311,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         % Value changed function: grid_enable
         function on_grid_enable(app, event)
-            create_helpers(app);            
+            create_helpers(app);
             if(app.cam_responsive.Value)
                 render(app);
             end
@@ -318,6 +335,15 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             create_camera(app);
             render(app);
         end
+
+        % Value changed function: surf_size, surf_smooth, 
+        % surf_texture_even, surf_texture_odd
+        function on_surf_changed(app, event)
+            create_scene(app);
+            if(app.cam_responsive.Value)
+                render(app);
+            end
+        end
     end
 
     % Component initialization
@@ -330,8 +356,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.ui_figure = uifigure('Visible', 'off');
             app.ui_figure.AutoResizeChildren = 'off';
             app.ui_figure.Color = [0.651 0.651 0.651];
-            app.ui_figure.Position = [100 100 1001 593];
-            app.ui_figure.Name = 'POV-Lab / Surface rendering';
+            app.ui_figure.Position = [100 100 1137 598];
+            app.ui_figure.Name = 'POV-Lab / Surface demo';
             app.ui_figure.Resize = 'off';
 
             % Create panel
@@ -340,7 +366,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel.TitlePosition = 'centertop';
             app.panel.Title = 'Location';
             app.panel.BackgroundColor = [0.651 0.651 0.651];
-            app.panel.Position = [867 297 121 117];
+            app.panel.Position = [1003 321 121 117];
 
             % Create xLabel_4
             app.xLabel_4 = uilabel(app.panel);
@@ -384,43 +410,43 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_2.TitlePosition = 'centertop';
             app.panel_2.Title = 'Look at';
             app.panel_2.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_2.Position = [868 171 119 112];
+            app.panel_2.Position = [1004 195 119 112];
 
             % Create xLabel
             app.xLabel = uilabel(app.panel_2);
             app.xLabel.HorizontalAlignment = 'right';
-            app.xLabel.Position = [19 57 25 22];
+            app.xLabel.Position = [15 57 25 22];
             app.xLabel.Text = 'X';
 
             % Create cam_look_at_x
             app.cam_look_at_x = uispinner(app.panel_2);
             app.cam_look_at_x.ValueChangedFcn = createCallbackFcn(app, @on_cam_look_at_x, true);
             app.cam_look_at_x.HorizontalAlignment = 'center';
-            app.cam_look_at_x.Position = [59 57 50 22];
+            app.cam_look_at_x.Position = [55 57 50 22];
 
             % Create xLabel_2
             app.xLabel_2 = uilabel(app.panel_2);
             app.xLabel_2.HorizontalAlignment = 'right';
-            app.xLabel_2.Position = [19 36 25 22];
+            app.xLabel_2.Position = [15 36 25 22];
             app.xLabel_2.Text = 'Y';
 
             % Create cam_look_at_y
             app.cam_look_at_y = uispinner(app.panel_2);
             app.cam_look_at_y.ValueChangedFcn = createCallbackFcn(app, @on_cam_look_at_y, true);
             app.cam_look_at_y.HorizontalAlignment = 'center';
-            app.cam_look_at_y.Position = [59 36 50 22];
+            app.cam_look_at_y.Position = [55 36 50 22];
 
             % Create xLabel_3
             app.xLabel_3 = uilabel(app.panel_2);
             app.xLabel_3.HorizontalAlignment = 'right';
-            app.xLabel_3.Position = [19 15 25 22];
+            app.xLabel_3.Position = [15 15 25 22];
             app.xLabel_3.Text = 'Z';
 
             % Create cam_look_at_z
             app.cam_look_at_z = uispinner(app.panel_2);
             app.cam_look_at_z.ValueChangedFcn = createCallbackFcn(app, @on_cam_look_at_z, true);
             app.cam_look_at_z.HorizontalAlignment = 'center';
-            app.cam_look_at_z.Position = [59 15 50 22];
+            app.cam_look_at_z.Position = [55 15 50 22];
 
             % Create panel_3
             app.panel_3 = uipanel(app.ui_figure);
@@ -428,7 +454,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_3.TitlePosition = 'centertop';
             app.panel_3.Title = 'Camera';
             app.panel_3.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_3.Position = [866 424 122 137];
+            app.panel_3.Position = [1002 448 122 137];
 
             % Create AngleSpinnerLabel
             app.AngleSpinnerLabel = uilabel(app.panel_3);
@@ -459,11 +485,11 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.image_panel = uipanel(app.ui_figure);
             app.image_panel.AutoResizeChildren = 'off';
             app.image_panel.BackgroundColor = [0.651 0.651 0.651];
-            app.image_panel.Position = [151 21 704 540];
+            app.image_panel.Position = [198 12 792 573];
 
             % Create image
             app.image = uiimage(app.image_panel);
-            app.image.Position = [13 12 691 518];
+            app.image.Position = [10 10 771 553];
 
             % Create panel_4
             app.panel_4 = uipanel(app.ui_figure);
@@ -471,7 +497,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_4.TitlePosition = 'centertop';
             app.panel_4.Title = 'Helpers';
             app.panel_4.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_4.Position = [16 424 122 137];
+            app.panel_4.Position = [15 448 174 137];
 
             % Create axis_enable
             app.axis_enable = uicheckbox(app.panel_4);
@@ -492,26 +518,26 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_5.TitlePosition = 'centertop';
             app.panel_5.Title = 'Lights';
             app.panel_5.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_5.Position = [17 282 122 134];
+            app.panel_5.Position = [16 340 173 100];
 
             % Create light_1
             app.light_1 = uicheckbox(app.panel_5);
             app.light_1.ValueChangedFcn = createCallbackFcn(app, @on_light_1, true);
             app.light_1.Text = 'LIght 1';
-            app.light_1.Position = [32 75 59 22];
+            app.light_1.Position = [11 42 59 22];
             app.light_1.Value = true;
 
             % Create light_2
             app.light_2 = uicheckbox(app.panel_5);
             app.light_2.ValueChangedFcn = createCallbackFcn(app, @on_light_2, true);
             app.light_2.Text = 'LIght 2';
-            app.light_2.Position = [31 45 59 22];
+            app.light_2.Position = [89 42 59 22];
 
             % Create light_3
             app.light_3 = uicheckbox(app.panel_5);
             app.light_3.ValueChangedFcn = createCallbackFcn(app, @on_light_3, true);
             app.light_3.Text = 'LIght 3';
-            app.light_3.Position = [30 15 59 22];
+            app.light_3.Position = [90 8 59 22];
 
             % Create panel_6
             app.panel_6 = uipanel(app.ui_figure);
@@ -519,7 +545,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.panel_6.TitlePosition = 'centertop';
             app.panel_6.Title = 'Rendering';
             app.panel_6.BackgroundColor = [0.651 0.651 0.651];
-            app.panel_6.Position = [866 21 122 137];
+            app.panel_6.Position = [1002 45 122 137];
 
             % Create cam_responsive
             app.cam_responsive = uicheckbox(app.panel_6);
@@ -532,6 +558,70 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.bt_render.ButtonPushedFcn = createCallbackFcn(app, @on_bt_render, true);
             app.bt_render.Position = [12 19 100 55];
             app.bt_render.Text = 'Render';
+
+            % Create panel_7
+            app.panel_7 = uipanel(app.ui_figure);
+            app.panel_7.AutoResizeChildren = 'off';
+            app.panel_7.TitlePosition = 'centertop';
+            app.panel_7.Title = 'Surface';
+            app.panel_7.BackgroundColor = [0.651 0.651 0.651];
+            app.panel_7.Position = [19 45 171 286];
+
+            % Create surf_smooth
+            app.surf_smooth = uicheckbox(app.panel_7);
+            app.surf_smooth.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
+            app.surf_smooth.Text = 'Smooth';
+            app.surf_smooth.Position = [21 115 63 22];
+            app.surf_smooth.Value = true;
+
+            % Create OddDropDownLabel
+            app.OddDropDownLabel = uilabel(app.panel_7);
+            app.OddDropDownLabel.HorizontalAlignment = 'right';
+            app.OddDropDownLabel.Position = [20 219 23 22];
+            app.OddDropDownLabel.Text = 'Odd';
+
+            % Create surf_texture_odd
+            app.surf_texture_odd = uidropdown(app.panel_7);
+            app.surf_texture_odd.Items = {'None', 'DMFWood6', 'NBglass', 'NBoldglass', 'NBwinebottle', 'NBbeerbottle', 'Ruby_Glass', 'Dark_Green_Glass', 'Yellow_Glass', 'Orange_Glass', 'Vicks_Bottle_Glass', 'Soft_Silver', 'New_Penny', 'Tinny_Brass', 'Gold_Nugget', 'Aluminum', 'Bright_Bronze'};
+            app.surf_texture_odd.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
+            app.surf_texture_odd.Position = [52 219 107 22];
+            app.surf_texture_odd.Value = 'None';
+
+            % Create EvenDropDownLabel
+            app.EvenDropDownLabel = uilabel(app.panel_7);
+            app.EvenDropDownLabel.HorizontalAlignment = 'right';
+            app.EvenDropDownLabel.Position = [10 184 33 22];
+            app.EvenDropDownLabel.Text = 'Even';
+
+            % Create surf_texture_even
+            app.surf_texture_even = uidropdown(app.panel_7);
+            app.surf_texture_even.Items = {'None', 'DMFWood6', 'NBglass', 'NBoldglass', 'NBwinebottle', 'NBbeerbottle', 'Ruby_Glass', 'Dark_Green_Glass', 'Yellow_Glass', 'Orange_Glass', 'Vicks_Bottle_Glass', 'Soft_Silver', 'New_Penny', 'Tinny_Brass', 'Gold_Nugget', 'Aluminum', 'Bright_Bronze'};
+            app.surf_texture_even.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
+            app.surf_texture_even.Position = [52 184 107 22];
+            app.surf_texture_even.Value = 'None';
+
+            % Create SizeSpinnerLabel
+            app.SizeSpinnerLabel = uilabel(app.panel_7);
+            app.SizeSpinnerLabel.HorizontalAlignment = 'right';
+            app.SizeSpinnerLabel.Position = [13 150 29 22];
+            app.SizeSpinnerLabel.Text = 'Size';
+
+            % Create surf_size
+            app.surf_size = uispinner(app.panel_7);
+            app.surf_size.Limits = [2 Inf];
+            app.surf_size.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
+            app.surf_size.Position = [52 150 105 22];
+            app.surf_size.Value = 20;
+
+            % Create scene_time
+            app.scene_time = uilabel(app.ui_figure);
+            app.scene_time.Position = [17 12 172 23];
+            app.scene_time.Text = 'Scene created in';
+
+            % Create render_time
+            app.render_time = uilabel(app.ui_figure);
+            app.render_time.Position = [1002 12 123 22];
+            app.render_time.Text = 'Rendered in';
 
             % Show the figure after all components are created
             app.ui_figure.Visible = 'on';

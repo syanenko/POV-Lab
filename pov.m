@@ -407,9 +407,9 @@ classdef pov < handle
                                     RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
                 else
                     if(mod(i+j,2) == 1)
-                        tex = sprintf('texture{%s}', texture_odd);
-                    else
                         tex = sprintf('texture{%s}', texture_even);
+                    else
+                        tex = sprintf('texture{%s}', texture_odd);
                     end
                 end
             end
