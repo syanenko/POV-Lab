@@ -130,9 +130,9 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         function create_scene(app)
             % TODO: 1. Show notification
             %       2. Prepare scen before rendering on demand (flag of changes) 
-            disp("QQ: create_scene()");
-            tic % Time measure
-
+            app.scene_time.Text = sprintf("Preparing ...");
+            drawnow();
+            tic % Time measure            
             app.pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
                 app.pov.include("camera");
                 app.pov.include("lights");
@@ -160,18 +160,20 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 app.pov.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', 'turbo', 'scale', [1, 1, 3/10],...
                                 'texture_odd', texture_odd, 'texture_even', texture_even);
             app.pov.scene_end();
-            app.scene_time.Text = sprintf("Prepare time: %0.2f sec", toc);
+            app.scene_time.Text = sprintf("Prepared in %0.2f sec", toc);
         end
 
         % Render
         function render(app)
-            tic % Measure rendering
+            app.render_time.Text = sprintf("Rendering ...");
+            drawnow();
+            tic % Measure rendering            
             % Render
             img_file = app.pov.render();
             img = imread(img_file);
             app.image.ImageSource = img;
             drawnow();
-            app.render_time.Text = sprintf("Render time: %0.2f sec", toc);
+            app.render_time.Text = sprintf("Rendered in: %0.2f sec", toc);
         end
     end   
 
