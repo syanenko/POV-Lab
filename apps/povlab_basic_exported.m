@@ -53,6 +53,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         cam_look_at_default = [0 0 0];
         cam_look_at = 0;
+
+        need_create_scene = false;
     end
 
     methods (Access = private)
@@ -207,6 +209,10 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 %             create_camera(app);
 %             create_lights(app);
 %             create_helpers(app);
+            if(app.need_create_scene)
+                create_scene(app);
+                app.need_create_scene = false;
+            end
             render(app);
         end
 
@@ -342,9 +348,11 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         % Value changed function: surf_size, surf_smooth, 
         % surf_texture_even, surf_texture_odd
         function on_surf_changed(app, event)
-            create_scene(app);
             if(app.cam_responsive.Value)
+                create_scene(app);                
                 render(app);
+            else
+                app.need_create_scene = true;
             end
         end
     end
