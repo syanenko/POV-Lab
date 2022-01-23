@@ -2,48 +2,51 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        ui_figure          matlab.ui.Figure
-        render_time        matlab.ui.control.Label
-        scene_time         matlab.ui.control.Label
-        panel_7            matlab.ui.container.Panel
-        surf_size          matlab.ui.control.Spinner
-        SizeSpinnerLabel   matlab.ui.control.Label
-        surf_texture_even  matlab.ui.control.DropDown
-        EvenDropDownLabel  matlab.ui.control.Label
-        surf_texture_odd   matlab.ui.control.DropDown
-        OddDropDownLabel   matlab.ui.control.Label
-        surf_smooth        matlab.ui.control.CheckBox
-        panel_6            matlab.ui.container.Panel
-        bt_render          matlab.ui.control.Button
-        cam_responsive     matlab.ui.control.CheckBox
-        panel_5            matlab.ui.container.Panel
-        light_3            matlab.ui.control.CheckBox
-        light_2            matlab.ui.control.CheckBox
-        light_1            matlab.ui.control.CheckBox
-        panel_4            matlab.ui.container.Panel
-        grid_enable        matlab.ui.control.CheckBox
-        axis_enable        matlab.ui.control.CheckBox
-        image_panel        matlab.ui.container.Panel
-        image              matlab.ui.control.Image
-        panel_3            matlab.ui.container.Panel
-        ResetButton        matlab.ui.control.Button
-        cam_type           matlab.ui.control.DropDown
-        cam_angle          matlab.ui.control.Spinner
-        AngleSpinnerLabel  matlab.ui.control.Label
-        panel_2            matlab.ui.container.Panel
-        cam_look_at_z      matlab.ui.control.Spinner
-        xLabel_3           matlab.ui.control.Label
-        cam_look_at_y      matlab.ui.control.Spinner
-        xLabel_2           matlab.ui.control.Label
-        cam_look_at_x      matlab.ui.control.Spinner
-        xLabel             matlab.ui.control.Label
-        panel              matlab.ui.container.Panel
-        cam_loc_z          matlab.ui.control.Spinner
-        xLabel_6           matlab.ui.control.Label
-        cam_loc_y          matlab.ui.control.Spinner
-        xLabel_5           matlab.ui.control.Label
-        cam_loc_x          matlab.ui.control.Spinner
-        xLabel_4           matlab.ui.control.Label
+        ui_figure              matlab.ui.Figure
+        render_time            matlab.ui.control.Label
+        scene_time             matlab.ui.control.Label
+        panel_7                matlab.ui.container.Panel
+        surf_colormap          matlab.ui.control.DropDown
+        ColormapDropDownLabel  matlab.ui.control.Label
+        surf_size              matlab.ui.control.Spinner
+        SizeSpinnerLabel       matlab.ui.control.Label
+        surf_texture_even      matlab.ui.control.DropDown
+        EvenDropDownLabel      matlab.ui.control.Label
+        surf_texture_odd       matlab.ui.control.DropDown
+        OddDropDownLabel       matlab.ui.control.Label
+        surf_smooth            matlab.ui.control.CheckBox
+        panel_6                matlab.ui.container.Panel
+        bt_render              matlab.ui.control.Button
+        cam_responsive         matlab.ui.control.CheckBox
+        panel_5                matlab.ui.container.Panel
+        light_4                matlab.ui.control.CheckBox
+        light_3                matlab.ui.control.CheckBox
+        light_2                matlab.ui.control.CheckBox
+        light_1                matlab.ui.control.CheckBox
+        panel_4                matlab.ui.container.Panel
+        grid_enable            matlab.ui.control.CheckBox
+        axis_enable            matlab.ui.control.CheckBox
+        image_panel            matlab.ui.container.Panel
+        image                  matlab.ui.control.Image
+        panel_3                matlab.ui.container.Panel
+        ResetButton            matlab.ui.control.Button
+        cam_type               matlab.ui.control.DropDown
+        cam_angle              matlab.ui.control.Spinner
+        AngleSpinnerLabel      matlab.ui.control.Label
+        panel_2                matlab.ui.container.Panel
+        cam_look_at_z          matlab.ui.control.Spinner
+        xLabel_3               matlab.ui.control.Label
+        cam_look_at_y          matlab.ui.control.Spinner
+        xLabel_2               matlab.ui.control.Label
+        cam_look_at_x          matlab.ui.control.Spinner
+        xLabel                 matlab.ui.control.Label
+        panel                  matlab.ui.container.Panel
+        cam_loc_z              matlab.ui.control.Spinner
+        xLabel_6               matlab.ui.control.Label
+        cam_loc_y              matlab.ui.control.Spinner
+        xLabel_5               matlab.ui.control.Label
+        cam_loc_x              matlab.ui.control.Spinner
+        xLabel_4               matlab.ui.control.Label
     end
 
     properties (Access = public)
@@ -100,6 +103,9 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 end
                 if(app.light_3.Value)
                     app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+                end
+                if(app.light_4.Value)
+                    app.pov.light('location', [100 -200 -300], 'color', [1 1 1], 'shadowless', true);
                 end
             app.pov.include_end();
         end
@@ -159,7 +165,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                     texture_even = app.surf_texture_even.Value;
                 end
 
-                app.pov.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', 'turbo', 'scale', [1, 1, 3/10],...
+                app.pov.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', app.surf_colormap.Value, 'scale', [1, 1, 3/10],...
                                 'texture_odd', texture_odd, 'texture_even', texture_even);
             app.pov.scene_end();
             app.scene_time.Text = sprintf("Prepared in %0.2f sec", toc);
@@ -294,30 +300,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             end
         end
 
-        % Value changed function: light_3
-        function on_light_3(app, event)
-            create_lights(app);
-            if(app.cam_responsive.Value)
-                render(app);
-            end            
-        end
-
-        % Value changed function: light_2
-        function on_light_2(app, event)
-            create_lights(app);
-            if(app.cam_responsive.Value)
-                render(app);
-            end            
-        end
-
-        % Value changed function: light_1
-        function on_light_1(app, event)
-            create_lights(app);
-            if(app.cam_responsive.Value)
-                render(app);
-            end            
-        end
-
         % Value changed function: grid_enable
         function on_grid_enable(app, event)
             create_helpers(app);
@@ -345,7 +327,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             render(app);
         end
 
-        % Value changed function: surf_size, surf_smooth, 
+        % Value changed function: surf_colormap, surf_size, surf_smooth, 
         % surf_texture_even, surf_texture_odd
         function on_surf_changed(app, event)
             if(app.cam_responsive.Value)
@@ -353,6 +335,14 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 render(app);
             else
                 app.need_create_scene = true;
+            end
+        end
+
+        % Value changed function: light_1, light_2, light_3, light_4
+        function on_light_changed(app, event)
+            create_lights(app);
+            if(app.cam_responsive.Value)
+                render(app);
             end
         end
     end
@@ -533,22 +523,28 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
             % Create light_1
             app.light_1 = uicheckbox(app.panel_5);
-            app.light_1.ValueChangedFcn = createCallbackFcn(app, @on_light_1, true);
+            app.light_1.ValueChangedFcn = createCallbackFcn(app, @on_light_changed, true);
             app.light_1.Text = 'LIght 1';
             app.light_1.Position = [11 42 59 22];
             app.light_1.Value = true;
 
             % Create light_2
             app.light_2 = uicheckbox(app.panel_5);
-            app.light_2.ValueChangedFcn = createCallbackFcn(app, @on_light_2, true);
+            app.light_2.ValueChangedFcn = createCallbackFcn(app, @on_light_changed, true);
             app.light_2.Text = 'LIght 2';
             app.light_2.Position = [89 42 59 22];
 
             % Create light_3
             app.light_3 = uicheckbox(app.panel_5);
-            app.light_3.ValueChangedFcn = createCallbackFcn(app, @on_light_3, true);
+            app.light_3.ValueChangedFcn = createCallbackFcn(app, @on_light_changed, true);
             app.light_3.Text = 'LIght 3';
-            app.light_3.Position = [90 8 59 22];
+            app.light_3.Position = [13 8 59 22];
+
+            % Create light_4
+            app.light_4 = uicheckbox(app.panel_5);
+            app.light_4.ValueChangedFcn = createCallbackFcn(app, @on_light_changed, true);
+            app.light_4.Text = 'Light 4';
+            app.light_4.Position = [90 8 58 22];
 
             % Create panel_6
             app.panel_6 = uipanel(app.ui_figure);
@@ -582,7 +578,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.surf_smooth = uicheckbox(app.panel_7);
             app.surf_smooth.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
             app.surf_smooth.Text = 'Smooth';
-            app.surf_smooth.Position = [21 115 63 22];
+            app.surf_smooth.Position = [25 61 63 22];
             app.surf_smooth.Value = true;
 
             % Create OddDropDownLabel
@@ -621,8 +617,21 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.surf_size = uispinner(app.panel_7);
             app.surf_size.Limits = [2 Inf];
             app.surf_size.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_size.Position = [52 150 105 22];
+            app.surf_size.Position = [52 150 107 22];
             app.surf_size.Value = 20;
+
+            % Create ColormapDropDownLabel
+            app.ColormapDropDownLabel = uilabel(app.panel_7);
+            app.ColormapDropDownLabel.HorizontalAlignment = 'right';
+            app.ColormapDropDownLabel.Position = [-4 115 65 22];
+            app.ColormapDropDownLabel.Text = 'Colormap';
+
+            % Create surf_colormap
+            app.surf_colormap = uidropdown(app.panel_7);
+            app.surf_colormap.Items = {'parula', 'turbo', 'hsv', 'hot', 'cool', 'spring', 'summer', 'autumn', 'winter', 'gray', 'bone', 'copper', 'pink', 'jet', 'lines', 'colorcube', 'prism', 'flag', 'white'};
+            app.surf_colormap.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
+            app.surf_colormap.Position = [64 115 94 22];
+            app.surf_colormap.Value = 'parula';
 
             % Create scene_time
             app.scene_time = uilabel(app.ui_figure);
