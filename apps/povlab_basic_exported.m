@@ -128,7 +128,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         
         % Create scene
         function create_scene(app)
-            % TODO: Show notification
+            % TODO: 1. Show notification
+            %       2. Prepare scen before rendering on demand (flag of changes) 
             disp("QQ: create_scene()");
             tic % Time measure
 
@@ -279,8 +280,8 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         % Value changed function: axis_enable
         function on_axis_enable(app, event)
+            create_helpers(app);            
             if(app.cam_responsive.Value)
-                create_helpers(app);
                 render(app);
             end
         end
