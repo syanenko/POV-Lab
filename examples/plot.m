@@ -40,11 +40,9 @@ tex_plane = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3],
 pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
 
 % Grid
-% tex_grid_gray  = pov.declare("tex_grid_gray",  pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_red   = pov.declare("tex_grid_red",   pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_green = pov.declare("tex_grid_green", pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 pov.grid('width', 20, 'height', 20, 'radius', 0.03 , 'rotate', [90 0  0], 'translate', [0 0 0]);
+% tex_grid_blue = pov.declare("tex_grid_blue", pov.texture('pigment', [0.4 0.9 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+% pov.grid('width', 20, 'height', 20, 'radius', 0.04, 'texture_odd', tex_grid_blue, 'texture_even', tex_grid_blue, 'rotate', [90 0  0], 'translate', [0 0 0]);
 
 % Plot
 pov.plot('name', 'fgreen', 'funcion', '4 * sin(X * pi/2) * ln(X)', ...
