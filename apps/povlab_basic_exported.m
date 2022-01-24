@@ -134,13 +134,13 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 % pov.grid('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
                 % Grids
                 if(app.grid_xz_enable.Value)
-                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01);
+                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'scale', [0.2, 0.2 0.2]);
                 end
                 if(app.grid_yz_enable.Value)
-                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01, 'rotate', [0 0 90]);
+                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [0 0 90], 'scale', [0.2, 0.2 0.2]);
                 end
                 if(app.grid_xy_enable.Value)
-                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01, 'rotate', [90 0 0]);
+                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [90 0 0], 'scale', [0.2, 0.2 0.2]);
                 end
 
                 % Planes
