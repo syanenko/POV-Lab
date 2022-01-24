@@ -98,8 +98,6 @@ tex_green = pov.declare("tex_green", pov.texture('pigment', [0 1 0], 'finish', '
 tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-pov.function2D('funcion', 'sin(X)');
-
 pov.difference_begin();
     %pov.sphere();
     pov.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 1 0]);

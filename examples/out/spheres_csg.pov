@@ -81,10 +81,6 @@ object { gid scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<5.00, 5
           pigment{ rgb <8.00, 2.00, 3.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
-#declare f = function(X) { sin(X) }
-union {plot_function(-1.00, 1.00, f, 0.05, <0.1, 0.4, 0.00>)
-        scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00> }
-
 difference {
 sphere {<1.00, 1.00, 1.00>, 2.00
         texture { tex_green }

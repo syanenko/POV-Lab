@@ -30,7 +30,7 @@ pov = pov( "3.7",...
 
 % pov.scene_begin();
 % TODO: Set image size
-pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png');
+pov.scene_begin('scene_file', 'plot.pov', 'image_file', 'plot.png');
 pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
@@ -90,7 +90,7 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 
 % pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5]);
 % pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5]);
-pov.grid_2D('width', 20, 'height', 20, 'rotate', [90 0  0], 'translate', [0 0 0]);
+pov.grid('width', 20, 'height', 20, 'radius', 0.03 , 'rotate', [90 0  0], 'translate', [0 0 0]);
 
 % Objects textures
 % tex_red   = pov.declare("tex_red",   pov.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
@@ -98,17 +98,17 @@ pov.grid_2D('width', 20, 'height', 20, 'rotate', [90 0  0], 'translate', [0 0 0]
 % tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-pov.function2D('name', 'fgreen', 'funcion', '4 * sin(X * pi/2) * ln(X)', ...
-               'min_x', 0, 'max_x', 8, 'color', [0 0.8 0.0], ...
-               'width', 0.1, 'translate', [0 0 -0.1]);
+pov.plot('name', 'fgreen', 'funcion', '4 * sin(X * pi/2) * ln(X)', ...
+         'min_x', 0, 'max_x', 8, 'color', [0 0.8 0.0], ...
+         'width', 0.1, 'translate', [0 0 -0.1]);
 
-pov.function2D('name', 'fyellow', 'funcion', 'sin(X * pi/2) * ln(-X)', ...
-               'min_x', -8, 'max_x', 0, 'color', [1 0.8 0.0], ...
-               'width', 0.1, 'translate', [0 0 -0.1]);
+pov.plot('name', 'fyellow', 'funcion', 'sin(X * pi/2) * ln(-X)', ...
+         'min_x', -8, 'max_x', 0, 'color', [1 0.8 0.0], ...
+         'width', 0.1, 'translate', [0 0 -0.1]);
 
-pov.function2D('name', 'fred', 'funcion', 'X * X * X / 12', ...
-               'min_x', -8, 'max_x', 8, 'color', [1 0.0 0.0], ...
-               'width', 0.1, 'translate', [0 0 -0.1]);
+pov.plot('name', 'fred', 'funcion', 'X * X * X / 12', ...
+         'min_x', -8, 'max_x', 8, 'color', [1 0.0 0.0], ...
+         'width', 0.1, 'translate', [0 0 -0.1]);
 
 % pov.difference_begin();
 %     %pov.sphere();

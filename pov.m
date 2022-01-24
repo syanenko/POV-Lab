@@ -452,7 +452,7 @@ classdef pov < handle
         end
         
         % Function
-        function function2D(o, varargin)
+        function plot(o, varargin)
             % Parse
             p = inputParser;
             addParameter(p,'name',    'f',             @o.check_string);            
