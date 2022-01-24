@@ -131,16 +131,16 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 % tex_grid_red   = app.pov.declare("tex_grid_red",   app.pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_grid_green = app.pov.declare("tex_grid_green", app.pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_grid_blue  = app.pov.declare("tex_grid_blue",  app.pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
+                % pov.grid('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
                 % Grids
                 if(app.grid_xz_enable.Value)
-                    app.pov.grid_2D('width', 10, 'height', 10);
+                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01);
                 end
                 if(app.grid_yz_enable.Value)
-                    app.pov.grid_2D('width', 10, 'height', 10, 'rotate', [0 0 90]);
+                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01, 'rotate', [0 0 90]);
                 end
                 if(app.grid_xy_enable.Value)
-                    app.pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0 0]);
+                    app.pov.grid('width', 10, 'height', 10, 'radius', 0.01, 'rotate', [90 0 0]);
                 end
 
                 % Planes
