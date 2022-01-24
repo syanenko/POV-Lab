@@ -12,7 +12,8 @@ clear pov;
 close all;
 %
 % TODO
-% -4 imshow() - at maximum resolution (!)
+% -5. Grid - set radius
+% -4. Axis XYZ - by demand
 % -3. Mesh - Check dimentions, make edges, write global texture(?), use with CSG 
 % -2. Lights params
 % -1. Mesh2() - parsing is faster (!)
