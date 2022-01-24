@@ -396,17 +396,6 @@ classdef pov < handle
                           normal(1), normal(2), normal(3), distance,...
                           texture,...
                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-            % Preview
-            % TODO
-%             if(o.preview)
-%                 [x,y,z] = sphere;
-%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
-%                       y * radius * scale(2) + position(2) + translate(2), ...
-%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
-%                 shading(gca, o.preview_shading);
-%                 axis equal;
-%                 hold on;
-%             end
         end
         
         % Mesh
@@ -503,16 +492,6 @@ classdef pov < handle
 
             fprintf(o.fh, '    scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f> }\n\n',...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-            % Preview
-%             if(o.preview)
-%                 [x,y,z] = sphere;
-%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
-%                       y * radius * scale(2) + position(2) + translate(2), ...
-%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
-%                 shading(gca, o.preview_shading);
-%                 axis equal;
-%                 hold on;
-%            end
         end
         
         % Function
@@ -547,17 +526,6 @@ classdef pov < handle
                           name, func,...
                           min_x, max_x, name, width, color(1), color(2), color(3), ...
                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-            % Preview
-            % TODO
-%             if(o.preview)
-%                 [x,y,z] = sphere;
-%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
-%                       y * radius * scale(2) + position(2) + translate(2), ...
-%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
-%                 shading(gca, o.preview_shading);
-%                 axis equal;
-%                 hold on;
-%             end
         end
 
         % CSG:Union

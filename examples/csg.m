@@ -3,30 +3,19 @@ clear;
 clear pov;
 close all;
 tic %Measure time
-%
-% TODO
-% -2. Camera params
-% -1. Lights params
-% 0. texture -> material + structure
-% 1. Pass texture and texture_ref (?)
-% 2. pov.text(...)
-% 3. pov.mesh (surf)
-% 4. Render volume: mri (df3), http://paulbourke.net/miscellaneous/povexamples/ 
-% 5. pov.equation("x^ * 2")
-% 8. Get data from figure:
-%      axObjs = fig.Children
-%      dataObjs = axObjs.Children
-%      dataObjs(1) - Light
-%      dataObjs(2).XData; ...; dataObjs(2).CData
-% 10. Check preview axis misleading
-% 11. Notations (markers)
-% 12. All shapes (?)
 
+% Check OS
+if isunix
 pov = pov( "3.7",...
-           "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-           "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-% pov.enable_preview();
-% pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
+           '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
+           "/home/serge/projects/povlab/examples/out");
+elseif ispc
+    pov = pov( "3.7",...
+               "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
+               "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
+else
+    disp('Platform not supported')
+end
 
 % pov.scene_begin();
 % TODO: Set image size
@@ -117,5 +106,3 @@ pov.scene_end();
 img = pov.render();
 imshow(img);
 toc % Elapsed time
-
-%view(2);
