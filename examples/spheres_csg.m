@@ -2,6 +2,7 @@ addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
 clear;
 clear pov;
 close all;
+tic %Measure time
 %
 % TODO
 % -2. Camera params
@@ -26,7 +27,6 @@ pov = pov( "3.7",...
            "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 % pov.enable_preview();
 % pov.enable_preview('shading', 'faceted', 'alpha', 0.8);
-
 
 % pov.scene_begin();
 % TODO: Set image size
@@ -88,9 +88,9 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5], 'texture_odd', tex_grid_blue,  'texture_even', tex_grid_gray);
 % pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0], 'texture_odd', tex_grid_red,   'texture_even', tex_grid_gray);
 
-pov.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5]);
-pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5]);
-pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0]);
+pov.grid('width', 10, 'height', 10, 'radius', 0.01,                     'translate', [5 0 5]);
+pov.grid('width', 10, 'height', 10, 'radius', 0.03,'rotate', [ 0 0 90], 'translate', [0 5 5]);
+pov.grid('width', 10, 'height', 10, 'radius', 0.05,'rotate', [90 0  0], 'translate', [5 5 0]);
 
 % Objects textures
 tex_red   = pov.declare("tex_red",   pov.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
@@ -111,6 +111,8 @@ pov.difference_begin();
 pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
 
 pov.scene_end();
-pov.render();
+img = pov.render();
+imshow(img);
+toc % Elapsed time
 
 %view(2);

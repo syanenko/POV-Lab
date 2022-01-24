@@ -219,12 +219,13 @@ classdef pov < handle
         end
 
         % Grid 2D % TODO - Implement
-        function grid_2D(o, varargin)
+        function grid(o, varargin)
             % Parse
             p = inputParser;
             addParameter(p,'cell_size',    1,               @o.check_positive_float);
             addParameter(p,'width',        2,               @o.check_positive_int);
             addParameter(p,'height',       2,               @o.check_positive_int);
+            addParameter(p,'radius',       0.02,            @o.check_positive_float);
             addParameter(p,'texture_odd',  "tex_grid_odd",  @o.check_string);
             addParameter(p,'texture_even', "tex_grid_even", @o.check_string);
             addParameter(p,'scale',        [1 1 1],         @o.check_vector3);
@@ -235,6 +236,7 @@ classdef pov < handle
             cell_size    = p.Results.cell_size;
             width        = p.Results.width;
             height       = p.Results.height;
+            radius       = p.Results.radius;
             texture_odd  = p.Results.texture_odd;
             texture_even = p.Results.texture_even;
             scale        = p.Results.scale;
@@ -243,10 +245,9 @@ classdef pov < handle
 
             % Write
             fprintf(o.fh,['#local gid = "gid"\n' ...
-                          'grid(gid, %0.2f, %d, %d, %s, %s);\n'...
+                          'grid(gid, %0.2f, %d, %d, %0.2f, %s, %s);\n'...
                           'object { gid scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
-                          cell_size, width, height,...
-                          texture_odd, texture_even,...
+                          cell_size, width, height, radius, texture_odd, texture_even,...
                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
         
