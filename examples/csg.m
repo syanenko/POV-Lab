@@ -30,7 +30,7 @@ pov = pov( "3.7",...
 
 % pov.scene_begin();
 % TODO: Set image size
-pov.scene_begin('scene_file', 'spheres_csg.pov', 'image_file', 'spheres_csg.png');
+pov.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
 pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
@@ -107,6 +107,8 @@ pov.difference_begin();
           pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
      pov.union_end('translate', [0.3 0.3 0.3]);
 pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
+
+pov.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
 
 pov.scene_end();
 img = pov.render();
