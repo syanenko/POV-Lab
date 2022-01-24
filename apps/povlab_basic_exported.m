@@ -24,7 +24,12 @@ classdef povlab_basic_exported < matlab.apps.AppBase
         light_2                matlab.ui.control.CheckBox
         light_1                matlab.ui.control.CheckBox
         panel_4                matlab.ui.container.Panel
-        grid_enable            matlab.ui.control.CheckBox
+        plane_xy_enable        matlab.ui.control.CheckBox
+        plane_yz_enable        matlab.ui.control.CheckBox
+        plane_xz_enable        matlab.ui.control.CheckBox
+        grid_xy_enable         matlab.ui.control.CheckBox
+        grid_yz_enable         matlab.ui.control.CheckBox
+        grid_xz_enable         matlab.ui.control.CheckBox
         axis_enable            matlab.ui.control.CheckBox
         image_panel            matlab.ui.container.Panel
         image                  matlab.ui.control.Image
@@ -121,16 +126,35 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                     app.pov.axis();
                 end
 
-                % Grid
                 % TODO: Move textures to materials.inc
                 % tex_grid_gray  = app.pov.declare("tex_grid_gray",  app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_grid_red   = app.pov.declare("tex_grid_red",   app.pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_grid_green = app.pov.declare("tex_grid_green", app.pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_grid_blue  = app.pov.declare("tex_grid_blue",  app.pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
-                if(app.grid_enable.Value)
+                % Grids
+                if(app.grid_xz_enable.Value)
                     app.pov.grid_2D('width', 10, 'height', 10);
                 end
+                if(app.grid_yz_enable.Value)
+                    app.pov.grid_2D('width', 10, 'height', 10, 'rotate', [0 0 90]);
+                end
+                if(app.grid_xy_enable.Value)
+                    app.pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0 0]);
+                end
+
+                % Planes
+                if(app.plane_xz_enable.Value)
+                    app.pov.plane('normal', [0 1 0]);
+                end
+                if(app.plane_yz_enable.Value)
+
+                    app.pov.plane('normal', [1 0 0]);
+                end
+                if(app.plane_xy_enable.Value)
+                    app.pov.plane('normal', [0 0 1]);
+                end
+                
             app.pov.include_end();
         end
         
@@ -292,16 +316,10 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             end
         end
 
-        % Value changed function: axis_enable
-        function on_axis_enable(app, event)
-            create_helpers(app);            
-            if(app.cam_responsive.Value)
-                render(app);
-            end
-        end
-
-        % Value changed function: grid_enable
-        function on_grid_enable(app, event)
+        % Value changed function: axis_enable, grid_xy_enable, 
+        % grid_xz_enable, grid_yz_enable, plane_xy_enable, 
+        % plane_xz_enable, plane_yz_enable
+        function on_helper_changed(app, event)
             create_helpers(app);
             if(app.cam_responsive.Value)
                 render(app);
@@ -502,16 +520,46 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
             % Create axis_enable
             app.axis_enable = uicheckbox(app.panel_4);
-            app.axis_enable.ValueChangedFcn = createCallbackFcn(app, @on_axis_enable, true);
+            app.axis_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
             app.axis_enable.Text = 'Axis';
-            app.axis_enable.Position = [38 81 45 22];
+            app.axis_enable.Position = [65 81 45 22];
             app.axis_enable.Value = true;
 
-            % Create grid_enable
-            app.grid_enable = uicheckbox(app.panel_4);
-            app.grid_enable.ValueChangedFcn = createCallbackFcn(app, @on_grid_enable, true);
-            app.grid_enable.Text = 'Grid';
-            app.grid_enable.Position = [39 57 45 22];
+            % Create grid_xz_enable
+            app.grid_xz_enable = uicheckbox(app.panel_4);
+            app.grid_xz_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.grid_xz_enable.Text = 'Grid XZ';
+            app.grid_xz_enable.Position = [9 57 63 22];
+
+            % Create grid_yz_enable
+            app.grid_yz_enable = uicheckbox(app.panel_4);
+            app.grid_yz_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.grid_yz_enable.Text = 'Grid YZ';
+            app.grid_yz_enable.Position = [10 36 63 22];
+
+            % Create grid_xy_enable
+            app.grid_xy_enable = uicheckbox(app.panel_4);
+            app.grid_xy_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.grid_xy_enable.Text = 'Grid XY';
+            app.grid_xy_enable.Position = [11 15 64 22];
+
+            % Create plane_xz_enable
+            app.plane_xz_enable = uicheckbox(app.panel_4);
+            app.plane_xz_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.plane_xz_enable.Text = 'Plane XZ';
+            app.plane_xz_enable.Position = [84 57 71 22];
+
+            % Create plane_yz_enable
+            app.plane_yz_enable = uicheckbox(app.panel_4);
+            app.plane_yz_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.plane_yz_enable.Text = 'Plane YZ';
+            app.plane_yz_enable.Position = [85 36 71 22];
+
+            % Create plane_xy_enable
+            app.plane_xy_enable = uicheckbox(app.panel_4);
+            app.plane_xy_enable.ValueChangedFcn = createCallbackFcn(app, @on_helper_changed, true);
+            app.plane_xy_enable.Text = 'Plane XY';
+            app.plane_xy_enable.Position = [86 15 72 22];
 
             % Create panel_5
             app.panel_5 = uipanel(app.ui_figure);

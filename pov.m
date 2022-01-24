@@ -310,7 +310,7 @@ classdef pov < handle
             % Parse
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
-            addParameter(p,'distance',  1,           @o.check_float);
+            addParameter(p,'distance',  0,           @o.check_float);
             addParameter(p,'texture',   "tex_plane", @o.check_string);
             addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
             addParameter(p,'rotate',    [0 0 0],     @o.check_vector3);
