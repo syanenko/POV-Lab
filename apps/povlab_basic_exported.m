@@ -123,7 +123,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 % tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_axis_yellow = app.pov.declare("tex_axis_yellow", app.pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 if(app.axis_enable.Value)
-                    app.pov.axis();
+                    app.pov.axis('size', [5 5 5]);
                 end
 
                 % TODO: Move textures to materials.inc
@@ -173,7 +173,6 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 
                 app.pov.global_settings("assumed_gamma 1");
                
-                % f = figure('Visible', 'off');
                 [X,Y,Z] = peaks(app.surf_size.Value);
                 s = surf(X,Y,Z);
                 
