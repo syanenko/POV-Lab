@@ -310,15 +310,14 @@ classdef pov < handle
         function cone(o, varargin)
             % Parse
             p = inputParser;
-
-            addParameter(p,'base_point',  [0 0 0],     @o.check_vector3);
-            addParameter(p,'base_radius',     1.0,     @o.check_positive_float);
-            addParameter(p,'cap_point',   [0 0 5],     @o.check_vector3);
+            addParameter(p,'base_point', [0 0 0],      @o.check_vector3);
+            addParameter(p,'base_radius',    1.0,      @o.check_positive_float);
+            addParameter(p,'cap_point',  [0 0 5],      @o.check_vector3);
             addParameter(p,'cap_radius',       0,      @o.check_positive_float);
             addParameter(p,'texture',   "tex_default", @o.check_string);
-            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
-            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
-            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            addParameter(p,'scale',      [1 1 1],      @o.check_vector3);
+            addParameter(p,'rotate',     [0 0 0],      @o.check_vector3);
+            addParameter(p,'translate',  [0 0 0],      @o.check_vector3);
             parse(p,varargin{:});
 
             base_point  = p.Results.base_point;
@@ -331,12 +330,42 @@ classdef pov < handle
             translate = p.Results.translate;
 
             % Write
-            % cone { <0,0,0>,1.75, <0, 0, 8>, 0.5 
             fprintf(o.fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
                            '        texture { %s }\n'...
                            '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
                            base_point(1), base_point(2), base_point(3), base_radius,...
                            cap_point(1),  cap_point(2),  cap_point(3),  cap_radius,...
+                           texture,...
+                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+        end
+
+        % Cylinder
+        function cylinder(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'base_point',[0 0 0],      @o.check_vector3);
+            addParameter(p,'cap_point', [0 0 5],      @o.check_vector3);
+            addParameter(p,'radius',          0,      @o.check_positive_float);
+            addParameter(p,'texture',  "tex_default", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],      @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],      @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],      @o.check_vector3);
+            parse(p,varargin{:});
+
+            base_point = p.Results.base_point;
+            cap_point  = p.Results.cap_point;
+            radius     = p.Results.radius;
+            texture    = p.Results.texture;
+            scale      = p.Results.scale;
+            rotate     = p.Results.rotate;
+            translate  = p.Results.translate;
+
+            % Write
+            fprintf(o.fh, ['cylinder {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
+                           '          texture { %s }\n'...
+                           '          scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           base_point(1), base_point(2), base_point(3),...
+                           cap_point(1),  cap_point(2),  cap_point(3), radius,...
                            texture,...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end

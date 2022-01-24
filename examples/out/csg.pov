@@ -82,28 +82,13 @@ object { gid scale<1.00, 1.00, 1.00> rotate<90.00, 0.00, 0.00> translate<5.00, 5
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
 difference {
-sphere {<1.00, 1.00, 1.00>, 2.00
-        texture { tex_green }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 1.00, 0.00>}
-
-union {
-sphere {<2.00, 1.00, 2.00>, 0.70
-        texture { tex_red }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
-
-sphere {<2.00, 3.00, 1.00>, 0.80
-        texture { tex_blue }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
-
-sphere {<1.00, 2.00, 3.00>, 1.00
-        texture { tex_pink }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
-
-    scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.30, 0.30, 0.30>}
-
-    scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<3.00, 3.00, 4.00>}
-
 cone {<1.00, 1.00, 0.00>, 4.00, <1.00, 1.00, 6.00>, 1.50
         texture { tex_pink }
         scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+
+cylinder {<2.00, 2.00, 0.00>, <2.00, 2.00, 8.00>, 1.50
+          texture { tex_pink }
+          scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+
+    scale<1.00, 1.00, 1.00> rotate<0.00, 0.00, 0.00> translate<0.00, 0.00, 0.00>}
 
