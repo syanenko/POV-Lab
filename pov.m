@@ -218,7 +218,7 @@ classdef pov < handle
                           tex_common, tex_x, tex_y, tex_z);
         end
 
-        % Grid 2D % TODO - Implement
+        % Grid
         function grid(o, varargin)
             % Parse
             p = inputParser;
@@ -246,9 +246,9 @@ classdef pov < handle
             % Write
             fprintf(o.fh,['#local gid = "gid"\n' ...
                           'grid(gid, %0.2f, %d, %d, %0.2f, %s, %s);\n'...
-                          'object { gid scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
-                          cell_size, width, height, radius, texture_odd, texture_even,...
-                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                          'object { gid '],...
+                          cell_size, width, height, radius, texture_odd, texture_even);
+            o.write_transforms(scale, rotate, translate);
         end
         
         % Texture
@@ -289,21 +289,21 @@ classdef pov < handle
 
             % Write
             fprintf(o.fh, ['sphere {<%0.2f, %0.2f, %0.2f>, %0.2f\n'...
-                           '        texture { %s }\n'...
-                           '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           '        texture { %s }\n'],...
                            position(1), position(2), position(3), radius,...
-                           texture,...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-            % Preview
-            if(o.preview)
-                [x,y,z] = sphere;
-                surf( x * radius * scale(1) + position(1) + translate(1), ...
-                      y * radius * scale(2) + position(2) + translate(2), ...
-                      z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
-                shading(gca, o.preview_shading);
-                axis equal;
-                hold on;
-            end
+                           texture);
+            o.write_transforms(scale, rotate, translate);
+
+            % Preview TODO: Remove it completely (?)
+%             if(o.preview)
+%                 [x,y,z] = sphere;
+%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
+%                       y * radius * scale(2) + position(2) + translate(2), ...
+%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
+%                 shading(gca, o.preview_shading);
+%                 axis equal;
+%                 hold on;
+%             end
         end
 
         % Cone
@@ -331,12 +331,11 @@ classdef pov < handle
 
             % Write
             fprintf(o.fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
-                           '        texture { %s }\n'...
-                           '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           '        texture { %s }\n'],...
                            base_point(1), base_point(2), base_point(3), base_radius,...
                            cap_point(1),  cap_point(2),  cap_point(3),  cap_radius,...
-                           texture,...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                           texture);
+            o.write_transforms(scale, rotate, translate);
         end
 
         % Cylinder
@@ -362,12 +361,11 @@ classdef pov < handle
 
             % Write
             fprintf(o.fh, ['cylinder {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
-                           '          texture { %s }\n'...
-                           '          scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           '          texture { %s }\n'],...
                            base_point(1), base_point(2), base_point(3),...
                            cap_point(1),  cap_point(2),  cap_point(3), radius,...
-                           texture,...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                           texture);
+            o.write_transforms(scale, rotate, translate);
         end
 
         % Lathe surface
@@ -406,10 +404,8 @@ classdef pov < handle
             end
 
             fprintf(o.fh, ['      %s\n'...
-                           '      texture { %s }\n'...
-                           '      scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
-                           sturm, texture,...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                           '      texture { %s }\n'], sturm, texture);
+            o.write_transforms(scale, rotate, translate);
         end
         
         % Plane
@@ -433,11 +429,10 @@ classdef pov < handle
             
             % Write
             fprintf(o.fh,['plane { <%d, %d, %d>, %0.2f\n'...
-                          '        texture { %s }\n'...
-                          '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
+                          '        texture { %s }\n'],...
                           normal(1), normal(2), normal(3), distance,...
-                          texture,...
-                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                          texture);
+            o.write_transforms(scale, rotate, translate);
         end
         
         % Mesh
@@ -531,9 +526,7 @@ classdef pov < handle
             if(~strcmp(texture, ""))
                 fprintf(o.fh, 'texture { %s }\n', texture);
             end
-
-            fprintf(o.fh, '    scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f> }\n\n',...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+            o.write_transforms(scale, rotate, translate);
         end
         
         % Function
@@ -563,11 +556,10 @@ classdef pov < handle
             
             % Write
             fprintf(o.fh,['#declare %s = function(X) { %s }\n'...
-                          'union {plot_function(%0.2f, %0.2f, %s, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n'...
-                          '        scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f> }\n\n'],...
+                          'union {plot_function(%0.2f, %0.2f, %s, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n'],...
                           name, func,...
-                          min_x, max_x, name, width, color(1), color(2), color(3), ...
-                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+                          min_x, max_x, name, width, color(1), color(2), color(3));
+            o.write_transforms(scale, rotate, translate);
         end
 
         % CSG:Union
@@ -602,7 +594,7 @@ classdef pov < handle
             o.csg_end(varargin{:});
         end
 
-        % Common closing tag for all CSG functions
+        % Closing tag for all CSG functions
         function csg_end(o, varargin)
             % Parse
             p = inputParser;
@@ -611,13 +603,7 @@ classdef pov < handle
             addParameter(p,'translate', [0 0 0], @o.check_vector3);
             parse(p, varargin{:});
 
-            scale     = p.Results.scale;
-            rotate    = p.Results.rotate;
-            translate = p.Results.translate;
-
-            % Write
-            fprintf(o.fh,['    scale<%0.2f, %0.2f, %0.2f> rotate<%0.2f, %0.2f, %0.2f> translate<%0.2f, %0.2f, %0.2f>}\n\n'],...
-                          scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+            o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
         end
 
         % Render
@@ -659,6 +645,12 @@ classdef pov < handle
                                   s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
         end
 
+        % Write transforms
+        function  write_transforms(o, scale, rotate, translate)
+            fprintf(o.fh, '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
+                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+        end
+        
         %
         % Validation functions
         % ----------------------------------------------------------------------

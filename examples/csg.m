@@ -87,22 +87,19 @@ tex_green = pov.declare("tex_green", pov.texture('pigment', [0 1 0], 'finish', '
 tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-% pov.difference_begin();
-%     %pov.sphere();
-%     pov.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 1 0]);
-%     pov.union_begin();
-%           pov.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-%           pov.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-%           pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-%      pov.union_end('translate', [0.3 0.3 0.3]);
-% pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
-% 
-% pov.difference_begin();
-% pov.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
-% pov.cylinder('base_point', [2 2 0], 'cap_point', [2 2 8], 'radius', 1.5, 'texture', tex_pink);
-% pov.difference_end();
+pov.difference_begin();
+    pov.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 1 0]);
+    pov.union_begin();
+          pov.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+          pov.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+          pov.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+     pov.union_end('translate', [0.3 0.3 0.3]);
+pov.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
 
-
+pov.difference_begin();
+pov.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
+pov.cylinder('base_point', [2 2 0], 'cap_point', [2 2 8], 'radius', 1.5, 'texture', tex_pink);
+pov.difference_end();
 
 pov.scene_end();
 img = pov.render();
