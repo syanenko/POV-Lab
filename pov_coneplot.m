@@ -195,8 +195,9 @@ else
   end
   
   conesegments = 14;
-  conewidth = .333;
+  conewidth = 0.333;
   
+  % TODO: Write cones to scene here (?)
   [faces, verts] = conegeom(conesegments);
   numcones = size(cx,1);
   flen = size(faces,1);

@@ -104,7 +104,7 @@ colormap(hsv)
 light
 
 pov.scene_end();
-img = pov.render();
 % TODO: Allow afer writing to scene in pov_coneplot
+% img = pov.render();
 % imshow(img);
 toc % Elapsed time
