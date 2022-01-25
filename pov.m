@@ -369,6 +369,48 @@ classdef pov < handle
                            texture,...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
+
+        % Lathe surface
+        function lathe(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'points', [1 0; 1 1],           @o.check_points_list);
+            addParameter(p,'spline_type', 'linear_spline', @o.check_string);
+            addParameter(p,'sturm',  false,                @islogical);
+            addParameter(p,'texture',  "tex_default",      @o.check_string);
+            addParameter(p,'scale',     [1 1 1],           @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],           @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],           @o.check_vector3);
+            parse(p,varargin{:});
+
+            points      = p.Results.points;
+            spline_type = p.Results.spline_type;
+            sturm       = p.Results.sturm;
+            texture     = p.Results.texture;
+            scale       = p.Results.scale;
+            rotate      = p.Results.rotate;
+            translate   = p.Results.translate;
+
+            if(sturm)
+                sturm = "sturm";
+            else
+                sturm = "";
+            end
+
+            % Write
+            [npoints, psize] = size(points);
+            fprintf(o.fh, 'lathe { %s %d,\n', spline_type, npoints);
+
+            for i=1:npoints
+                fprintf(o.fh, '      <%0.2f, %0.2f>\n', points(i,1), points(i,2));
+            end
+
+            fprintf(o.fh, ['      %s\n'...
+                           '      texture { %s }\n'...
+                           '      scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n'],...
+                           sturm, texture,...
+                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+        end
         
         % Plane
         function plane(o, varargin)
@@ -690,7 +732,7 @@ classdef pov < handle
             r = true;
         end
 
-        % Transformation matrix '3 x 3'
+        % Matrix '3 x 3'
         function r = check_matrix_3x3(o, x)
             r = false;
             if (~isequal(size(x), [3 3]))
@@ -699,6 +741,16 @@ classdef pov < handle
             r = true;
         end
 
+        % Points list [x1 y1; .. ;xn yn])
+        function r = check_points_list(o, x)
+            r = false;
+            s = size(x);
+            if (s(1) < 2 || s(2) ~= 2)
+                error("Input is not a points list like '[x1 y1; .. ;xn yn]'");
+            end
+            r = true;
+        end
+        
         % Surface
         function r = check_surface(o, x)
             r = false;
