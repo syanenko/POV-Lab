@@ -410,6 +410,7 @@ classdef pov < handle
         
         % Cone plot
         function h = coneplot(o, varargin)
+            varargin = [{ o.fh }, varargin];
             h = pov_coneplot(varargin{:});
         end
 

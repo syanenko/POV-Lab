@@ -64,7 +64,7 @@ end
 % Parse possible Axes input
 [cax,args,nargs] = axescheck(varargin{:});
 
-[x, y, z, u, v, w, cx, cy, cz, s, color, quiv, method, nointerp] = parseargs(nargs,args);
+[fh, x, y, z, u, v, w, cx, cy, cz, s, color, quiv, method, nointerp] = parseargs(nargs,args);
 
 if isempty(s)
   s = 1;
@@ -242,7 +242,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [x, y, z, u, v, w, cx, cy, cz, s, color, quiv, method, nointerp] =...
+function [fh, x, y, z, u, v, w, cx, cy, cz, s, color, quiv, method, nointerp] =...
     parseargs(nin, vargin)
 
 x = [];
@@ -253,6 +253,7 @@ color = [];
 method = [];
 quiv = 0;
 nointerp = 0;
+fh = 0;
 
 for j=1:3
   if nin>0
@@ -278,35 +279,38 @@ if nointerp==1 && ~(nin==6 || nin==7)
   error(message('MATLAB:coneplot:WrongNumberOfInputs')); 
 end
 
-if nin==6         % coneplot(u,v,w,cx,cy,cz)
-  u = vargin{1};
-  v = vargin{2};
-  w = vargin{3};
-  cx = vargin{4};
-  cy = vargin{5};
-  cz = vargin{6};
-elseif nin==7     % coneplot(u,v,w,cx,cy,cz,s) or coneplot(u,v,w,cx,cy,cz,color) 
-  u = vargin{1};
-  v = vargin{2};
-  w = vargin{3};
-  cx = vargin{4};
-  cy = vargin{5};
-  cz = vargin{6};
-  arg7 = vargin{7};
+if nin==7         % coneplot(fh,u,v,w,cx,cy,cz)
+  fh = vargin{1};
+  u = vargin{2};
+  v = vargin{3};
+  w = vargin{4};
+  cx = vargin{5};
+  cy = vargin{6};
+  cz = vargin{7};
+elseif nin==8     % coneplot(fh,u,v,w,cx,cy,cz,s) or coneplot(u,v,w,cx,cy,cz,color) 
+  fh = vargin{1};
+  u = vargin{2};
+  v = vargin{3};
+  w = vargin{4};
+  cx = vargin{5};
+  cy = vargin{6};
+  cz = vargin{7};
+  arg7 = vargin{8};
   if length(arg7)==1
     s = arg7;
   else
     color = arg7;
   end
-elseif nin==8     % coneplot(u,v,w,cx,cy,cz,s,color) or coneplot(u,v,w,cx,cy,cz,color,s) 
-  u = vargin{1};
-  v = vargin{2};
-  w = vargin{3};
-  cx = vargin{4};
-  cy = vargin{5};
-  cz = vargin{6};
-  arg7 = vargin{7};
-  arg8 = vargin{8};
+elseif nin==9     % coneplot(fh,u,v,w,cx,cy,cz,s,color) or coneplot(u,v,w,cx,cy,cz,color,s) 
+  fh = vargin{1};
+  u = vargin{2};
+  v = vargin{3};
+  w = vargin{4};
+  cx = vargin{5};
+  cy = vargin{6};
+  cz = vargin{7};
+  arg7 = vargin{8};
+  arg8 = vargin{9};
   if length(arg7)==1
     s = arg7;
     color = arg8;
@@ -314,44 +318,47 @@ elseif nin==8     % coneplot(u,v,w,cx,cy,cz,s,color) or coneplot(u,v,w,cx,cy,cz,
     color = arg7;
     s = arg8;
   end
-elseif nin==9     % coneplot(x,y,z,u,v,w,cx,cy,cz)
-  x = vargin{1};
-  y = vargin{2};
-  z = vargin{3};
-  u = vargin{4};
-  v = vargin{5};
-  w = vargin{6};
-  cx = vargin{7};
-  cy = vargin{8};
-  cz = vargin{9};
-elseif nin==10    % coneplot(x,y,z,u,v,w,cx,cy,cz,s) or coneplot(x,y,z,u,v,w,cx,cy,cz,color) 
-  x = vargin{1};
-  y = vargin{2};
-  z = vargin{3};
-  u = vargin{4};
-  v = vargin{5};
-  w = vargin{6};
-  cx = vargin{7};
-  cy = vargin{8};
-  cz = vargin{9};
-  arg10 = vargin{10};
+elseif nin==10     % coneplot(fh,x,y,z,u,v,w,cx,cy,cz)
+  fh = vargin{1};
+  x = vargin{2};
+  y = vargin{3};
+  z = vargin{4};
+  u = vargin{5};
+  v = vargin{6};
+  w = vargin{7};
+  cx = vargin{8};
+  cy = vargin{9};
+  cz = vargin{10};
+elseif nin==11    % coneplot(fh,x,y,z,u,v,w,cx,cy,cz,s) or coneplot(x,y,z,u,v,w,cx,cy,cz,color) 
+  fh = vargin{1};
+  x = vargin{2};
+  y = vargin{3};
+  z = vargin{4};
+  u = vargin{5};
+  v = vargin{6};
+  w = vargin{7};
+  cx = vargin{8};
+  cy = vargin{9};
+  cz = vargin{10};
+  arg10 = vargin{11};
   if length(arg10)==1
     s = arg10;
   else
     color = arg10;
   end
-elseif nin==11    % coneplot(x,y,z,u,v,w,cx,cy,cz,s,color) or coneplot(x,y,z,u,v,w,cx,cy,cz,color,s) 
-  x = vargin{1};
-  y = vargin{2};
-  z = vargin{3};
-  u = vargin{4};
-  v = vargin{5};
-  w = vargin{6};
-  cx = vargin{7};
-  cy = vargin{8};
-  cz = vargin{9};
-  arg10 = vargin{10};
-  arg11 = vargin{11};
+elseif nin==12    % coneplot(fh,x,y,z,u,v,w,cx,cy,cz,s,color) or coneplot(x,y,z,u,v,w,cx,cy,cz,color,s) 
+  fh = vargin{1};
+  x = vargin{2};
+  y = vargin{3};
+  z = vargin{4};
+  u = vargin{5};
+  v = vargin{6};
+  w = vargin{7};
+  cx = vargin{8};
+  cy = vargin{9};
+  cz = vargin{10};
+  arg10 = vargin{11};
+  arg11 = vargin{12};
   if length(arg10)==1
     s = arg10;
     color = arg11;

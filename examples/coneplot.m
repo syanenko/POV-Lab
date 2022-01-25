@@ -93,7 +93,7 @@ load wind u v w x y z
 m = 35
 n = 41
 p = 15
-[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);    
+[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
 h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
 set(h,'EdgeColor', 'none')
 
