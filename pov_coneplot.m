@@ -245,6 +245,7 @@ end
 function [fh, x, y, z, u, v, w, cx, cy, cz, s, color, quiv, method, nointerp] =...
     parseargs(nin, vargin)
 
+fh = 0;
 x = [];
 y = [];
 z = [];
@@ -253,7 +254,6 @@ color = [];
 method = [];
 quiv = 0;
 nointerp = 0;
-fh = 0;
 
 for j=1:3
   if nin>0
