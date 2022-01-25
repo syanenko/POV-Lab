@@ -90,6 +90,18 @@ lathe { quadratic_spline 7,
       <0.29, 1.50>
       <0.26, 1.53>
       sturm
-      texture { tex_default }
+      texture { Ruby_Glass }
       scale<4.00, 4.00, 4.00> rotate <90.00, 0.00, 0.00> translate <4.00, 4.00, 0.00>}
+
+lathe { quadratic_spline 7,
+      <0.00, 0.00>
+      <0.42, 0.00>
+      <0.62, 0.54>
+      <0.21, 0.83>
+      <0.19, 1.46>
+      <0.29, 1.50>
+      <0.26, 1.53>
+      sturm
+      texture { Orange_Glass }
+      scale<3.00, 3.00, 3.00> rotate <90.00, 0.00, 0.00> translate <7.00, 7.00, 0.00>}
 
