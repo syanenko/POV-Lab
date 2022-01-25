@@ -411,7 +411,9 @@ classdef pov < handle
         % Cone plot
         function h = coneplot(o, varargin)
             varargin = [{ o.fh }, varargin];
+            o.union_begin();
             h = pov_coneplot(varargin{:});
+            o.union_end();
         end
 
         % Plane

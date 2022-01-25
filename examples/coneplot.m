@@ -19,7 +19,7 @@ end
 
 % pov.scene_begin();
 % TODO: Set image size
-pov.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
+pov.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
 pov.include("shapes");
 
 pov.global_settings("assumed_gamma 1");
@@ -105,6 +105,6 @@ light
 
 pov.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
-% img = pov.render();
-% imshow(img);
+img = pov.render();
+imshow(img);
 toc % Elapsed time

@@ -197,7 +197,6 @@ else
   conesegments = 14;
   conewidth = 0.333;
   
-  % TODO: Write cones to scene here (?)
   [faces, verts] = conegeom(conesegments);
   numcones = size(cx,1);
   flen = size(faces,1);
@@ -207,6 +206,8 @@ else
   offset = floor((0:flen*numcones-1)/flen)';
   faces = faces+repmat(vlen*offset,1,3);
   
+  count_x = 0.1;  
+
   for i = 1:size(cx,1)
     index = (i-1)*vlen+1:i*vlen;
     len = norm([ui(i),vi(i),wi(i)]);
@@ -218,6 +219,14 @@ else
     verts(index,1) = verts(index,1) + cx(i);
     verts(index,2) = verts(index,2) + cy(i);
     verts(index,3) = verts(index,3) + cz(i);
+
+    % TODO: Write actual geometry
+    fprintf(fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
+                   '        texture { %s }}\n'],...
+                   count_x,    2, 0, 0.5,...
+                   count_x,    2, 1, 0,...
+                   'tex_default');
+    count_x = count_x + 1.1;
   end
   
   h = patch('faces', faces, 'vertices', verts, 'parent', cax);
