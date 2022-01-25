@@ -408,6 +408,11 @@ classdef pov < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        % Cone plot
+        function h = coneplot(o, varargin)
+            h = pov_coneplot(varargin{:});
+        end
+
         % Plane
         function plane(o, varargin)
             % Parse
