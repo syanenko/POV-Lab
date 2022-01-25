@@ -105,6 +105,6 @@ light
 
 pov.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
-img = pov.render();
-imshow(img);
+% img = pov.render();
+% imshow(img);
 toc % Elapsed time
