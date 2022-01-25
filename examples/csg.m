@@ -27,7 +27,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [23 12 23], 'look_at', [0 4 0], 'type', 'perspective');
+pov.camera('angle', 25, 'location', [35 20 19], 'look_at', [0 1 3], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -77,9 +77,9 @@ tex_grid_blue  = pov.declare("tex_grid_blue",  pov.texture('pigment', [0.0 0.0 1
 % pov.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5], 'texture_odd', tex_grid_blue,  'texture_even', tex_grid_gray);
 % pov.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0], 'texture_odd', tex_grid_red,   'texture_even', tex_grid_gray);
 
-pov.grid('width', 10, 'height', 10, 'radius', 0.01,                     'translate', [5 0 5]);
-pov.grid('width', 10, 'height', 10, 'radius', 0.03,'rotate', [ 0 0 90], 'translate', [0 5 5]);
-pov.grid('width', 10, 'height', 10, 'radius', 0.05,'rotate', [90 0  0], 'translate', [5 5 0]);
+pov.grid('width', 17, 'height', 17, 'radius', 0.02,                     'translate', [5 0 5]);
+pov.grid('width', 17, 'height', 17, 'radius', 0.02,'rotate', [ 0 0 90], 'translate', [0 5 5]);
+pov.grid('width', 17, 'height', 17, 'radius', 0.02,'rotate', [90 0  0], 'translate', [5 5 0]);
 
 % Objects textures
 tex_red   = pov.declare("tex_red",   pov.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
