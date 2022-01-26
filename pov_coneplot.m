@@ -220,22 +220,27 @@ else
   end
   
   h = patch('faces', faces, 'vertices', verts, 'parent', cax);
-  [fnum, pnum] = size(faces);
-  for i=1:fnum
-    % TODO: Write cones
-    if ~isnan(verts(faces(i,1),1))
-        fprintf(fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> \n texture {%s}}\n', ...
-                      verts(faces(i,1),1), verts(faces(i,1),2), verts(faces(i,1),3),...
-                      verts(faces(i,2),1), verts(faces(i,2),2), verts(faces(i,2),3),...
-                      verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3),'tex_default');
-    end
-  end
   
-  % TODO: Get colors from here
   if ~isempty(color)
     fvc = repmat(ci(:)',[vlen 1]);
     set(h, 'facecolor', 'flat', 'facevertexcdata', fvc(:))
   end
+
+  % Write to POV
+  [fnum, pnum] = size(faces);
+  for i=1:fnum
+    % TODO: Write colored cones
+    % size(fvc)
+    % size(faces)
+    if ~isnan(verts(faces(i,1),1))
+        fprintf(fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> \n texture {pigment{rgb<%0.1f, %0.1f, %0.1f>}}}\n', ...
+                      verts(faces(i,1),1), verts(faces(i,1),2), verts(faces(i,1),3),...
+                      verts(faces(i,2),1), verts(faces(i,2),2), verts(faces(i,2),3),...
+                      verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3), ...
+                      0,0,1);
+    end
+  end
+  
 end
 
 if nargout==1 
