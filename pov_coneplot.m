@@ -227,6 +227,8 @@ else
   end
 
   % Write to POV
+  max_fvc = max(fvc(:));
+  col = 0;
   [fnum, pnum] = size(faces);
   for i=1:fnum
     % TODO: Write colored cones
@@ -247,12 +249,31 @@ else
         base_radius  = sqrt((base_point_x - verts(faces(i,1),1))^2 +...
                             (base_point_y - verts(faces(i,1),2))^2 +... 
                             (base_point_z - verts(faces(i,1),3))^2);
+        % Colors
+%         if(col < 300)
+%             r = fvc(1, col+1) / max_fvc;
+%             g = fvc(1, col+2) / max_fvc;
+%             b = fvc(1, col+3) / max_fvc;
+%             col = col + 3;
+%             if(mod(col,11) == 9)
+%                 col = col + 2;
+%             end
+%         else
+%             r = 1;
+%             g = 1;
+%             b = 1;
+%         end
+
+        r = 0;
+        g = 1;
+        b = 0;
+        
         % Cone itself
         fprintf(fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
                      '        texture { pigment{rgb<%0.1f, %0.1f, %0.1f>} }}\n'],...
                      base_point_x, base_point_y, base_point_z, base_radius * 0.5,...
                      verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3),  0,...
-                     0,1,0);
+                     r, g, b);
     end
   end
   
