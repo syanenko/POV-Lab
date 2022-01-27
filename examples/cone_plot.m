@@ -27,7 +27,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [123 16 111], 'look_at', [0 4 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [50 26 40], 'look_at', [0 4 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -105,6 +105,6 @@ light
 
 pov.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
-% img = pov.render();
-% imshow(img);
+img = pov.render();
+imshow(img);
 toc % Elapsed time
