@@ -7,7 +7,7 @@ tic %Measure time
 % Check OS
 if isunix
 pov = pov( "3.7",...
-           '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
+           '"/usr/local/bin/povray +A -W1920 -H1080 -L/home/serge/projects/povlab/include -L/home/serge/projects/povlab/examples/out"', ...
            "/home/serge/projects/povlab/examples/out");
 elseif ispc
     pov = pov( "3.7",...
@@ -105,6 +105,6 @@ light
 
 pov.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
-% img = pov.render();
-% imshow(img);
+img = pov.render();
+imshow(img);
 toc % Elapsed time
