@@ -2,6 +2,7 @@
 #include "povlab.inc"
 #include "textures.inc"
 #include "glass.inc"
+#include "golds.inc"
 global_settings { assumed_gamma 1 }
 
 camera { perspective         angle 35
@@ -46,9 +47,9 @@ plane { <0, 0, 1>, 0.00
         texture { tex_plane_blue }
         scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
 
-#declare coneplot_alpha = 1.0;
-#declare coneplot_interior = interior {ior 1.1};
-#declare coneplot_finish = finish   {Metal};
+#declare coneplot_alpha = 0.3;
+#declare coneplot_interior = interior {ior 1.5};
+#declare coneplot_finish = finish   {Glossy};
 union {
 cone {<1.00, 1.00, 1.00>, 0.01, <1.06, 1.07, 1.00>, 0.00
         material{ texture { pigment{rgbf<0.2, 0.8, 0.3, coneplot_alpha>}

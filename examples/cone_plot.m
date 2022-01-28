@@ -22,6 +22,7 @@ end
 pov.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
 pov.include("textures");
 pov.include("glass");
+pov.include("golds");
 
 pov.global_settings("assumed_gamma 1");
 
@@ -97,7 +98,8 @@ p = 15
 [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
 
 % pov.coneplot_material();
-pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 1.0);
+pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
+%pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
 % pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
 h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
 set(h,'EdgeColor', 'none')
