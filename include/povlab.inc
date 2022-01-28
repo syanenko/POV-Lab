@@ -79,7 +79,7 @@ union{
 #end
 
 //
-// Default textures
+// Textures
 //
 #declare tex_default = texture { Polished_Chrome
           pigment{ rgb <0.00, 0.70, 0.00>}
@@ -122,3 +122,10 @@ union{
     #end
 }
 #end
+
+//
+// Default coneplot material
+//
+#declare coneplot_alpha = 0.8;
+#declare coneplot_interior = interior {ior 0.0};
+#declare coneplot_finish = finish   {crand 0.02};

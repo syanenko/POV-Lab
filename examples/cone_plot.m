@@ -28,7 +28,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [100 40 100], 'look_at', [0 10 -5], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [90 30 90], 'look_at', [0 10 -8], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -36,7 +36,7 @@ pov.camera('angle', 35, 'location', [100 40 100], 'look_at', [0 10 -5], 'type', 
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [150 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+pov.light('location', [90 30 90], 'color', [0.9 0.9 0.9], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -44,15 +44,15 @@ pov.light('location', [150 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true)
 % pov.light('location', [0 0 100], 'color', [0.1 0.1 0.1]);
 
 % Axis textures
-% tex_axis_common  = pov.declare("tex_axis_common", pov.texture([0. 0. 0.], "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_x = pov.declare("tex_axis_x", pov.texture([1 1 1], "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_axis_y = pov.declare("tex_axis_y", pov.texture([0 1 0], "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_odd = pov.declare("tex_axis_odd", pov.texture('pigment', [0.5 0.5 0.5], "finish", "phong 1 reflection {0.10 metallic 0.4}"));
+tex_axis_even = pov.declare("tex_axis_even", pov.texture('pigment', [1 1 0], "finish", "phong 1 reflection {0.10 metallic 0.4}"));
+%tex_axis_y = pov.declare("tex_axis_y", pov.texture('pigment', [0 1 0], "finish", "phong 1 reflection {0.10 metallic 0.4}"));
 % tex_axis_z = pov.declare("tex_axis_z", pov.texture([0 0 1], "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis
 % pov.axis();
 % pov.axis('size', [5 6 7], 'tex_common', pov.tex_axis_x, 'tex_x', pov.tex_axis_z);
-pov.axis('size', [11 11 11]);
+pov.axis('size', [50 50 50], 'radius', 0.3, 'tex_common', tex_axis_odd, 'tex_x', tex_axis_even, 'tex_y', tex_axis_even, 'tex_z', tex_axis_even);
 
 % Axis planes textures
 % tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -89,12 +89,16 @@ pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale',
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
 % TODO: write to scene in pov_coneplot
-load wind u v w x y z                          
+load wind u v w x y z
 [m,n,p] = size(u)
 m = 35
 n = 41
 p = 15
 [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
+
+% pov.coneplot_material();
+pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 1.0);
+% pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
 h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
 set(h,'EdgeColor', 'none')
 

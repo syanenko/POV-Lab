@@ -407,15 +407,24 @@ classdef pov < handle
                            '      texture { %s }\n'], sturm, texture);
             o.write_transforms(scale, rotate, translate);
         end
+
+        % Set cone plot visualization params
+        function coneplot_material(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'alpha', 0.8, @o.check_positive_float);
+            addParameter(p,'interior', 'ior 0.0',  @o.check_string); % I_Glass
+            addParameter(p,'finish',   'crand 0.02', @o.check_string);
+            parse(p,varargin{:});
+
+            o.declare("coneplot_alpha",    sprintf("%0.1f;", p.Results.alpha));
+            o.declare("coneplot_interior", sprintf("interior {%s};", p.Results.interior));
+            o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
+        end
         
         % Cone plot
         function h = coneplot(o, varargin)
             varargin = [{ o.fh }, varargin];
-            % TODO: Parse anf filter params
-            o.declare("coneplot_f", '0.8;');
-%            o.declare("coneplot_interior", 'I_Glass');
-            o.declare("coneplot_interior", 'interior {ior 0.0};');
-            o.declare("coneplot_finish", 'finish {crand 0.02};');
             o.union_begin();
             h = pov_coneplot(varargin{:});
             o.union_end();
