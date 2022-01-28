@@ -1,2610 +1,2638 @@
 #version 3.7;
 #include "povlab.inc"
-#include "shapes.inc"
+#include "textures.inc"
+#include "glass.inc"
 global_settings { assumed_gamma 1 }
 
 camera { perspective         angle 35
-         location <50.00, 40.00, -26.00>
+         location <100.00, 100.00, -40.00>
          right x * image_width / image_height
-         look_at <0.00, 0.00, -4.00>
+         look_at <0.00, -5.00, -10.00>
          right  <-1.33, 0.00, 0.000> rotate<90,0,0>}
 
-light_source{< 100.0, 200.0, 300.0> rgb<0.40, 0.40, 0.40> }
+light_source{< 150.0, 200.0, 300.0> rgb<0.40, 0.40, 0.40> shadowless}
 object{ axis_xyz( 11.00, 11.00, 11.00, 0.05,
         tex_axis_common, tex_axis_x, tex_axis_y, tex_axis_z) }
 
+#declare tex_plane_red = texture { Polished_Chrome
+          pigment{ rgb <0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_plane_green = texture { Polished_Chrome
+          pigment{ rgb <0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_plane_blue = texture { Polished_Chrome
+          pigment{ rgb <0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+plane { <1, 0, 0>, 0.00
+        texture { tex_plane_red }
+        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+
+plane { <0, 1, 0>, 0.00
+        texture { tex_plane_green }
+        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+
+plane { <0, 0, 1>, 0.00
+        texture { tex_plane_blue }
+        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+
+#declare coneplot_f = 0.8;
+#declare coneplot_interior = interior {ior 0.0};
+#declare coneplot_finish = finish {crand 0.02};
 union {
-    triangle {<0.99, 1.01, 1.01>, <1.01, 0.99, 0.99>, <1.06, 1.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
 cone {<1.00, 1.00, 1.00>, 0.01, <1.06, 1.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 0.99, 0.99>, <0.99, 1.01, 1.01>, <1.06, 1.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<1.00, 1.00, 1.00>, 0.01, <1.06, 1.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 5.01, 1.02>, <1.01, 4.99, 0.98>, <1.13, 5.10, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 1.00>, 0.01, <1.13, 5.10, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 4.99, 0.98>, <0.99, 5.01, 1.02>, <1.13, 5.10, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 1.00>, 0.01, <1.13, 5.10, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 9.01, 1.05>, <1.00, 8.99, 0.95>, <1.32, 9.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 1.00>, 0.03, <1.32, 9.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 8.99, 0.95>, <1.00, 9.01, 1.05>, <1.32, 9.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 1.00>, 0.03, <1.32, 9.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 12.99, 1.09>, <1.00, 13.01, 0.91>, <1.52, 12.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 1.00>, 0.04, <1.52, 12.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 13.01, 0.91>, <1.00, 12.99, 1.09>, <1.52, 12.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 1.00>, 0.04, <1.52, 12.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 16.99, 1.10>, <1.00, 17.01, 0.90>, <1.58, 16.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 1.00>, 0.05, <1.58, 16.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 17.01, 0.90>, <1.00, 16.99, 1.10>, <1.58, 16.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 1.00>, 0.05, <1.58, 16.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 20.99, 1.03>, <1.00, 21.01, 0.97>, <1.16, 20.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 1.00>, 0.01, <1.16, 20.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 21.01, 0.97>, <1.00, 20.99, 1.03>, <1.16, 20.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 1.00>, 0.01, <1.16, 20.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 25.01, 0.96>, <1.00, 24.99, 1.04>, <0.77, 24.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 1.00>, 0.02, <0.77, 24.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 24.99, 1.04>, <1.00, 25.01, 0.96>, <0.77, 24.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 1.00>, 0.02, <0.77, 24.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 28.97, 0.92>, <1.01, 29.03, 1.08>, <0.50, 29.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 1.00>, 0.05, <0.50, 29.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 29.03, 1.08>, <0.99, 28.97, 0.92>, <0.50, 29.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 1.00>, 0.05, <0.50, 29.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 33.01, 0.98>, <1.00, 32.99, 1.02>, <0.90, 32.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 1.00>, 0.01, <0.90, 32.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 32.99, 1.02>, <1.00, 33.01, 0.98>, <0.90, 32.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 1.00>, 0.01, <0.90, 32.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 1.01, 1.01>, <5.01, 0.99, 0.99>, <5.06, 1.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 1.00>, 0.02, <1.13, 5.10, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 1.00>, 0.02, <1.13, 5.10, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 1.00>, 0.04, <1.32, 9.07, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 1.00>, 0.04, <1.32, 9.07, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 1.00>, 0.07, <1.52, 12.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 1.00>, 0.07, <1.52, 12.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 1.00>, 0.08, <1.58, 16.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 1.00>, 0.08, <1.58, 16.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 1.00>, 0.02, <1.16, 20.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 1.00>, 0.02, <1.16, 20.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 1.00>, 0.03, <0.77, 24.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 1.00>, 0.03, <0.77, 24.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 1.00>, 0.07, <0.50, 29.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 1.00>, 0.07, <0.50, 29.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 1.00>, 0.02, <0.90, 32.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 1.00>, 0.02, <0.90, 32.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<5.00, 1.00, 1.00>, 0.01, <5.06, 1.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 0.99, 0.99>, <4.99, 1.01, 1.01>, <5.06, 1.07, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<5.00, 1.00, 1.00>, 0.01, <5.06, 1.07, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 5.00, 1.00>, <5.00, 5.00, 1.00>, <5.03, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 1.00>, 0.00, <5.03, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 5.00, 1.00>, <5.00, 5.00, 1.00>, <5.03, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 1.00>, 0.00, <5.03, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 8.99, 1.01>, <5.00, 9.01, 0.99>, <5.06, 8.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 1.00>, 0.01, <5.03, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 1.00>, 0.01, <5.03, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<5.00, 9.00, 1.00>, 0.01, <5.06, 8.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 9.01, 0.99>, <5.00, 8.99, 1.01>, <5.06, 8.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<5.00, 9.00, 1.00>, 0.01, <5.06, 8.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 12.99, 1.02>, <5.00, 13.01, 0.98>, <5.13, 12.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 1.00>, 0.01, <5.13, 12.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 13.01, 0.98>, <5.00, 12.99, 1.02>, <5.13, 12.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 1.00>, 0.01, <5.13, 12.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 16.99, 1.02>, <5.01, 17.01, 0.98>, <5.13, 16.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 1.00>, 0.01, <5.13, 16.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 17.01, 0.98>, <4.99, 16.99, 1.02>, <5.13, 16.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 1.00>, 0.01, <5.13, 16.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.98, 21.01, 0.99>, <5.02, 20.99, 1.01>, <4.96, 20.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 1.00>, 0.01, <4.96, 20.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.02, 20.99, 1.01>, <4.98, 21.01, 0.99>, <4.96, 20.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 1.00>, 0.01, <4.96, 20.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.96, 25.00, 1.00>, <5.04, 25.00, 1.00>, <5.03, 24.73, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 1.00>, 0.02, <5.03, 24.73, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.04, 25.00, 1.00>, <4.96, 25.00, 1.00>, <5.03, 24.73, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 1.00>, 0.02, <5.03, 24.73, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.94, 28.98, 0.98>, <5.06, 29.02, 1.02>, <4.86, 29.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 1.00>, 0.04, <4.86, 29.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.06, 29.02, 1.02>, <4.94, 28.98, 0.98>, <4.86, 29.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 1.00>, 0.04, <4.86, 29.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.91, 32.96, 0.96>, <5.09, 33.04, 1.04>, <4.73, 33.58, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 1.00>, 0.05, <4.73, 33.58, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.09, 33.04, 1.04>, <4.91, 32.96, 0.96>, <4.73, 33.58, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 1.00>, 0.05, <4.73, 33.58, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 0.99, 1.02>, <9.00, 1.01, 0.98>, <9.09, 0.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 1.00>, 0.02, <5.13, 12.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 1.00>, 0.02, <5.13, 12.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 1.00>, 0.02, <5.13, 16.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 1.00>, 0.02, <5.13, 16.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 1.00>, 0.02, <4.96, 20.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 1.00>, 0.02, <4.96, 20.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 1.00>, 0.04, <5.03, 24.73, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 1.00>, 0.04, <5.03, 24.73, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 1.00>, 0.06, <4.86, 29.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 1.00>, 0.06, <4.86, 29.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 1.00>, 0.09, <4.73, 33.58, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 1.00>, 0.09, <4.73, 33.58, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 1.00, 1.00>, 0.01, <9.09, 0.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 1.01, 0.98>, <9.00, 0.99, 1.02>, <9.09, 0.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 1.00, 1.00>, 0.01, <9.09, 0.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 5.02, 1.02>, <9.02, 4.98, 0.98>, <9.13, 5.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 1.00>, 0.02, <9.13, 5.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 4.98, 0.98>, <8.98, 5.02, 1.02>, <9.13, 5.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 1.00>, 0.02, <9.13, 5.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 8.99, 1.02>, <9.02, 9.01, 0.98>, <9.09, 8.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 1.00>, 0.03, <9.13, 5.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 1.00>, 0.03, <9.13, 5.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 9.00, 1.00>, 0.02, <9.09, 8.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 9.01, 0.98>, <8.98, 8.99, 1.02>, <9.09, 8.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 9.00, 1.00>, 0.02, <9.09, 8.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 13.01, 0.98>, <9.02, 12.99, 1.02>, <8.90, 12.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 13.00, 1.00>, 0.02, <8.90, 12.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 12.99, 1.02>, <8.98, 13.01, 0.98>, <8.90, 12.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 13.00, 1.00>, 0.02, <8.90, 12.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 16.99, 0.99>, <9.02, 17.01, 1.01>, <8.96, 17.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 1.00>, 0.01, <8.96, 17.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 17.01, 1.01>, <8.98, 16.99, 0.99>, <8.96, 17.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 1.00>, 0.01, <8.96, 17.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 21.02, 1.04>, <9.01, 20.98, 0.96>, <9.26, 21.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 1.00>, 0.02, <9.26, 21.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 20.98, 0.96>, <8.99, 21.02, 1.04>, <9.26, 21.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 1.00>, 0.02, <9.26, 21.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 25.03, 1.04>, <9.02, 24.97, 0.96>, <9.22, 25.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 1.00>, 0.03, <9.22, 25.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 24.97, 0.96>, <8.98, 25.03, 1.04>, <9.22, 25.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 1.00>, 0.03, <9.22, 25.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.95, 28.99, 0.99>, <9.05, 29.01, 1.01>, <8.96, 29.29, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 1.00>, 0.02, <8.96, 29.29, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.05, 29.01, 1.01>, <8.95, 28.99, 0.99>, <8.96, 29.29, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 1.00>, 0.02, <8.96, 29.29, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 33.02, 0.97>, <9.01, 32.98, 1.03>, <8.83, 32.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 1.00>, 0.02, <8.83, 32.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 32.98, 1.03>, <8.99, 33.02, 0.97>, <8.83, 32.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 1.00>, 0.02, <8.83, 32.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.98, 1.01, 1.01>, <13.02, 0.99, 0.99>, <13.06, 1.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 1.00>, 0.01, <13.06, 1.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.02, 0.99, 0.99>, <12.98, 1.01, 1.01>, <13.06, 1.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 1.00>, 0.01, <13.06, 1.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.93, 5.00, 1.00>, <13.07, 5.00, 1.00>, <13.03, 5.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 1.00>, 0.03, <13.03, 5.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.07, 5.00, 1.00>, <12.93, 5.00, 1.00>, <13.03, 5.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 1.00>, 0.03, <13.03, 5.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.98, 9.01, 1.02>, <13.02, 8.99, 0.98>, <13.09, 9.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 1.00>, 0.01, <13.09, 9.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.02, 8.99, 0.98>, <12.98, 9.01, 1.02>, <13.09, 9.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 1.00>, 0.01, <13.09, 9.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.98, 13.05, 1.12>, <13.02, 12.95, 0.88>, <13.75, 13.32, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 1.00>, 0.07, <13.75, 13.32, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.02, 12.95, 0.88>, <12.98, 13.05, 1.12>, <13.75, 13.32, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 1.00>, 0.07, <13.75, 13.32, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.99, 17.03, 1.12>, <13.01, 16.97, 0.88>, <13.75, 17.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 1.00>, 0.06, <13.75, 17.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.01, 16.97, 0.88>, <12.99, 17.03, 1.12>, <13.75, 17.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 1.00>, 0.06, <13.75, 17.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.88, 20.95, 1.06>, <13.12, 21.05, 0.94>, <13.35, 20.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 1.00>, 0.07, <13.35, 20.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.12, 21.05, 0.94>, <12.88, 20.95, 1.06>, <13.35, 20.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 1.00>, 0.07, <13.35, 20.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.98, 25.01, 0.99>, <13.02, 24.99, 1.01>, <12.93, 24.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 1.00>, 0.01, <12.93, 24.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.02, 24.99, 1.01>, <12.98, 25.01, 0.99>, <12.93, 24.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 1.00>, 0.01, <12.93, 24.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 29.00, 0.93>, <13.00, 29.00, 1.07>, <12.60, 28.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 1.00>, 0.03, <12.60, 28.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 29.00, 1.07>, <13.00, 29.00, 0.93>, <12.60, 28.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 1.00>, 0.03, <12.60, 28.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 32.98, 0.87>, <13.00, 33.02, 1.13>, <12.24, 33.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 1.00>, 0.06, <12.24, 33.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 33.02, 1.13>, <13.00, 32.98, 0.87>, <12.24, 33.14, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 1.00>, 0.06, <12.24, 33.14, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.98, 1.01, 0.99>, <17.02, 0.99, 1.01>, <16.96, 0.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 1.00>, 0.01, <16.96, 0.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.02, 0.99, 1.01>, <16.98, 1.01, 0.99>, <16.96, 0.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 1.00>, 0.01, <16.96, 0.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.96, 5.02, 0.97>, <17.04, 4.98, 1.03>, <16.83, 4.73, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 1.00>, 0.03, <16.83, 4.73, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.04, 4.98, 1.03>, <16.96, 5.02, 0.97>, <16.83, 4.73, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 1.00>, 0.03, <16.83, 4.73, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 9.00, 1.02>, <17.00, 9.00, 0.98>, <17.13, 8.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 1.00>, 0.01, <17.13, 8.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 9.00, 0.98>, <17.00, 9.00, 1.02>, <17.13, 8.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 1.00>, 0.01, <17.13, 8.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.94, 13.09, 1.16>, <17.06, 12.91, 0.84>, <17.98, 13.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 1.00>, 0.10, <17.98, 13.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.06, 12.91, 0.84>, <16.94, 13.09, 1.16>, <17.98, 13.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 1.00>, 0.10, <17.98, 13.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.88, 17.09, 1.11>, <17.12, 16.91, 0.89>, <17.68, 17.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 1.00>, 0.10, <17.68, 17.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.12, 16.91, 0.89>, <16.88, 17.09, 1.11>, <17.68, 17.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 1.00>, 0.10, <17.68, 17.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.87, 21.05, 1.06>, <17.13, 20.95, 0.94>, <17.35, 21.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 1.00>, 0.08, <17.35, 21.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.13, 20.95, 0.94>, <16.87, 21.05, 1.06>, <17.35, 21.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 1.00>, 0.08, <17.35, 21.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.87, 25.01, 0.99>, <17.13, 24.99, 1.01>, <16.96, 24.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 1.00>, 0.07, <16.96, 24.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.13, 24.99, 1.01>, <16.87, 25.01, 0.99>, <16.96, 24.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 1.00>, 0.07, <16.96, 24.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 29.01, 0.88>, <17.00, 28.99, 1.12>, <16.27, 28.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 1.00>, 0.06, <16.27, 28.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 28.99, 1.12>, <17.00, 29.01, 0.88>, <16.27, 28.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 1.00>, 0.06, <16.27, 28.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 33.01, 0.89>, <17.00, 32.99, 1.11>, <16.34, 32.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 1.00>, 0.06, <16.34, 32.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 32.99, 1.11>, <17.00, 33.01, 0.89>, <16.34, 32.96, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 1.00>, 0.06, <16.34, 32.96, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.97, 1.02, 0.98>, <21.03, 0.98, 1.02>, <20.86, 0.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 1.00>, 0.02, <20.86, 0.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.03, 0.98, 1.02>, <20.97, 1.02, 0.98>, <20.86, 0.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 1.00>, 0.02, <20.86, 0.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 5.00, 1.05>, <21.00, 5.00, 0.95>, <21.32, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 1.00>, 0.03, <21.32, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 5.00, 0.95>, <21.00, 5.00, 1.05>, <21.32, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 1.00>, 0.03, <21.32, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.95, 8.99, 0.99>, <21.05, 9.01, 1.01>, <20.93, 9.29, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 1.00>, 0.02, <20.93, 9.29, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.05, 9.01, 1.01>, <20.95, 8.99, 0.99>, <20.93, 9.29, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 1.00>, 0.02, <20.93, 9.29, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.93, 13.02, 1.03>, <21.07, 12.98, 0.97>, <21.16, 13.47, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 1.00>, 0.04, <21.16, 13.47, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.07, 12.98, 0.97>, <20.93, 13.02, 1.03>, <21.16, 13.47, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 1.00>, 0.04, <21.16, 13.47, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.79, 17.03, 1.03>, <21.21, 16.97, 0.97>, <21.16, 18.25, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 1.00>, 0.10, <21.16, 18.25, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.21, 16.97, 0.97>, <20.79, 17.03, 1.03>, <21.16, 18.25, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 1.00>, 0.10, <21.16, 18.25, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.87, 21.03, 1.03>, <21.13, 20.97, 0.97>, <21.16, 21.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 1.00>, 0.07, <21.16, 21.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.13, 20.97, 0.97>, <20.87, 21.03, 1.03>, <21.16, 21.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 1.00>, 0.07, <21.16, 21.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.92, 25.02, 0.98>, <21.08, 24.98, 1.02>, <20.86, 24.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 1.00>, 0.04, <20.86, 24.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.08, 24.98, 1.02>, <20.92, 25.02, 0.98>, <20.86, 24.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 1.00>, 0.04, <20.86, 24.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 29.00, 0.88>, <21.00, 29.00, 1.12>, <20.27, 28.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 1.00>, 0.06, <20.27, 28.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 29.00, 1.12>, <21.00, 29.00, 0.88>, <20.27, 28.99, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 1.00>, 0.06, <20.27, 28.99, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 33.00, 0.94>, <21.00, 33.00, 1.06>, <20.63, 33.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 1.00>, 0.03, <20.63, 33.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 33.00, 1.06>, <21.00, 33.00, 0.94>, <20.63, 33.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 1.00>, 0.03, <20.63, 33.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.95, 1.03, 0.96>, <25.05, 0.97, 1.04>, <24.77, 0.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 1.00>, 0.03, <24.77, 0.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.05, 0.97, 1.04>, <24.95, 1.03, 0.96>, <24.77, 0.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 1.00>, 0.03, <24.77, 0.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 5.00, 0.95>, <25.00, 5.00, 1.05>, <24.70, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 1.00>, 0.03, <24.70, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 5.00, 1.05>, <25.00, 5.00, 0.95>, <24.70, 5.03, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 1.00>, 0.03, <24.70, 5.03, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.92, 8.97, 0.97>, <25.08, 9.03, 1.03>, <24.83, 9.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 1.00>, 0.04, <24.83, 9.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.08, 9.03, 1.03>, <24.92, 8.97, 0.97>, <24.83, 9.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 1.00>, 0.04, <24.83, 9.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.92, 12.98, 0.98>, <25.08, 13.02, 1.02>, <24.86, 13.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 1.00>, 0.04, <24.86, 13.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.08, 13.02, 1.02>, <24.92, 12.98, 0.98>, <24.86, 13.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 1.00>, 0.04, <24.86, 13.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.91, 17.04, 1.04>, <25.09, 16.96, 0.96>, <25.26, 17.58, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 1.00>, 0.05, <25.26, 17.58, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.09, 16.96, 0.96>, <24.91, 17.04, 1.04>, <25.26, 17.58, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 1.00>, 0.05, <25.26, 17.58, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.88, 21.05, 1.05>, <25.12, 20.95, 0.95>, <25.29, 21.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 1.00>, 0.07, <25.29, 21.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.12, 20.95, 0.95>, <24.88, 21.05, 1.05>, <25.29, 21.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 1.00>, 0.07, <25.29, 21.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.98, 25.02, 0.98>, <25.02, 24.98, 1.02>, <24.86, 24.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 1.00>, 0.02, <24.86, 24.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.02, 24.98, 1.02>, <24.98, 25.02, 0.98>, <24.86, 24.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 1.00>, 0.02, <24.86, 24.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.97, 29.01, 0.99>, <25.03, 28.99, 1.01>, <24.93, 28.81, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 1.00>, 0.02, <24.93, 28.81, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.03, 28.99, 1.01>, <24.97, 29.01, 0.99>, <24.93, 28.81, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 1.00>, 0.02, <24.93, 28.81, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.97, 32.97, 1.04>, <25.03, 33.03, 0.96>, <25.22, 32.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 1.00>, 0.03, <25.22, 32.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.03, 33.03, 0.96>, <24.97, 32.97, 1.04>, <25.22, 32.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 1.00>, 0.03, <25.22, 32.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.94, 1.01, 0.99>, <29.06, 0.99, 1.01>, <28.93, 0.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 1.00>, 0.03, <28.93, 0.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.06, 0.99, 1.01>, <28.94, 1.01, 0.99>, <28.93, 0.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 1.00>, 0.03, <28.93, 0.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.95, 4.97, 1.04>, <29.05, 5.03, 0.96>, <29.22, 4.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 1.00>, 0.03, <29.22, 4.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.05, 5.03, 0.96>, <28.95, 4.97, 1.04>, <29.22, 4.66, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 1.00>, 0.03, <29.22, 4.66, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.97, 9.01, 0.99>, <29.03, 8.99, 1.01>, <28.93, 8.81, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 1.00>, 0.02, <28.93, 8.81, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.03, 8.99, 1.01>, <28.97, 9.01, 0.99>, <28.93, 8.81, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 1.00>, 0.02, <28.93, 8.81, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.97, 12.98, 0.98>, <29.03, 13.02, 1.02>, <28.86, 13.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 1.00>, 0.02, <28.86, 13.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.03, 13.02, 1.02>, <28.97, 12.98, 0.98>, <28.86, 13.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 1.00>, 0.02, <28.86, 13.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.96, 17.02, 1.02>, <29.04, 16.98, 0.98>, <29.13, 17.25, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 1.00>, 0.02, <29.13, 17.25, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.04, 16.98, 0.98>, <28.96, 17.02, 1.02>, <29.13, 17.25, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 1.00>, 0.02, <29.13, 17.25, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.92, 21.01, 1.01>, <29.08, 20.99, 0.99>, <29.06, 21.47, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 1.00>, 0.04, <29.06, 21.47, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.08, 20.99, 0.99>, <28.92, 21.01, 1.01>, <29.06, 21.47, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 1.00>, 0.04, <29.06, 21.47, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.96, 24.93, 1.14>, <29.04, 25.07, 0.86>, <29.85, 24.55, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 1.00>, 0.08, <29.85, 24.55, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.04, 25.07, 0.86>, <28.96, 24.93, 1.14>, <29.85, 24.55, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 1.00>, 0.08, <29.85, 24.55, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.91, 28.90, 1.14>, <29.09, 29.10, 0.86>, <29.85, 28.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 1.00>, 0.10, <29.85, 28.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.09, 29.10, 0.86>, <28.91, 28.90, 1.14>, <29.85, 28.22, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 1.00>, 0.10, <29.85, 28.22, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.95, 32.93, 1.12>, <29.05, 33.07, 0.88>, <29.71, 32.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 1.00>, 0.07, <29.71, 32.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.05, 33.07, 0.88>, <28.95, 32.93, 1.12>, <29.71, 32.51, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 1.00>, 0.07, <29.71, 32.51, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.96, 0.99, 0.99>, <33.04, 1.01, 1.01>, <32.96, 1.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 1.00>, 0.02, <32.96, 1.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.04, 1.01, 1.01>, <32.96, 0.99, 0.99>, <32.96, 1.21, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 1.00>, 0.02, <32.96, 1.21, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.96, 4.99, 1.01>, <33.04, 5.01, 0.99>, <33.06, 4.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 1.00>, 0.02, <33.06, 4.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.04, 5.01, 0.99>, <32.96, 4.99, 1.01>, <33.06, 4.77, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 1.00>, 0.02, <33.06, 4.77, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.99, 8.98, 1.04>, <33.01, 9.02, 0.96>, <33.26, 8.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 1.00>, 0.02, <33.26, 8.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.01, 9.02, 0.96>, <32.99, 8.98, 1.04>, <33.26, 8.84, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 1.00>, 0.02, <33.26, 8.84, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.99, 13.03, 1.09>, <33.01, 12.97, 0.91>, <33.55, 13.18, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 1.00>, 0.05, <33.55, 13.18, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.01, 12.97, 0.91>, <32.99, 13.03, 1.09>, <33.55, 13.18, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 1.00>, 0.05, <33.55, 13.18, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.98, 17.02, 1.04>, <33.02, 16.98, 0.96>, <33.22, 17.18, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 1.00>, 0.02, <33.22, 17.18, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.02, 16.98, 0.96>, <32.98, 17.02, 1.04>, <33.22, 17.18, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 1.00>, 0.02, <33.22, 17.18, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.00, 20.98, 1.11>, <33.00, 21.02, 0.89>, <33.65, 20.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 1.00>, 0.05, <33.65, 20.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.00, 21.02, 0.89>, <33.00, 20.98, 1.11>, <33.65, 20.88, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 1.00>, 0.05, <33.65, 20.88, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.90, 24.98, 1.02>, <33.10, 25.02, 0.98>, <33.09, 24.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 1.00>, 0.05, <33.09, 24.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.10, 25.02, 0.98>, <32.90, 24.98, 1.02>, <33.09, 24.40, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 1.00>, 0.05, <33.09, 24.40, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.82, 28.93, 1.08>, <33.18, 29.07, 0.92>, <33.45, 27.85, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 1.00>, 0.10, <33.45, 27.85, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.18, 29.07, 0.92>, <32.82, 28.93, 1.08>, <33.45, 27.85, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 1.00>, 0.10, <33.45, 27.85, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.85, 32.90, 1.12>, <33.15, 33.10, 0.88>, <33.75, 31.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 1.00>, 0.11, <33.75, 31.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.15, 33.10, 0.88>, <32.85, 32.90, 1.12>, <33.75, 31.92, 1.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 1.00>, 0.11, <33.75, 31.92, 1.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 1.01, 5.00>, <1.00, 0.99, 5.00>, <1.03, 1.03, 4.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 5.00>, 0.00, <1.03, 1.03, 4.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 0.99, 5.00>, <1.00, 1.01, 5.00>, <1.03, 1.03, 4.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 5.00>, 0.00, <1.03, 1.03, 4.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 4.98, 5.05>, <1.00, 5.02, 4.95>, <1.29, 4.88, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 5.00>, 0.03, <1.29, 4.88, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 5.02, 4.95>, <1.00, 4.98, 5.05>, <1.29, 4.88, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 5.00>, 0.03, <1.29, 4.88, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.96, 8.92, 5.18>, <1.04, 9.08, 4.82>, <2.07, 8.48, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 5.00>, 0.10, <2.07, 8.48, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.04, 9.08, 4.82>, <0.96, 8.92, 5.18>, <2.07, 8.48, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 5.00>, 0.10, <2.07, 8.48, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.95, 12.89, 5.27>, <1.05, 13.11, 4.73>, <2.63, 12.29, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 5.00>, 0.15, <2.63, 12.29, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.05, 13.11, 4.73>, <0.95, 12.89, 5.27>, <2.63, 12.29, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 5.00>, 0.15, <2.63, 12.29, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.94, 16.79, 5.67>, <1.06, 17.21, 4.33>, <5.02, 15.70, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 5.00>, 0.35, <5.02, 15.70, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.06, 17.21, 4.33>, <0.94, 16.79, 5.67>, <5.02, 15.70, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 5.00>, 0.35, <5.02, 15.70, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.97, 20.85, 5.66>, <1.03, 21.15, 4.34>, <4.99, 20.07, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 5.00>, 0.34, <4.99, 20.07, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.03, 21.15, 4.34>, <0.97, 20.85, 5.66>, <4.99, 20.07, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 5.00>, 0.34, <4.99, 20.07, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 25.02, 5.06>, <1.00, 24.98, 4.94>, <1.39, 25.10, 4.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 5.00>, 0.03, <1.39, 25.10, 4.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 24.98, 4.94>, <1.00, 25.02, 5.06>, <1.39, 25.10, 4.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 5.00>, 0.03, <1.39, 25.10, 4.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.95, 28.93, 4.89>, <1.05, 29.07, 5.11>, <0.34, 29.55, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 5.00>, 0.07, <0.34, 29.55, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.05, 29.07, 5.11>, <0.95, 28.93, 4.89>, <0.34, 29.55, 4.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 5.00>, 0.07, <0.34, 29.55, 4.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.96, 32.97, 4.96>, <1.04, 33.03, 5.04>, <0.77, 33.32, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 5.00>, 0.03, <0.77, 33.32, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.04, 33.03, 5.04>, <0.96, 32.97, 4.96>, <0.77, 33.32, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 5.00>, 0.03, <0.77, 33.32, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.97, 1.01, 5.02>, <5.03, 0.99, 4.98>, <5.09, 1.18, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 5.00>, 0.02, <5.09, 1.18, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.03, 0.99, 4.98>, <4.97, 1.01, 5.02>, <5.09, 1.18, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 5.00>, 0.02, <5.09, 1.18, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 5.00, 5.14>, <5.00, 5.00, 4.86>, <5.85, 4.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 5.00>, 0.07, <5.85, 4.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 5.00, 4.86>, <5.00, 5.00, 5.14>, <5.85, 4.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 5.00>, 0.07, <5.85, 4.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.97, 8.91, 5.26>, <5.03, 9.09, 4.74>, <6.53, 8.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 5.00>, 0.14, <6.53, 8.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.03, 9.09, 4.74>, <4.97, 8.91, 5.26>, <6.53, 8.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 5.00>, 0.14, <6.53, 8.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.67, 12.66, 5.49>, <5.33, 13.34, 4.51>, <7.94, 10.15, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 5.00>, 0.34, <7.94, 10.15, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.33, 13.34, 4.51>, <4.67, 12.66, 5.49>, <7.94, 10.15, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 5.00>, 0.34, <7.94, 10.15, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.71, 16.66, 5.53>, <5.29, 17.34, 4.47>, <8.20, 14.30, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 5.00>, 0.35, <8.20, 14.30, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.29, 17.34, 4.47>, <4.71, 16.66, 5.53>, <8.20, 14.30, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 5.00>, 0.35, <8.20, 14.30, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.94, 21.14, 5.36>, <5.06, 20.86, 4.64>, <7.19, 21.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 5.00>, 0.20, <7.19, 21.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.06, 20.86, 4.64>, <4.94, 21.14, 5.36>, <7.19, 21.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 5.00>, 0.20, <7.19, 21.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.75, 25.02, 5.02>, <5.25, 24.98, 4.98>, <5.09, 26.51, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 5.00>, 0.13, <5.09, 26.51, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.25, 24.98, 4.98>, <4.75, 25.02, 5.02>, <5.09, 26.51, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 5.00>, 0.13, <5.09, 26.51, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.85, 28.94, 4.94>, <5.15, 29.06, 5.06>, <4.63, 29.95, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 5.00>, 0.08, <4.63, 29.95, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.15, 29.06, 5.06>, <4.85, 28.94, 4.94>, <4.63, 29.95, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 5.00>, 0.08, <4.63, 29.95, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.88, 32.98, 4.98>, <5.12, 33.02, 5.02>, <4.90, 33.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 5.00>, 0.06, <4.90, 33.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.12, 33.02, 5.02>, <4.88, 32.98, 4.98>, <4.90, 33.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 5.00>, 0.06, <4.90, 33.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 1.00, 5.02>, <9.00, 1.00, 4.98>, <9.09, 0.99, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 1.00>, 0.02, <8.96, 17.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 1.00>, 0.02, <8.96, 17.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 1.00>, 0.04, <9.26, 21.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 1.00>, 0.04, <9.26, 21.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 1.00>, 0.04, <9.22, 25.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 1.00>, 0.04, <9.22, 25.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 1.00>, 0.04, <8.96, 29.29, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 1.00>, 0.04, <8.96, 29.29, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 1.00>, 0.03, <8.83, 32.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 1.00>, 0.03, <8.83, 32.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 1.00>, 0.02, <13.06, 1.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 1.00>, 0.02, <13.06, 1.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 1.00>, 0.05, <13.03, 5.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 1.00>, 0.05, <13.03, 5.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 1.00>, 0.02, <13.09, 9.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 1.00>, 0.02, <13.09, 9.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 1.00>, 0.11, <13.75, 13.32, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 1.00>, 0.11, <13.75, 13.32, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 1.00>, 0.10, <13.75, 17.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 1.00>, 0.10, <13.75, 17.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 1.00>, 0.11, <13.35, 20.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 1.00>, 0.11, <13.35, 20.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 1.00>, 0.02, <12.93, 24.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 1.00>, 0.02, <12.93, 24.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 1.00>, 0.05, <12.60, 28.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 1.00>, 0.05, <12.60, 28.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 1.00>, 0.10, <12.24, 33.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 1.00>, 0.10, <12.24, 33.14, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 1.00>, 0.02, <16.96, 0.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 1.00>, 0.02, <16.96, 0.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 1.00>, 0.04, <16.83, 4.73, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 1.00>, 0.04, <16.83, 4.73, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 1.00>, 0.02, <17.13, 8.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 1.00>, 0.02, <17.13, 8.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 1.00>, 0.16, <17.98, 13.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 1.00>, 0.16, <17.98, 13.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 1.00>, 0.15, <17.68, 17.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 1.00>, 0.15, <17.68, 17.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 1.00>, 0.12, <17.35, 21.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 1.00>, 0.12, <17.35, 21.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 1.00>, 0.10, <16.96, 24.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 1.00>, 0.10, <16.96, 24.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 1.00>, 0.10, <16.27, 28.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 1.00>, 0.10, <16.27, 28.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 1.00>, 0.09, <16.34, 32.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 1.00>, 0.09, <16.34, 32.96, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 1.00>, 0.04, <20.86, 0.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 1.00>, 0.04, <20.86, 0.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 1.00>, 0.04, <21.32, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 1.00>, 0.04, <21.32, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 1.00>, 0.04, <20.93, 9.29, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 1.00>, 0.04, <20.93, 9.29, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 1.00>, 0.07, <21.16, 13.47, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 1.00>, 0.07, <21.16, 13.47, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 1.00>, 0.17, <21.16, 18.25, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 1.00>, 0.17, <21.16, 18.25, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 1.00>, 0.10, <21.16, 21.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 1.00>, 0.10, <21.16, 21.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 1.00>, 0.07, <20.86, 24.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 1.00>, 0.07, <20.86, 24.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 1.00>, 0.10, <20.27, 28.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 1.00>, 0.10, <20.27, 28.99, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 1.00>, 0.05, <20.63, 33.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 1.00>, 0.05, <20.63, 33.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 1.00>, 0.06, <24.77, 0.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 1.00>, 0.06, <24.77, 0.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 1.00>, 0.04, <24.70, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 1.00>, 0.04, <24.70, 5.03, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 1.00>, 0.07, <24.83, 9.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 1.00>, 0.07, <24.83, 9.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 1.00>, 0.07, <24.86, 13.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 1.00>, 0.07, <24.86, 13.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 1.00>, 0.08, <25.26, 17.58, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 1.00>, 0.08, <25.26, 17.58, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 1.00>, 0.11, <25.29, 21.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 1.00>, 0.11, <25.29, 21.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 1.00>, 0.03, <24.86, 24.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 1.00>, 0.03, <24.86, 24.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 1.00>, 0.03, <24.93, 28.81, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 1.00>, 0.03, <24.93, 28.81, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 1.00>, 0.04, <25.22, 32.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 1.00>, 0.04, <25.22, 32.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 1.00>, 0.05, <28.93, 0.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 1.00>, 0.05, <28.93, 0.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 1.00>, 0.05, <29.22, 4.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 1.00>, 0.05, <29.22, 4.66, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 1.00>, 0.03, <28.93, 8.81, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 1.00>, 0.03, <28.93, 8.81, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 1.00>, 0.03, <28.86, 13.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 1.00>, 0.03, <28.86, 13.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 1.00>, 0.04, <29.13, 17.25, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 1.00>, 0.04, <29.13, 17.25, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 1.00>, 0.06, <29.06, 21.47, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 1.00>, 0.06, <29.06, 21.47, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 1.00>, 0.13, <29.85, 24.55, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 1.00>, 0.13, <29.85, 24.55, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 1.00>, 0.15, <29.85, 28.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 1.00>, 0.15, <29.85, 28.22, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 1.00>, 0.12, <29.71, 32.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 1.00>, 0.12, <29.71, 32.51, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 1.00>, 0.03, <32.96, 1.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 1.00>, 0.03, <32.96, 1.21, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 1.00>, 0.03, <33.06, 4.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 1.00>, 0.03, <33.06, 4.77, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 1.00>, 0.04, <33.26, 8.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 1.00>, 0.04, <33.26, 8.84, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 1.00>, 0.08, <33.55, 13.18, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 1.00>, 0.08, <33.55, 13.18, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 1.00>, 0.04, <33.22, 17.18, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 1.00>, 0.04, <33.22, 17.18, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 1.00>, 0.09, <33.65, 20.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 1.00>, 0.09, <33.65, 20.88, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 1.00>, 0.08, <33.09, 24.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 1.00>, 0.08, <33.09, 24.40, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 1.00>, 0.16, <33.45, 27.85, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 1.00>, 0.16, <33.45, 27.85, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 1.00>, 0.17, <33.75, 31.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 1.00>, 0.17, <33.75, 31.92, 1.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 5.00>, 0.01, <1.03, 1.03, 4.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 5.00>, 0.01, <1.03, 1.03, 4.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 5.00>, 0.04, <1.29, 4.88, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 5.00>, 0.04, <1.29, 4.88, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 5.00>, 0.16, <2.07, 8.48, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 5.00>, 0.16, <2.07, 8.48, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 5.00>, 0.24, <2.63, 12.29, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 5.00>, 0.24, <2.63, 12.29, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 5.00>, 0.56, <5.02, 15.70, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 5.00>, 0.56, <5.02, 15.70, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 5.00>, 0.55, <4.99, 20.07, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 5.00>, 0.55, <4.99, 20.07, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 5.00>, 0.05, <1.39, 25.10, 4.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 5.00>, 0.05, <1.39, 25.10, 4.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 5.00>, 0.11, <0.34, 29.55, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 5.00>, 0.11, <0.34, 29.55, 4.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 5.00>, 0.05, <0.77, 33.32, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 5.00>, 0.05, <0.77, 33.32, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 5.00>, 0.03, <5.09, 1.18, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 5.00>, 0.03, <5.09, 1.18, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 5.00>, 0.11, <5.85, 4.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 5.00>, 0.11, <5.85, 4.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 5.00>, 0.22, <6.53, 8.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 5.00>, 0.22, <6.53, 8.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 5.00>, 0.55, <7.94, 10.15, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 5.00>, 0.55, <7.94, 10.15, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 5.00>, 0.56, <8.20, 14.30, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 5.00>, 0.56, <8.20, 14.30, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 5.00>, 0.31, <7.19, 21.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 5.00>, 0.31, <7.19, 21.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 5.00>, 0.20, <5.09, 26.51, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 5.00>, 0.20, <5.09, 26.51, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 5.00>, 0.14, <4.63, 29.95, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 5.00>, 0.14, <4.63, 29.95, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 5.00>, 0.10, <4.90, 33.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 5.00>, 0.10, <4.90, 33.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 1.00, 5.00>, 0.01, <9.09, 0.99, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 1.00, 4.98>, <9.00, 1.00, 5.02>, <9.09, 0.99, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<9.00, 1.00, 5.00>, 0.01, <9.09, 0.99, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.86, 5.07, 5.08>, <9.14, 4.93, 4.92>, <9.45, 5.92, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 5.00>, 0.09, <9.45, 5.92, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.14, 4.93, 4.92>, <8.86, 5.07, 5.08>, <9.45, 5.92, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 5.00>, 0.09, <9.45, 5.92, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 9.07, 5.69>, <9.01, 8.93, 4.31>, <13.12, 9.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 5.00>, 0.34, <13.12, 9.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 8.93, 4.31>, <8.99, 9.07, 5.69>, <13.12, 9.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 5.00>, 0.34, <13.12, 9.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 12.88, 5.67>, <9.02, 13.12, 4.33>, <13.05, 12.25, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 5.00>, 0.34, <13.05, 12.25, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 13.12, 4.33>, <8.98, 12.88, 5.67>, <13.05, 12.25, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 5.00>, 0.34, <13.05, 12.25, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 17.05, 5.16>, <9.01, 16.95, 4.84>, <9.94, 17.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 5.00>, 0.08, <9.94, 17.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 16.95, 4.84>, <8.99, 17.05, 5.16>, <9.94, 17.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 5.00>, 0.08, <9.94, 17.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.91, 21.08, 5.12>, <9.09, 20.92, 4.88>, <9.71, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 5.00>, 0.09, <9.71, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.09, 20.92, 4.88>, <8.91, 21.08, 5.12>, <9.71, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 5.00>, 0.09, <9.71, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.85, 25.06, 5.06>, <9.15, 24.94, 4.94>, <9.35, 25.95, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 5.00>, 0.08, <9.35, 25.95, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.15, 24.94, 4.94>, <8.85, 25.06, 5.06>, <9.35, 25.95, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 5.00>, 0.08, <9.35, 25.95, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.90, 29.01, 5.01>, <9.10, 28.99, 4.99>, <9.06, 29.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 5.00>, 0.05, <9.06, 29.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.10, 28.99, 4.99>, <8.90, 29.01, 5.01>, <9.06, 29.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 5.00>, 0.05, <9.06, 29.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 33.02, 5.05>, <9.01, 32.98, 4.95>, <9.29, 33.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 5.00>, 0.03, <9.29, 33.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 32.98, 4.95>, <8.99, 33.02, 5.05>, <9.29, 33.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 5.00>, 0.03, <9.29, 33.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 1.01, 4.98>, <13.00, 0.99, 5.02>, <12.90, 0.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 5.00>, 0.01, <12.90, 0.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 0.99, 5.02>, <13.00, 1.01, 4.98>, <12.90, 0.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 5.00>, 0.01, <12.90, 0.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.77, 4.84, 5.20>, <13.23, 5.16, 4.80>, <14.17, 3.33, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 5.00>, 0.17, <14.17, 3.33, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.23, 5.16, 4.80>, <12.77, 4.84, 5.20>, <14.17, 3.33, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 5.00>, 0.17, <14.17, 3.33, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.99, 9.06, 5.37>, <13.01, 8.94, 4.63>, <15.22, 9.36, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 5.00>, 0.19, <15.22, 9.36, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.01, 8.94, 4.63>, <12.99, 9.06, 5.37>, <15.22, 9.36, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 5.00>, 0.19, <15.22, 9.36, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.83, 13.32, 5.65>, <13.17, 12.68, 4.35>, <16.92, 15.17, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 5.00>, 0.37, <16.92, 15.17, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.17, 12.68, 4.35>, <12.83, 13.32, 5.65>, <16.92, 15.17, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 5.00>, 0.37, <16.92, 15.17, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.89, 17.16, 5.27>, <13.11, 16.84, 4.73>, <14.63, 18.17, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 5.00>, 0.17, <14.63, 18.17, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.11, 16.84, 4.73>, <12.89, 17.16, 5.27>, <14.63, 18.17, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 5.00>, 0.17, <14.63, 18.17, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.92, 21.09, 5.15>, <13.08, 20.91, 4.85>, <13.88, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 5.00>, 0.10, <13.88, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.08, 20.91, 4.85>, <12.92, 21.09, 5.15>, <13.88, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 5.00>, 0.10, <13.88, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.99, 25.03, 5.11>, <13.01, 24.97, 4.89>, <13.65, 25.18, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 5.00>, 0.06, <13.65, 25.18, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.01, 24.97, 4.89>, <12.99, 25.03, 5.11>, <13.65, 25.18, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 5.00>, 0.06, <13.65, 25.18, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.97, 28.94, 5.12>, <13.03, 29.06, 4.88>, <13.75, 28.62, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 5.00>, 0.07, <13.75, 28.62, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.03, 29.06, 4.88>, <12.97, 28.94, 5.12>, <13.75, 28.62, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 5.00>, 0.07, <13.75, 28.62, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.92, 32.91, 5.12>, <13.08, 33.09, 4.88>, <13.75, 32.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 5.00>, 0.09, <13.75, 32.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.08, 33.09, 4.88>, <12.92, 32.91, 5.12>, <13.75, 32.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 5.00>, 0.09, <13.75, 32.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 1.00, 4.97>, <17.00, 1.00, 5.03>, <16.83, 0.99, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 5.00>, 0.01, <16.83, 0.99, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 1.00, 5.03>, <17.00, 1.00, 4.97>, <16.83, 0.99, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 5.00>, 0.01, <16.83, 0.99, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.98, 5.05, 5.18>, <17.02, 4.95, 4.82>, <18.07, 5.32, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 5.00>, 0.09, <18.07, 5.32, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.02, 4.95, 4.82>, <16.98, 5.05, 5.18>, <18.07, 5.32, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 5.00>, 0.09, <18.07, 5.32, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.95, 9.12, 5.33>, <17.05, 8.88, 4.67>, <18.96, 9.77, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 5.00>, 0.18, <18.96, 9.77, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.05, 8.88, 4.67>, <16.95, 9.12, 5.33>, <18.96, 9.77, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 5.00>, 0.18, <18.96, 9.77, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.96, 13.12, 5.36>, <17.04, 12.88, 4.64>, <19.19, 13.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 5.00>, 0.19, <19.19, 13.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.04, 12.88, 4.64>, <16.96, 13.12, 5.36>, <19.19, 13.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 5.00>, 0.19, <19.19, 13.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.77, 17.29, 5.46>, <17.23, 16.71, 4.54>, <19.74, 19.21, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 5.00>, 0.29, <19.74, 19.21, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.23, 16.71, 4.54>, <16.77, 17.29, 5.46>, <19.74, 19.21, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 5.00>, 0.29, <19.74, 19.21, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.82, 21.13, 5.16>, <17.18, 20.87, 4.84>, <17.98, 22.36, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 5.00>, 0.14, <17.98, 22.36, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.18, 20.87, 4.84>, <16.82, 21.13, 5.16>, <17.98, 22.36, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 5.00>, 0.14, <17.98, 22.36, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.76, 25.20, 5.26>, <17.24, 24.80, 4.74>, <18.57, 26.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 5.00>, 0.20, <18.57, 26.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.24, 24.80, 4.74>, <16.76, 25.20, 5.26>, <18.57, 26.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 5.00>, 0.20, <18.57, 26.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.98, 29.07, 5.26>, <17.02, 28.93, 4.74>, <18.53, 29.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 5.00>, 0.13, <18.53, 29.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.02, 28.93, 4.74>, <16.98, 29.07, 5.26>, <18.53, 29.44, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 5.00>, 0.13, <18.53, 29.44, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 32.98, 5.15>, <17.00, 33.02, 4.85>, <17.88, 32.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 5.00>, 0.07, <17.88, 32.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 33.02, 4.85>, <17.00, 32.98, 5.15>, <17.88, 32.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 5.00>, 0.07, <17.88, 32.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 1.01, 5.02>, <21.00, 0.99, 4.98>, <21.13, 1.03, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 5.00>, 0.01, <21.13, 1.03, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.00, 0.99, 4.98>, <21.00, 1.01, 5.02>, <21.13, 1.03, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 5.00>, 0.01, <21.13, 1.03, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.99, 5.02, 5.06>, <21.01, 4.98, 4.94>, <21.35, 5.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 5.00>, 0.03, <21.35, 5.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.01, 4.98, 4.94>, <20.99, 5.02, 5.06>, <21.35, 5.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 5.00>, 0.03, <21.35, 5.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.96, 9.10, 5.27>, <21.04, 8.90, 4.73>, <22.60, 9.66, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 5.00>, 0.14, <22.60, 9.66, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.04, 8.90, 4.73>, <20.96, 9.10, 5.27>, <22.60, 9.66, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 5.00>, 0.14, <22.60, 9.66, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.93, 13.16, 5.40>, <21.07, 12.84, 4.60>, <23.38, 14.03, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 5.00>, 0.22, <23.38, 14.03, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.07, 12.84, 4.60>, <20.93, 13.16, 5.40>, <23.38, 14.03, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 5.00>, 0.22, <23.38, 14.03, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.94, 17.13, 5.29>, <21.06, 16.87, 4.71>, <22.76, 17.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 5.00>, 0.16, <22.76, 17.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.06, 16.87, 4.71>, <20.94, 17.13, 5.29>, <22.76, 17.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 5.00>, 0.16, <22.76, 17.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.85, 21.18, 5.27>, <21.15, 20.82, 4.73>, <22.60, 22.40, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 5.00>, 0.18, <22.60, 22.40, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.15, 20.82, 4.73>, <20.85, 21.18, 5.27>, <22.60, 22.40, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 5.00>, 0.18, <22.60, 22.40, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.92, 25.14, 5.29>, <21.08, 24.86, 4.71>, <22.76, 25.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 5.00>, 0.17, <22.76, 25.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.08, 24.86, 4.71>, <20.92, 25.14, 5.29>, <22.76, 25.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 5.00>, 0.17, <22.76, 25.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.79, 29.21, 5.30>, <21.21, 28.79, 4.70>, <22.83, 30.80, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 5.00>, 0.21, <22.83, 30.80, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.21, 28.79, 4.70>, <20.79, 29.21, 5.30>, <22.83, 30.80, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 5.00>, 0.21, <22.83, 30.80, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.99, 33.06, 5.24>, <21.01, 32.94, 4.76>, <22.47, 33.36, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 5.00>, 0.13, <22.47, 33.36, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.01, 32.94, 4.76>, <20.99, 33.06, 5.24>, <22.47, 33.36, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 5.00>, 0.13, <22.47, 33.36, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 0.98, 4.85>, <25.00, 1.02, 5.15>, <24.11, 1.14, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 5.00>, 0.07, <24.11, 1.14, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 1.02, 5.15>, <25.00, 0.98, 4.85>, <24.11, 1.14, 4.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 5.00>, 0.07, <24.11, 1.14, 4.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.91, 5.03, 5.03>, <25.09, 4.97, 4.97>, <25.16, 5.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 5.00>, 0.05, <25.16, 5.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.09, 4.97, 4.97>, <24.91, 5.03, 5.03>, <25.16, 5.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 5.00>, 0.05, <25.16, 5.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.94, 9.11, 5.22>, <25.06, 8.89, 4.78>, <26.34, 9.77, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 5.00>, 0.13, <26.34, 9.77, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.06, 8.89, 4.78>, <24.94, 9.11, 5.22>, <26.34, 9.77, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 5.00>, 0.13, <26.34, 9.77, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.93, 13.15, 5.38>, <25.07, 12.85, 4.62>, <27.25, 13.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 5.00>, 0.20, <27.25, 13.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.07, 12.85, 4.62>, <24.93, 13.15, 5.38>, <27.25, 13.99, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 5.00>, 0.20, <27.25, 13.99, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.96, 17.11, 5.32>, <25.04, 16.89, 4.68>, <26.89, 17.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 5.00>, 0.17, <26.89, 17.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.04, 16.89, 4.68>, <24.96, 17.11, 5.32>, <26.89, 17.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 5.00>, 0.17, <26.89, 17.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.96, 21.11, 5.33>, <25.04, 20.89, 4.67>, <26.99, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 5.00>, 0.18, <26.99, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.04, 20.89, 4.67>, <24.96, 21.11, 5.33>, <26.99, 21.73, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 5.00>, 0.18, <26.99, 21.73, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.97, 25.09, 5.27>, <25.03, 24.91, 4.73>, <26.60, 25.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 5.00>, 0.14, <26.60, 25.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.03, 24.91, 4.73>, <24.97, 25.09, 5.27>, <26.60, 25.58, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 5.00>, 0.14, <26.60, 25.58, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.97, 29.09, 5.27>, <25.03, 28.91, 4.73>, <26.63, 29.58, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 5.00>, 0.14, <26.63, 29.58, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.03, 28.91, 4.73>, <24.97, 29.09, 5.27>, <26.63, 29.58, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 5.00>, 0.14, <26.63, 29.58, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.95, 32.86, 5.41>, <25.05, 33.14, 4.59>, <27.45, 32.14, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 5.00>, 0.22, <27.45, 32.14, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.05, 33.14, 4.59>, <24.95, 32.86, 5.41>, <27.45, 32.14, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 5.00>, 0.22, <27.45, 32.14, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.98, 1.05, 4.81>, <29.02, 0.95, 5.19>, <27.88, 0.66, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 5.00>, 0.10, <27.88, 0.66, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.02, 0.95, 5.19>, <28.98, 1.05, 4.81>, <27.88, 0.66, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 5.00>, 0.10, <27.88, 0.66, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.88, 4.99, 5.01>, <29.12, 5.01, 4.99>, <29.06, 4.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 5.00>, 0.06, <29.06, 4.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.12, 5.01, 4.99>, <28.88, 4.99, 5.01>, <29.06, 4.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 5.00>, 0.06, <29.06, 4.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.88, 8.85, 5.23>, <29.12, 9.15, 4.77>, <30.40, 7.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 5.00>, 0.15, <30.40, 7.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.12, 9.15, 4.77>, <28.88, 8.85, 5.23>, <30.40, 7.88, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 5.00>, 0.15, <30.40, 7.88, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 12.99, 5.32>, <29.00, 13.01, 4.68>, <30.93, 12.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 5.00>, 0.16, <30.93, 12.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 13.01, 4.68>, <29.00, 12.99, 5.32>, <30.93, 12.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 5.00>, 0.16, <30.93, 12.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 17.01, 5.33>, <29.00, 16.99, 4.67>, <30.96, 17.07, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 5.00>, 0.16, <30.96, 17.07, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 16.99, 4.67>, <29.00, 17.01, 5.33>, <30.96, 17.07, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 5.00>, 0.16, <30.96, 17.07, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 20.99, 5.32>, <29.00, 21.01, 4.68>, <30.93, 20.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 5.00>, 0.16, <30.93, 20.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 21.01, 4.68>, <29.00, 20.99, 5.32>, <30.93, 20.96, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 5.00>, 0.16, <30.93, 20.96, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.98, 24.92, 5.43>, <29.02, 25.08, 4.57>, <31.58, 24.51, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 5.00>, 0.22, <31.58, 24.51, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.02, 25.08, 4.57>, <28.98, 24.92, 5.43>, <31.58, 24.51, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 5.00>, 0.22, <31.58, 24.51, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.95, 28.89, 5.25>, <29.05, 29.11, 4.75>, <30.50, 28.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 5.00>, 0.14, <30.50, 28.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.05, 29.11, 4.75>, <28.95, 28.89, 5.25>, <30.50, 28.29, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 5.00>, 0.14, <30.50, 28.29, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.97, 32.89, 5.39>, <29.03, 33.11, 4.61>, <31.32, 32.33, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 5.00>, 0.20, <31.32, 32.33, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.03, 33.11, 4.61>, <28.97, 32.89, 5.39>, <31.32, 32.33, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 5.00>, 0.20, <31.32, 32.33, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.91, 1.09, 4.88>, <33.09, 0.91, 5.12>, <32.27, 0.25, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 5.00>, 0.09, <32.27, 0.25, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.09, 0.91, 5.12>, <32.91, 1.09, 4.88>, <32.27, 0.25, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 5.00>, 0.09, <32.27, 0.25, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.81, 4.95, 5.05>, <33.19, 5.05, 4.95>, <33.32, 3.81, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 5.00>, 0.10, <33.32, 3.81, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.19, 5.05, 4.95>, <32.81, 4.95, 5.05>, <33.32, 3.81, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 5.00>, 0.10, <33.32, 3.81, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.79, 8.87, 5.15>, <33.21, 9.13, 4.85>, <33.88, 7.55, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 5.00>, 0.14, <33.88, 7.55, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.21, 9.13, 4.85>, <32.79, 8.87, 5.15>, <33.88, 7.55, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 5.00>, 0.14, <33.88, 7.55, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.93, 12.87, 5.29>, <33.07, 13.13, 4.71>, <34.76, 12.11, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 5.00>, 0.16, <34.76, 12.11, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.07, 13.13, 4.71>, <32.93, 12.87, 5.29>, <34.76, 12.11, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 5.00>, 0.16, <34.76, 12.11, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.85, 16.83, 5.27>, <33.15, 17.17, 4.73>, <34.60, 15.63, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 5.00>, 0.18, <34.60, 15.63, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.15, 17.17, 4.73>, <32.85, 16.83, 5.27>, <34.60, 15.63, 4.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 5.00>, 0.18, <34.60, 15.63, 4.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.67, 20.68, 5.45>, <33.33, 21.32, 4.55>, <35.71, 18.22, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 5.00>, 0.32, <35.71, 18.22, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.33, 21.32, 4.55>, <32.67, 20.68, 5.45>, <35.71, 18.22, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 5.00>, 0.32, <35.71, 18.22, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.54, 24.68, 5.39>, <33.46, 25.32, 4.61>, <35.32, 21.63, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 5.00>, 0.34, <35.32, 21.63, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.46, 25.32, 4.61>, <32.54, 24.68, 5.39>, <35.32, 21.63, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 5.00>, 0.34, <35.32, 21.63, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.82, 28.85, 5.19>, <33.18, 29.15, 4.81>, <34.14, 27.59, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 5.00>, 0.15, <34.14, 27.59, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.18, 29.15, 4.81>, <32.82, 28.85, 5.19>, <34.14, 27.59, 5.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 5.00>, 0.15, <34.14, 27.59, 5.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.93, 32.87, 5.26>, <33.07, 33.13, 4.74>, <34.57, 32.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 5.00>, 0.15, <34.57, 32.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.07, 33.13, 4.74>, <32.93, 32.87, 5.26>, <34.57, 32.14, 5.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 5.00>, 0.15, <34.57, 32.14, 5.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 1.07, 9.25>, <1.01, 0.93, 8.75>, <2.50, 1.40, 8.93> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 9.00>, 0.13, <2.50, 1.40, 8.93>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 0.93, 8.75>, <0.99, 1.07, 9.25>, <2.50, 1.40, 8.93> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 9.00>, 0.13, <2.50, 1.40, 8.93>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 5.05, 9.29>, <1.00, 4.95, 8.71>, <2.73, 5.32, 8.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 9.00>, 0.15, <2.73, 5.32, 8.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 4.95, 8.71>, <1.00, 5.05, 9.29>, <2.73, 5.32, 8.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 9.00>, 0.15, <2.73, 5.32, 8.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 8.92, 9.37>, <1.01, 9.08, 8.63>, <3.22, 8.51, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 9.00>, 0.19, <3.22, 8.51, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 9.08, 8.63>, <0.99, 8.92, 9.37>, <3.22, 8.51, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 9.00>, 0.19, <3.22, 8.51, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.97, 12.89, 9.36>, <1.03, 13.11, 8.64>, <3.19, 12.33, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 9.00>, 0.19, <3.19, 12.33, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.03, 13.11, 8.64>, <0.97, 12.89, 9.36>, <3.19, 12.33, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 9.00>, 0.19, <3.19, 12.33, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.93, 16.76, 9.87>, <1.07, 17.24, 8.13>, <6.23, 15.51, 9.03> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 9.00>, 0.45, <6.23, 15.51, 9.03>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.07, 17.24, 8.13>, <0.93, 16.76, 9.87>, <6.23, 15.51, 9.03> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 9.00>, 0.45, <6.23, 15.51, 9.03>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.94, 20.76, 10.02>, <1.06, 21.24, 7.98>, <7.12, 19.51, 9.04> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 9.00>, 0.52, <7.12, 19.51, 9.04>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.06, 21.24, 7.98>, <0.94, 20.76, 10.02>, <7.12, 19.51, 9.04> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 9.00>, 0.52, <7.12, 19.51, 9.04>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.98, 24.89, 9.52>, <1.02, 25.11, 8.48>, <4.14, 24.33, 8.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 9.00>, 0.27, <4.14, 24.33, 8.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.02, 25.11, 8.48>, <0.98, 24.89, 9.52>, <4.14, 24.33, 8.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 9.00>, 0.27, <4.14, 24.33, 8.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 28.99, 9.09>, <0.99, 29.01, 8.91>, <1.52, 28.96, 8.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 9.00>, 0.04, <1.52, 28.96, 8.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 29.01, 8.91>, <1.01, 28.99, 9.09>, <1.52, 28.96, 8.95> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 9.00>, 0.04, <1.52, 28.96, 8.95>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 33.01, 9.01>, <1.01, 32.99, 8.99>, <1.06, 33.07, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 5.00>, 0.14, <9.45, 5.92, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 5.00>, 0.14, <9.45, 5.92, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 5.00>, 0.55, <13.12, 9.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 5.00>, 0.55, <13.12, 9.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 5.00>, 0.55, <13.05, 12.25, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 5.00>, 0.55, <13.05, 12.25, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 5.00>, 0.13, <9.94, 17.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 5.00>, 0.13, <9.94, 17.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 5.00>, 0.14, <9.71, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 5.00>, 0.14, <9.71, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 5.00>, 0.14, <9.35, 25.95, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 5.00>, 0.14, <9.35, 25.95, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 5.00>, 0.08, <9.06, 29.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 5.00>, 0.08, <9.06, 29.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 5.00>, 0.04, <9.29, 33.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 5.00>, 0.04, <9.29, 33.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 5.00>, 0.02, <12.90, 0.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 5.00>, 0.02, <12.90, 0.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 5.00>, 0.27, <14.17, 3.33, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 5.00>, 0.27, <14.17, 3.33, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 5.00>, 0.30, <15.22, 9.36, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 5.00>, 0.30, <15.22, 9.36, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 5.00>, 0.60, <16.92, 15.17, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 5.00>, 0.60, <16.92, 15.17, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 5.00>, 0.27, <14.63, 18.17, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 5.00>, 0.27, <14.63, 18.17, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 5.00>, 0.15, <13.88, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 5.00>, 0.15, <13.88, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 5.00>, 0.09, <13.65, 25.18, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 5.00>, 0.09, <13.65, 25.18, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 5.00>, 0.11, <13.75, 28.62, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 5.00>, 0.11, <13.75, 28.62, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 5.00>, 0.14, <13.75, 32.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 5.00>, 0.14, <13.75, 32.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 5.00>, 0.02, <16.83, 0.99, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 5.00>, 0.02, <16.83, 0.99, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 5.00>, 0.15, <18.07, 5.32, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 5.00>, 0.15, <18.07, 5.32, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 5.00>, 0.28, <18.96, 9.77, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 5.00>, 0.28, <18.96, 9.77, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 5.00>, 0.31, <19.19, 13.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 5.00>, 0.31, <19.19, 13.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 5.00>, 0.47, <19.74, 19.21, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 5.00>, 0.47, <19.74, 19.21, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 5.00>, 0.22, <17.98, 22.36, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 5.00>, 0.22, <17.98, 22.36, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 5.00>, 0.33, <18.57, 26.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 5.00>, 0.33, <18.57, 26.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 5.00>, 0.21, <18.53, 29.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 5.00>, 0.21, <18.53, 29.44, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 5.00>, 0.12, <17.88, 32.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 5.00>, 0.12, <17.88, 32.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 5.00>, 0.02, <21.13, 1.03, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 5.00>, 0.02, <21.13, 1.03, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 5.00>, 0.05, <21.35, 5.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 5.00>, 0.05, <21.35, 5.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 5.00>, 0.23, <22.60, 9.66, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 5.00>, 0.23, <22.60, 9.66, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 5.00>, 0.35, <23.38, 14.03, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 5.00>, 0.35, <23.38, 14.03, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 5.00>, 0.26, <22.76, 17.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 5.00>, 0.26, <22.76, 17.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 5.00>, 0.28, <22.60, 22.40, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 5.00>, 0.28, <22.60, 22.40, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 5.00>, 0.27, <22.76, 25.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 5.00>, 0.27, <22.76, 25.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 5.00>, 0.34, <22.83, 30.80, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 5.00>, 0.34, <22.83, 30.80, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 5.00>, 0.20, <22.47, 33.36, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 5.00>, 0.20, <22.47, 33.36, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 5.00>, 0.12, <24.11, 1.14, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 5.00>, 0.12, <24.11, 1.14, 4.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 5.00>, 0.08, <25.16, 5.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 5.00>, 0.08, <25.16, 5.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 5.00>, 0.21, <26.34, 9.77, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 5.00>, 0.21, <26.34, 9.77, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 5.00>, 0.33, <27.25, 13.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 5.00>, 0.33, <27.25, 13.99, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 5.00>, 0.27, <26.89, 17.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 5.00>, 0.27, <26.89, 17.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 5.00>, 0.28, <26.99, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 5.00>, 0.28, <26.99, 21.73, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 5.00>, 0.23, <26.60, 25.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 5.00>, 0.23, <26.60, 25.58, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 5.00>, 0.23, <26.63, 29.58, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 5.00>, 0.23, <26.63, 29.58, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 5.00>, 0.35, <27.45, 32.14, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 5.00>, 0.35, <27.45, 32.14, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 5.00>, 0.16, <27.88, 0.66, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 5.00>, 0.16, <27.88, 0.66, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 5.00>, 0.09, <29.06, 4.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 5.00>, 0.09, <29.06, 4.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 5.00>, 0.24, <30.40, 7.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 5.00>, 0.24, <30.40, 7.88, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 5.00>, 0.26, <30.93, 12.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 5.00>, 0.26, <30.93, 12.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 5.00>, 0.26, <30.96, 17.07, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 5.00>, 0.26, <30.96, 17.07, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 5.00>, 0.26, <30.93, 20.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 5.00>, 0.26, <30.93, 20.96, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 5.00>, 0.35, <31.58, 24.51, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 5.00>, 0.35, <31.58, 24.51, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 5.00>, 0.22, <30.50, 28.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 5.00>, 0.22, <30.50, 28.29, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 5.00>, 0.32, <31.32, 32.33, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 5.00>, 0.32, <31.32, 32.33, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 5.00>, 0.14, <32.27, 0.25, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 5.00>, 0.14, <32.27, 0.25, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 5.00>, 0.16, <33.32, 3.81, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 5.00>, 0.16, <33.32, 3.81, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 5.00>, 0.23, <33.88, 7.55, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 5.00>, 0.23, <33.88, 7.55, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 5.00>, 0.26, <34.76, 12.11, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 5.00>, 0.26, <34.76, 12.11, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 5.00>, 0.28, <34.60, 15.63, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 5.00>, 0.28, <34.60, 15.63, 4.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 5.00>, 0.52, <35.71, 18.22, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 5.00>, 0.52, <35.71, 18.22, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 5.00>, 0.54, <35.32, 21.63, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 5.00>, 0.54, <35.32, 21.63, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 5.00>, 0.24, <34.14, 27.59, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 5.00>, 0.24, <34.14, 27.59, 5.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 5.00>, 0.24, <34.57, 32.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 5.00>, 0.24, <34.57, 32.14, 5.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 9.00>, 0.21, <2.50, 1.40, 8.93>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 9.00>, 0.21, <2.50, 1.40, 8.93>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 9.00>, 0.23, <2.73, 5.32, 8.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 9.00>, 0.23, <2.73, 5.32, 8.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 9.00>, 0.30, <3.22, 8.51, 8.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 9.00>, 0.30, <3.22, 8.51, 8.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 9.00>, 0.30, <3.19, 12.33, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 9.00>, 0.30, <3.19, 12.33, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 9.00>, 0.72, <6.23, 15.51, 9.03>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 9.00>, 0.72, <6.23, 15.51, 9.03>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 9.00>, 0.84, <7.12, 19.51, 9.04>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 9.00>, 0.84, <7.12, 19.51, 9.04>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 9.00>, 0.43, <4.14, 24.33, 8.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 9.00>, 0.43, <4.14, 24.33, 8.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 9.00>, 0.07, <1.52, 28.96, 8.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 9.00>, 0.07, <1.52, 28.96, 8.95>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<1.00, 33.00, 9.00>, 0.01, <1.06, 33.07, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 32.99, 8.99>, <0.99, 33.01, 9.01>, <1.06, 33.07, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
 cone {<1.00, 33.00, 9.00>, 0.01, <1.06, 33.07, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.98, 1.07, 9.22>, <5.02, 0.93, 8.78>, <6.34, 1.44, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 9.00>, 0.12, <6.34, 1.44, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.02, 0.93, 8.78>, <4.98, 1.07, 9.22>, <6.34, 1.44, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 9.00>, 0.12, <6.34, 1.44, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 5.05, 9.40>, <5.01, 4.95, 8.60>, <7.42, 5.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 9.00>, 0.20, <7.42, 5.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 4.95, 8.60>, <4.99, 5.05, 9.40>, <7.42, 5.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 9.00>, 0.20, <7.42, 5.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 8.97, 9.42>, <5.00, 9.03, 8.58>, <7.55, 8.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 9.00>, 0.21, <7.55, 8.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 9.03, 8.58>, <5.00, 8.97, 9.42>, <7.55, 8.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 9.00>, 0.21, <7.55, 8.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.62, 12.56, 9.67>, <5.38, 13.44, 8.33>, <9.02, 9.52, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 9.00>, 0.44, <9.02, 9.52, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.38, 13.44, 8.33>, <4.62, 12.56, 9.67>, <9.02, 9.52, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 9.00>, 0.44, <9.02, 9.52, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.52, 16.46, 9.82>, <5.48, 17.54, 8.18>, <9.90, 12.63, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 9.00>, 0.55, <9.90, 12.63, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.48, 17.54, 8.18>, <4.52, 16.46, 9.82>, <9.90, 12.63, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 9.00>, 0.55, <9.90, 12.63, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.88, 20.69, 9.84>, <5.12, 21.31, 8.16>, <10.07, 19.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 9.00>, 0.45, <10.07, 19.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.12, 21.31, 8.16>, <4.88, 20.69, 9.84>, <10.07, 19.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 9.00>, 0.45, <10.07, 19.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 25.00, 9.34>, <5.00, 25.00, 8.66>, <7.02, 24.99, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 9.00>, 0.17, <7.02, 24.99, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 25.00, 8.66>, <5.00, 25.00, 9.34>, <7.02, 24.99, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 9.00>, 0.17, <7.02, 24.99, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.96, 29.03, 9.04>, <5.04, 28.97, 8.96>, <5.26, 29.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 9.00>, 0.03, <5.26, 29.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.04, 28.97, 8.96>, <4.96, 29.03, 9.04>, <5.26, 29.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 9.00>, 0.03, <5.26, 29.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.93, 33.00, 9.00>, <5.07, 33.00, 9.00>, <5.03, 33.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 9.00>, 0.03, <5.03, 33.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.07, 33.00, 9.00>, <4.93, 33.00, 9.00>, <5.03, 33.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 9.00>, 0.03, <5.03, 33.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 1.04, 9.20>, <9.00, 0.96, 8.80>, <10.21, 1.21, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 1.00, 9.00>, 0.10, <10.21, 1.21, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 0.96, 8.80>, <9.00, 1.04, 9.20>, <10.21, 1.21, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 1.00, 9.00>, 0.10, <10.21, 1.21, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.85, 5.19, 9.30>, <9.15, 4.81, 8.70>, <10.79, 6.43, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 9.00>, 0.19, <10.79, 6.43, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.15, 4.81, 8.70>, <8.85, 5.19, 9.30>, <10.79, 6.43, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 9.00>, 0.19, <10.79, 6.43, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 9.11, 10.08>, <9.01, 8.89, 7.92>, <15.51, 9.69, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 9.00>, 0.54, <15.51, 9.69, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 8.89, 7.92>, <8.99, 9.11, 10.08>, <15.51, 9.69, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 9.00>, 0.54, <15.51, 9.69, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.90, 12.68, 10.09>, <9.10, 13.32, 7.91>, <15.54, 10.96, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 9.00>, 0.57, <15.54, 10.96, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.10, 13.32, 7.91>, <8.90, 12.68, 10.09>, <15.54, 10.96, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 9.00>, 0.57, <15.54, 10.96, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.56, 16.56, 9.63>, <9.44, 17.44, 8.37>, <12.76, 13.26, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 9.00>, 0.44, <12.76, 13.26, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.44, 17.44, 8.37>, <8.56, 16.56, 9.63>, <12.76, 13.26, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 9.00>, 0.44, <12.76, 13.26, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.90, 20.81, 9.39>, <9.10, 21.19, 8.61>, <11.35, 19.70, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 9.00>, 0.22, <11.35, 19.70, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.10, 21.19, 8.61>, <8.90, 20.81, 9.39>, <11.35, 19.70, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 9.00>, 0.22, <11.35, 19.70, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.97, 25.08, 9.19>, <9.03, 24.92, 8.81>, <10.14, 25.51, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 9.00>, 0.10, <10.14, 25.51, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.03, 24.92, 8.81>, <8.97, 25.08, 9.19>, <10.14, 25.51, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 9.00>, 0.10, <10.14, 25.51, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.95, 29.04, 9.05>, <9.05, 28.96, 8.95>, <9.29, 29.36, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 9.00>, 0.04, <9.29, 29.36, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.05, 28.96, 8.95>, <8.95, 29.04, 9.05>, <9.29, 29.36, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 9.00>, 0.04, <9.29, 29.36, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 33.02, 9.05>, <9.01, 32.98, 8.95>, <9.32, 33.14, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 9.00>, 0.03, <9.32, 33.14, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 32.98, 8.95>, <8.99, 33.02, 9.05>, <9.32, 33.14, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 9.00>, 0.03, <9.32, 33.14, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 1.03, 9.15>, <13.00, 0.97, 8.85>, <13.91, 1.18, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 9.00>, 0.08, <13.91, 1.18, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 0.97, 8.85>, <13.00, 1.03, 9.15>, <13.91, 1.18, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 9.00>, 0.08, <13.91, 1.18, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.73, 4.71, 9.42>, <13.27, 5.29, 8.58>, <15.51, 2.63, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 9.00>, 0.29, <15.51, 2.63, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.27, 5.29, 8.58>, <12.73, 4.71, 9.42>, <15.51, 2.63, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 9.00>, 0.29, <15.51, 2.63, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.99, 9.09, 9.79>, <13.01, 8.91, 8.21>, <17.74, 9.55, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 9.00>, 0.40, <17.74, 9.55, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.01, 8.91, 8.21>, <12.99, 9.09, 9.79>, <17.74, 9.55, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 9.00>, 0.40, <17.74, 9.55, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.80, 13.46, 10.14>, <13.20, 12.54, 7.86>, <19.87, 15.98, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 9.00>, 0.62, <19.87, 15.98, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.20, 12.54, 7.86>, <12.80, 13.46, 10.14>, <19.87, 15.98, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 9.00>, 0.62, <19.87, 15.98, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.64, 17.37, 9.52>, <13.36, 16.63, 8.48>, <16.14, 20.10, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 9.00>, 0.37, <16.14, 20.10, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.36, 16.63, 8.48>, <12.64, 17.37, 9.52>, <16.14, 20.10, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 9.00>, 0.37, <16.14, 20.10, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.46, 21.23, 9.25>, <13.54, 20.77, 8.75>, <14.50, 24.50, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 9.00>, 0.32, <14.50, 24.50, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.54, 20.77, 8.75>, <12.46, 21.23, 9.25>, <14.50, 24.50, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 9.00>, 0.32, <14.50, 24.50, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.66, 25.28, 9.36>, <13.34, 24.72, 8.64>, <15.15, 27.65, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 9.00>, 0.28, <15.15, 27.65, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.34, 24.72, 8.64>, <12.66, 25.28, 9.36>, <15.15, 27.65, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 9.00>, 0.28, <15.15, 27.65, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.87, 29.12, 9.16>, <13.13, 28.88, 8.84>, <13.94, 30.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 9.00>, 0.12, <13.94, 30.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.13, 28.88, 8.84>, <12.87, 29.12, 9.16>, <13.94, 30.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 9.00>, 0.12, <13.94, 30.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 32.99, 9.11>, <13.00, 33.01, 8.89>, <13.68, 32.96, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 9.00>, 0.06, <13.68, 32.96, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 33.01, 8.89>, <13.00, 32.99, 9.11>, <13.68, 32.96, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 9.00>, 0.06, <13.68, 32.96, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.99, 1.03, 9.12>, <17.01, 0.97, 8.88>, <17.75, 1.18, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 9.00>, 0.06, <17.75, 1.18, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.01, 0.97, 8.88>, <16.99, 1.03, 9.12>, <17.75, 1.18, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 9.00>, 0.06, <17.75, 1.18, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.94, 5.15, 9.36>, <17.06, 4.85, 8.64>, <19.19, 5.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 9.00>, 0.20, <19.19, 5.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.06, 4.85, 8.64>, <16.94, 5.15, 9.36>, <19.19, 5.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 9.00>, 0.20, <19.19, 5.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.84, 9.31, 9.68>, <17.16, 8.69, 8.32>, <21.09, 11.10, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 9.00>, 0.38, <21.09, 11.10, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.16, 8.69, 8.32>, <16.84, 9.31, 9.68>, <21.09, 11.10, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 9.00>, 0.38, <21.09, 11.10, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.89, 13.27, 9.74>, <17.11, 12.73, 8.26>, <21.45, 14.77, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 9.00>, 0.40, <21.45, 14.77, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.11, 12.73, 8.26>, <16.89, 13.27, 9.74>, <21.45, 14.77, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 9.00>, 0.40, <21.45, 14.77, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.65, 17.44, 9.72>, <17.35, 16.56, 8.28>, <21.32, 20.39, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 9.00>, 0.46, <21.32, 20.39, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.35, 16.56, 8.28>, <16.65, 17.44, 9.72>, <21.32, 20.39, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 9.00>, 0.46, <21.32, 20.39, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.51, 21.36, 9.44>, <17.49, 20.64, 8.56>, <19.65, 24.65, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 9.00>, 0.38, <19.65, 24.65, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.49, 20.64, 8.56>, <16.51, 21.36, 9.44>, <19.65, 24.65, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 9.00>, 0.38, <19.65, 24.65, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.64, 25.39, 9.58>, <17.36, 24.61, 8.42>, <20.50, 28.21, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 9.00>, 0.39, <20.50, 28.21, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.36, 24.61, 8.42>, <16.64, 25.39, 9.58>, <20.50, 28.21, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 9.00>, 0.39, <20.50, 28.21, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.73, 29.29, 9.42>, <17.27, 28.71, 8.58>, <19.51, 31.39, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 9.00>, 0.29, <19.51, 31.39, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.27, 28.71, 8.58>, <16.73, 29.29, 9.42>, <19.51, 31.39, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 9.00>, 0.29, <19.51, 31.39, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.96, 33.09, 9.24>, <17.04, 32.91, 8.76>, <18.47, 33.58, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 9.00>, 0.13, <18.47, 33.58, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.04, 32.91, 8.76>, <16.96, 33.09, 9.24>, <18.47, 33.58, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 9.00>, 0.13, <18.47, 33.58, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.93, 1.07, 9.09>, <21.07, 0.93, 8.91>, <21.55, 1.58, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 9.00>, 0.07, <21.55, 1.58, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.07, 0.93, 8.91>, <20.93, 1.07, 9.09>, <21.55, 1.58, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 9.00>, 0.07, <21.55, 1.58, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.98, 5.07, 9.25>, <21.02, 4.93, 8.75>, <22.50, 5.47, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 9.00>, 0.13, <22.50, 5.47, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.02, 4.93, 8.75>, <20.98, 5.07, 9.25>, <22.50, 5.47, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 9.00>, 0.13, <22.50, 5.47, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.94, 9.16, 9.46>, <21.06, 8.84, 8.54>, <23.74, 10.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 9.00>, 0.24, <23.74, 10.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.06, 8.84, 8.54>, <20.94, 9.16, 9.46>, <23.74, 10.03, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 9.00>, 0.24, <23.74, 10.03, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.87, 13.30, 9.73>, <21.13, 12.70, 8.27>, <25.38, 14.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 9.00>, 0.40, <25.38, 14.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.13, 12.70, 8.27>, <20.87, 13.30, 9.73>, <25.38, 14.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 9.00>, 0.40, <25.38, 14.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.91, 17.20, 9.49>, <21.09, 16.80, 8.51>, <23.94, 18.32, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 9.00>, 0.27, <23.94, 18.32, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.09, 16.80, 8.51>, <20.91, 17.20, 9.49>, <23.94, 18.32, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 9.00>, 0.27, <23.94, 18.32, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.89, 21.22, 9.51>, <21.11, 20.78, 8.49>, <24.04, 22.51, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 9.00>, 0.28, <24.04, 22.51, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.11, 20.78, 8.49>, <20.89, 21.22, 9.51>, <24.04, 22.51, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 9.00>, 0.28, <24.04, 22.51, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.85, 25.29, 9.63>, <21.15, 24.71, 8.37>, <24.79, 26.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 9.00>, 0.35, <24.79, 26.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.15, 24.71, 8.37>, <20.85, 25.29, 9.63>, <24.79, 26.95, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 9.00>, 0.35, <24.79, 26.95, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.85, 29.27, 9.54>, <21.15, 28.73, 8.46>, <24.27, 30.84, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 9.00>, 0.31, <24.27, 30.84, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.15, 28.73, 8.46>, <20.85, 29.27, 9.54>, <24.27, 30.84, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 9.00>, 0.31, <24.27, 30.84, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.90, 33.21, 9.47>, <21.10, 32.79, 8.53>, <23.84, 34.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 9.00>, 0.26, <23.84, 34.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.10, 32.79, 8.53>, <20.90, 33.21, 9.47>, <23.84, 34.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 9.00>, 0.26, <23.84, 34.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.93, 1.05, 9.06>, <25.07, 0.95, 8.94>, <25.39, 1.51, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 9.00>, 0.05, <25.39, 1.51, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.07, 0.95, 8.94>, <24.93, 1.05, 9.06>, <25.39, 1.51, 8.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 9.00>, 0.05, <25.39, 1.51, 8.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.96, 5.10, 9.27>, <25.04, 4.90, 8.73>, <26.60, 5.66, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 9.00>, 0.14, <26.60, 5.66, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.04, 4.90, 8.73>, <24.96, 5.10, 9.27>, <26.60, 5.66, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 9.00>, 0.14, <26.60, 5.66, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.98, 9.08, 9.39>, <25.02, 8.92, 8.61>, <27.32, 9.51, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 9.00>, 0.20, <27.32, 9.51, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.02, 8.92, 8.61>, <24.98, 9.08, 9.39>, <27.32, 9.51, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 9.00>, 0.20, <27.32, 9.51, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 13.04, 9.63>, <25.00, 12.96, 8.37>, <28.76, 13.25, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 9.00>, 0.31, <28.76, 13.25, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 12.96, 8.37>, <25.00, 13.04, 9.63>, <28.76, 13.25, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 9.00>, 0.31, <28.76, 13.25, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.99, 17.05, 9.54>, <25.01, 16.95, 8.46>, <28.24, 17.32, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 9.00>, 0.27, <28.24, 17.32, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.01, 16.95, 8.46>, <24.99, 17.05, 9.54>, <28.24, 17.32, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 9.00>, 0.27, <28.24, 17.32, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 21.01, 9.51>, <25.00, 20.99, 8.49>, <28.07, 21.07, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 9.00>, 0.26, <28.07, 21.07, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 20.99, 8.49>, <25.00, 21.01, 9.51>, <28.07, 21.07, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 9.00>, 0.26, <28.07, 21.07, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 25.00, 9.70>, <25.00, 25.00, 8.30>, <29.22, 24.99, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 9.00>, 0.35, <29.22, 24.99, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 25.00, 8.30>, <25.00, 25.00, 9.70>, <29.22, 24.99, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 9.00>, 0.35, <29.22, 24.99, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 28.97, 9.43>, <25.00, 29.03, 8.57>, <27.58, 28.84, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 9.00>, 0.22, <27.58, 28.84, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 29.03, 8.57>, <25.00, 28.97, 9.43>, <27.58, 28.84, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 9.00>, 0.22, <27.58, 28.84, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 32.97, 9.45>, <25.00, 33.03, 8.55>, <27.71, 32.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 9.00>, 0.23, <27.71, 32.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 33.03, 8.55>, <25.00, 32.97, 9.45>, <27.71, 32.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 9.00>, 0.23, <27.71, 32.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.93, 0.94, 9.08>, <29.07, 1.06, 8.92>, <29.45, 0.48, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 9.00>, 0.06, <29.45, 0.48, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.07, 1.06, 8.92>, <28.93, 0.94, 9.08>, <29.45, 0.48, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 9.00>, 0.06, <29.45, 0.48, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.96, 4.92, 9.18>, <29.04, 5.08, 8.82>, <30.07, 4.44, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 9.00>, 0.10, <30.07, 4.44, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.04, 5.08, 8.82>, <28.96, 4.92, 9.18>, <30.07, 4.44, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 9.00>, 0.10, <30.07, 4.44, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.91, 8.82, 9.39>, <29.09, 9.18, 8.61>, <31.32, 7.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 9.00>, 0.22, <31.32, 7.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.09, 9.18, 8.61>, <28.91, 8.82, 9.39>, <31.32, 7.81, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 9.00>, 0.22, <31.32, 7.81, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.97, 12.87, 9.54>, <29.03, 13.13, 8.46>, <32.24, 12.18, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 9.00>, 0.28, <32.24, 12.18, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.03, 13.13, 8.46>, <28.97, 12.87, 9.54>, <32.24, 12.18, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 9.00>, 0.28, <32.24, 12.18, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 16.95, 9.63>, <29.00, 17.05, 8.37>, <32.76, 16.70, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 9.00>, 0.31, <32.76, 16.70, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 17.05, 8.37>, <29.00, 16.95, 9.63>, <32.76, 16.70, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 9.00>, 0.31, <32.76, 16.70, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.89, 20.76, 9.58>, <29.11, 21.24, 8.42>, <32.46, 19.44, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 9.00>, 0.32, <32.46, 19.44, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.11, 21.24, 8.42>, <28.89, 20.76, 9.58>, <32.46, 19.44, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 9.00>, 0.32, <32.46, 19.44, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.91, 24.75, 9.76>, <29.09, 25.25, 8.24>, <33.54, 23.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 9.00>, 0.40, <33.54, 23.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.09, 25.25, 8.24>, <28.91, 24.75, 9.76>, <33.54, 23.40, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 9.00>, 0.40, <33.54, 23.40, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.93, 28.87, 9.26>, <29.07, 29.13, 8.74>, <30.57, 28.11, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 9.00>, 0.15, <30.57, 28.11, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.07, 29.13, 8.74>, <28.93, 28.87, 9.26>, <30.57, 28.11, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 9.00>, 0.15, <30.57, 28.11, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 32.96, 9.29>, <29.00, 33.04, 8.71>, <30.76, 32.77, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 9.00>, 0.15, <30.76, 32.77, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 33.04, 8.71>, <29.00, 32.96, 9.29>, <30.76, 32.77, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 9.00>, 0.15, <30.76, 32.77, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.87, 0.95, 9.06>, <33.13, 1.05, 8.94>, <33.35, 0.14, 9.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 9.00>, 0.08, <33.35, 0.14, 9.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.13, 1.05, 8.94>, <32.87, 0.95, 9.06>, <33.35, 0.14, 9.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 9.00>, 0.08, <33.35, 0.14, 9.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.94, 4.88, 9.25>, <33.06, 5.12, 8.75>, <34.50, 4.22, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 9.00>, 0.14, <34.50, 4.22, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.06, 5.12, 8.75>, <32.94, 4.88, 9.25>, <34.50, 4.22, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 9.00>, 0.14, <34.50, 4.22, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.88, 8.80, 9.39>, <33.12, 9.20, 8.61>, <35.32, 7.59, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 9.00>, 0.23, <35.32, 7.59, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.12, 9.20, 8.61>, <32.88, 8.80, 9.39>, <35.32, 7.59, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 9.00>, 0.23, <35.32, 7.59, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.84, 12.69, 9.65>, <33.16, 13.31, 8.35>, <36.89, 10.92, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 9.00>, 0.37, <36.89, 10.92, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.16, 13.31, 8.35>, <32.84, 12.69, 9.65>, <36.89, 10.92, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 9.00>, 0.37, <36.89, 10.92, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.82, 16.71, 9.54>, <33.18, 17.29, 8.46>, <36.27, 14.96, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 9.00>, 0.32, <36.27, 14.96, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.18, 17.29, 8.46>, <32.82, 16.71, 9.54>, <36.27, 14.96, 8.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 9.00>, 0.32, <36.27, 14.96, 8.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.63, 20.53, 9.76>, <33.37, 21.47, 8.24>, <37.54, 17.41, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 9.00>, 0.48, <37.54, 17.41, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.37, 21.47, 8.24>, <32.63, 20.53, 9.76>, <37.54, 17.41, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 9.00>, 0.48, <37.54, 17.41, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.63, 24.61, 9.57>, <33.37, 25.39, 8.43>, <36.40, 21.78, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 9.00>, 0.39, <36.40, 21.78, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.37, 25.39, 8.43>, <32.63, 24.61, 9.57>, <36.40, 21.78, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 9.00>, 0.39, <36.40, 21.78, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.83, 28.84, 9.21>, <33.17, 29.16, 8.79>, <34.27, 27.59, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 9.00>, 0.16, <34.27, 27.59, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.17, 29.16, 8.79>, <32.83, 28.84, 9.21>, <34.27, 27.59, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 9.00>, 0.16, <34.27, 27.59, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.94, 32.90, 9.18>, <33.06, 33.10, 8.82>, <34.11, 32.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 9.00>, 0.11, <34.11, 32.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.06, 33.10, 8.82>, <32.94, 32.90, 9.18>, <34.11, 32.29, 9.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 9.00>, 0.11, <34.11, 32.29, 9.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.97, 1.14, 13.46>, <1.03, 0.86, 12.54>, <3.74, 1.88, 12.93> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 13.00>, 0.24, <3.74, 1.88, 12.93>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.03, 0.86, 12.54>, <0.97, 1.14, 13.46>, <3.74, 1.88, 12.93> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 1.00, 13.00>, 0.24, <3.74, 1.88, 12.93>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 5.10, 13.49>, <1.01, 4.90, 12.51>, <3.94, 5.58, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 13.00>, 0.25, <3.94, 5.58, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 4.90, 12.51>, <0.99, 5.10, 13.49>, <3.94, 5.58, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 5.00, 13.00>, 0.25, <3.94, 5.58, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 8.94, 13.49>, <1.00, 9.06, 12.51>, <3.94, 8.66, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 13.00>, 0.25, <3.94, 8.66, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 9.06, 12.51>, <1.00, 8.94, 13.49>, <3.94, 8.66, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 9.00, 13.00>, 0.25, <3.94, 8.66, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.90, 12.79, 13.50>, <1.10, 13.21, 12.50>, <3.97, 11.63, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 13.00>, 0.27, <3.97, 11.63, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.10, 13.21, 12.50>, <0.90, 12.79, 13.50>, <3.97, 11.63, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 13.00, 13.00>, 0.27, <3.97, 11.63, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.86, 16.72, 13.70>, <1.14, 17.28, 12.30>, <5.18, 15.11, 13.10> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 13.00>, 0.38, <5.18, 15.11, 13.10>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.14, 17.28, 12.30>, <0.86, 16.72, 13.70>, <5.18, 15.11, 13.10> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 17.00, 13.00>, 0.38, <5.18, 15.11, 13.10>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.93, 20.82, 13.65>, <1.07, 21.18, 12.35>, <4.92, 19.85, 13.13> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 13.00>, 0.34, <4.92, 19.85, 13.13>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.07, 21.18, 12.35>, <0.93, 20.82, 13.65>, <4.92, 19.85, 13.13> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 21.00, 13.00>, 0.34, <4.92, 19.85, 13.13>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 24.94, 13.32>, <1.01, 25.06, 12.68>, <2.93, 24.66, 13.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 13.00>, 0.16, <2.93, 24.66, 13.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 25.06, 12.68>, <0.99, 24.94, 13.32>, <2.93, 24.66, 13.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 25.00, 13.00>, 0.16, <2.93, 24.66, 13.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.01, 29.00, 13.08>, <0.99, 29.00, 12.92>, <1.49, 28.99, 12.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 13.00>, 0.04, <1.49, 28.99, 12.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<0.99, 29.00, 12.92>, <1.01, 29.00, 13.08>, <1.49, 28.99, 12.96> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 29.00, 13.00>, 0.04, <1.49, 28.99, 12.96>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 32.99, 13.06>, <1.00, 33.01, 12.94>, <1.35, 32.96, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 13.00>, 0.03, <1.35, 32.96, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<1.00, 33.01, 12.94>, <1.00, 32.99, 13.06>, <1.35, 32.96, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<1.00, 33.00, 13.00>, 0.03, <1.35, 32.96, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 1.08, 13.46>, <5.01, 0.92, 12.54>, <7.78, 1.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 13.00>, 0.24, <7.78, 1.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 0.92, 12.54>, <4.99, 1.08, 13.46>, <7.78, 1.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 1.00, 13.00>, 0.24, <7.78, 1.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 5.02, 13.65>, <5.00, 4.98, 12.35>, <8.89, 5.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 13.00>, 0.32, <8.89, 5.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.00, 4.98, 12.35>, <5.00, 5.02, 13.65>, <8.89, 5.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 5.00, 13.00>, 0.32, <8.89, 5.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 8.90, 13.66>, <5.01, 9.10, 12.34>, <8.99, 8.40, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 13.00>, 0.34, <8.99, 8.40, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 9.10, 12.34>, <4.99, 8.90, 13.66>, <8.99, 8.40, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 9.00, 13.00>, 0.34, <8.99, 8.40, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.79, 12.64, 13.70>, <5.21, 13.36, 12.30>, <9.18, 10.52, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 13.00>, 0.41, <9.18, 10.52, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.21, 13.36, 12.30>, <4.79, 12.64, 13.70>, <9.18, 10.52, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 13.00, 13.00>, 0.41, <9.18, 10.52, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.83, 16.70, 13.60>, <5.17, 17.30, 12.40>, <8.60, 14.92, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 13.00>, 0.35, <8.60, 14.92, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.17, 17.30, 12.40>, <4.83, 16.70, 13.60>, <8.60, 14.92, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 17.00, 13.00>, 0.35, <8.60, 14.92, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.96, 20.87, 13.47>, <5.04, 21.13, 12.53>, <7.84, 20.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 13.00>, 0.25, <7.84, 20.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.04, 21.13, 12.53>, <4.96, 20.87, 13.47>, <7.84, 20.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 21.00, 13.00>, 0.25, <7.84, 20.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 25.04, 13.23>, <5.01, 24.96, 12.77>, <6.37, 25.21, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 13.00>, 0.12, <6.37, 25.21, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 24.96, 12.77>, <4.99, 25.04, 13.23>, <6.37, 25.21, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 25.00, 13.00>, 0.12, <6.37, 25.21, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.99, 29.03, 13.08>, <5.01, 28.97, 12.92>, <5.45, 29.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 13.00>, 0.04, <5.45, 29.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.01, 28.97, 12.92>, <4.99, 29.03, 13.08>, <5.45, 29.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 29.00, 13.00>, 0.04, <5.45, 29.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<4.98, 33.02, 13.04>, <5.02, 32.98, 12.96>, <5.26, 33.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 13.00>, 0.03, <5.26, 33.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<5.02, 32.98, 12.96>, <4.98, 33.02, 13.04>, <5.26, 33.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<5.00, 33.00, 13.00>, 0.03, <5.26, 33.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 1.06, 13.46>, <9.01, 0.94, 12.54>, <11.78, 1.36, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 1.00, 13.00>, 0.23, <11.78, 1.36, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 0.94, 12.54>, <8.99, 1.06, 13.46>, <11.78, 1.36, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 1.00, 13.00>, 0.23, <11.78, 1.36, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.92, 5.22, 13.64>, <9.08, 4.78, 12.36>, <12.86, 6.43, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 13.00>, 0.34, <12.86, 6.43, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.08, 4.78, 12.36>, <8.92, 5.22, 13.64>, <12.86, 6.43, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 5.00, 13.00>, 0.34, <12.86, 6.43, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 9.05, 14.12>, <9.00, 8.95, 11.88>, <15.70, 9.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 13.00>, 0.56, <15.70, 9.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 8.95, 11.88>, <9.00, 9.05, 14.12>, <15.70, 9.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 9.00, 13.00>, 0.56, <15.70, 9.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 12.88, 13.82>, <9.02, 13.12, 12.18>, <13.94, 12.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 13.00>, 0.42, <13.94, 12.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 13.12, 12.18>, <8.98, 12.88, 13.82>, <13.94, 12.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 13.00, 13.00>, 0.42, <13.94, 12.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.98, 16.89, 13.50>, <9.02, 17.11, 12.50>, <11.97, 16.33, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 13.00>, 0.25, <11.97, 16.33, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.02, 17.11, 12.50>, <8.98, 16.89, 13.50>, <11.97, 16.33, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 17.00, 13.00>, 0.25, <11.97, 16.33, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.99, 20.96, 13.33>, <9.01, 21.04, 12.67>, <10.96, 20.73, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 13.00>, 0.16, <10.96, 20.73, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.01, 21.04, 12.67>, <8.99, 20.96, 13.33>, <10.96, 20.73, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 21.00, 13.00>, 0.16, <10.96, 20.73, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 24.97, 13.18>, <9.00, 25.03, 12.82>, <10.11, 24.84, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 13.00>, 0.09, <10.11, 24.84, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 25.03, 12.82>, <9.00, 24.97, 13.18>, <10.11, 24.84, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 25.00, 13.00>, 0.09, <10.11, 24.84, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 28.99, 13.04>, <9.00, 29.01, 12.96>, <9.26, 28.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 13.00>, 0.02, <9.26, 28.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.00, 29.01, 12.96>, <9.00, 28.99, 13.04>, <9.26, 28.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 29.00, 13.00>, 0.02, <9.26, 28.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<8.96, 33.03, 13.04>, <9.04, 32.97, 12.96>, <9.22, 33.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 13.00>, 0.03, <9.22, 33.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<9.04, 32.97, 12.96>, <8.96, 33.03, 13.04>, <9.22, 33.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<9.00, 33.00, 13.00>, 0.03, <9.22, 33.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.99, 1.06, 13.40>, <13.01, 0.94, 12.60>, <15.38, 1.36, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 13.00>, 0.20, <15.38, 1.36, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.01, 0.94, 12.60>, <12.99, 1.06, 13.40>, <15.38, 1.36, 12.99> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 1.00, 13.00>, 0.20, <15.38, 1.36, 12.99>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.82, 4.66, 13.70>, <13.18, 5.34, 12.30>, <17.18, 2.70, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 13.00>, 0.40, <17.18, 2.70, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.18, 5.34, 12.30>, <12.82, 4.66, 13.70>, <17.18, 2.70, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 5.00, 13.00>, 0.40, <17.18, 2.70, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 9.01, 13.99>, <13.00, 8.99, 12.01>, <18.92, 9.07, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 13.00>, 0.49, <18.92, 9.07, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.00, 8.99, 12.01>, <13.00, 9.01, 13.99>, <18.92, 9.07, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 9.00, 13.00>, 0.49, <18.92, 9.07, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.92, 13.26, 13.88>, <13.08, 12.74, 12.12>, <18.30, 14.65, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 13.00>, 0.46, <18.30, 14.65, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.08, 12.74, 12.12>, <12.92, 13.26, 13.88>, <18.30, 14.65, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 13.00, 13.00>, 0.46, <18.30, 14.65, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.94, 17.17, 13.47>, <13.06, 16.83, 12.53>, <15.81, 18.06, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 13.00>, 0.25, <15.81, 18.06, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.06, 16.83, 12.53>, <12.94, 17.17, 13.47>, <15.81, 18.06, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 17.00, 13.00>, 0.25, <15.81, 18.06, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.90, 21.14, 13.23>, <13.10, 20.86, 12.77>, <14.40, 22.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 13.00>, 0.14, <14.40, 22.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.10, 20.86, 12.77>, <12.90, 21.14, 13.23>, <14.40, 22.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 21.00, 13.00>, 0.14, <14.40, 22.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.78, 25.15, 13.18>, <13.22, 24.85, 12.82>, <14.11, 26.58, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 13.00>, 0.16, <14.11, 26.58, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.22, 24.85, 12.82>, <12.78, 25.15, 13.18>, <14.11, 26.58, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 25.00, 13.00>, 0.16, <14.11, 26.58, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.82, 29.06, 13.06>, <13.18, 28.94, 12.94>, <13.39, 30.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 13.00>, 0.10, <13.39, 30.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.18, 28.94, 12.94>, <12.82, 29.06, 13.06>, <13.39, 30.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 29.00, 13.00>, 0.10, <13.39, 30.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<12.94, 33.04, 13.05>, <13.06, 32.96, 12.95>, <13.32, 33.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 13.00>, 0.05, <13.32, 33.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<13.06, 32.96, 12.95>, <12.94, 33.04, 13.05>, <13.32, 33.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<13.00, 33.00, 13.00>, 0.05, <13.32, 33.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 0.98, 13.35>, <17.00, 1.02, 12.65>, <19.12, 0.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 13.00>, 0.18, <19.12, 0.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.00, 1.02, 12.65>, <17.00, 0.98, 13.35>, <19.12, 0.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 1.00, 13.00>, 0.18, <19.12, 0.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.95, 5.18, 13.70>, <17.05, 4.82, 12.30>, <21.22, 6.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 13.00>, 0.36, <21.22, 6.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.05, 4.82, 12.30>, <16.95, 5.18, 13.70>, <21.22, 6.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 5.00, 13.00>, 0.36, <21.22, 6.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.88, 9.29, 13.77>, <17.12, 8.71, 12.23>, <21.61, 10.91, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 13.00>, 0.42, <21.61, 10.91, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.12, 8.71, 12.23>, <16.88, 9.29, 13.77>, <21.61, 10.91, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 9.00, 13.00>, 0.42, <21.61, 10.91, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.80, 13.32, 13.59>, <17.20, 12.68, 12.41>, <20.56, 15.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 13.00>, 0.35, <20.56, 15.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.20, 12.68, 12.41>, <16.80, 13.32, 13.59>, <20.56, 15.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 13.00, 13.00>, 0.35, <20.56, 15.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.82, 17.33, 13.68>, <17.18, 16.67, 12.32>, <21.09, 19.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 13.00>, 0.39, <21.09, 19.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.18, 16.67, 12.32>, <16.82, 17.33, 13.68>, <21.09, 19.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 17.00, 13.00>, 0.39, <21.09, 19.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.76, 21.23, 13.33>, <17.24, 20.77, 12.67>, <18.96, 23.02, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 13.00>, 0.23, <18.96, 23.02, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.24, 20.77, 12.67>, <16.76, 21.23, 13.33>, <18.96, 23.02, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 21.00, 13.00>, 0.23, <18.96, 23.02, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.72, 25.16, 13.19>, <17.28, 24.84, 12.81>, <18.14, 26.95, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 13.00>, 0.19, <18.14, 26.95, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.28, 24.84, 12.81>, <16.72, 25.16, 13.19>, <18.14, 26.95, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 25.00, 13.00>, 0.19, <18.14, 26.95, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.86, 29.14, 13.20>, <17.14, 28.86, 12.80>, <18.17, 30.21, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 13.00>, 0.14, <18.17, 30.21, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.14, 28.86, 12.80>, <16.86, 29.14, 13.20>, <18.17, 30.21, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 29.00, 13.00>, 0.14, <18.17, 30.21, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<16.97, 33.05, 13.11>, <17.03, 32.95, 12.89>, <17.68, 33.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 13.00>, 0.06, <17.68, 33.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<17.03, 32.95, 12.89>, <16.97, 33.05, 13.11>, <17.68, 33.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<17.00, 33.00, 13.00>, 0.06, <17.68, 33.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.97, 1.07, 13.20>, <21.03, 0.93, 12.80>, <22.21, 1.47, 13.02> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 13.00>, 0.11, <22.21, 1.47, 13.02>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.03, 0.93, 12.80>, <20.97, 1.07, 13.20>, <22.21, 1.47, 13.02> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 1.00, 13.00>, 0.11, <22.21, 1.47, 13.02>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.97, 5.12, 13.54>, <21.03, 4.88, 12.46>, <24.27, 5.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 13.00>, 0.28, <24.27, 5.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.03, 4.88, 12.46>, <20.97, 5.12, 13.54>, <24.27, 5.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 5.00, 13.00>, 0.28, <24.27, 5.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.92, 9.21, 13.60>, <21.08, 8.79, 12.40>, <24.63, 10.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 13.00>, 0.32, <24.63, 10.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.08, 8.79, 12.40>, <20.92, 9.21, 13.60>, <24.63, 10.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 9.00, 13.00>, 0.32, <24.63, 10.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.91, 13.25, 13.72>, <21.09, 12.75, 12.28>, <25.32, 14.58, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 13.00>, 0.38, <25.32, 14.58, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.09, 12.75, 12.28>, <20.91, 13.25, 13.72>, <25.32, 14.58, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 13.00, 13.00>, 0.38, <25.32, 14.58, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.86, 17.28, 13.63>, <21.14, 16.72, 12.37>, <24.76, 18.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 13.00>, 0.35, <24.76, 18.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.14, 16.72, 12.37>, <20.86, 17.28, 13.63>, <24.76, 18.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 17.00, 13.00>, 0.35, <24.76, 18.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.90, 21.22, 13.54>, <21.10, 20.78, 12.46>, <24.24, 22.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 13.00>, 0.30, <24.24, 22.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.10, 20.78, 12.46>, <20.90, 21.22, 13.54>, <24.24, 22.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 21.00, 13.00>, 0.30, <24.24, 22.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.89, 25.14, 13.23>, <21.11, 24.86, 12.77>, <22.37, 26.06, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 13.00>, 0.14, <22.37, 26.06, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.11, 24.86, 12.77>, <20.89, 25.14, 13.23>, <22.37, 26.06, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 25.00, 13.00>, 0.14, <22.37, 26.06, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.94, 29.13, 13.30>, <21.06, 28.87, 12.70>, <22.79, 29.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 13.00>, 0.17, <22.79, 29.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.06, 28.87, 12.70>, <20.94, 29.13, 13.30>, <22.79, 29.88, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 29.00, 13.00>, 0.17, <22.79, 29.88, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<20.99, 33.03, 13.16>, <21.01, 32.97, 12.84>, <21.94, 33.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 13.00>, 0.08, <21.94, 33.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<21.01, 32.97, 12.84>, <20.99, 33.03, 13.16>, <21.94, 33.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<21.00, 33.00, 13.00>, 0.08, <21.94, 33.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.92, 1.14, 13.27>, <25.08, 0.86, 12.73>, <26.63, 1.95, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 13.00>, 0.16, <26.63, 1.95, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.08, 0.86, 12.73>, <24.92, 1.14, 13.27>, <26.63, 1.95, 12.97> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 1.00, 13.00>, 0.16, <26.63, 1.95, 12.97>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.94, 5.16, 13.46>, <25.06, 4.84, 12.54>, <27.74, 6.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 13.00>, 0.24, <27.74, 6.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.06, 4.84, 12.54>, <24.94, 5.16, 13.46>, <27.74, 6.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 5.00, 13.00>, 0.24, <27.74, 6.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.90, 9.23, 13.57>, <25.10, 8.77, 12.43>, <28.40, 10.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 13.00>, 0.31, <28.40, 10.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.10, 8.77, 12.43>, <24.90, 9.23, 13.57>, <28.40, 10.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 9.00, 13.00>, 0.31, <28.40, 10.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.99, 13.08, 13.77>, <25.01, 12.92, 12.23>, <29.61, 13.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 13.00>, 0.39, <29.61, 13.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.01, 12.92, 12.23>, <24.99, 13.08, 13.77>, <29.61, 13.47, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 13.00, 13.00>, 0.39, <29.61, 13.47, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 17.04, 13.70>, <25.00, 16.96, 12.30>, <29.22, 17.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 13.00>, 0.35, <29.22, 17.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 16.96, 12.30>, <25.00, 17.04, 13.70>, <29.22, 17.25, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 17.00, 13.00>, 0.35, <29.22, 17.25, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 21.03, 13.57>, <25.00, 20.97, 12.43>, <28.40, 21.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 13.00>, 0.28, <28.40, 21.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 20.97, 12.43>, <25.00, 21.03, 13.57>, <28.40, 21.18, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 21.00, 13.00>, 0.28, <28.40, 21.18, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<24.99, 25.05, 13.29>, <25.01, 24.95, 12.71>, <26.76, 25.32, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 13.00>, 0.15, <26.76, 25.32, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.01, 24.95, 12.71>, <24.99, 25.05, 13.29>, <26.76, 25.32, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 25.00, 13.00>, 0.15, <26.76, 25.32, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 29.00, 13.32>, <25.00, 29.00, 12.68>, <26.93, 28.99, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 13.00>, 0.16, <26.93, 28.99, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 29.00, 12.68>, <25.00, 29.00, 13.32>, <26.93, 28.99, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 29.00, 13.00>, 0.16, <26.93, 28.99, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 33.02, 13.23>, <25.00, 32.98, 12.77>, <26.37, 33.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 13.00>, 0.11, <26.37, 33.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<25.00, 32.98, 12.77>, <25.00, 33.02, 13.23>, <26.37, 33.14, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<25.00, 33.00, 13.00>, 0.11, <26.37, 33.14, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 1.00, 13.26>, <29.00, 1.00, 12.74>, <30.53, 0.99, 12.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 13.00>, 0.13, <30.53, 0.99, 12.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 1.00, 12.74>, <29.00, 1.00, 13.26>, <30.53, 0.99, 12.98> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 1.00, 13.00>, 0.13, <30.53, 0.99, 12.98>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 4.96, 13.32>, <29.00, 5.04, 12.68>, <30.89, 4.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 13.00>, 0.16, <30.89, 4.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 5.04, 12.68>, <29.00, 4.96, 13.32>, <30.89, 4.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 5.00, 13.00>, 0.16, <30.89, 4.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.92, 8.79, 13.61>, <29.08, 9.21, 12.39>, <32.69, 7.63, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 13.00>, 0.33, <32.69, 7.63, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.08, 9.21, 12.39>, <28.92, 8.79, 13.61>, <32.69, 7.63, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 9.00, 13.00>, 0.33, <32.69, 7.63, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 13.00, 13.61>, <29.00, 13.00, 12.39>, <32.69, 13.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 13.00>, 0.31, <32.69, 13.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.00, 13.00, 12.39>, <29.00, 13.00, 13.61>, <32.69, 13.03, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 13.00, 13.00>, 0.31, <32.69, 13.03, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.99, 16.93, 13.78>, <29.01, 17.07, 12.22>, <33.68, 16.55, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 13.00>, 0.39, <33.68, 16.55, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.01, 17.07, 12.22>, <28.99, 16.93, 13.78>, <33.68, 16.55, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 17.00, 13.00>, 0.39, <33.68, 16.55, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.93, 20.84, 13.40>, <29.07, 21.16, 12.60>, <31.38, 19.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 13.00>, 0.22, <31.38, 19.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.07, 21.16, 12.60>, <28.93, 20.84, 13.40>, <31.38, 19.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 21.00, 13.00>, 0.22, <31.38, 19.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.99, 24.93, 13.38>, <29.01, 25.07, 12.62>, <31.25, 24.59, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 13.00>, 0.19, <31.25, 24.59, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.01, 25.07, 12.62>, <28.99, 24.93, 13.38>, <31.25, 24.59, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 25.00, 13.00>, 0.19, <31.25, 24.59, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.95, 28.88, 13.30>, <29.05, 29.12, 12.70>, <30.79, 28.22, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 13.00>, 0.16, <30.79, 28.22, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.05, 29.12, 12.70>, <28.95, 28.88, 13.30>, <30.79, 28.22, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 29.00, 13.00>, 0.16, <30.79, 28.22, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<28.99, 32.96, 13.18>, <29.01, 33.04, 12.82>, <30.11, 32.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 13.00>, 0.09, <30.11, 32.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<29.01, 33.04, 12.82>, <28.99, 32.96, 13.18>, <30.11, 32.77, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<29.00, 33.00, 13.00>, 0.09, <30.11, 32.77, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.94, 0.88, 13.26>, <33.06, 1.12, 12.74>, <34.57, 0.18, 13.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 13.00>, 0.15, <34.57, 0.18, 13.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.06, 1.12, 12.74>, <32.94, 0.88, 13.26>, <34.57, 0.18, 13.01> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 1.00, 13.00>, 0.15, <34.57, 0.18, 13.01>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.97, 4.89, 13.42>, <33.03, 5.11, 12.58>, <35.55, 4.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 13.00>, 0.22, <35.55, 4.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.03, 5.11, 12.58>, <32.97, 4.89, 13.42>, <35.55, 4.29, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 5.00, 13.00>, 0.22, <35.55, 4.29, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.91, 8.77, 13.61>, <33.09, 9.23, 12.39>, <36.66, 7.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 13.00>, 0.33, <36.66, 7.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.09, 9.23, 12.39>, <32.91, 8.77, 13.61>, <36.66, 7.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 9.00, 13.00>, 0.33, <36.66, 7.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.91, 12.75, 13.77>, <33.09, 13.25, 12.23>, <37.61, 11.40, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 13.00>, 0.41, <37.61, 11.40, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.09, 13.25, 12.23>, <32.91, 12.75, 13.77>, <37.61, 11.40, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 13.00, 13.00>, 0.41, <37.61, 11.40, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.84, 16.71, 13.59>, <33.16, 17.29, 12.41>, <36.56, 15.00, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 13.00>, 0.34, <36.56, 15.00, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.16, 17.29, 12.41>, <32.84, 16.71, 13.59>, <36.56, 15.00, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 17.00, 13.00>, 0.34, <36.56, 15.00, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.92, 20.84, 13.35>, <33.08, 21.16, 12.65>, <35.12, 19.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 13.00>, 0.20, <35.12, 19.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.08, 21.16, 12.65>, <32.92, 20.84, 13.35>, <35.12, 19.96, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 21.00, 13.00>, 0.20, <35.12, 19.96, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.87, 24.79, 13.39>, <33.13, 25.21, 12.61>, <35.35, 23.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 13.00>, 0.23, <35.35, 23.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.13, 25.21, 12.61>, <32.87, 24.79, 13.39>, <35.35, 23.51, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 25.00, 13.00>, 0.23, <35.35, 23.51, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<32.95, 28.91, 13.18>, <33.05, 29.09, 12.82>, <34.11, 28.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 13.00>, 0.11, <34.11, 28.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.05, 29.09, 12.82>, <32.95, 28.91, 13.18>, <34.11, 28.36, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 29.00, 13.00>, 0.11, <34.11, 28.36, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.00, 32.99, 13.13>, <33.00, 33.01, 12.87>, <33.78, 32.92, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 13.00>, 0.07, <33.78, 32.92, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
-    triangle {<33.00, 33.01, 12.87>, <33.00, 32.99, 13.13>, <33.78, 32.92, 13.00> 
- texture {pigment{rgb<0.0, 0.0, 1.0>}}}
-cone {<33.00, 33.00, 13.00>, 0.07, <33.78, 32.92, 13.00>, 0.00
-        texture { pigment{rgb<0.0, 1.0, 0.0>} }}
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 9.00>, 0.19, <6.34, 1.44, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 9.00>, 0.19, <6.34, 1.44, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 9.00>, 0.32, <7.42, 5.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 9.00>, 0.32, <7.42, 5.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 9.00>, 0.34, <7.55, 8.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 9.00>, 0.34, <7.55, 8.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 9.00>, 0.71, <9.02, 9.52, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 9.00>, 0.71, <9.02, 9.52, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 9.00>, 0.87, <9.90, 12.63, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 9.00>, 0.87, <9.90, 12.63, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 9.00>, 0.72, <10.07, 19.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 9.00>, 0.72, <10.07, 19.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 9.00>, 0.27, <7.02, 24.99, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 9.00>, 0.27, <7.02, 24.99, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 9.00>, 0.05, <5.26, 29.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 9.00>, 0.05, <5.26, 29.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 9.00>, 0.05, <5.03, 33.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 9.00>, 0.05, <5.03, 33.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 1.00, 9.00>, 0.16, <10.21, 1.21, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 1.00, 9.00>, 0.16, <10.21, 1.21, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 9.00>, 0.31, <10.79, 6.43, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 9.00>, 0.31, <10.79, 6.43, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 9.00>, 0.87, <15.51, 9.69, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 9.00>, 0.87, <15.51, 9.69, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 9.00>, 0.91, <15.54, 10.96, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 9.00>, 0.91, <15.54, 10.96, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 9.00>, 0.71, <12.76, 13.26, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 9.00>, 0.71, <12.76, 13.26, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 9.00>, 0.36, <11.35, 19.70, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 9.00>, 0.36, <11.35, 19.70, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 9.00>, 0.17, <10.14, 25.51, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 9.00>, 0.17, <10.14, 25.51, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 9.00>, 0.06, <9.29, 29.36, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 9.00>, 0.06, <9.29, 29.36, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 9.00>, 0.05, <9.32, 33.14, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 9.00>, 0.05, <9.32, 33.14, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 9.00>, 0.12, <13.91, 1.18, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 9.00>, 0.12, <13.91, 1.18, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 9.00>, 0.46, <15.51, 2.63, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 9.00>, 0.46, <15.51, 2.63, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 9.00>, 0.64, <17.74, 9.55, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 9.00>, 0.64, <17.74, 9.55, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 9.00>, 1.00, <19.87, 15.98, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 9.00>, 1.00, <19.87, 15.98, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 9.00>, 0.59, <16.14, 20.10, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 9.00>, 0.59, <16.14, 20.10, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 9.00>, 0.51, <14.50, 24.50, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 9.00>, 0.51, <14.50, 24.50, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 9.00>, 0.46, <15.15, 27.65, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 9.00>, 0.46, <15.15, 27.65, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 9.00>, 0.19, <13.94, 30.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 9.00>, 0.19, <13.94, 30.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 9.00>, 0.09, <13.68, 32.96, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 9.00>, 0.09, <13.68, 32.96, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 9.00>, 0.10, <17.75, 1.18, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 9.00>, 0.10, <17.75, 1.18, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 9.00>, 0.32, <19.19, 5.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 9.00>, 0.32, <19.19, 5.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 9.00>, 0.61, <21.09, 11.10, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 9.00>, 0.61, <21.09, 11.10, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 9.00>, 0.64, <21.45, 14.77, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 9.00>, 0.64, <21.45, 14.77, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 9.00>, 0.73, <21.32, 20.39, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 9.00>, 0.73, <21.32, 20.39, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 9.00>, 0.60, <19.65, 24.65, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 9.00>, 0.60, <19.65, 24.65, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 9.00>, 0.63, <20.50, 28.21, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 9.00>, 0.63, <20.50, 28.21, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 9.00>, 0.46, <19.51, 31.39, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 9.00>, 0.46, <19.51, 31.39, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 9.00>, 0.21, <18.47, 33.58, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 9.00>, 0.21, <18.47, 33.58, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 9.00>, 0.11, <21.55, 1.58, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 9.00>, 0.11, <21.55, 1.58, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 9.00>, 0.21, <22.50, 5.47, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 9.00>, 0.21, <22.50, 5.47, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 9.00>, 0.39, <23.74, 10.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 9.00>, 0.39, <23.74, 10.03, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 9.00>, 0.64, <25.38, 14.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 9.00>, 0.64, <25.38, 14.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 9.00>, 0.43, <23.94, 18.32, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 9.00>, 0.43, <23.94, 18.32, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 9.00>, 0.45, <24.04, 22.51, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 9.00>, 0.45, <24.04, 22.51, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 9.00>, 0.57, <24.79, 26.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 9.00>, 0.57, <24.79, 26.95, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 9.00>, 0.50, <24.27, 30.84, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 9.00>, 0.50, <24.27, 30.84, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 9.00>, 0.42, <23.84, 34.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 9.00>, 0.42, <23.84, 34.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 9.00>, 0.09, <25.39, 1.51, 8.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 9.00>, 0.09, <25.39, 1.51, 8.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 9.00>, 0.23, <26.60, 5.66, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 9.00>, 0.23, <26.60, 5.66, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 9.00>, 0.32, <27.32, 9.51, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 9.00>, 0.32, <27.32, 9.51, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 9.00>, 0.50, <28.76, 13.25, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 9.00>, 0.50, <28.76, 13.25, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 9.00>, 0.43, <28.24, 17.32, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 9.00>, 0.43, <28.24, 17.32, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 9.00>, 0.41, <28.07, 21.07, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 9.00>, 0.41, <28.07, 21.07, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 9.00>, 0.56, <29.22, 24.99, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 9.00>, 0.56, <29.22, 24.99, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 9.00>, 0.34, <27.58, 28.84, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 9.00>, 0.34, <27.58, 28.84, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 9.00>, 0.36, <27.71, 32.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 9.00>, 0.36, <27.71, 32.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 9.00>, 0.09, <29.45, 0.48, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 9.00>, 0.09, <29.45, 0.48, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 9.00>, 0.16, <30.07, 4.44, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 9.00>, 0.16, <30.07, 4.44, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 9.00>, 0.35, <31.32, 7.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 9.00>, 0.35, <31.32, 7.81, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 9.00>, 0.44, <32.24, 12.18, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 9.00>, 0.44, <32.24, 12.18, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 9.00>, 0.50, <32.76, 16.70, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 9.00>, 0.50, <32.76, 16.70, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 9.00>, 0.51, <32.46, 19.44, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 9.00>, 0.51, <32.46, 19.44, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 9.00>, 0.64, <33.54, 23.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 9.00>, 0.64, <33.54, 23.40, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 9.00>, 0.24, <30.57, 28.11, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 9.00>, 0.24, <30.57, 28.11, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 9.00>, 0.24, <30.76, 32.77, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 9.00>, 0.24, <30.76, 32.77, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 9.00>, 0.12, <33.35, 0.14, 9.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 9.00>, 0.12, <33.35, 0.14, 9.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 9.00>, 0.23, <34.50, 4.22, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 9.00>, 0.23, <34.50, 4.22, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 9.00>, 0.36, <35.32, 7.59, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 9.00>, 0.36, <35.32, 7.59, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 9.00>, 0.59, <36.89, 10.92, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 9.00>, 0.59, <36.89, 10.92, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 9.00>, 0.51, <36.27, 14.96, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 9.00>, 0.51, <36.27, 14.96, 8.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 9.00>, 0.77, <37.54, 17.41, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 9.00>, 0.77, <37.54, 17.41, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 9.00>, 0.62, <36.40, 21.78, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 9.00>, 0.62, <36.40, 21.78, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 9.00>, 0.25, <34.27, 27.59, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 9.00>, 0.25, <34.27, 27.59, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 9.00>, 0.18, <34.11, 32.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 9.00>, 0.18, <34.11, 32.29, 9.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 13.00>, 0.38, <3.74, 1.88, 12.93>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 1.00, 13.00>, 0.38, <3.74, 1.88, 12.93>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 13.00>, 0.40, <3.94, 5.58, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 5.00, 13.00>, 0.40, <3.94, 5.58, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 13.00>, 0.39, <3.94, 8.66, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 9.00, 13.00>, 0.39, <3.94, 8.66, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 13.00>, 0.44, <3.97, 11.63, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 13.00, 13.00>, 0.44, <3.97, 11.63, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 13.00>, 0.61, <5.18, 15.11, 13.10>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 17.00, 13.00>, 0.61, <5.18, 15.11, 13.10>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 13.00>, 0.54, <4.92, 19.85, 13.13>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 21.00, 13.00>, 0.54, <4.92, 19.85, 13.13>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 13.00>, 0.26, <2.93, 24.66, 13.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 25.00, 13.00>, 0.26, <2.93, 24.66, 13.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 13.00>, 0.06, <1.49, 28.99, 12.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 29.00, 13.00>, 0.06, <1.49, 28.99, 12.96>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 13.00>, 0.05, <1.35, 32.96, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<1.00, 33.00, 13.00>, 0.05, <1.35, 32.96, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 13.00>, 0.38, <7.78, 1.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 1.00, 13.00>, 0.38, <7.78, 1.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 13.00>, 0.52, <8.89, 5.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 5.00, 13.00>, 0.52, <8.89, 5.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 13.00>, 0.54, <8.99, 8.40, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 9.00, 13.00>, 0.54, <8.99, 8.40, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 13.00>, 0.65, <9.18, 10.52, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 13.00, 13.00>, 0.65, <9.18, 10.52, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 13.00>, 0.55, <8.60, 14.92, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 17.00, 13.00>, 0.55, <8.60, 14.92, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 13.00>, 0.39, <7.84, 20.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 21.00, 13.00>, 0.39, <7.84, 20.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 13.00>, 0.18, <6.37, 25.21, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 25.00, 13.00>, 0.18, <6.37, 25.21, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 13.00>, 0.06, <5.45, 29.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 29.00, 13.00>, 0.06, <5.45, 29.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 13.00>, 0.04, <5.26, 33.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<5.00, 33.00, 13.00>, 0.04, <5.26, 33.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 1.00, 13.00>, 0.37, <11.78, 1.36, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 1.00, 13.00>, 0.37, <11.78, 1.36, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 13.00>, 0.55, <12.86, 6.43, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 5.00, 13.00>, 0.55, <12.86, 6.43, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 13.00>, 0.89, <15.70, 9.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 9.00, 13.00>, 0.89, <15.70, 9.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 13.00>, 0.67, <13.94, 12.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 13.00, 13.00>, 0.67, <13.94, 12.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 13.00>, 0.41, <11.97, 16.33, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 17.00, 13.00>, 0.41, <11.97, 16.33, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 13.00>, 0.26, <10.96, 20.73, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 21.00, 13.00>, 0.26, <10.96, 20.73, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 13.00>, 0.15, <10.11, 24.84, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 25.00, 13.00>, 0.15, <10.11, 24.84, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 13.00>, 0.03, <9.26, 28.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 29.00, 13.00>, 0.03, <9.26, 28.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 13.00>, 0.05, <9.22, 33.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<9.00, 33.00, 13.00>, 0.05, <9.22, 33.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 13.00>, 0.32, <15.38, 1.36, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 1.00, 13.00>, 0.32, <15.38, 1.36, 12.99>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 13.00>, 0.64, <17.18, 2.70, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 5.00, 13.00>, 0.64, <17.18, 2.70, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 13.00>, 0.79, <18.92, 9.07, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 9.00, 13.00>, 0.79, <18.92, 9.07, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 13.00>, 0.74, <18.30, 14.65, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 13.00, 13.00>, 0.74, <18.30, 14.65, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 13.00>, 0.40, <15.81, 18.06, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 17.00, 13.00>, 0.40, <15.81, 18.06, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 13.00>, 0.23, <14.40, 22.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 21.00, 13.00>, 0.23, <14.40, 22.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 13.00>, 0.26, <14.11, 26.58, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 25.00, 13.00>, 0.26, <14.11, 26.58, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 13.00>, 0.16, <13.39, 30.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 29.00, 13.00>, 0.16, <13.39, 30.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 13.00>, 0.08, <13.32, 33.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<13.00, 33.00, 13.00>, 0.08, <13.32, 33.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 13.00>, 0.28, <19.12, 0.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 1.00, 13.00>, 0.28, <19.12, 0.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 13.00>, 0.58, <21.22, 6.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 5.00, 13.00>, 0.58, <21.22, 6.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 13.00>, 0.66, <21.61, 10.91, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 9.00, 13.00>, 0.66, <21.61, 10.91, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 13.00>, 0.56, <20.56, 15.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 13.00, 13.00>, 0.56, <20.56, 15.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 13.00>, 0.62, <21.09, 19.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 17.00, 13.00>, 0.62, <21.09, 19.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 13.00>, 0.38, <18.96, 23.02, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 21.00, 13.00>, 0.38, <18.96, 23.02, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 13.00>, 0.30, <18.14, 26.95, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 25.00, 13.00>, 0.30, <18.14, 26.95, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 13.00>, 0.22, <18.17, 30.21, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 29.00, 13.00>, 0.22, <18.17, 30.21, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 13.00>, 0.10, <17.68, 33.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<17.00, 33.00, 13.00>, 0.10, <17.68, 33.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 13.00>, 0.17, <22.21, 1.47, 13.02>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 1.00, 13.00>, 0.17, <22.21, 1.47, 13.02>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 13.00>, 0.45, <24.27, 5.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 5.00, 13.00>, 0.45, <24.27, 5.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 13.00>, 0.52, <24.63, 10.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 9.00, 13.00>, 0.52, <24.63, 10.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 13.00>, 0.61, <25.32, 14.58, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 13.00, 13.00>, 0.61, <25.32, 14.58, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 13.00>, 0.56, <24.76, 18.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 17.00, 13.00>, 0.56, <24.76, 18.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 13.00>, 0.47, <24.24, 22.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 21.00, 13.00>, 0.47, <24.24, 22.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 13.00>, 0.23, <22.37, 26.06, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 25.00, 13.00>, 0.23, <22.37, 26.06, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 13.00>, 0.27, <22.79, 29.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 29.00, 13.00>, 0.27, <22.79, 29.88, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 13.00>, 0.13, <21.94, 33.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<21.00, 33.00, 13.00>, 0.13, <21.94, 33.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 13.00>, 0.25, <26.63, 1.95, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 1.00, 13.00>, 0.25, <26.63, 1.95, 12.97>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 13.00>, 0.39, <27.74, 6.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 5.00, 13.00>, 0.39, <27.74, 6.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 13.00>, 0.50, <28.40, 10.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 9.00, 13.00>, 0.50, <28.40, 10.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 13.00>, 0.62, <29.61, 13.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 13.00, 13.00>, 0.62, <29.61, 13.47, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 13.00>, 0.56, <29.22, 17.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 17.00, 13.00>, 0.56, <29.22, 17.25, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 13.00>, 0.45, <28.40, 21.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 21.00, 13.00>, 0.45, <28.40, 21.18, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 13.00>, 0.24, <26.76, 25.32, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 25.00, 13.00>, 0.24, <26.76, 25.32, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 13.00>, 0.26, <26.93, 28.99, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 29.00, 13.00>, 0.26, <26.93, 28.99, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 13.00>, 0.18, <26.37, 33.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<25.00, 33.00, 13.00>, 0.18, <26.37, 33.14, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 13.00>, 0.20, <30.53, 0.99, 12.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 1.00, 13.00>, 0.20, <30.53, 0.99, 12.98>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 13.00>, 0.25, <30.89, 4.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 5.00, 13.00>, 0.25, <30.89, 4.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 13.00>, 0.52, <32.69, 7.63, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 9.00, 13.00>, 0.52, <32.69, 7.63, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 13.00>, 0.49, <32.69, 13.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 13.00, 13.00>, 0.49, <32.69, 13.03, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 13.00>, 0.63, <33.68, 16.55, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 17.00, 13.00>, 0.63, <33.68, 16.55, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 13.00>, 0.35, <31.38, 19.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 21.00, 13.00>, 0.35, <31.38, 19.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 13.00>, 0.31, <31.25, 24.59, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 25.00, 13.00>, 0.31, <31.25, 24.59, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 13.00>, 0.26, <30.79, 28.22, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 29.00, 13.00>, 0.26, <30.79, 28.22, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 13.00>, 0.15, <30.11, 32.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<29.00, 33.00, 13.00>, 0.15, <30.11, 32.77, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 13.00>, 0.24, <34.57, 0.18, 13.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 1.00, 13.00>, 0.24, <34.57, 0.18, 13.01>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 13.00>, 0.35, <35.55, 4.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 5.00, 13.00>, 0.35, <35.55, 4.29, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 13.00>, 0.53, <36.66, 7.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 9.00, 13.00>, 0.53, <36.66, 7.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 13.00>, 0.65, <37.61, 11.40, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 13.00, 13.00>, 0.65, <37.61, 11.40, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 13.00>, 0.54, <36.56, 15.00, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 17.00, 13.00>, 0.54, <36.56, 15.00, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 13.00>, 0.31, <35.12, 19.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 21.00, 13.00>, 0.31, <35.12, 19.96, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 13.00>, 0.37, <35.35, 23.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 25.00, 13.00>, 0.37, <35.35, 23.51, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 13.00>, 0.17, <34.11, 28.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 29.00, 13.00>, 0.17, <34.11, 28.36, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 13.00>, 0.10, <33.78, 32.92, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
+cone {<33.00, 33.00, 13.00>, 0.10, <33.78, 32.92, 13.00>, 0.00
+        material{ texture { pigment{rgbf<0.8, 0.2, 0.3, coneplot_f>}
+                            finish  { coneplot_finish }}
+                            interior{ coneplot_interior }}}
         scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
 

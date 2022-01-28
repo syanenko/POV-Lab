@@ -411,6 +411,11 @@ classdef pov < handle
         % Cone plot
         function h = coneplot(o, varargin)
             varargin = [{ o.fh }, varargin];
+            % TODO: Parse anf filter params
+            o.declare("coneplot_f", '0.8;');
+%            o.declare("coneplot_interior", 'I_Glass');
+            o.declare("coneplot_interior", 'interior {ior 0.0};');
+            o.declare("coneplot_finish", 'finish {crand 0.02};');
             o.union_begin();
             h = pov_coneplot(varargin{:});
             o.union_end();

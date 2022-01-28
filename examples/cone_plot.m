@@ -20,14 +20,15 @@ end
 % pov.scene_begin();
 % TODO: Set image size
 pov.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
-pov.include("shapes");
+pov.include("textures");
+pov.include("glass");
 
 pov.global_settings("assumed_gamma 1");
 
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [50 26 40], 'look_at', [0 4 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [100 40 100], 'look_at', [0 10 -5], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -35,7 +36,7 @@ pov.camera('angle', 35, 'location', [50 26 40], 'look_at', [0 4 0], 'type', 'per
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
+pov.light('location', [150 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -58,14 +59,14 @@ pov.axis('size', [11 11 11]);
 % tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.8 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 % tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
-% tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-% tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_green = pov.declare("tex_plane_green", pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 
 % Axis planes
-% pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-% pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-% pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+pov.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_plane_red',  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+pov.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+pov.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
 
 % Grid
 % tex_grid_gray  = pov.declare("tex_grid_gray",  pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
