@@ -1,7 +1,7 @@
 #include "metals.inc"
 
 #declare TWOPI = 6.283185307179586476925287;
-#declare RADIUS = 1;
+#declare RADIUS = 0.2;
 #declare NX = 128;
 #declare NY = 128;
 #declare NZ = 27;
@@ -10,7 +10,8 @@
 
 #declare VP = <0, 0, 140>;
 #declare box_bottom = 1;
-#declare box_top = 27;
+#declare box_top = 14;
+#declare intensity = 0.005;
 
 
 global_settings { 
@@ -42,7 +43,7 @@ light_source {
       ratio 0.5
       samples 3,3
   	  method 3
-      emission <1,1,1> / 120
+      emission <1,1,1>  * ln((box_top - box_bottom)) * intensity
 /*                  
       absorption <1,1,1> / 10
       absorption <1,1,1> / 100
@@ -55,6 +56,7 @@ light_source {
 			interpolate 1
 			color_map {
    			[0.00 rgb <0,0,0>]
+   			[0.10 rgb <1,1,1>]
 			[0.15 rgb <0 0 1>]
    			[0.20 rgb <0,0,1>]
    			[0.20 rgb <1,0,0>]
@@ -77,12 +79,13 @@ box {
 	rotate <0,0,360*clock>
 }
 
+
 #declare bbox = texture {
    pigment { rgb <0.5,0.5,0.5> }
    finish { F_MetalB }
 }
-
-/* Corners of box */
+/*
+// Corners of box
 union {
 	sphere { <0,0,0>, RADIUS texture {bbox} }
 	sphere { <0,NY,0>, RADIUS texture {bbox} }
@@ -95,7 +98,7 @@ union {
 	translate -CC
 }
 
-/* Main border of box */
+// Main border of box
 union {
 	cylinder { <0,0,0>, <NX,0,0>, RADIUS texture {bbox} }
 	cylinder { <0,0,0>, <0,NY,0>, RADIUS texture {bbox} }
@@ -111,4 +114,4 @@ union {
 	cylinder { <NX,0,0>, <NX,0,NZ>, RADIUS texture {bbox} }
 	translate -CC
 }
-
+*/
