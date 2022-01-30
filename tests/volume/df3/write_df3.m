@@ -6,7 +6,9 @@
 load mri;
 D = squeeze(D);
 
-out_dir = "C:/Users/Serge/Documents/MATLAB\Apps/povlab/tests/volume/df3/";
+
+
+out_dir = "C:/Users/Serge/Documents/MATLAB\Apps/povlab/tests/volume/df3/mri";
 file_name = 'test_02';
 fh = fopen(out_dir + "/" + file_name + ".df3", 'w');
 
