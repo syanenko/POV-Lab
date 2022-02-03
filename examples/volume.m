@@ -52,16 +52,31 @@ pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
 load mri;
 data = squeeze(D);
 
-color_map = [0.00   0 0 0;
-             0.0001 0 0 1;
-             0.003  1 0 0;
-             0.005  0 0 1;
-             0.15   1 0 0;
-             0.20   0 0 1;
-             0.20   1 0 0;
-             0.30   0 1 0;
-             0.90   1 0 0;
-             1.00   1 0 0];
+num_colors = 256;
+limit = 0.4;
+scale = (0:limit/(num_colors-1):limit);
+
+%color_map_type = hot(num_colors);
+%color_map_type = winter(num_colors);
+%color_map_type = hsv(num_colors);
+%color_map_type = jet(num_colors);
+%color_map_type = bone(num_colors);
+%color_map_type = parula(num_colors);
+color_map_type = turbo(num_colors);
+
+color_map = [scale' color_map_type];
+
+% color_map = [0.00   0 0 0;
+%              0.0001 0 0 1;
+%              0.003  1 0 0;
+%              0.005  0 0 1;
+%              0.15   1 0 0;
+%              0.20   0 0 1;
+%              0.20   1 0 0;
+%              0.30   0 1 0;
+%              0.90   1 0 0;
+%              1.00   1 0 0];
+
 pov.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
 
 pov.scene_end();
