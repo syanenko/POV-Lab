@@ -577,7 +577,7 @@ classdef pov < handle
         function volume(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'data',         NaN,           @o.check_matrix_3d);
+            addParameter(p,'data',         NaN,           @o.check_volume_size);
             addParameter(p,'intervals',    24,            @o.check_positive_int);
             addParameter(p,'ratio',        0.5,           @o.check_float);
             addParameter(p,'samples',      [3 3],         @o.check_vector2);
@@ -840,10 +840,13 @@ classdef pov < handle
         end
 
         % Matrix 3d
-        function r = check_matrix_3d(o, x)
+        function r = check_volume_size(o, x)
             r = false;
-            if(ndims(x)~=3)
-                error("Input is not a 3d matrix");
+            [sx,sy,sz] = size(x);
+            if ((sx < 2) && (sy < 2)  ||...
+               ((sy < 2) && (sz < 2)) ||...
+               ((sx < 2) && (sz < 2)))
+                error("Input has no enougth size or dimentions");
             end
             r = true;
         end

@@ -23,7 +23,7 @@ pov.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
 pov.global_settings("assumed_gamma 1");
 
 pov.camera('angle', 35, 'location', [0 0 10], 'look_at', [0 0 0], 'type', 'orthographic');
-pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
+pov.light('location', [0 0 10], 'color', [0.4 0.4 0.4]);
 % pov.axis('size', [11 11 11]);
 
 % Axis planes
@@ -51,6 +51,8 @@ pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
 
 load mri;
 data = squeeze(D);
+% Slice
+data = data(:,:,20:24);
 
 num_colors = 256;
 limit = 0.4;
