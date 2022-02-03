@@ -577,22 +577,24 @@ classdef pov < handle
         function volume(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'intervals',   24,            @o.check_positive_int);
-            addParameter(p,'ratio',       0.5,           @o.check_float);
-            addParameter(p,'samples',     [3 3],         @o.check_vector2);
-            addParameter(p,'method',      3,             @o.check_positive_int);
-            addParameter(p,'emission',    [0.1 0.1 0.1], @o.check_vector3);
-            addParameter(p,'absorption',  [0.1 0.1 0.1], @o.check_vector3);
-            addParameter(p,'scattering',  '1, <0,0,0>',  @o.check_string);
-            addParameter(p,'confidence',   0.999,        @o.check_float);
-            addParameter(p,'variance',     0.001,        @o.density_file);
-            addParameter(p,'density_file', 'volume.df3', @o.check_string);
-            addParameter(p,'interpolate',  1,            @o.check_positive_int);
-            addParameter(p,'scale',        [1 1 1],      @o.check_vector3);
-            addParameter(p,'rotate',       [0 0 0],      @o.check_vector3);
-            addParameter(p,'translate',    [0 0 0],      @o.check_vector3);
+            addParameter(p,'data',         NaN,           @o.check_matrix_3d);
+            addParameter(p,'intervals',    24,            @o.check_positive_int);
+            addParameter(p,'ratio',        0.5,           @o.check_float);
+            addParameter(p,'samples',      [3 3],         @o.check_vector2);
+            addParameter(p,'method',       3,             @o.check_positive_int);
+            addParameter(p,'emission',     [0.1 0.1 0.1], @o.check_vector3);
+            addParameter(p,'absorption',   [0.1 0.1 0.1], @o.check_vector3);
+            addParameter(p,'scattering',   '1, <0,0,0>',  @o.check_string);
+            addParameter(p,'confidence',   0.999,         @o.check_float);
+            addParameter(p,'variance',     0.001,         @o.density_file);
+            addParameter(p,'density_file', 'volume',      @o.check_string);
+            addParameter(p,'interpolate',  1,             @o.check_positive_int);
+            addParameter(p,'scale',        [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',       [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate',    [0 0 0],       @o.check_vector3);
             parse(p,varargin{:});
 
+            data         = p.Results.data;
             intervals    = p.Results.intervals;
             ratio        = p.Results.ratio;
             samples      = p.Results.samples;
@@ -608,6 +610,17 @@ classdef pov < handle
             rotate       = p.Results.rotate;
             translate    = p.Results.translate;
 
+            % Write density file if we have data
+            if(~isnan(data))
+                [sx sy sz] = size(data);                
+                fhd = fopen(o.out_dir + "/" + density_file + ".df3", 'w');
+                fwrite(fhd, sx,   'uint16', 'ieee-be');
+                fwrite(fhd, sy,   'uint16', 'ieee-be');
+                fwrite(fhd, sz,   'uint16', 'ieee-be');
+                fwrite(fhd, data, 'uint8',  'ieee-be');
+                fclose(fhd);
+            end
+            
             % Write
             fprintf(o.fh,['#declare vol_interior = interior {\n'...
                           '    media {\n'...
@@ -621,7 +634,7 @@ classdef pov < handle
                           '        confidence %0.3f\n'...
                           '        variance %0.3f\n'...
                           '            density {\n'...
-    	                  '                density_file df3 "%s"\n'...
+    	                  '                density_file df3 "%s.df3"\n'...
                           '                interpolate %d\n'...
 			              '                color_map {\n'...
    			              '                    [0.00 rgb <0,0,0>]\n'...
@@ -822,6 +835,15 @@ classdef pov < handle
             r = false;
             if (~isequal(size(x), [3 3]))
                 error("Input is not a matrix of size '3 x 3'");
+            end
+            r = true;
+        end
+
+        % Matrix 3d
+        function r = check_matrix_3d(o, x)
+            r = false;
+            if(ndims(x)~=3)
+                error("Input is not a 3d matrix");
             end
             r = true;
         end

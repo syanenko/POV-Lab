@@ -45,7 +45,12 @@ pov.axis('size', [11 11 11]);
 % pov.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [ 0 0 90], 'translate', [0 5 5]);
 % pov.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [90 0  0], 'translate', [5 5 0]);
 
-pov.volume('scale', [5 5 5], 'rotate', [ 0 0 0], 'translate', [0 0 0]);
+% [x,y,z,data] = flow;
+[x,y,z] = meshgrid([-3:0.25:3]);
+data = x.*exp(-x.^2 -y.^2 -z.^2) * 256;
+isosurface(x,y,z,data,1e-4);
+
+pov.volume('data', data, 'density_file', 'test_vol', 'scale', [5 5 5], 'rotate', [ 0 0 0], 'translate', [0 0 0]);
 
 pov.scene_end();
 img = pov.render();
