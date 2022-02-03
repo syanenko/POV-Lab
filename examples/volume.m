@@ -22,9 +22,9 @@ end
 pov.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
 pov.global_settings("assumed_gamma 1");
 
-pov.camera('angle', 35, 'location', [3 12 4], 'look_at', [0 0 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [0 0 10], 'look_at', [0 0 0], 'type', 'orthographic');
 pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
-pov.axis('size', [11 11 11]);
+% pov.axis('size', [11 11 11]);
 
 % Axis planes
 % tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -45,12 +45,13 @@ pov.axis('size', [11 11 11]);
 % pov.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [ 0 0 90], 'translate', [0 5 5]);
 % pov.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [90 0  0], 'translate', [5 5 0]);
 
-% [x,y,z,data] = flow;
-[x,y,z] = meshgrid([-3:0.25:3]);
-data = x.*exp(-x.^2 -y.^2 -z.^2) * 256;
-isosurface(x,y,z,data,1e-4);
+% [x,y,z] = meshgrid([-3:0.25:3]);
+% data = x.*exp(-x.^2 -y.^2 -z.^2) * 256;
+% isosurface(x,y,z,data,1e-4);
 
-pov.volume('data', data, 'density_file', 'test_vol', 'scale', [5 5 5], 'rotate', [ 0 0 0], 'translate', [0 0 0]);
+load mri;
+data = squeeze(D);
+pov.volume('data', data, 'density_file', 'test_vol', 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
 
 pov.scene_end();
 img = pov.render();
