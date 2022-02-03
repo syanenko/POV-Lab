@@ -51,7 +51,18 @@ pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
 
 load mri;
 data = squeeze(D);
-pov.volume('data', data, 'density_file', 'test_vol', 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
+
+color_map = [0.00   0 0 0;
+             0.0001 0 0 1;
+             0.003  1 0 0;
+             0.005  0 0 1;
+             0.15   1 0 0;
+             0.20   0 0 1;
+             0.20   1 0 0;
+             0.30   0 1 0;
+             0.90   1 0 0;
+             1.00   1 0 0];
+pov.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
 
 pov.scene_end();
 img = pov.render();
