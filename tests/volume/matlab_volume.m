@@ -1,4 +1,4 @@
-% clear
+clear
 % load wind u v w x y z                          
 % [m,n,p] = size(u)
 % m = 35

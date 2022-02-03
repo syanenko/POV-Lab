@@ -293,17 +293,6 @@ classdef pov < handle
                            position(1), position(2), position(3), radius,...
                            texture);
             o.write_transforms(scale, rotate, translate);
-
-            % Preview TODO: Remove it completely (?)
-%             if(o.preview)
-%                 [x,y,z] = sphere;
-%                 surf( x * radius * scale(1) + position(1) + translate(1), ...
-%                       y * radius * scale(2) + position(2) + translate(2), ...
-%                       z * radius * scale(3) + position(3) + translate(3), 'FaceAlpha', o.preview_alpha);
-%                 shading(gca, o.preview_shading);
-%                 axis equal;
-%                 hold on;
-%             end
         end
 
         % Cone
@@ -406,28 +395,6 @@ classdef pov < handle
             fprintf(o.fh, ['      %s\n'...
                            '      texture { %s }\n'], sturm, texture);
             o.write_transforms(scale, rotate, translate);
-        end
-
-        % Set cone plot visualization params
-        function coneplot_material(o, varargin)
-            % Parse
-            p = inputParser;
-            addParameter(p,'alpha', 0.8, @o.check_positive_float);
-            addParameter(p,'interior', 'ior 0.0',  @o.check_string); % I_Glass
-            addParameter(p,'finish',   'crand 0.02', @o.check_string);
-            parse(p,varargin{:});
-
-            o.declare("coneplot_alpha",    sprintf("%0.1f;", p.Results.alpha));
-            o.declare("coneplot_interior", sprintf("interior {%s};", p.Results.interior));
-            o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
-        end
-        
-        % Cone plot
-        function h = coneplot(o, varargin)
-            varargin = [{ o.fh }, varargin];
-            o.union_begin();
-            h = pov_coneplot(varargin{:});
-            o.union_end();
         end
 
         % Plane
@@ -551,7 +518,7 @@ classdef pov < handle
             o.write_transforms(scale, rotate, translate);
         end
         
-        % Function
+        % Plot
         function plot(o, varargin)
             % Parse
             p = inputParser;
@@ -582,6 +549,101 @@ classdef pov < handle
                           name, func,...
                           min_x, max_x, name, width, color(1), color(2), color(3));
             o.write_transforms(scale, rotate, translate);
+        end
+
+        % Set cone plot visualization params
+        function coneplot_material(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'alpha', 0.8, @o.check_positive_float);
+            addParameter(p,'interior', 'ior 0.0',  @o.check_string); % I_Glass
+            addParameter(p,'finish',   'crand 0.02', @o.check_string);
+            parse(p,varargin{:});
+
+            o.declare("coneplot_alpha",    sprintf("%0.1f;", p.Results.alpha));
+            o.declare("coneplot_interior", sprintf("interior {%s};", p.Results.interior));
+            o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
+        end
+        
+        % Cone plot
+        function h = coneplot(o, varargin)
+            varargin = [{ o.fh }, varargin];
+            o.union_begin();
+            h = pov_coneplot(varargin{:});
+            o.union_end();
+        end
+
+        % Volume via ext3
+        function volume(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'intervals',   24,            @o.check_positive_int);
+            addParameter(p,'ratio',       0.5,           @o.check_float);
+            addParameter(p,'samples',     [3 3],         @o.check_vector2);
+            addParameter(p,'method',      3,             @o.check_positive_int);
+            addParameter(p,'emission',    [0.1 0.1 0.1], @o.check_vector3);
+            addParameter(p,'absorption',  [0.1 0.1 0.1], @o.check_vector3);
+            addParameter(p,'scattering',  '1, <0,0,0>',  @o.check_string);
+            addParameter(p,'confidence',   0.999,        @o.check_float);
+            addParameter(p,'variance',     0.001,        @o.density_file);
+            addParameter(p,'density_file', 'volume.df3', @o.check_string);
+            addParameter(p,'interpolate',  1,            @o.check_positive_int);
+            addParameter(p,'scale',        [1 1 1],      @o.check_vector3);
+            addParameter(p,'rotate',       [0 0 0],      @o.check_vector3);
+            addParameter(p,'translate',    [0 0 0],      @o.check_vector3);
+            parse(p,varargin{:});
+
+            intervals    = p.Results.intervals;
+            ratio        = p.Results.ratio;
+            samples      = p.Results.samples;
+            method       = p.Results.method;
+            emission     = p.Results.emission;
+            absorption   = p.Results.absorption;
+            scattering   = p.Results.scattering;
+            confidence   = p.Results.confidence;
+            variance     = p.Results.variance;
+            density_file = p.Results.density_file;
+            interpolate  = p.Results.interpolate;
+            scale        = p.Results.scale;
+            rotate       = p.Results.rotate;
+            translate    = p.Results.translate;
+
+            % Write
+            fprintf(o.fh,['#declare vol_interior = interior {\n'...
+                          'media {\n'...
+                          'intervals %d\n'...
+                          'ratio %0.1f\n'...
+                          'samples  %d,%d\n'...
+	                      'method %d\n'...
+                          'emission <%0.1f, %0.1f, %0.1f0>\n'...
+                          'absorption <%0.2f, %0.2f, %0.2f0>\n'...
+                          'scattering { %s }\n'...
+                          'confidence %0.3f\n'...
+                          'variance %0.3f\n'...
+                          'density {\n'...
+    	                  'density_file df3 "%s"\n'...
+                          '  interpolate %d\n'...
+			              '  color_map {\n'...
+   			              '    [0.00 rgb <0,0,0>]\n'...
+   			              '    [0.0001 rgb <0,0,1>]\n'...
+   			              '    [0.003 rgb <1,0,0>]\n'...
+   			              '    [0.005 rgb <0,1,0>]\n'...
+			              '    [0.15 rgb <1,0,0>]\n'...
+   			              '    [0.20 rgb <0,0,1>]\n'...
+   			              '    [0.20 rgb <1,0,0>]\n'...
+   			              '    [0.30 rgb <0,1,0>]\n'...
+			              '    [0.90 rgb <1,0,0>]\n'...
+   			              '    [1.00 rgb <1,0,0>]}}}}\n'...
+                          'box {<0, 0, 0>, <1, 1, 1>\n'...
+                               'pigment { rgbf 1 }\n'...
+                               'interior { vol_interior }\n'...
+                               'hollow\n'],...
+                          intervals, ratio, samples(1), samples(2), method,...
+                          emission(1),   emission(2),   emission(3),...
+                          absorption(1), absorption(2), absorption(3),...
+                          scattering, confidence, variance, density_file, interpolate);
+
+                          o.write_transforms(scale, rotate, translate);
         end
 
         % CSG:Union
@@ -681,6 +743,15 @@ classdef pov < handle
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 3)
                 error("Input is not a float vector of size '3'");
+            end
+            r = true;
+        end
+
+        % Vector of size '2'
+        function r = check_vector2(o, x)
+            r = false;
+            if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 2)
+                error("Input is not a float vector of size '2'");
             end
             r = true;
         end
