@@ -22,9 +22,9 @@ end
 pov.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
 pov.global_settings("assumed_gamma 1");
 
-pov.camera('angle', 35, 'location', [0 0 10], 'look_at', [0 0 0], 'type', 'orthographic');
-pov.light('location', [0 0 10], 'color', [0.4 0.4 0.4]);
-% pov.axis('size', [11 11 11]);
+pov.camera('angle', 35, 'location', [5 5 3], 'look_at', [0 0 0], 'type', 'orthographic');
+pov.light('location', [5 5 3], 'color', [0.8 0.8 0.8]);
+% pov.axis('size', [10 10 10]);
 
 % Axis planes
 % tex_plane_red   = pov.declare("tex_plane_red",   pov.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -49,22 +49,36 @@ pov.light('location', [0 0 10], 'color', [0.4 0.4 0.4]);
 % data = x.*exp(-x.^2 -y.^2 -z.^2) * 256;
 % isosurface(x,y,z,data,1e-4);
 
+% Load
 load mri;
 data = squeeze(D);
-% Slice
-data = data(:,:,20:24);
 
+% Slice
+data = data(:,:,1:27);
+
+% histogram(data, 100)
+% return;
+
+% Normilize
+dmax = max(data(:));
+dmin = min(data(:));
+drange = dmax-dmin;
+data = data / drange;
+
+% Map to colors
 num_colors = 256;
-limit = 0.4;
-scale = (0:limit/(num_colors-1):limit);
+min_step = 0.00001;
+max_step = 0.0045;
+scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
 
 %color_map_type = hot(num_colors);
 %color_map_type = winter(num_colors);
-%color_map_type = hsv(num_colors);
+% color_map_type = hsv(num_colors); % !
 %color_map_type = jet(num_colors);
 %color_map_type = bone(num_colors);
 %color_map_type = parula(num_colors);
-color_map_type = turbo(num_colors);
+color_map_type = turbo(num_colors); % !
+%color_map_type = spring(num_colors);
 
 color_map = [scale' color_map_type];
 
