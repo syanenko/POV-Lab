@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [90 30 90], 'look_at', [0 10 -8], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [90 30 90], 'look_at', [10 10 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -98,9 +98,9 @@ p = 15
 [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
 
 % pov.coneplot_material();
-pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
-%pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
+% pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
 % pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
+pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
 h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
 set(h,'EdgeColor', 'none')
 
