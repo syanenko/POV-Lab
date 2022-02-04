@@ -22,7 +22,7 @@ end
 pov.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
 pov.global_settings("assumed_gamma 1");
 
-pov.camera('angle', 35, 'location', [5 5 3], 'look_at', [0 0 0], 'type', 'orthographic');
+pov.camera('angle', 35, 'location', [5 5 3], 'look_at', [0 0 0.5], 'type', 'orthographic');
 pov.light('location', [5 5 3], 'color', [0.8 0.8 0.8]);
 % pov.axis('size', [10 10 10]);
 
@@ -67,17 +67,17 @@ data = data / drange;
 
 % Map to colors
 num_colors = 256;
-min_step = 0.00001;
-max_step = 0.0045;
+min_step = 0.0000;
+max_step = 0.0055;
 scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
 
 %color_map_type = hot(num_colors);
 %color_map_type = winter(num_colors);
-% color_map_type = hsv(num_colors); % !
-%color_map_type = jet(num_colors);
+%color_map_type = hsv(num_colors); % !
+color_map_type = jet(num_colors);
 %color_map_type = bone(num_colors);
 %color_map_type = parula(num_colors);
-color_map_type = turbo(num_colors); % !
+%color_map_type = turbo(num_colors); % !
 %color_map_type = spring(num_colors);
 
 color_map = [scale' color_map_type];
