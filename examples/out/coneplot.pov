@@ -6,9 +6,9 @@
 global_settings { assumed_gamma 1 }
 
 camera { perspective         angle 35
-         location <90.00, 90.00, -30.00>
+         location <20.00, 90.00, -20.00>
          right x * image_width / image_height
-         look_at <10.00, 0.00, -10.00>
+         look_at <20.00, 0.00, -20.00>
          right  <-1.33, 0.00, 0.000> rotate<90,0,0>}
 
 light_source{< 90.0, 30.0, 90.0> rgb<0.90, 0.90, 0.90> shadowless}
@@ -34,18 +34,6 @@ object{ axis_xyz( 50.00, 50.00, 50.00, 0.30,
 #declare tex_plane_blue = texture { Polished_Chrome
           pigment{ rgb <0.30, 0.30, 0.30>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-plane { <1, 0, 0>, 0.00
-        texture { tex_plane_red }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
-
-plane { <0, 1, 0>, 0.00
-        texture { tex_plane_green }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
-
-plane { <0, 0, 1>, 0.00
-        texture { tex_plane_blue }
-        scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
 
 mesh2 {
 vertex_vectors { 16632,

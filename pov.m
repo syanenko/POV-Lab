@@ -569,18 +569,18 @@ classdef pov < handle
         function coneplot(o, varargin)
             % Parse
             p = inputParser;
-            addParameter(p,'patch', 0);
+            addParameter(p,'data', 0);
             parse(p,varargin{:});
 
-            patch = p.Results.patch;
+            data = p.Results.data;
 
-            verts = get(patch, 'vertices');
+            verts = get(data, 'vertices');
             verts(isnan(verts))=0;
 
-            faces = get(patch, 'faces');
+            faces = get(data, 'faces');
             faces(isnan(faces))=0;
 
-            colors = get(patch, 'CData');
+            colors = get(data, 'CData');
 
             % Start mesh
             fprintf(o.fh, 'mesh2 {\n');
