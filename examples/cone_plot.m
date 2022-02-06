@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [20 20 80], 'look_at', [20 20 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [70 70 60], 'look_at', [0 0 -5], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -37,7 +37,7 @@ pov.camera('angle', 35, 'location', [20 20 80], 'look_at', [20 20 0], 'type', 'p
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [90 90 90], 'color', [0.9 0.9 0.9], 'shadowless', true);
+pov.light('location', [20 20 80], 'color', [0.9 0.9 0.9], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -89,14 +89,6 @@ tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3
 % tex_blue  = pov.declare("tex_blue",  pov.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 % tex_pink  = pov.declare("tex_pink",  pov.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
-% TODO: write to scene in pov_coneplot
-load wind u v w x y z
-[m,n,p] = size(u)
-m = 35
-n = 41
-p = 15
-[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
-
 % pov.coneplot_material();
 % pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
 % pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
@@ -114,17 +106,18 @@ p = 15
 
 % Streamtube
 load wind u v w x y z                          
-[m,n,p] = size(u)
-m = 35
-n = 41
-p = 15
+[m,n,p] = size(u);
+m = 35;
+n = 41;
+p = 15;
 [~,n,p] = size(u);
 [Sx, Sy, Sz] = meshgrid(1,1:5:n,1:5:p);
 t = streamtube(u,v,w,Sx,Sy,Sz);
 pov.streamtube('data', t);
 
-% h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
-% pov.coneplot('data', h);
+[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
+h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+pov.coneplot('data', h);
 
 axis tight equal
 view(37,32)
