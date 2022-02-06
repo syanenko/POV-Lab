@@ -576,9 +576,22 @@ classdef pov < handle
             % Call patch
             fvc.vertices = get(data, 'vertices');
             fvc.faces = get(data, 'faces');
+            fvc.facevertexcdata = get(data, 'facevertexcdata');
+
             patch(o, 'data', fvc);
         end
 
+        % Surface
+        function surface2(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'data', 0);
+            parse(p,varargin{:});
+            data = p.Results.data;
+            p = surf2patch(data, 'triangles');
+            patch(o, 'data', p);
+        end
+        
         % Streamtube
         function streamtube(o, varargin)
             % Parse
@@ -586,10 +599,10 @@ classdef pov < handle
             addParameter(p,'data', 0);
             parse(p,varargin{:});
             data = p.Results.data;
-            
+
             tubes = size(data);
             for i=1:tubes
-                d = surf2patch(data(i));
+                d = surf2patch(data(i), 'triangles');
                 patch(o, 'data', d);
             end
         end
@@ -608,7 +621,7 @@ classdef pov < handle
             faces = data.faces;
             faces(isnan(faces))=0;
 
-%            colors = get(data, 'CData');
+            colors = data.facevertexcdata;
 
             % Start mesh
             fprintf(o.fh, 'mesh2 {\n');
@@ -617,9 +630,6 @@ classdef pov < handle
             [vnum,~] = size(verts);
             fprintf(o.fh, 'vertex_vectors { %d,\n', vnum);
             for i=1:vnum
-                if(isnan(verts(i,1)))
-                    verts(i,1) = 0;
-                end
                 fprintf(o.fh, '<%0.2f, %0.2f, %0.2f>,\n', verts(i,1), verts(i,2), verts(i,3));
             end
             
@@ -629,10 +639,10 @@ classdef pov < handle
             for i=1:fnum
                 fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1)-1, faces(i,2)-1, faces(i,3)-1);
             end
-            fprintf(o.fh, '}\npigment {rgb 1}\n}');
+            % fprintf(o.fh, '}\npigment {rgb 1}\n}');
             % TODO: Glass test
-            %             fprintf(o.fh, ['}\nmaterial{ texture { Orange_Glass }' ...
-            %                               'interior{ I_Glass }}\n}']);
+                        fprintf(o.fh, ['}\nmaterial{ texture { Orange_Glass }' ...
+                                          'interior{ I_Glass }}\n}']);
         end
 
         % Volume via df3

@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [17 17 17], 'look_at', [0 0 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [70 70 50], 'look_at', [10 10 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -37,7 +37,9 @@ pov.camera('angle', 35, 'location', [17 17 17], 'look_at', [0 0 0], 'type', 'per
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [20 20 80], 'color', [0.9 0.9 0.9], 'shadowless', true);
+pov.light('location', [70 70 20], 'color', [0.9 0.9 0.9], 'shadowless', true);
+pov.light('location', [70 70 -20], 'color', [0.9 0.9 0.9], 'shadowless', true);
+pov.light('location', [2 2 2], 'color', [0.9 0.9 0.9], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -100,12 +102,21 @@ tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3
 % t = 0:pi/5:2*pi;
 % figure
 % h = patch(sin(t) * 10, cos(t) * 10,'y')
-% 
+
+% Surface
 % s = surf(peaks);
-% h = surf2patch(s);
+% [X,Y] = meshgrid(1:0.1:40, 1:0.1:40);
+% Z = sin(X) + cos(Y);
+% s = surf(X,Y,Z)
+% pov.surface2('data', s);
+
+% [X,Y] = meshgrid(-10:.1:10);
+% Z = Y.*sin(X / 2) - X.*cos(Y / 3);
+% s = surf(X,Y,Z,'FaceAlpha',0.5)
+% pov.surface2('data', s);
 
 % Streamtube
-load wind u v w x y z                          
+load wind u v w x y z
 [m,n,p] = size(u);
 m = 35;
 n = 41;
@@ -115,9 +126,9 @@ p = 15;
 t = streamtube(u,v,w,Sx,Sy,Sz);
 pov.streamtube('data', t);
 
-% [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
-% h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
-% pov.coneplot('data', h);
+[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
+h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+pov.coneplot('data', h);
 
 axis tight equal
 view(37,32)
