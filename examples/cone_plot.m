@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [20 20 90], 'look_at', [20 20 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [90 20 90], 'look_at', [20 20 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -37,7 +37,7 @@ pov.camera('angle', 35, 'location', [20 20 90], 'look_at', [20 20 0], 'type', 'p
 % pov.camera("angle", 15, 'location', [12 12 12]);
 
 % pov.light();
-pov.light('location', [90 30 90], 'color', [0.9 0.9 0.9], 'shadowless', true);
+pov.light('location', [90 90 90], 'color', [0.9 0.9 0.9], 'shadowless', true);
 % pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 
 % pov.light('location', [100 0 0], 'color', [0.1 0.1 0.1]);
@@ -101,13 +101,19 @@ p = 15
 % pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
 % pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
 % pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
-h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+% https://se.mathworks.com/help/matlab/ref/surf2patch.html
 
 % Patch
+%
 % t = 0:pi/5:2*pi;
 % figure
 % h = patch(sin(t) * 10, cos(t) * 10,'y')
 % 
+s = surf(peaks);
+h = surf2patch(s);
+pov.patch('data', h);
+
+h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
 pov.coneplot('data', h);
 
 axis tight equal

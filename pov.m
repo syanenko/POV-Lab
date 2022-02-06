@@ -571,16 +571,28 @@ classdef pov < handle
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
-
+            data = p.Results.data;
+            
+            fvc.vertices = get(data, 'vertices');
+            fvc.faces = get(data, 'faces');
+            patch(o, 'data', fvc);
+        end
+        
+        % Patch
+        function patch(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'data', 0);
+            parse(p,varargin{:});
             data = p.Results.data;
 
-            verts = get(data, 'vertices');
+            verts = data.vertices;
             verts(isnan(verts))=0;
 
-            faces = get(data, 'faces');
+            faces = data.faces;
             faces(isnan(faces))=0;
 
-            colors = get(data, 'CData');
+%            colors = get(data, 'CData');
 
             % Start mesh
             fprintf(o.fh, 'mesh2 {\n');
