@@ -564,7 +564,7 @@ classdef pov < handle
             o.declare("coneplot_interior", sprintf("interior {%s};", p.Results.interior));
             o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
         end
-        
+
         % Cone plot
         function coneplot(o, varargin)
             % Parse
@@ -574,76 +574,34 @@ classdef pov < handle
 
             patch = p.Results.patch;
 
-            o.union_begin();
-                colors = get(patch, 'CData');
-%                colors = fvc(:) / max(fvc(:));
-                c = 1;
-                faces = get(patch, 'faces');
-                verts = get(patch, 'vertices');
-                [fnum,~] = size(faces);
-                for i=1:fnum
-                if isnan(verts(faces(i,1),1))
-                    continue;
+            verts = get(patch, 'vertices');
+            verts(isnan(verts))=0;
+
+            faces = get(patch, 'faces');
+            faces(isnan(faces))=0;
+
+            colors = get(patch, 'CData');
+
+            % Start mesh
+            fprintf(o.fh, 'mesh2 {\n');
+
+            % Write vertices
+            [vnum,~] = size(verts);
+            fprintf(o.fh, 'vertex_vectors { %d,\n', vnum);
+            for i=1:vnum
+                if(isnan(verts(i,1)))
+                    verts(i,1) = 0;
                 end
-                
-                    % Control triangle    
-                    %         fprintf(fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> \n texture {pigment{rgb<%0.1f, %0.1f, %0.1f>}}}\n', ...
-                    %                       verts(faces(i,1),1), verts(faces(i,1),2), verts(faces(i,1),3),...
-                    %                       verts(faces(i,2),1), verts(faces(i,2),2), verts(faces(i,2),3),...
-                    %                       verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3),...
-                    %                       0,0,1);
-                
-                    base_point_x = (verts(faces(i,1),1) + verts(faces(i,2),1)) / 2;
-                    base_point_y = (verts(faces(i,1),2) + verts(faces(i,2),2)) / 2;
-                    base_point_z = (verts(faces(i,1),3) + verts(faces(i,2),3)) / 2;
-                
-                    base_radius  = sqrt((base_point_x - verts(faces(i,1),1))^2 +...
-                                        (base_point_y - verts(faces(i,1),2))^2 +... 
-                                        (base_point_z - verts(faces(i,1),3))^2);
-                
-                    % TODO: Write colored cones
-                    % size(fvc)
-                    % size(faces)
-                    %         if(col < 300)
-                    %             r = fvc(1, col+1) / max_fvc;
-                    %             g = fvc(1, col+2) / max_fvc;
-                    %             b = fvc(1, col+3) / max_fvc;
-                    %             col = col + 3;
-                    %             if(mod(col,11) == 9)
-                    %                 col = col + 2;
-                    %             end
-                    %         else
-                    %             r = 1;
-                    %             g = 1;
-                    %             b = 1;
-                    %         end
-                    
-%                     r = colors(c); c=c+1;
-%                     g = colors(c); c=c+1;
-%                     b = colors(c); c=c+1;
-                    
-                    r = 0.1;
-                    g = 0.8;
-                    b = 0.3;
-                
-                    if (isnan(r) || isnan(g) || isnan(b))
-                        continue;
-                    end
-                    
-                %         r = 0.2;
-                %         g = 0.8;
-                %         b = 0.3;
-                
-                    % Write cone
-                    fprintf(o.fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
-                                 '        material{ texture { pigment{rgbf<%0.1f, %0.1f, %0.1f, coneplot_alpha>}\n'...
-                                 '                            finish  { coneplot_finish }}\n' ...
-                                 '                            interior{ coneplot_interior }}}\n'],...
-                                 base_point_x, base_point_y, base_point_z, base_radius * 0.8,...
-                                 verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3), 0,...
-                                 r, g, b);
-                end
-            o.union_end();
+                fprintf(o.fh, '<%0.2f, %0.2f, %0.2f>,\n', verts(i,1), verts(i,2), verts(i,3));
+            end
+            
+            % Write faces
+            [fnum,~] = size(faces);
+            fprintf(o.fh, '}\nface_indices { %d,\n', fnum);
+            for i=1:fnum
+                fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1), faces(i,2), faces(i,3));
+            end
+            fprintf(o.fh, '}\npigment {rgb 1}\n}');
         end
 
         % Volume via df3
