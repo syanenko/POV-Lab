@@ -115,20 +115,28 @@ tex_plane_blue  = pov.declare("tex_plane_blue",  pov.texture('pigment', [0.3 0.3
 % s = surf(X,Y,Z,'FaceAlpha',0.5)
 % pov.surface2('data', s);
 
-% Streamtube
+% Wind for streams
 load wind u v w x y z
 [m,n,p] = size(u);
 m = 35;
 n = 41;
 p = 15;
 [~,n,p] = size(u);
-[Sx, Sy, Sz] = meshgrid(1,1:5:n,1:5:p);
-t = streamtube(u,v,w,Sx,Sy,Sz);
-pov.streamtube('data', t);
 
-[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
-h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
-pov.coneplot('data', h);
+% Streamtube
+% [Sx, Sy, Sz] = meshgrid(1,1:5:n,1:5:p);
+% st = streamtube(u,v,w,Sx,Sy,Sz);
+% pov.streamtube('data', st);
+
+% Coneplot
+% [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
+% cp = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+% pov.coneplot('data', cp);
+
+% Streamline
+[sx,sy,sz] = meshgrid(80,20:10:50,0:5:15);
+sl = streamline(x,y,z,u,v,w,sx,sy,sz);
+pov.streamline('data', sl);
 
 axis tight equal
 view(37,32)
@@ -139,5 +147,5 @@ light
 pov.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
 img = pov.render();
-imshow(img);
+% imshow(img);
 toc % Elapsed time

@@ -565,6 +565,17 @@ classdef pov < handle
             o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
         end
 
+        % Surface
+        function surface2(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'data', 0);
+            parse(p,varargin{:});
+            data = p.Results.data;
+            p = surf2patch(data, 'triangles');
+            patch(o, 'data', p);
+        end
+        
         % Coneplot
         function coneplot(o, varargin)
             % Parse
@@ -580,17 +591,6 @@ classdef pov < handle
 
             patch(o, 'data', fvc);
         end
-
-        % Surface
-        function surface2(o, varargin)
-            % Parse
-            p = inputParser;
-            addParameter(p,'data', 0);
-            parse(p,varargin{:});
-            data = p.Results.data;
-            p = surf2patch(data, 'triangles');
-            patch(o, 'data', p);
-        end
         
         % Streamtube
         function streamtube(o, varargin)
@@ -604,6 +604,25 @@ classdef pov < handle
             for i=1:tubes
                 d = surf2patch(data(i), 'triangles');
                 patch(o, 'data', d);
+            end
+        end
+
+        % Streamline
+        function streamline(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'data', 0);
+            parse(p,varargin{:});
+            data = p.Results.data;
+
+            lines = size(data);
+            for i=1:lines
+                xdata = get(data(i), 'XData');
+                ydata = get(data(i), 'YData');
+                zdata = get(data(i), 'ZData');
+                color = get(data(i), 'Color');
+                width = get(data(i), 'LineWidth');
+                % TODO: Write to POV as traced spheres 
             end
         end
         
