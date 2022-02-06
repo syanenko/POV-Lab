@@ -621,8 +621,15 @@ classdef pov < handle
                 ydata = get(data(i), 'YData');
                 zdata = get(data(i), 'ZData');
                 color = get(data(i), 'Color');
-                width = get(data(i), 'LineWidth');
-                % TODO: Write to POV as traced spheres 
+                width = get(data(i), 'LineWidth') / 3;
+                
+                [~,n] = size(xdata);
+                fprintf(o.fh, 'sphere_sweep { linear_spline %d,\n', n);
+                for j=1:n
+                    fprintf(o.fh, '<%0.2f, %0.2f, %0.2f>, %0.2f\n', xdata(j), ydata(j), zdata(j), width);
+                end
+                fprintf(o.fh, ['tolerance 0.1\n\nmaterial{ texture { Orange_Glass }' ...
+                                  'interior{ I_Glass }}\n}']);
             end
         end
         
