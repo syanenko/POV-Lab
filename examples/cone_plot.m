@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [70 70 60], 'look_at', [0 0 -5], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [17 17 17], 'look_at', [0 0 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -115,9 +115,9 @@ p = 15;
 t = streamtube(u,v,w,Sx,Sy,Sz);
 pov.streamtube('data', t);
 
-[Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
-h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
-pov.coneplot('data', h);
+% [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
+% h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+% pov.coneplot('data', h);
 
 axis tight equal
 view(37,32)
