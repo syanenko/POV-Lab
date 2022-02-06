@@ -565,7 +565,7 @@ classdef pov < handle
             o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
         end
 
-        % Cone plot
+        % Coneplot
         function coneplot(o, varargin)
             % Parse
             p = inputParser;
@@ -573,9 +573,25 @@ classdef pov < handle
             parse(p,varargin{:});
             data = p.Results.data;
             
+            % Call patch
             fvc.vertices = get(data, 'vertices');
             fvc.faces = get(data, 'faces');
             patch(o, 'data', fvc);
+        end
+
+        % Streamtube
+        function streamtube(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'data', 0);
+            parse(p,varargin{:});
+            data = p.Results.data;
+            
+            tubes = size(data);
+            for i=1:tubes
+                d = surf2patch(data(i));
+                patch(o, 'data', d);
+            end
         end
         
         % Patch
@@ -614,6 +630,9 @@ classdef pov < handle
                 fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1)-1, faces(i,2)-1, faces(i,3)-1);
             end
             fprintf(o.fh, '}\npigment {rgb 1}\n}');
+            % TODO: Glass test
+            %             fprintf(o.fh, ['}\nmaterial{ texture { Orange_Glass }' ...
+            %                               'interior{ I_Glass }}\n}']);
         end
 
         % Volume via df3

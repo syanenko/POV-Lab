@@ -29,7 +29,7 @@ pov.global_settings("assumed_gamma 1");
 % Camera
 % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
 %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
-pov.camera('angle', 35, 'location', [90 20 90], 'look_at', [20 20 0], 'type', 'perspective');
+pov.camera('angle', 35, 'location', [20 20 80], 'look_at', [20 20 0], 'type', 'perspective');
 
 % pov.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
 % pov.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -109,12 +109,22 @@ p = 15
 % figure
 % h = patch(sin(t) * 10, cos(t) * 10,'y')
 % 
-s = surf(peaks);
-h = surf2patch(s);
-pov.patch('data', h);
+% s = surf(peaks);
+% h = surf2patch(s);
 
-h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
-pov.coneplot('data', h);
+% Streamtube
+load wind u v w x y z                          
+[m,n,p] = size(u)
+m = 35
+n = 41
+p = 15
+[~,n,p] = size(u);
+[Sx, Sy, Sz] = meshgrid(1,1:5:n,1:5:p);
+t = streamtube(u,v,w,Sx,Sy,Sz);
+pov.streamtube('data', t);
+
+% h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+% pov.coneplot('data', h);
 
 axis tight equal
 view(37,32)
