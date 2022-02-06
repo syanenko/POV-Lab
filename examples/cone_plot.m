@@ -100,8 +100,11 @@ p = 15
 % pov.coneplot_material();
 % pov.coneplot_material('finish', 'Metal', 'interior', 'ior 1.1', 'alpha', 0.3);
 % pov.coneplot_material('finish', 'crand 0.01', 'interior', 'I_Glass', 'alpha', 1.0);
-pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
-h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
+% pov.coneplot_material('finish', 'Glossy', 'interior', 'ior 1.5', 'alpha', 0.3);
+% h = pov.coneplot(u,v,w,Cx,Cy,Cz,y,5);
+h = coneplot(u,v,w,Cx,Cy,Cz,y,5);
+pov.coneplot('patch', h);
+
 set(h,'EdgeColor', 'none')
 
 axis tight equal

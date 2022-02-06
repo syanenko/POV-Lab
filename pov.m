@@ -566,10 +566,83 @@ classdef pov < handle
         end
         
         % Cone plot
-        function h = coneplot(o, varargin)
-            varargin = [{ o.fh }, varargin];
+        function coneplot(o, varargin)
+            % Parse
+            p = inputParser;
+            addParameter(p,'patch', 0);
+            parse(p,varargin{:});
+
+            patch = p.Results.patch;
+
             o.union_begin();
-            h = pov_coneplot(varargin{:});
+                colors = get(patch, 'CData');
+%                colors = fvc(:) / max(fvc(:));
+                c = 1;
+                faces = get(patch, 'faces');
+                verts = get(patch, 'vertices');
+                [fnum,~] = size(faces);
+                for i=1:fnum
+                if isnan(verts(faces(i,1),1))
+                    continue;
+                end
+                
+                    % Control triangle    
+                    %         fprintf(fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f> \n texture {pigment{rgb<%0.1f, %0.1f, %0.1f>}}}\n', ...
+                    %                       verts(faces(i,1),1), verts(faces(i,1),2), verts(faces(i,1),3),...
+                    %                       verts(faces(i,2),1), verts(faces(i,2),2), verts(faces(i,2),3),...
+                    %                       verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3),...
+                    %                       0,0,1);
+                
+                    base_point_x = (verts(faces(i,1),1) + verts(faces(i,2),1)) / 2;
+                    base_point_y = (verts(faces(i,1),2) + verts(faces(i,2),2)) / 2;
+                    base_point_z = (verts(faces(i,1),3) + verts(faces(i,2),3)) / 2;
+                
+                    base_radius  = sqrt((base_point_x - verts(faces(i,1),1))^2 +...
+                                        (base_point_y - verts(faces(i,1),2))^2 +... 
+                                        (base_point_z - verts(faces(i,1),3))^2);
+                
+                    % TODO: Write colored cones
+                    % size(fvc)
+                    % size(faces)
+                    %         if(col < 300)
+                    %             r = fvc(1, col+1) / max_fvc;
+                    %             g = fvc(1, col+2) / max_fvc;
+                    %             b = fvc(1, col+3) / max_fvc;
+                    %             col = col + 3;
+                    %             if(mod(col,11) == 9)
+                    %                 col = col + 2;
+                    %             end
+                    %         else
+                    %             r = 1;
+                    %             g = 1;
+                    %             b = 1;
+                    %         end
+                    
+%                     r = colors(c); c=c+1;
+%                     g = colors(c); c=c+1;
+%                     b = colors(c); c=c+1;
+                    
+                    r = 0.1;
+                    g = 0.8;
+                    b = 0.3;
+                
+                    if (isnan(r) || isnan(g) || isnan(b))
+                        continue;
+                    end
+                    
+                %         r = 0.2;
+                %         g = 0.8;
+                %         b = 0.3;
+                
+                    % Write cone
+                    fprintf(o.fh, ['cone {<%0.2f, %0.2f, %0.2f>, %0.2f, <%0.2f, %0.2f, %0.2f>, %0.2f\n'...
+                                 '        material{ texture { pigment{rgbf<%0.1f, %0.1f, %0.1f, coneplot_alpha>}\n'...
+                                 '                            finish  { coneplot_finish }}\n' ...
+                                 '                            interior{ coneplot_interior }}}\n'],...
+                                 base_point_x, base_point_y, base_point_z, base_radius * 0.8,...
+                                 verts(faces(i,3),1), verts(faces(i,3),2), verts(faces(i,3),3), 0,...
+                                 r, g, b);
+                end
             o.union_end();
         end
 
