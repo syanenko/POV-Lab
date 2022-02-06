@@ -599,7 +599,7 @@ classdef pov < handle
             [fnum,~] = size(faces);
             fprintf(o.fh, '}\nface_indices { %d,\n', fnum);
             for i=1:fnum
-                fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1), faces(i,2), faces(i,3));
+                fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1)-1, faces(i,2)-1, faces(i,3)-1);
             end
             fprintf(o.fh, '}\npigment {rgb 1}\n}');
         end
