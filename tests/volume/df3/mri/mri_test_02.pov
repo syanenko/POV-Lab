@@ -8,9 +8,9 @@
 #declare DD = <NX,NY,NZ>;
 #declare CC = DD / 2;
 
-#declare VP = <0, 0, 140>;
-#declare box_bottom = 1;
-#declare box_top = 14;
+#declare VP = <80, 80, 40>;
+#declare box_bottom = 10;
+#declare box_top = 26; // TODO: Check boundary for artifact
 #declare intensity = 0.005;
 
 
@@ -20,13 +20,13 @@ global_settings {
 }
 
 camera {
-   orthographic
+   perspective
    location VP
    up y
    right x
    angle 60
    sky <0,0,-1>
-   look_at <0, 0, 0>
+   look_at <0, -20,-20>
 }
 
 light_source {
@@ -56,7 +56,8 @@ light_source {
 			interpolate 1
 			color_map {
    			[0.00 rgb <0,0,0>]
-   			[0.10 rgb <1,1,1>]
+   			[0.001 rgb <0,0,1>]
+   			[0.05 rgb <1,1,1>]
 			[0.15 rgb <0 0 1>]
    			[0.20 rgb <0,0,1>]
    			[0.20 rgb <1,0,0>]

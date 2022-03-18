@@ -1,5 +1,6 @@
 #version 3.7;
 #include "povlab.inc"
+#include "shapes.inc"
 global_settings { assumed_gamma 1 }
 
 camera { perspective         angle 35
@@ -64,34 +65,43 @@ object { gid         scale<1.00, 1.00, 1.00> rotate <0.00, 0.00, 90.00> translat
 grid(gid, 1.00, 10, 10, 0.01, tex_grid_odd, tex_grid_even);
 object { gid         scale<1.00, 1.00, 1.00> rotate <90.00, 0.00, 0.00> translate <5.00, 5.00, 0.00>}
 
-#declare vol_interior = interior {
-media {
-intervals 24
-ratio 0.5
-samples  3,3
-method 3
-emission <0.1, 0.1, 0.10>
-absorption <0.10, 0.10, 0.100>
-scattering { 1, <0,0,0> }
-confidence 0.999
-variance 0.001
-density {
-density_file df3 "volume.df3"
-  interpolate 1
-  color_map {
-    [0.00 rgb <0,0,0>]
-    [0.0001 rgb <0,0,1>]
-    [0.003 rgb <1,0,0>]
-    [0.005 rgb <0,1,0>]
-    [0.15 rgb <1,0,0>]
-    [0.20 rgb <0,0,1>]
-    [0.20 rgb <1,0,0>]
-    [0.30 rgb <0,1,0>]
-    [0.90 rgb <1,0,0>]
-    [1.00 rgb <1,0,0>]}}}}
-box {<0, 0, 0>, <1, 1, 1>
-pigment { rgbf 1 }
-interior { vol_interior }
-hollow
-        scale<5.00, 5.00, 5.00> rotate <0.00, 0.00, 0.00> translate <0.00, 0.00, 0.00>}
+#declare tex_red = texture { Polished_Chrome
+          pigment{ rgb <1.00, 0.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_green = texture { Polished_Chrome
+          pigment{ rgb <0.00, 1.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_blue = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.00, 1.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_pink = texture { Polished_Chrome
+          pigment{ rgb <8.00, 2.00, 3.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+lathe { quadratic_spline 7,
+      <0.00, 0.00>
+      <0.22, 0.00>
+      <0.62, 0.54>
+      <0.21, 0.83>
+      <0.19, 1.46>
+      <0.29, 1.50>
+      <0.26, 1.53>
+      sturm
+      texture { Ruby_Glass }
+        scale<4.00, 4.00, 4.00> rotate <90.00, 0.00, 0.00> translate <4.00, 4.00, 0.00>}
+
+lathe { quadratic_spline 7,
+      <0.00, 0.00>
+      <0.42, 0.00>
+      <0.62, 0.54>
+      <0.21, 0.83>
+      <0.19, 1.46>
+      <0.29, 1.50>
+      <0.26, 1.53>
+      sturm
+      texture { Orange_Glass }
+        scale<3.00, 3.00, 3.00> rotate <90.00, 0.00, 0.00> translate <7.00, 7.00, 0.00>}
 

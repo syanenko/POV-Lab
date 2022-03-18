@@ -44,13 +44,13 @@ light_source {
       samples 3,3
   	  method 3
       emission <1,1,1>  / 10 // * ln((box_top - box_bottom)) * intensity
-/*                  
+
       absorption <1,1,1> / 10
       absorption <1,1,1> / 100
       scattering { 1, <0,0,0> }
       confidence 0.999
       variance 1/1000
-*/
+
       density {
         	density_file df3 "test_03.df3" 
 			interpolate 1
