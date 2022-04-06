@@ -8,11 +8,6 @@ classdef povLab < handle
         out_dir    {mustBeNonempty} = ".";
         scene_file {mustBeNonempty} = "scene.pov";
         image_file {mustBeNonempty} = "image.png";
-
-        % Preview properties
-        preview = false;
-        preview_shading {mustBeNonempty} = "flat";
-        preview_alpha {mustBeNonempty} = .5;
         
         fh = 0;
 
@@ -27,27 +22,16 @@ classdef povLab < handle
     end
 
     methods
-        % Constructor
         function o = povLab(version, pov_path, out_dir)
+        % Creates povLab object
+        % Syntax
+        % povLab(version, pov_path, out_dir)
+        %
             if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
                 o.out_dir = out_dir;
             end
-        end
-
-        % Set previw options
-        function enable_preview(o, varargin)
-            % Parse
-            p = inputParser;
-            addParameter(p,'shading', 'interp', @o.check_string);
-            addParameter(p,'alpha',        0.5, @o.check_positive_float_0_1);
-            parse(p,varargin{:});
-            
-            % Save
-            o.preview_shading = p.Results.shading;
-            o.preview_alpha = p.Results.alpha;
-            o.preview = true;
         end
 
         function include_begin(o, name)
@@ -82,10 +66,6 @@ classdef povLab < handle
             o.fh = fopen(o.out_dir + "/" + o.scene_file,'w');
             fprintf(o.fh, '#version %s;\n', o.version);
 
-            % Preview
-            if o.preview
-                figure;
-            end
             o.include("povlab");
         end
         
@@ -430,7 +410,9 @@ classdef povLab < handle
         
         % Mesh
         function surface(o, varargin)
-            % Parse
+            % Create textured POV mesh from surface, retuned by Matlab's 'surf'
+            % function
+
             p = inputParser;
             addParameter(p,'surface',      0,             @o.check_surface);
             addParameter(p,'texture',      "tex_default", @o.check_string);

@@ -71,6 +71,7 @@ min_step = 0.0000;
 max_step = 0.0055;
 scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
 
+% Choose colormap
 %color_map_type = hot(num_colors);
 %color_map_type = winter(num_colors);
 %color_map_type = hsv(num_colors); % !
