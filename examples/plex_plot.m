@@ -1,16 +1,17 @@
+% Example of usage 'plot' method
 addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
 clear;
-clear povLab;
+clear povlab;
 close all;
 tic % Time measure
 
 % Check OS
 if isunix
-pl = povLab( "3.7",...
+pl = povlab( "3.7",...
             '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
             "/home/serge/projects/povlab/examples/out");
 elseif ispc
-    pl = povLab( "3.7",...
+    pl = povlab( "3.7",...
                 "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
                 "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 else

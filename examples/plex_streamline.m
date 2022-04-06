@@ -1,16 +1,17 @@
+% Example of usage 'streamline'
 addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
 clear;
-clear povLab;
+clear povlab;
 close all;
 tic %Measure time
 
 % Check OS
 if isunix
-pl = povLab( "3.7",...
+pl = povlab( "3.7",...
            '"/usr/local/bin/povray +A -W1920 -H1080 -L/home/serge/projects/povlab/include -L/home/serge/projects/povlab/examples/out"', ...
            "/home/serge/projects/povlab/examples/out");
 elseif ispc
-    pl = povLab( "3.7",...
+    pl = povlab( "3.7",...
                "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
                "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
 else

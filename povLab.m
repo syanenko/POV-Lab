@@ -1,4 +1,4 @@
-classdef povLab < handle
+classdef povlab < handle
 % This is the core class of POVLab, which implements all POVLab functionality
 % Please use 'doc pov' for detailed description of methods and properties
 
@@ -22,10 +22,11 @@ classdef povLab < handle
     end
 
     methods
-        function o = povLab(version, pov_path, out_dir)
-        % Creates povLab object
-        % Syntax
-        % povLab(version, pov_path, out_dir)
+        function o = povlab(version, pov_path, out_dir)
+        % Creates povlab object
+        %
+        % -- Syntax
+        % povlab(version, pov_path, out_dir)
         %
             if nargin == 3
                 o.version = version;
@@ -121,10 +122,18 @@ classdef povLab < handle
         end
 
         % Camera
-        % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
-        %       omnimax | panoramic | cylinder CylinderType | spherical
         function camera(o, varargin)
-            % Parse
+            % Creates camera object with desired parameters
+            %
+            % -- Syntax --
+            % camera('angle', 25, 'location', [35 20 19], 'look_at', [0 1 3], 'type', 'perspective');
+            % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
+            %       omnimax | panoramic | cylinder CylinderType | spherical
+            %
+            % -- Syntax
+            %
+            % Please find camera usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            
             p = inputParser;
             addParameter(p,'type',     'orthographic', @o.check_string);
             addParameter(p,'angle',    65,             @o.check_positive_float);
@@ -179,6 +188,11 @@ classdef povLab < handle
         % Axis
         function axis(o, varargin)
             % Creates textured axis of desired length and radius
+            %
+            % -- Syntax
+            %
+            % Please find axix usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+           
             p = inputParser;
             addParameter(p,'length', [5 5 5], @o.check_vector3);
             addParameter(p,'tex_common', "tex_axis_common", @o.check_string);
