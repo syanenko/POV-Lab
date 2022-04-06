@@ -25,8 +25,13 @@ classdef povlab < handle
         function o = povlab(version, pov_path, out_dir)
         % Creates povlab object
         %
-        % -- Syntax
+        % SYNOPSIS
+        %
         % povlab(version, pov_path, out_dir)
+        %
+        % DESCRIPTION
+        %
+        % RETURN VALUE
         %
             if nargin == 3
                 o.version = version;
