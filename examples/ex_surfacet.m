@@ -1,4 +1,6 @@
-% Example of usage 'surface' method
+%% _Surface_ method usage example
+% Add _povlab_ to path
+
 if isunix
     addpath ("/home/serge/projects/povlab");
 elseif ispc
@@ -7,14 +9,18 @@ else
     disp('Platform not supported')
 end
 
+% Total clean up
+
 clear;
 clear povlab;
 close all;
-tic % Time measure
+% Start time measurement
 
-% Check OS
+tic % Time measure
+% Create _povlab_ object and init it with version and path to _POVRAY_ that installed in your system, set output directory for _POVRAY_ scene files and rendered images
+
 if isunix
-pl = povlab( "3.7",...
+    pl = povlab( "3.7",...
              '"/usr/local/bin/povray +A -W1920 -H1080 -L/home/serge/projects/povlab/include -L/home/serge/projects/povlab/examples/out"', ...
              "/home/serge/projects/povlab/examples/out");
 elseif ispc
@@ -25,7 +31,8 @@ else
     disp('Platform not supported')
 end
 
-% Camera
+% Create _camera_ object and put it in separate include file to save rendering time
+
 pl.include_begin('camera');
     % Camera
     % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
@@ -38,6 +45,7 @@ pl.include_begin('camera');
     % pl.camera('angle', 35, 'look_at', [0 1 0]);
     % pl.camera("angle", 15, 'location', [12 12 12]);
 pl.include_end();
+% Create _lights_ objects and put them in separate include file to save rendering time
 
 % Light
 pl.include_begin('lights');
@@ -47,6 +55,7 @@ pl.include_begin('lights');
     pl.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
 pl.include_end();
+% Create supplemental helpers objects objects and put them in separate include file to save rendering time
 
 % Helpers
 pl.include_begin('helpers');
@@ -92,7 +101,8 @@ pl.include_begin('helpers');
     % pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
 pl.include_end();
 
-% Scene
+% Open the _POVRAY_ scene, include previousely created obects and fill it with content
+
 pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
     pl.include("camera");
     pl.include("lights");
@@ -121,7 +131,7 @@ pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
     size = 60;
     % f = figure('Visible', 'off');
     [X,Y,Z] = peaks(size);
-    s = surf(X,Y,Z)
+    s = surf(X,Y,Z);
     
     % x = -2:0.1:2;
     % y = 1:0.1:2;
@@ -179,8 +189,13 @@ pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
     %           pl.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
     %      pl.union_end('translate', [0.3 0.3 0.3]);
     % pl.difference_end('scale', [1 1 1], 'rotate', [0 0 0], 'translate', [3 3 4]);
+% Close _POVRAY_ scene
+
 pl.scene_end();
+% Render scene and show rendered image
 
 image = pl.render();
 imshow(image);
+% Display elapsed time
+
 toc % Elapsed time

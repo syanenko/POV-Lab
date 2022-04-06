@@ -27,7 +27,7 @@ classdef povlab < handle
         %
         % SYNOPSIS
         %
-        % povlab(version, pov_path, out_dir)
+        % o = povlab(version, pov_path, out_dir)
         %
         % DESCRIPTION
         %
@@ -52,7 +52,7 @@ classdef povlab < handle
         function scene_begin(o, varargin)
             % Opens new scene, corresponding scene_end() should be included after all scene content
             %
-            % Please find scene_begin() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            % Please find scene_begin() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
             
             p = inputParser;
             addParameter(p,'scene_file', 'out.pov', @o.check_string);
@@ -82,7 +82,7 @@ classdef povlab < handle
         function scene_end(o)
         % Closes scene, opened by scene_begin(), should be included after all scene content
         %
-        % Please find scene_end() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+        % Please find scene_end() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
             
             fclose(o.fh);
         end
@@ -143,7 +143,7 @@ classdef povlab < handle
             % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
             %       omnimax | panoramic | cylinder CylinderType | spherical
             %
-            % Please find camera() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            % Please find camera() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
             
             p = inputParser;
             addParameter(p,'type',     'orthographic', @o.check_string);
@@ -202,7 +202,7 @@ classdef povlab < handle
             %
             % -- Syntax
             %
-            % Please find axix usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            % Please find axix usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
            
             p = inputParser;
             addParameter(p,'length', [5 5 5], @o.check_vector3);
@@ -869,7 +869,7 @@ classdef povlab < handle
         % Validation functions
         % ----------------------------------------------------------------------
         % Vector of size '3'
-        function r = check_vector3(o, x)
+        function r = check_vector3(~, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 3)
                 error("Input is not a float vector of size '3'");
@@ -878,7 +878,7 @@ classdef povlab < handle
         end
 
         % Vector of size '2'
-        function r = check_vector2(o, x)
+        function r = check_vector2(~, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 2)
                 error("Input is not a float vector of size '2'");
@@ -887,7 +887,7 @@ classdef povlab < handle
         end
 
         % Float
-        function r = check_float(o, x)
+        function r = check_float(~, x)
             r = false;
             if ~isscalar(x)
                 error('Input is not scalar');
@@ -898,7 +898,7 @@ classdef povlab < handle
         end
 
         % Positive float
-        function r = check_positive_float(o, x)
+        function r = check_positive_float(~, x)
             r = false;
             if ~isscalar(x)
                 error('Input is not scalar');
@@ -911,7 +911,7 @@ classdef povlab < handle
         end
 
         % Positive float in range 0..1
-        function r = check_positive_float_0_1(o, x)
+        function r = check_positive_float_0_1(~, x)
             r = false;
             if ~isscalar(x)
                 error('Input is not scalar');
@@ -926,7 +926,7 @@ classdef povlab < handle
         end
 
         % Positive int
-        function r = check_positive_int(o, x)
+        function r = check_positive_int(~, x)
             r = false;
             if ~isscalar(x)
                 error('Input is not scalar');
@@ -939,7 +939,7 @@ classdef povlab < handle
         end
 
         % String
-        function r = check_string(o, x)
+        function r = check_string(~, x)
             r = false;
             if (~isstring(x) && ~ischar(x))
                 error('Input is not a string');
@@ -948,7 +948,7 @@ classdef povlab < handle
         end
 
         % Matrix '3 x 3'
-        function r = check_matrix_3x3(o, x)
+        function r = check_matrix_3x3(~, x)
             r = false;
             if (~isequal(size(x), [3 3]))
                 error("Input is not a matrix of size '3 x 3'");
@@ -957,7 +957,7 @@ classdef povlab < handle
         end
 
         % Matrix 3d
-        function r = check_volume_size(o, x)
+        function r = check_volume_size(~, x)
             r = false;
             [sx,sy,sz] = size(x);
             if ((sx < 2) && (sy < 2)  ||...
@@ -969,7 +969,7 @@ classdef povlab < handle
         end
 
         % Points list [x1 y1; .. ;xn yn])
-        function r = check_points_list(o, x)
+        function r = check_points_list(~, x)
             r = false;
             s = size(x);
             if (s(1) < 2 || s(2) ~= 2)
@@ -979,7 +979,7 @@ classdef povlab < handle
         end
         
         % Surface
-        function r = check_surface(o, x)
+        function r = check_surface(~, x)
             r = false;
             if (~isa(x, 'matlab.graphics.chart.primitive.Surface'))
                 error('Input is not a surface');
