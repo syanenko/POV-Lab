@@ -45,7 +45,10 @@ classdef povlab < handle
         
         % Scene begin
         function scene_begin(o, varargin)
-            % Parse
+            % Opens new scene, corresponding scene_end() should be included after all scene content
+            %
+            % Please find scene_begin() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            
             p = inputParser;
             addParameter(p,'scene_file', 'out.pov', @o.check_string);
             addParameter(p,'image_file', 'out.png', @o.check_string);
@@ -72,6 +75,10 @@ classdef povlab < handle
         
         % Scene end
         function scene_end(o)
+        % Closes scene, opened by scene_begin(), should be included after all scene content
+        %
+        % Please find scene_end() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            
             fclose(o.fh);
         end
 
@@ -118,6 +125,7 @@ classdef povlab < handle
 
         % Raw
         function raw(o, text)
+            % raw method help    
             fprintf(o.fh, '%s\n\n', text);
         end
 
@@ -125,14 +133,12 @@ classdef povlab < handle
         function camera(o, varargin)
             % Creates camera object with desired parameters
             %
-            % -- Syntax --
+            % -- Syntax
             % camera('angle', 25, 'location', [35 20 19], 'look_at', [0 1 3], 'type', 'perspective');
             % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
             %       omnimax | panoramic | cylinder CylinderType | spherical
             %
-            % -- Syntax
-            %
-            % Please find camera usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
+            % Please find camera() usage in following examples <a href="matlab:doc plex_csg">plex_csg</a>, <a href="matlab:doc plex_surface">plex_surface</a>, <a href="matlab:doc plex_lathe">plex_lathe</a>
             
             p = inputParser;
             addParameter(p,'type',     'orthographic', @o.check_string);
@@ -163,7 +169,7 @@ classdef povlab < handle
 
         % Light
         function light(o, varargin)
-            % Parse
+            % light method help
             p = inputParser;
             addParameter(p,'location',   [100 100 100], @o.check_vector3);
             addParameter(p,'color',      [1.0 1.0 1.0], @o.check_vector3);
@@ -217,7 +223,7 @@ classdef povlab < handle
 
         % Grid
         function grid(o, varargin)
-            % Parse
+            % grid method help
             p = inputParser;
             addParameter(p,'cell_size',    1,               @o.check_positive_float);
             addParameter(p,'width',        2,               @o.check_positive_int);
@@ -250,7 +256,7 @@ classdef povlab < handle
         
         % Texture
         function tex = texture(o, varargin)
-            % Parse
+            % texture method help
             p = inputParser;
             addParameter(p,'pigment', [0 0 0],       @o.check_vector3);
             addParameter(p,'finish',  "tex_default", @o.check_string);
@@ -267,7 +273,7 @@ classdef povlab < handle
         
         % Sphere
         function sphere(o, varargin)
-            % Parse
+            % sphere method help
             p = inputParser;
             addParameter(p,'position',  [0 0 0],       @o.check_vector3);
             addParameter(p,'radius',    1.0,           @o.check_positive_float);
@@ -327,7 +333,7 @@ classdef povlab < handle
 
         % Cylinder
         function cylinder(o, varargin)
-            % Parse
+            % cylinder method help
             p = inputParser;
             addParameter(p,'base_point',[0 0 0],      @o.check_vector3);
             addParameter(p,'cap_point', [0 0 5],      @o.check_vector3);
@@ -357,7 +363,7 @@ classdef povlab < handle
 
         % Lathe surface
         function lathe(o, varargin)
-            % Parse
+            % lathe method help
             p = inputParser;
             addParameter(p,'points', [1 0; 1 1],           @o.check_points_list);
             addParameter(p,'spline_type', 'linear_spline', @o.check_string);
@@ -424,7 +430,7 @@ classdef povlab < handle
         
         % Mesh
         function surface(o, varargin)
-            % Creates textured POV mesh from surface, retuned by Matlab's 'surf'
+            % Creates textured mesh from surface, retuned by Matlab's 'surf'
             % function
 
             p = inputParser;
@@ -520,7 +526,7 @@ classdef povlab < handle
         
         % Plot
         function plot(o, varargin)
-            % Parse
+            % plot method help
             p = inputParser;
             addParameter(p,'name',    'f',             @o.check_string);            
             addParameter(p,'funcion', 'X',             @o.check_string);
@@ -551,9 +557,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
-        % Set cone plot visualization params
+        % Set cone plot visualization parameters
         function coneplot_material(o, varargin)
-            % Parse
+            % coneplot_material method help
             p = inputParser;
             addParameter(p,'alpha', 0.8, @o.check_positive_float);
             addParameter(p,'interior', 'ior 0.0',  @o.check_string); % I_Glass
@@ -567,7 +573,7 @@ classdef povlab < handle
 
         % Surface
         function surface2(o, varargin)
-            % Parse
+            % surface2 method help
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -578,7 +584,7 @@ classdef povlab < handle
         
         % Coneplot
         function coneplot(o, varargin)
-            % Parse
+            % coneplot method help
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -594,7 +600,7 @@ classdef povlab < handle
         
         % Streamtube
         function streamtube(o, varargin)
-            % Parse
+            % streamtube method help
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -609,7 +615,7 @@ classdef povlab < handle
 
         % Streamline
         function streamline(o, varargin)
-            % Parse
+            % streamline method help
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -635,7 +641,7 @@ classdef povlab < handle
         
         % Patch
         function patch(o, varargin)
-            % Parse
+            % patch method help
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -673,7 +679,7 @@ classdef povlab < handle
 
         % Volume via df3
         function volume(o, varargin)
-            % Parse
+            % volume method help
             p = inputParser;
             addParameter(p,'data',         NaN,           @o.check_volume_size);
             addParameter(p,'intervals',    24,            @o.check_positive_int);
@@ -759,46 +765,42 @@ classdef povlab < handle
 
         % CSG:Union
         function union_begin(o)
+            % Openes union section CSG, should be closed by corresponding union_end()
             fprintf(o.fh,'union {\n');
         end
         function union_end(o, varargin)
+            % Closes union CSG section, openened by union_begin()
             o.csg_end(varargin{:});
         end 
 
         % CSG:Difference
         function difference_begin(o)
+            % Openes difference CSG section, should be closed by corresponding difference_end()
             fprintf(o.fh,'difference {\n');
         end
         function difference_end(o, varargin)
+            % Closes difference CSG section, openened by difference_begin()
             o.csg_end(varargin{:});
         end 
 
         % CSG:Intersection
         function intersection_begin(o)
+            % Openes intersection CSG section, should be closed by corresponding intersection_end()
             fprintf(o.fh,'intersection {\n');
         end
         function intersection_end(o, varargin)
+            % Closes intersection CSG section, openened by intersection_begin()
             o.csg_end(varargin{:});
         end
 
         % CSG:Merge
         function merge_begin(o)
+            % Openes merge CSG section, should be closed by corresponding intersection_end()
             fprintf(o.fh,'merge {\n');
         end
         function merge_end(o, varargin)
+            % Closes merge CSG section, openened by intersection_begin()
             o.csg_end(varargin{:});
-        end
-
-        % Closing tag for all CSG functions
-        function csg_end(o, varargin)
-            % Parse
-            p = inputParser;
-            addParameter(p,'scale',     [1 1 1], @o.check_vector3);
-            addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
-            addParameter(p,'translate', [0 0 0], @o.check_vector3);
-            parse(p, varargin{:});
-
-            o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
         end
 
         % Render
@@ -816,11 +818,23 @@ classdef povlab < handle
 
             img = o.image_file;
         end
+    end % End of public methods
 
-        %
-        % Helper functions
-        % ----------------------------------------------------------------------
-        %
+    methods (Access = private)
+            %
+            % Helper functions
+            %
+            % Closing tag for all CSG functions
+            function csg_end(o, varargin)
+                % Common method for closing CSG section of scene
+                p = inputParser;
+                addParameter(p,'scale',     [1 1 1], @o.check_vector3);
+                addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
+                addParameter(p,'translate', [0 0 0], @o.check_vector3);
+                parse(p, varargin{:});
+    
+                o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
+            end
         % Write triangle
         function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
@@ -968,4 +982,47 @@ classdef povlab < handle
             r = true;
         end
     end
+
+    % Hiding derived methods to keep help clean
+    methods (Hidden)
+        function addlistener(varargin)
+          addlistener@addlistener(varargin{:})
+        end
+
+        function le(varargin)
+          le@le(varargin{:})
+        end
+
+        function lt(varargin)
+            lt@lt(varargin{:})
+        end
+
+        function gt(varargin)
+          gt@gt(varargin{:})
+        end
+
+        function ge(varargin)
+          ge@ge(varargin{:})
+        end
+
+        function ne(varargin)
+          ne@ne(varargin{:})
+        end
+
+        function eq(varargin)
+          eq@eq(varargin{:})
+        end
+
+        function findobj(varargin)
+          findobj@findobj(varargin{:})
+        end
+
+        function findprop(varargin)
+          findprop@findprop(varargin{:})
+        end
+
+        function notify (varargin)
+          notify@notify(varargin{:})
+        end
+    end % End of hidden methods
 end
