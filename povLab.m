@@ -1,4 +1,7 @@
-classdef pov < handle
+classdef povLab < handle
+% This is the core class of POVLab, which implements all POVLab functionality
+% Please use 'doc pov' for detailed description of methods and properties
+
     properties
         version    {mustBeNonempty} = "3.7";
         pov_path   {mustBeNonempty} = "pvengine.exe";
@@ -25,7 +28,7 @@ classdef pov < handle
 
     methods
         % Constructor
-        function o = pov(version, pov_path, out_dir)
+        function o = povLab(version, pov_path, out_dir)
             if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
@@ -297,7 +300,8 @@ classdef pov < handle
 
         % Cone
         function cone(o, varargin)
-            % Parse
+            % Create a cone by base center location, base radius, cap
+            % center location and cap radius
             p = inputParser;
             addParameter(p,'base_point', [0 0 0],      @o.check_vector3);
             addParameter(p,'base_radius',    1.0,      @o.check_positive_float);
@@ -399,7 +403,7 @@ classdef pov < handle
 
         % Plane
         function plane(o, varargin)
-            % Parse
+            % Create a plane by normal and distance from origin
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'distance',  0,           @o.check_float);
@@ -803,7 +807,7 @@ classdef pov < handle
 
         % Render
         function img = render(o)
-            
+            % Rendering scene by calling a POV as system process, returns rendered image
             % TODO: Add camera, axix, light, environment to "scene.inc"
             if isunix
                 setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?

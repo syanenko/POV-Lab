@@ -5,7 +5,7 @@
 %
 % Scene initialization
 %   scene_begin -
-%   scene_end
+%   scene_end -
 %
 % Preprocessing directives
 %   include - 
@@ -17,4 +17,4 @@
 %   intersection -
 %   merge -
 %
-% Copyright 2021-2022 Yesbird Studio, Ltd.
+% Copyright 2022 Sergey Yanenko
