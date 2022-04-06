@@ -24,7 +24,7 @@ pl.global_settings("assumed_gamma 1");
 
 pl.camera('angle', 35, 'location', [5 5 3], 'look_at', [0 0 0.5], 'type', 'orthographic');
 pl.light('location', [5 5 3], 'color', [0.8 0.8 0.8]);
-% pl.axis('size', [10 10 10]);
+% pl.axis('length', [10 10 10]);
 
 % Axis planes
 % tex_plane_red   = pl.declare("tex_plane_red",   pl.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));

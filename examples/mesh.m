@@ -59,8 +59,8 @@ pl.include_begin('helpers');
     
     % Axis
     % pl.axis();
-    % pl.axis('size', [5 5 4], 'radius', 0.07);
-    pl.axis('size', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
+    % pl.axis('length', [5 5 4], 'radius', 0.07);
+    pl.axis('length', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
     
     % Grid
     % tex_grid_gray  = pl.declare("tex_grid_gray",  pl.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));

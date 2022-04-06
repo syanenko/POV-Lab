@@ -178,9 +178,9 @@ classdef povLab < handle
        
         % Axis
         function axis(o, varargin)
-            % Parse
+            % Creates textured axis of desired length and radius
             p = inputParser;
-            addParameter(p,'size', [5 5 5], @o.check_vector3);
+            addParameter(p,'length', [5 5 5], @o.check_vector3);
             addParameter(p,'tex_common', "tex_axis_common", @o.check_string);
             addParameter(p,'tex_x', "tex_axis_x", @o.check_string);
             addParameter(p,'tex_y', "tex_axis_y", @o.check_string);
@@ -189,7 +189,7 @@ classdef povLab < handle
             parse(p,varargin{:});
             
             % Write
-            size =       p.Results.size;
+            length =     p.Results.length;
             tex_common = p.Results.tex_common;
             tex_x =      p.Results.tex_x;
             tex_y =      p.Results.tex_y;
@@ -197,7 +197,7 @@ classdef povLab < handle
             radius =     p.Results.radius;
 
             fprintf(o.fh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
-                          size(1), size(2), size(3), radius,...
+                          length(1), length(2), length(3), radius,...
                           tex_common, tex_x, tex_y, tex_z);
         end
 
@@ -280,7 +280,7 @@ classdef povLab < handle
 
         % Cone
         function cone(o, varargin)
-            % Create a cone by base center location, base radius, cap
+            % Creates a cone by base center location, base radius, cap
             % center location and cap radius
             p = inputParser;
             addParameter(p,'base_point', [0 0 0],      @o.check_vector3);
@@ -383,7 +383,7 @@ classdef povLab < handle
 
         % Plane
         function plane(o, varargin)
-            % Create a plane by normal and distance from origin
+            % Creates a plane by normal and distance from origin
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'distance',  0,           @o.check_float);
@@ -410,7 +410,7 @@ classdef povLab < handle
         
         % Mesh
         function surface(o, varargin)
-            % Create textured POV mesh from surface, retuned by Matlab's 'surf'
+            % Creates textured POV mesh from surface, retuned by Matlab's 'surf'
             % function
 
             p = inputParser;

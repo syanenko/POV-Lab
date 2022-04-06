@@ -30,10 +30,10 @@ pl.camera('angle', 35, 'location', [0 0 50], 'look_at', [0 0 0], 'type', 'orthog
 pl.light('location', [20 20 20], 'color', [0.9 0.9 0.9]);
 
 % Axis
-%pl.axis('size', [11 11 0], 'radius', 0.08 );
+%pl.axis('length', [11 11 0], 'radius', 0.08 );
 tex_axis_yellow = pl.declare("tex_axis_yellow", pl.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
 tex_axis_gray   = pl.declare("tex_axis_gray", pl.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-pl.axis('size', [11 11 0], 'radius', 0.08, 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow);
+pl.axis('length', [11 11 0], 'radius', 0.08, 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow);
 
 % Axis plane
 tex_plane = pl.declare("tex_plane_blue",  pl.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));

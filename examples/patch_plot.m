@@ -54,8 +54,8 @@ tex_axis_even = pl.declare("tex_axis_even", pl.texture('pigment', [1 1 0], "fini
 
 % Axis
 % pl.axis();
-% pl.axis('size', [5 6 7], 'tex_common', pl.tex_axis_x, 'tex_x', pl.tex_axis_z);
-pl.axis('size', [50 50 50], 'radius', 0.3, 'tex_common', tex_axis_odd, 'tex_x', tex_axis_even, 'tex_y', tex_axis_even, 'tex_z', tex_axis_even);
+% pl.axis('length', [5 6 7], 'tex_common', pl.tex_axis_x, 'tex_x', pl.tex_axis_z);
+pl.axis('length', [50 50 50], 'radius', 0.3, 'tex_common', tex_axis_odd, 'tex_x', tex_axis_even, 'tex_y', tex_axis_even, 'tex_z', tex_axis_even);
 
 % Axis planes textures
 % tex_plane_red   = pl.declare("tex_plane_red",   pl.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));

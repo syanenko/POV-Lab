@@ -50,8 +50,8 @@ pl.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
 
 % Axis
 % pl.axis();
-% pl.axis('size', [5 6 7], 'tex_common', pl.tex_axis_x, 'tex_x', pl.tex_axis_z);
-pl.axis('size', [11 11 11]);
+% pl.axis('length', [5 6 7], 'tex_common', pl.tex_axis_x, 'tex_x', pl.tex_axis_z);
+pl.axis('length', [11 11 11]);
 
 % Axis planes textures
 % tex_plane_red   = pl.declare("tex_plane_red",   pl.texture('pigment', [0.8 0.3 0.3], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
