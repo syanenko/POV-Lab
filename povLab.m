@@ -1,7 +1,12 @@
 classdef povlab < handle
 % This is the core class of Povlab, which implements all toolbox functionality
-% Please use 'doc povlab' to view description of available methods
-
+%
+% Usage examples
+%
+% <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods 
+% <a href="matlab:edit ex_surface">Surface</a> - Creates 3D surface from data returned from Matlab's 'surf' function
+% <a href="matlab:edit ex_lathe">Lathe</a> - Creates lathe objects
+%
     properties (Access = private)
         version    {mustBeNonempty} = "3.7";
         pov_path   {mustBeNonempty} = "pvengine.exe";
