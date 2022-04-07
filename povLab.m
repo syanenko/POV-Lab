@@ -1,11 +1,15 @@
 classdef povlab < handle
 % This is the core class of Povlab, which implements all toolbox functionality
 %
-% Usage examples
+% EXAMPLES
 %
-% <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods 
-% <a href="matlab:edit ex_surface">Surface</a> - Creates 3D surface from data returned from Matlab's 'surf' function
-% <a href="matlab:edit ex_lathe">Lathe</a> - Creates lathe objects
+% <a href="matlab:edit ex_surface">Surface</a> - 3D surface based on data returned by Matlab's 'surf' function
+% <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods
+% <a href="matlab:edit ex_lathe">Lathe</a> - Lathe objects creation
+% <a href="matlab:edit ex_plot">Plot</a> - Plots 2D graph of function
+% <a href="matlab:edit ex_coneplot">Coneplot</a> - 3D Coneplot graph based on Matlab's 'wind' dataset
+% <a href="matlab:edit ex_streamline">Streamline</a> - 3D Stremline graph based on Matlab's 'wind' dataset
+% <a href="matlab:edit ex_volume">Volume</a> - Volume visualization of Matlab's 'mri' dataset
 %
     properties (Access = private)
         version    {mustBeNonempty} = "3.7";
@@ -28,16 +32,25 @@ classdef povlab < handle
 
     methods (Access = public)
         function o = povlab(version, pov_path, out_dir)
-        % Creates povlab object
+        % Class constructor
         %
         % SYNOPSIS
         %
-        % o = povlab(version, pov_path, out_dir)
+        % pl = povlab(version, pov_path, out_dir)
         %
         % DESCRIPTION
         %
         % RETURN VALUE
         %
+        % Returns object of 'povlab' class
+        %
+        % EXAMPLES
+        %
+        % <a href="matlab:edit ex_surface">Surface</a> - 3D surface based on data returned by Matlab's 'surf' function
+        % <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods
+        % <a href="matlab:edit ex_lathe">Lathe</a> - Lathe objects creation
+        % <a href="matlab:edit ex_plot">Plot</a> - Plots 2D graph of function
+
             if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
@@ -224,10 +237,23 @@ classdef povlab < handle
         function axis(o, varargin)
             % Creates textured axis of desired length and radius
             %
-            % -- Syntax
+            % SYNOPSIS
             %
-            % Please find axix usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
-           
+            % axis(varargin)
+            %
+            % DESCRIPTION
+            %
+            % RETURN VALUE
+            %
+            % None
+            %
+            % EXAMPLES
+            %
+            % <a href="matlab:edit ex_surface">Surface</a> - 3D surface based on data returned by Matlab's 'surf' function
+            % <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods
+            % <a href="matlab:edit ex_lathe">Lathe</a> - Lathe objects creation
+            % <a href="matlab:edit ex_plot">Plot</a> - Plots 2D graph of function
+            
             p = inputParser;
             addParameter(p,'length', [5 5 5], @o.check_vector3);
             addParameter(p,'tex_common', "tex_axis_common", @o.check_string);
