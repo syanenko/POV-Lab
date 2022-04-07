@@ -1,6 +1,6 @@
 classdef povlab < handle
-% This is the core class of POVLab, which implements all POVLab functionality
-% Please use 'doc pov' for detailed description of methods and properties
+% This is the core class of Povlab, which implements all toolbox functionality
+% Please use 'doc povlab' to view description of available methods
 
     properties (Access = private)
         version    {mustBeNonempty} = "3.7";
