@@ -1,22 +1,16 @@
-% Example of usage 'plot' method
-addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
-clear;
-clear povlab;
-close all;
-tic % Time measure
+%% 'plot' method usage example
+% Common setup for all examples
 
-% Check OS
-if isunix
-pl = povlab( "3.7",...
-            '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
-            "/home/serge/projects/povlab/examples/out");
-elseif ispc
-    pl = povlab( "3.7",...
-                "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-                "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-else
-    disp('Platform not supported')
-end
+ex_setup
+% Start timer
+
+tic
+% Create povlab object
+
+pl = povlab( povray_version,...
+             povray_path, ...
+             povray_out_dir);
+% Create scene
 
 % TODO: Set image size
 pl.scene_begin('scene_file', 'plot.pov', 'image_file', 'plot.png');
@@ -61,4 +55,6 @@ pl.plot('name', 'fred', 'funcion', 'X * X * X / 12', ...
 pl.scene_end();
 image = pl.render();
 imshow(image);
-toc % Elapsed time
+% Elapsed time
+
+toc

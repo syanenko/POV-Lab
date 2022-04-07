@@ -1,25 +1,17 @@
-% Example of usage 'streamline'
-addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
-clear;
-clear povlab;
-close all;
-tic %Measure time
+%% 'streamline' method usage example
+% Common setup for all examples
 
-% Check OS
-if isunix
-pl = povlab( "3.7",...
-           '"/usr/local/bin/povray +A -W1920 -H1080 -L/home/serge/projects/povlab/include -L/home/serge/projects/povlab/examples/out"', ...
-           "/home/serge/projects/povlab/examples/out");
-elseif ispc
-    pl = povlab( "3.7",...
-               "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-               "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-else
-    disp('Platform not supported')
-end
+ex_setup
+% Start timer
 
-% pl.scene_begin();
-% TODO: Set image size
+tic
+% Create povlab object
+
+pl = povlab( povray_version,...
+             povray_path, ...
+             povray_out_dir);
+% Create scene
+
 pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
 pl.include("textures");
 pl.include("glass");
@@ -150,4 +142,6 @@ pl.scene_end();
 % TODO: Allow afer writing to scene in pov_coneplot
 img = pl.render();
 imshow(img);
-toc % Elapsed time
+% Elapsed time
+
+toc

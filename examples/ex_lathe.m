@@ -1,25 +1,17 @@
-% Example of usage 'lathe' method
-addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
-clear;
-clear povlab;
-close all;
-tic %Measure time
+%% Lathe method usage example
+% Common setup for all examples
 
-% Check OS
-if isunix
-pl = povlab( "3.7",...
-           '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
-           "/home/serge/projects/povlab/examples/out");
-elseif ispc
-    pl = povlab( "3.7",...
-               "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-               "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-else
-    disp('Platform not supported')
-end
+ex_setup
+% Start time measurement
 
-% pl.scene_begin();
-% TODO: Set image size
+tic % Time measure
+% Create povlab object
+
+pl = povlab( povray_version,...
+             povray_path, ...
+             povray_out_dir);
+% Create scene
+
 pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
 pl.include("shapes");
 
@@ -104,4 +96,6 @@ pl.lathe('points', [0.00 0.00; 0.42 0.00; 0.62 0.54; 0.21 0.83; 0.19 1.46; 0.29 
 pl.scene_end();
 img = pl.render();
 imshow(img);
-toc % Elapsed time
+% Elapsed time
+
+toc

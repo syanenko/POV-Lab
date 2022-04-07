@@ -1,25 +1,17 @@
-% Example of usage 'volume' method
-addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
-clear;
-clear povlab;
-close all;
-tic %Measure time
+%% 'volume' method usage example
+% Common setup for all examples
 
-% Check OS
-if isunix
-pl = povlab( "3.7",...
-             '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"', ...
-             "/home/serge/projects/povlab/examples/out");
-elseif ispc
-    pl = povlab( "3.7",...
-                 "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-                 "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-else
-    disp('Platform not supported')
-end
+ex_setup
+% Start timer
 
-% pl.scene_begin();
-% TODO: Set image size
+tic
+% Create _povlab_ object
+
+pl = povlab( povray_version,...
+             povray_path, ...
+             povray_out_dir);
+% Create scene
+
 pl.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
 pl.global_settings("assumed_gamma 1");
 
@@ -50,40 +42,40 @@ pl.light('location', [5 5 3], 'color', [0.8 0.8 0.8]);
 % data = x.*exp(-x.^2 -y.^2 -z.^2) * 256;
 % isosurface(x,y,z,data,1e-4);
 
-% Load
+% Load data and slice data
+
 load mri;
 data = squeeze(D);
-
-% Slice
 data = data(:,:,1:27);
 
+% Check result
 % histogram(data, 100)
-% return;
+% Normilize data
 
-% Normilize
 dmax = max(data(:));
 dmin = min(data(:));
 drange = dmax-dmin;
 data = data / drange;
 
-% Map to colors
+% Map colors to data
+
 num_colors = 256;
 min_step = 0.0000;
 max_step = 0.0055;
 scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
 
-% Choose colormap
 %color_map_type = hot(num_colors);
 %color_map_type = winter(num_colors);
-%color_map_type = hsv(num_colors); % !
+%color_map_type = hsv(num_colors);
 color_map_type = jet(num_colors);
 %color_map_type = bone(num_colors);
 %color_map_type = parula(num_colors);
-%color_map_type = turbo(num_colors); % !
+%color_map_type = turbo(num_colors);
 %color_map_type = spring(num_colors);
 
 color_map = [scale' color_map_type];
 
+% Custom color map
 % color_map = [0.00   0 0 0;
 %              0.0001 0 0 1;
 %              0.003  1 0 0;
@@ -95,9 +87,14 @@ color_map = [scale' color_map_type];
 %              0.90   1 0 0;
 %              1.00   1 0 0];
 
-pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
+% Call 'volume' method and close scene
 
+pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
 pl.scene_end();
+% Render scene and show rendered image
+
 img = pl.render();
 imshow(img);
-toc % Elapsed time
+% Display elapsed time
+
+toc

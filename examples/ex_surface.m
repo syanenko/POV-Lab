@@ -1,11 +1,11 @@
-%% _Surface_ method usage example
+%% 'surface' method usage example
 % Common setup for all examples
 
 ex_setup
-% Start time measurement
+% Start timer
 
 tic % Time measure
-% Create povlab object
+% Create _povlab_ object
 
 pl = povlab( povray_version,...
              povray_path, ...
