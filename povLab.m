@@ -36,10 +36,16 @@ classdef povlab < handle
             if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
+                
                 o.out_dir = out_dir;
-                if ~exist(o.out_dir, 'dir')
-                    mkdir(o.out_dir);
+                if exist(o.out_dir, 'dir')
+                    rmdir(o.out_dir, 's')
                 end
+                mkdir(o.out_dir);
+                
+                povlab_dir = toolboxdir("pov_lab");
+                povlab_include_file = povlab_dir + "/include/povlab.inc";
+                copyfile(povlab_include_file, o.out_dir);
             end
         end
 

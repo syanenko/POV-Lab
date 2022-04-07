@@ -10,10 +10,6 @@ tic % Time measure
 pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
-% Copy _povlab_ include file to output directory enabling _povray_ access to _povlab_ defenitions
-
-povlab_include_file = povlab_dir + "/include/povlab.inc";
-copyfile(povlab_include_file, povray_out_dir);
 % Create _camera_ object and put it in separate include file to save rendering time in future
 
 pl.include_begin('camera');
