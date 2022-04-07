@@ -1,5 +1,5 @@
 classdef povlab < handle
-% This is the core class of Povlab, which implements all toolbox functionality
+% This is the core Povlab's class, all toolbox functionality implemented here
 %
 % EXAMPLES
 %
@@ -32,7 +32,7 @@ classdef povlab < handle
 
     methods (Access = public)
         function o = povlab(version, pov_path, out_dir)
-        % Class constructor
+        % Constructor
         %
         % SYNOPSIS
         %
