@@ -829,7 +829,8 @@ classdef povlab < handle
                 setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?
                 system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
             elseif ispc
-                system(sprintf('"%s" /RENDER %s/%s /EXIT', o.pov_path, o.out_dir, o.scene_file));
+                command = sprintf('"%s" /RENDER "%s/%s" /EXIT', o.pov_path, o.out_dir, o.scene_file);
+                system(command);
             else
                 disp('Platform not supported')
             end
