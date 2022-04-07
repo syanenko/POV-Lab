@@ -7,9 +7,8 @@ close all;
 
 povlab_dir = toolboxdir("pov_lab");
 addpath(povlab_dir);
-% Create _povlab_ object and init it with version and path to _povray_ that installed in your system, set output directory for _povray_ scene files and rendered images
+% Set version and path to _povray_ that installed in your system, set output directory for _povray_ scene files and rendered images
 
-povray_out_dir = povlab_dir + "/examples/out";
 povray_version = "3.7";
 
 if isunix
@@ -22,4 +21,5 @@ else
     disp('Platform not supported');
 end
 
+povray_out_dir = povlab_dir + "/examples/out";
 disp('Setup complete');
