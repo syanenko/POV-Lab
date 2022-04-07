@@ -2,7 +2,7 @@ classdef povlab < handle
 % This is the core class of POVLab, which implements all POVLab functionality
 % Please use 'doc pov' for detailed description of methods and properties
 
-    properties
+    properties (Access = private)
         version    {mustBeNonempty} = "3.7";
         pov_path   {mustBeNonempty} = "pvengine.exe";
         out_dir    {mustBeNonempty} = ".";
@@ -21,7 +21,7 @@ classdef povlab < handle
         tex_plane;
     end
 
-    methods
+    methods (Access = public)
         function o = povlab(version, pov_path, out_dir)
         % Creates povlab object
         %
@@ -37,14 +37,19 @@ classdef povlab < handle
                 o.version = version;
                 o.pov_path = pov_path;
                 o.out_dir = out_dir;
+                if ~exist(o.out_dir, 'dir')
+                    mkdir(o.out_dir);
+                end
             end
         end
 
         function include_begin(o, name)
+            % include_begin method help
             o.fh = fopen(o.out_dir + "/" + name + ".inc",'w');
         end
 
         function include_end(o)
+            % include_end method help
             fclose(o.fh);
         end
         
@@ -89,48 +94,56 @@ classdef povlab < handle
 
         % Lights begin
         function lights_begin(o)
+            % lights_begin method help
             o.fh = fopen(o.out_dir + "/lights.inc",'w');
         end
         
         % Lights end
         function lights_end(o)
+            % lights_end method help
             fclose(o.fh);
         end
 
         % Helpers begin
         function helpers_begin(o)
+            % helpers_begin method help
             o.fh = fopen(o.out_dir + "/helpers.inc",'w');
         end
         
         % Helpers end
         function helpers_end(o)
+            % helpers_end method help
             fclose(o.fh);
         end
         
         % Global settings
         function global_settings(o, settings)
+            % global_settings method help
             fprintf(o.fh, 'global_settings { %s }\n\n', settings);
         end
         
         % Include
         function include(o, text)
+            % include method help
             fprintf(o.fh, '#include "%s.inc"\n', text);
         end
         
         % Declare
         function s = declare(o, symbol, text)
+            % declare method help
             fprintf(o.fh, '#declare %s = %s\n', symbol, text);
             s = symbol;
         end
 
         % Macro
         function macro(o, text)
+            % macro method help
             fprintf(o.fh, '#macro %s#end\n\n', text);
         end
 
         % Raw
         function raw(o, text)
-            % raw method help    
+            % raw method help
             fprintf(o.fh, '%s\n\n', text);
         end
 
@@ -986,7 +999,7 @@ classdef povlab < handle
             end
             r = true;
         end
-    end
+    end  % End of private methods
 
     % Hiding derived methods to keep help clean
     methods (Hidden)
@@ -1029,5 +1042,10 @@ classdef povlab < handle
         function notify (varargin)
           notify@notify(varargin{:})
         end
+
+%         function ObjectBeingDestroyed (varargin)
+%           ObjectBeingDestroyed@ObjectBeingDestroyed(varargin{:})
+%         end
+       
     end % End of hidden methods
 end
