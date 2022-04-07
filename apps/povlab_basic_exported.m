@@ -55,7 +55,10 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     end
 
     properties (Access = public)
-        pov pov = 0;
+        povlab_dir = "C:/Projects/povlab";
+        dummy_path = addpath ("C:/Projects/povlab");
+        pov povlab = 0;
+
         cam_location_default = [-7 -7 3];
         cam_location = 0;
 
@@ -64,30 +67,30 @@ classdef povlab_basic_exported < matlab.apps.AppBase
 
         need_create_scene = false;
     end
-
+    
     methods (Access = private)
         % Init pov renderer interface
         function init_pov(app)
+            povray_out_dir = app.povlab_dir + "/examples/out";
+            povray_version = "3.7";
+            
             if isunix
-                addpath ("/home/serge/projects/povlab");
+                povray_path = '"/usr/local/bin/povray +A -W1920 -H1080 -L'+ povray_out_dir + '"';
             elseif ispc
-                addpath ("C:/Users/Serge/Documents/MATLAB/Apps/povlab");
+                % Windows version of Povray is not supporting image rendering parametrs in command line, so please
+                % set up Povray from menu 'Render/Edit Settings' before using Povlab
+                povray_path = "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe";
             else
-                disp('Platform not supported')
+                disp('Platform not supported');
             end
             
-            % Check OS
-            if isunix
-            app.pov = pov( "3.7",...
-                           '"/usr/local/bin/povray +A -L/home/serge/projects/povlab/include"',...
-                           "/home/serge/projects/povlab/examples/out");
-            elseif ispc
-            app.pov = pov( "3.7",...
-                           "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe", ...
-                           "C:/Users/Serge/Documents/MATLAB/Apps/povlab/examples/out");
-            else
-                disp('Platform not supported')
-            end
+            app.pov = povlab( povray_version,...
+                              povray_path, ...
+                              povray_out_dir);
+
+            % Copy 'povlab.inc' to output directory
+            povlab_include_file = app.povlab_dir + "/include/povlab.inc";
+            copyfile(povlab_include_file, povray_out_dir);            
         end
 
         % Create camera
@@ -123,7 +126,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 % tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 % tex_axis_yellow = app.pov.declare("tex_axis_yellow", app.pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 if(app.axis_enable.Value)
-                    app.pov.axis('size', [5 5 5]);
+                    app.pov.axis('length', [5 5 5]);
                 end
 
                 % TODO: Move textures to materials.inc
@@ -174,7 +177,10 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 app.pov.global_settings("assumed_gamma 1");
                
                 [X,Y,Z] = peaks(app.surf_size.Value);
-                s = surf(X,Y,Z);
+                % Hide figure
+                f = figure('Visible', 'off');
+                ax = axes(f);
+                s = surf(ax,X,Y,Z);
                 
                 if(app.surf_texture_odd.Value == "None")
                     texture_odd = "";
