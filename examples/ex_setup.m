@@ -3,9 +3,9 @@
 clear;
 clear povlab;
 close all;
-% Find _pov_lab_ root directory
+% Init outout directory
 
-povlab_root_dir = get_root_dir();
+povray_out_dir = get_root_dir() + "/examples/out";
 % Set version and path to _povray_ that installed in your system, set output directory for _povray_ scene files and rendered images
 
 povray_version = "3.7";
@@ -20,5 +20,4 @@ else
     disp('Platform not supported');
 end
 
-povray_out_dir = povlab_root_dir + "/examples/out";
 disp('Setup complete');
