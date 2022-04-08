@@ -3,10 +3,9 @@
 clear;
 clear povlab;
 close all;
-% Add povlab directory to Matlab's path
+% Find _pov_lab_ root directory
 
-povlab_dir = toolboxdir("pov_lab");
-addpath(povlab_dir);
+povlab_root_dir = get_root_dir();
 % Set version and path to _povray_ that installed in your system, set output directory for _povray_ scene files and rendered images
 
 povray_version = "3.7";
@@ -21,5 +20,5 @@ else
     disp('Platform not supported');
 end
 
-povray_out_dir = povlab_dir + "/examples/out";
+povray_out_dir = povlab_root_dir + "/examples/out";
 disp('Setup complete');
