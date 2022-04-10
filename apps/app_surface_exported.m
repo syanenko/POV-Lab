@@ -55,8 +55,7 @@ classdef app_surface_exported < matlab.apps.AppBase
     end
 
     properties (Access = public)
-        povlab_dir = "C:/Projects/povlab";
-        dummy_path = addpath ("C:/Projects/povlab");
+        povlab_dir = "";
         pl povlab = 0;
 
         cam_location_default = [-7 -7 3];
@@ -71,7 +70,8 @@ classdef app_surface_exported < matlab.apps.AppBase
     methods (Access = private)
         % Init pl renderer interface
         function init_pov(app)
-            povray_out_dir = app.povlab_dir + "/examples/out";
+            app.povlab_dir = get_root_dir();
+            povray_out_dir = app.povlab_dir + "/apps/out";
             povray_version = "3.7";
             
             if isunix
@@ -85,8 +85,8 @@ classdef app_surface_exported < matlab.apps.AppBase
             end
             
             app.pl = povlab( povray_version,...
-                              povray_path, ...
-                              povray_out_dir);
+                             povray_path, ...
+                             povray_out_dir);
 
             % Copy 'povlab.inc' to output directory
             povlab_include_file = get_root_dir() + "/include/povlab.inc";
@@ -169,7 +169,7 @@ classdef app_surface_exported < matlab.apps.AppBase
             app.scene_time.Text = sprintf("Preparing ...");
             drawnow();
             tic % Time measure            
-            app.pl.scene_begin('scene_file', 'mesh.pl', 'image_file', 'mesh.png');
+            app.pl.scene_begin('scene_file', 'surface.pl', 'image_file', 'surface.png');
                 app.pl.include("camera");
                 app.pl.include("lights");
                 app.pl.include("helpers");
