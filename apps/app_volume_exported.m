@@ -392,7 +392,7 @@ classdef app_volume_exported < matlab.apps.AppBase
             app.ui_figure.AutoResizeChildren = 'off';
             app.ui_figure.Color = [0.651 0.651 0.651];
             app.ui_figure.Position = [100 100 1137 598];
-            app.ui_figure.Name = 'POV-Lab / Surface demo';
+            app.ui_figure.Name = 'PovLab / Volume visualization';
             app.ui_figure.Resize = 'off';
 
             % Create panel
@@ -633,7 +633,7 @@ classdef app_volume_exported < matlab.apps.AppBase
             app.panel_7 = uipanel(app.ui_figure);
             app.panel_7.AutoResizeChildren = 'off';
             app.panel_7.TitlePosition = 'centertop';
-            app.panel_7.Title = 'Surface';
+            app.panel_7.Title = 'Volume';
             app.panel_7.BackgroundColor = [0.651 0.651 0.651];
             app.panel_7.Position = [19 45 171 286];
 
