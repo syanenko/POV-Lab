@@ -2,56 +2,55 @@ classdef app_volume_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        ui_figure              matlab.ui.Figure
-        render_time            matlab.ui.control.Label
-        scene_time             matlab.ui.control.Label
-        panel_7                matlab.ui.container.Panel
-        surf_colormap          matlab.ui.control.DropDown
-        ColormapDropDownLabel  matlab.ui.control.Label
-        surf_size              matlab.ui.control.Spinner
-        SizeSpinnerLabel       matlab.ui.control.Label
-        surf_texture_even      matlab.ui.control.DropDown
-        EvenDropDownLabel      matlab.ui.control.Label
-        surf_texture_odd       matlab.ui.control.DropDown
-        OddDropDownLabel       matlab.ui.control.Label
-        surf_smooth            matlab.ui.control.CheckBox
-        panel_6                matlab.ui.container.Panel
-        bt_render              matlab.ui.control.Button
-        cam_responsive         matlab.ui.control.CheckBox
-        panel_5                matlab.ui.container.Panel
-        light_4                matlab.ui.control.CheckBox
-        light_3                matlab.ui.control.CheckBox
-        light_2                matlab.ui.control.CheckBox
-        light_1                matlab.ui.control.CheckBox
-        panel_4                matlab.ui.container.Panel
-        plane_xy_enable        matlab.ui.control.CheckBox
-        plane_yz_enable        matlab.ui.control.CheckBox
-        plane_xz_enable        matlab.ui.control.CheckBox
-        grid_xy_enable         matlab.ui.control.CheckBox
-        grid_yz_enable         matlab.ui.control.CheckBox
-        grid_xz_enable         matlab.ui.control.CheckBox
-        axis_enable            matlab.ui.control.CheckBox
-        image_panel            matlab.ui.container.Panel
-        image                  matlab.ui.control.Image
-        panel_3                matlab.ui.container.Panel
-        ResetButton            matlab.ui.control.Button
-        cam_type               matlab.ui.control.DropDown
-        cam_angle              matlab.ui.control.Spinner
-        AngleSpinnerLabel      matlab.ui.control.Label
-        panel_2                matlab.ui.container.Panel
-        cam_look_at_z          matlab.ui.control.Spinner
-        xLabel_3               matlab.ui.control.Label
-        cam_look_at_y          matlab.ui.control.Spinner
-        xLabel_2               matlab.ui.control.Label
-        cam_look_at_x          matlab.ui.control.Spinner
-        xLabel                 matlab.ui.control.Label
-        panel                  matlab.ui.container.Panel
-        cam_loc_z              matlab.ui.control.Spinner
-        xLabel_6               matlab.ui.control.Label
-        cam_loc_y              matlab.ui.control.Spinner
-        xLabel_5               matlab.ui.control.Label
-        cam_loc_x              matlab.ui.control.Spinner
-        xLabel_4               matlab.ui.control.Label
+        ui_figure           matlab.ui.Figure
+        render_time         matlab.ui.control.Label
+        scene_time          matlab.ui.control.Label
+        panel_7             matlab.ui.container.Panel
+        color_map_num       matlab.ui.control.Spinner
+        ColorsLabel         matlab.ui.control.Label
+        color_map_min_step  matlab.ui.control.Spinner
+        MinstepLabel        matlab.ui.control.Label
+        color_map_name      matlab.ui.control.DropDown
+        NameLabel           matlab.ui.control.Label
+        color_map_max_step  matlab.ui.control.Spinner
+        MaxstepLabel        matlab.ui.control.Label
+        panel_6             matlab.ui.container.Panel
+        bt_render           matlab.ui.control.Button
+        cam_responsive      matlab.ui.control.CheckBox
+        panel_5             matlab.ui.container.Panel
+        light_4             matlab.ui.control.CheckBox
+        light_3             matlab.ui.control.CheckBox
+        light_2             matlab.ui.control.CheckBox
+        light_1             matlab.ui.control.CheckBox
+        panel_4             matlab.ui.container.Panel
+        plane_xy_enable     matlab.ui.control.CheckBox
+        plane_yz_enable     matlab.ui.control.CheckBox
+        plane_xz_enable     matlab.ui.control.CheckBox
+        grid_xy_enable      matlab.ui.control.CheckBox
+        grid_yz_enable      matlab.ui.control.CheckBox
+        grid_xz_enable      matlab.ui.control.CheckBox
+        axis_enable         matlab.ui.control.CheckBox
+        image_panel         matlab.ui.container.Panel
+        image               matlab.ui.control.Image
+        panel_3             matlab.ui.container.Panel
+        ResetButton         matlab.ui.control.Button
+        cam_type            matlab.ui.control.DropDown
+        cam_angle           matlab.ui.control.Spinner
+        AngleSpinnerLabel   matlab.ui.control.Label
+        panel_2             matlab.ui.container.Panel
+        cam_look_at_z       matlab.ui.control.Spinner
+        xLabel_3            matlab.ui.control.Label
+        cam_look_at_y       matlab.ui.control.Spinner
+        xLabel_2            matlab.ui.control.Label
+        cam_look_at_x       matlab.ui.control.Spinner
+        xLabel              matlab.ui.control.Label
+        panel               matlab.ui.container.Panel
+        cam_loc_z           matlab.ui.control.Spinner
+        xLabel_6            matlab.ui.control.Label
+        cam_loc_y           matlab.ui.control.Spinner
+        xLabel_5            matlab.ui.control.Label
+        cam_loc_x           matlab.ui.control.Spinner
+        xLabel_4            matlab.ui.control.Label
     end
 
     properties (Access = public)
@@ -188,15 +187,14 @@ classdef app_volume_exported < matlab.apps.AppBase
                 data = data / drange;
 
                 % Map colors
-                % TODO: Create controls
-                num_colors = 256;
-                min_step = 0.0000;
-                max_step = 0.0055;
+                num_colors = app.color_map_num.Value;
+                min_step = app.color_map_min_step.Value;
+                max_step = app.color_map_max_step.Value;
 
                 scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
-                ex = app.surf_colormap.Value + "(" + num_colors + ")";
-                color_map_type = eval(ex);
-                color_map = [scale' color_map_type];
+                ex = app.color_map_name.Value + "(" + num_colors + ")";
+                color_map = eval(ex);
+                color_map = [scale' color_map];
 
                 % Create POV vulume object
                 app.pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
@@ -356,9 +354,9 @@ classdef app_volume_exported < matlab.apps.AppBase
             render(app);
         end
 
-        % Value changed function: surf_colormap, surf_size, surf_smooth, 
-        % surf_texture_even, surf_texture_odd
-        function on_surf_changed(app, event)
+        % Value changed function: color_map_max_step, color_map_min_step, 
+        % color_map_name, color_map_num
+        function on_colors_changed(app, event)
             if(app.cam_responsive.Value)
                 create_scene(app);                
                 render(app);
@@ -628,68 +626,63 @@ classdef app_volume_exported < matlab.apps.AppBase
             app.panel_7 = uipanel(app.ui_figure);
             app.panel_7.AutoResizeChildren = 'off';
             app.panel_7.TitlePosition = 'centertop';
-            app.panel_7.Title = 'Volume';
+            app.panel_7.Title = 'Color map';
             app.panel_7.BackgroundColor = [0.651 0.651 0.651];
             app.panel_7.Position = [19 45 171 286];
 
-            % Create surf_smooth
-            app.surf_smooth = uicheckbox(app.panel_7);
-            app.surf_smooth.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_smooth.Text = 'Smooth';
-            app.surf_smooth.Position = [25 61 63 22];
-            app.surf_smooth.Value = true;
+            % Create MaxstepLabel
+            app.MaxstepLabel = uilabel(app.panel_7);
+            app.MaxstepLabel.HorizontalAlignment = 'right';
+            app.MaxstepLabel.Position = [10 35 54 22];
+            app.MaxstepLabel.Text = 'Max step';
 
-            % Create OddDropDownLabel
-            app.OddDropDownLabel = uilabel(app.panel_7);
-            app.OddDropDownLabel.HorizontalAlignment = 'right';
-            app.OddDropDownLabel.Position = [20 219 23 22];
-            app.OddDropDownLabel.Text = 'Odd';
+            % Create color_map_max_step
+            app.color_map_max_step = uispinner(app.panel_7);
+            app.color_map_max_step.Step = 0.0001;
+            app.color_map_max_step.Limits = [0.0001 Inf];
+            app.color_map_max_step.ValueChangedFcn = createCallbackFcn(app, @on_colors_changed, true);
+            app.color_map_max_step.Position = [76 35 89 22];
+            app.color_map_max_step.Value = 0.0055;
 
-            % Create surf_texture_odd
-            app.surf_texture_odd = uidropdown(app.panel_7);
-            app.surf_texture_odd.Items = {'None', 'DMFWood6', 'NBglass', 'NBoldglass', 'NBwinebottle', 'NBbeerbottle', 'Ruby_Glass', 'Dark_Green_Glass', 'Yellow_Glass', 'Orange_Glass', 'Vicks_Bottle_Glass', 'Soft_Silver', 'New_Penny', 'Tinny_Brass', 'Gold_Nugget', 'Aluminum', 'Bright_Bronze'};
-            app.surf_texture_odd.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_texture_odd.Position = [52 219 107 22];
-            app.surf_texture_odd.Value = 'None';
+            % Create NameLabel
+            app.NameLabel = uilabel(app.panel_7);
+            app.NameLabel.HorizontalAlignment = 'right';
+            app.NameLabel.Position = [2 219 48 22];
+            app.NameLabel.Text = 'Name';
 
-            % Create EvenDropDownLabel
-            app.EvenDropDownLabel = uilabel(app.panel_7);
-            app.EvenDropDownLabel.HorizontalAlignment = 'right';
-            app.EvenDropDownLabel.Position = [10 184 33 22];
-            app.EvenDropDownLabel.Text = 'Even';
+            % Create color_map_name
+            app.color_map_name = uidropdown(app.panel_7);
+            app.color_map_name.Items = {'parula', 'turbo', 'hsv', 'hot', 'cool', 'spring', 'summer', 'autumn', 'winter', 'gray', 'bone', 'copper', 'pink', 'jet', 'lines', 'colorcube', 'prism', 'flag', 'white'};
+            app.color_map_name.ValueChangedFcn = createCallbackFcn(app, @on_colors_changed, true);
+            app.color_map_name.Position = [61 219 103 22];
+            app.color_map_name.Value = 'turbo';
 
-            % Create surf_texture_even
-            app.surf_texture_even = uidropdown(app.panel_7);
-            app.surf_texture_even.Items = {'None', 'DMFWood6', 'NBglass', 'NBoldglass', 'NBwinebottle', 'NBbeerbottle', 'Ruby_Glass', 'Dark_Green_Glass', 'Yellow_Glass', 'Orange_Glass', 'Vicks_Bottle_Glass', 'Soft_Silver', 'New_Penny', 'Tinny_Brass', 'Gold_Nugget', 'Aluminum', 'Bright_Bronze'};
-            app.surf_texture_even.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_texture_even.Position = [52 184 107 22];
-            app.surf_texture_even.Value = 'None';
+            % Create MinstepLabel
+            app.MinstepLabel = uilabel(app.panel_7);
+            app.MinstepLabel.HorizontalAlignment = 'right';
+            app.MinstepLabel.Position = [11 103 51 22];
+            app.MinstepLabel.Text = {'Min step'; ''};
 
-            % Create SizeSpinnerLabel
-            app.SizeSpinnerLabel = uilabel(app.panel_7);
-            app.SizeSpinnerLabel.HorizontalAlignment = 'right';
-            app.SizeSpinnerLabel.Position = [13 150 29 22];
-            app.SizeSpinnerLabel.Text = 'Size';
+            % Create color_map_min_step
+            app.color_map_min_step = uispinner(app.panel_7);
+            app.color_map_min_step.Step = 0.0001;
+            app.color_map_min_step.Limits = [0.0001 Inf];
+            app.color_map_min_step.ValueChangedFcn = createCallbackFcn(app, @on_colors_changed, true);
+            app.color_map_min_step.Position = [76 103 89 22];
+            app.color_map_min_step.Value = 0.0001;
 
-            % Create surf_size
-            app.surf_size = uispinner(app.panel_7);
-            app.surf_size.Limits = [2 Inf];
-            app.surf_size.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_size.Position = [52 150 107 22];
-            app.surf_size.Value = 20;
+            % Create ColorsLabel
+            app.ColorsLabel = uilabel(app.panel_7);
+            app.ColorsLabel.HorizontalAlignment = 'right';
+            app.ColorsLabel.Position = [13 165 40 22];
+            app.ColorsLabel.Text = 'Colors';
 
-            % Create ColormapDropDownLabel
-            app.ColormapDropDownLabel = uilabel(app.panel_7);
-            app.ColormapDropDownLabel.HorizontalAlignment = 'right';
-            app.ColormapDropDownLabel.Position = [-4 115 65 22];
-            app.ColormapDropDownLabel.Text = 'Colormap';
-
-            % Create surf_colormap
-            app.surf_colormap = uidropdown(app.panel_7);
-            app.surf_colormap.Items = {'parula', 'turbo', 'hsv', 'hot', 'cool', 'spring', 'summer', 'autumn', 'winter', 'gray', 'bone', 'copper', 'pink', 'jet', 'lines', 'colorcube', 'prism', 'flag', 'white'};
-            app.surf_colormap.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
-            app.surf_colormap.Position = [64 115 94 22];
-            app.surf_colormap.Value = 'turbo';
+            % Create color_map_num
+            app.color_map_num = uispinner(app.panel_7);
+            app.color_map_num.Limits = [2 Inf];
+            app.color_map_num.ValueChangedFcn = createCallbackFcn(app, @on_colors_changed, true);
+            app.color_map_num.Position = [61 165 103 22];
+            app.color_map_num.Value = 256;
 
             % Create scene_time
             app.scene_time = uilabel(app.ui_figure);
