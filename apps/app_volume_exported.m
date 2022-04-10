@@ -55,8 +55,7 @@ classdef app_volume_exported < matlab.apps.AppBase
     end
 
     properties (Access = public)
-        povlab_dir = "C:/Projects/povlab";
-        dummy_path = addpath ("C:/Projects/povlab");
+        povlab_dir = "";
         pl povlab = 0;
 
         cam_location_default = [-3 -3 2];
@@ -71,6 +70,7 @@ classdef app_volume_exported < matlab.apps.AppBase
     methods (Access = private)
         % Init pl renderer interface
         function init_pov(app)
+            app.povlab_dir = get_root_dir();
             povray_out_dir = app.povlab_dir + "/apps/out";
             povray_version = "3.7";
             
