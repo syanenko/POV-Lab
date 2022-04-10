@@ -1,4 +1,4 @@
-classdef povlab_basic_exported < matlab.apps.AppBase
+classdef app_surface_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
@@ -57,7 +57,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     properties (Access = public)
         povlab_dir = "C:/Projects/povlab";
         dummy_path = addpath ("C:/Projects/povlab");
-        pov povlab = 0;
+        pl povlab = 0;
 
         cam_location_default = [-7 -7 3];
         cam_location = 0;
@@ -69,7 +69,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     end
     
     methods (Access = private)
-        % Init pov renderer interface
+        % Init pl renderer interface
         function init_pov(app)
             povray_out_dir = app.povlab_dir + "/examples/out";
             povray_version = "3.7";
@@ -84,81 +84,82 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                 disp('Platform not supported');
             end
             
-            app.pov = povlab( povray_version,...
+            app.pl = povlab( povray_version,...
                               povray_path, ...
                               povray_out_dir);
 
             % Copy 'povlab.inc' to output directory
-            povlab_include_file = app.povlab_dir + "/include/povlab.inc";
-            copyfile(povlab_include_file, povray_out_dir);            
+            povlab_include_file = get_root_dir() + "/include/povlab.inc";
+            copyfile(povlab_include_file, povray_out_dir);
+            
         end
 
         % Create camera
         function create_camera(app)
-            app.pov.include_begin('camera');
-                app.pov.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
-            app.pov.include_end();
+            app.pl.include_begin('camera');
+                app.pl.camera('angle', app.cam_angle.Value, 'location', app.cam_location, 'look_at', app.cam_look_at, 'type', app.cam_type.Value);
+            app.pl.include_end();
         end
         
         % Create light
         function create_lights(app)
-            app.pov.include_begin('lights');
+            app.pl.include_begin('lights');
                 if(app.light_1.Value)
-                    app.pov.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
+                    app.pl.light('location', [-10 -17 7], 'color', [1 1 1], 'shadowless', true);
                 end
                 if(app.light_2.Value)
-                    app.pov.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
+                    app.pl.light('location', [-10 10 30],  'color', [0.8 0.8 0.8], 'shadowless', true);
                 end
                 if(app.light_3.Value)
-                    app.pov.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
+                    app.pl.light('location', [100 200 300], 'color', [0.4 0.4 0.4], 'shadowless', true);
                 end
                 if(app.light_4.Value)
-                    app.pov.light('location', [100 -200 -300], 'color', [1 1 1], 'shadowless', true);
+                    app.pl.light('location', [100 -200 -300], 'color', [1 1 1], 'shadowless', true);
                 end
-            app.pov.include_end();
+            app.pl.include_end();
         end
 
         % Create helpers
         function create_helpers(app)
-            app.pov.include_begin('helpers');
+            app.pl.include_begin('helpers');
                 % Axis
                 % TODO: Move textures to materials.inc
-                % tex_axis_gray = app.pov.declare("tex_axis_gray", app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % tex_axis_yellow = app.pov.declare("tex_axis_yellow", app.pov.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_axis_gray = app.pl.declare("tex_axis_gray", app.pl.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_axis_yellow = app.pl.declare("tex_axis_yellow", app.pl.texture('pigment', [1.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
                 if(app.axis_enable.Value)
-                    app.pov.axis('length', [5 5 5]);
+                    app.pl.axis('length', [5 5 5]);
                 end
 
                 % TODO: Move textures to materials.inc
-                % tex_grid_gray  = app.pov.declare("tex_grid_gray",  app.pov.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % tex_grid_red   = app.pov.declare("tex_grid_red",   app.pov.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % tex_grid_green = app.pov.declare("tex_grid_green", app.pov.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % tex_grid_blue  = app.pov.declare("tex_grid_blue",  app.pov.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-                % pov.grid('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);pov.grid_2D('width', 10, 'height', 10);
+                % tex_grid_gray  = app.pl.declare("tex_grid_gray",  app.pl.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_red   = app.pl.declare("tex_grid_red",   app.pl.texture('pigment', [1.0 0.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_green = app.pl.declare("tex_grid_green", app.pl.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % tex_grid_blue  = app.pl.declare("tex_grid_blue",  app.pl.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+                % pl.grid('width', 10, 'height', 10);pl.grid_2D('width', 10, 'height', 10);pl.grid_2D('width', 10, 'height', 10);
                 % Grids
                 if(app.grid_xz_enable.Value)
-                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'scale', [0.2, 0.2 0.2]);
+                    app.pl.grid('width', 30, 'height', 30, 'radius', 0.03, 'scale', [0.2, 0.2 0.2]);
                 end
                 if(app.grid_yz_enable.Value)
-                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [0 0 90], 'scale', [0.2, 0.2 0.2]);
+                    app.pl.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [0 0 90], 'scale', [0.2, 0.2 0.2]);
                 end
                 if(app.grid_xy_enable.Value)
-                    app.pov.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [90 0 0], 'scale', [0.2, 0.2 0.2]);
+                    app.pl.grid('width', 30, 'height', 30, 'radius', 0.03, 'rotate', [90 0 0], 'scale', [0.2, 0.2 0.2]);
                 end
 
                 % Planes
                 if(app.plane_xz_enable.Value)
-                    app.pov.plane('normal', [0 1 0]);
+                    app.pl.plane('normal', [0 1 0]);
                 end
                 if(app.plane_yz_enable.Value)
 
-                    app.pov.plane('normal', [1 0 0]);
+                    app.pl.plane('normal', [1 0 0]);
                 end
                 if(app.plane_xy_enable.Value)
-                    app.pov.plane('normal', [0 0 1]);
+                    app.pl.plane('normal', [0 0 1]);
                 end
                 
-            app.pov.include_end();
+            app.pl.include_end();
         end
         
         % Create scene
@@ -168,13 +169,13 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             app.scene_time.Text = sprintf("Preparing ...");
             drawnow();
             tic % Time measure            
-            app.pov.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
-                app.pov.include("camera");
-                app.pov.include("lights");
-                app.pov.include("helpers");
-                app.pov.include("textures");
+            app.pl.scene_begin('scene_file', 'mesh.pl', 'image_file', 'mesh.png');
+                app.pl.include("camera");
+                app.pl.include("lights");
+                app.pl.include("helpers");
+                app.pl.include("textures");
                 
-                app.pov.global_settings("assumed_gamma 1");
+                app.pl.global_settings("assumed_gamma 1");
                
                 [X,Y,Z] = peaks(app.surf_size.Value);
                 % Hide figure
@@ -194,9 +195,9 @@ classdef povlab_basic_exported < matlab.apps.AppBase
                     texture_even = app.surf_texture_even.Value;
                 end
 
-                app.pov.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', app.surf_colormap.Value, 'scale', [1, 1, 3/10],...
+                app.pl.surface('surface', s, 'smooth', app.surf_smooth.Value, 'colormap', app.surf_colormap.Value, 'scale', [1, 1, 3/10],...
                                 'texture_odd', texture_odd, 'texture_even', texture_even);
-            app.pov.scene_end();
+            app.pl.scene_end();
             app.scene_time.Text = sprintf("Prepared in %0.2f sec", toc);
         end
 
@@ -206,7 +207,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
             drawnow();
             tic % Measure rendering            
             % Render
-            img_file = app.pov.render();
+            img_file = app.pl.render();
             img = imread(img_file);
             app.image.ImageSource = img;
             drawnow();
@@ -705,7 +706,7 @@ classdef povlab_basic_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = povlab_basic_exported
+        function app = app_surface_exported
 
             % Create UIFigure and components
             createComponents(app)
