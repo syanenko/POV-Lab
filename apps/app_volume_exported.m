@@ -188,21 +188,16 @@ classdef app_volume_exported < matlab.apps.AppBase
                 data = data / drange;
 
                 % Map colors
+                % TODO: Create controls
                 num_colors = 256;
                 min_step = 0.0000;
                 max_step = 0.0055;
+
                 scale = (min_step: (max_step-min_step) / (num_colors-1): max_step);
-                
-                %color_map_type = hot(num_colors);
-                %color_map_type = winter(num_colors);
-                %color_map_type = hsv(num_colors);
-                color_map_type = jet(num_colors);
-                %color_map_type = bone(num_colors);
-                %color_map_type = parula(num_colors);
-                %color_map_type = turbo(num_colors);
-                %color_map_type = spring(num_colors);
+                ex = app.surf_colormap.Value + "(" + num_colors + ")";
+                color_map_type = eval(ex);
                 color_map = [scale' color_map_type];
-                
+
                 % Create POV vulume object
                 app.pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
 
@@ -694,7 +689,7 @@ classdef app_volume_exported < matlab.apps.AppBase
             app.surf_colormap.Items = {'parula', 'turbo', 'hsv', 'hot', 'cool', 'spring', 'summer', 'autumn', 'winter', 'gray', 'bone', 'copper', 'pink', 'jet', 'lines', 'colorcube', 'prism', 'flag', 'white'};
             app.surf_colormap.ValueChangedFcn = createCallbackFcn(app, @on_surf_changed, true);
             app.surf_colormap.Position = [64 115 94 22];
-            app.surf_colormap.Value = 'parula';
+            app.surf_colormap.Value = 'turbo';
 
             % Create scene_time
             app.scene_time = uilabel(app.ui_figure);
