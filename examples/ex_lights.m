@@ -39,8 +39,7 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     pl.include("shapes");
     pl.global_settings("assumed_gamma 1");
     
-    pl.camera('angle', 25, 'location', [35 20 19], 'look_at', [0 1 3], 'type', 'perspective');
-    % pl.light('location', [100 200 300], 'color', [0.4 0.4 0.4]);
+    pl.camera('angle', 25, 'location', [30 15 14], 'look_at', [0 8.7 4.5], 'type', 'perspective');
     pl.axis('length', [10 10 10]);
     
     % Axis planes
@@ -53,24 +52,52 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_blue,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
     
     % Light marks
-    for y = 4:6
+    s = 4;
+    e = 14;
+    n = e - s;
+    for y = s:e
+        r =  ((y - s) / n);
         pl.sphere('position', [2 y 2], 'radius', 0.4, 'texture', 'Yellow_Glass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-        g = 0.1 * y;
-        pl.light('location',  [2 y 2], 'color', [0.4 g 0.4]);
+        % pl.light('location',  [2 y 2], 'color', [0.4 g 0.4]);
+        pl.light('location',  [2 y 2], 'color', [r 0.4 0.4]);
     end
 
-    for y = 4:6
+    for y = s:e
+        g =  ((y - s) / e);
         pl.sphere('position', [2 y 3], 'radius', 0.4, 'texture', 'Dark_Green_Glass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-        g = 0.1 * y;
         pl.light('location',  [2 y 3], 'color', [0.4 g 0.4]);
     end
 
-    for y = 4:6
+    for y = s:e
+        g =  ((y - s) / e);
         pl.sphere('position', [2 y 4], 'radius', 0.4, 'texture', 'NBwinebottle', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-        g = 0.1 * y;
-        pl.light('location',  [2 y 4s], 'color', [0.4 g 0.4]);
+        pl.light('location',  [2 y 4], 'color', [0.4 g 0.4]);
     end
 
+    for y = s:e
+        g =  ((y - s) / e);
+        pl.sphere('position', [2 y 5], 'radius', 0.4, 'texture', 'NBoldglass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+        pl.light('location',  [2 y 5], 'color', [0.4 g 0.4]);
+    end
+
+    for y = s:e
+        r =  ((y - s) / e);
+        pl.sphere('position', [2 y 6], 'radius', 0.4, 'texture', 'NBglass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+        pl.light('location',  [2 y 6], 'color', [r 0.4 0.4]);
+    end
+
+    for y = s:e
+        r =  ((y - s) / e);
+        pl.sphere('position', [2 y 7], 'radius', 0.4, 'texture', 'Orange_Glass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+        pl.light('location',  [2 y 7], 'color', [r 0.4 0.4]);
+    end
+
+    for y = s:e
+        r =  ((y - s) / e);
+        pl.sphere('position', [2 y 8], 'radius', 0.4, 'texture', 'Vicks_Bottle_Glass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+        pl.light('location',  [2 y 8], 'color', [r 0.4 0.4]);
+    end
+    
 pl.scene_end();
 % Render scene and show image
 
