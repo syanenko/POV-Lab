@@ -1,11 +1,11 @@
-%% Lathe method usage example
+%% Lathe usage example
 % Common setup for all examples
 
 ex_setup
-% Start time measurement
+% Start timer
 
-tic % Time measure
-% Create povlab object
+tic
+% Create _povlab_ object
 
 pl = povlab( povray_version,...
              povray_path, ...
@@ -73,12 +73,6 @@ tex_grid_blue  = pl.declare("tex_grid_blue",  pl.texture('pigment', [0.0 0.0 1.0
 pl.grid('width', 10, 'height', 10, 'radius', 0.01,                     'translate', [5 0 5]);
 pl.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [ 0 0 90], 'translate', [0 5 5]);
 pl.grid('width', 10, 'height', 10, 'radius', 0.01,'rotate', [90 0  0], 'translate', [5 5 0]);
-
-% Objects textures
-tex_red   = pl.declare("tex_red",   pl.texture('pigment', [1 0 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-tex_green = pl.declare("tex_green", pl.texture('pigment', [0 1 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-tex_blue  = pl.declare("tex_blue",  pl.texture('pigment', [0 0 1], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-tex_pink  = pl.declare("tex_pink",  pl.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
 
 % linear_spline | quadratic_spline | cubic_spline | bezier_spline
 pl.lathe('points', [0.00 0.00; 0.22 0.00; 0.62 0.54; 0.21 0.83; 0.19 1.46; 0.29 1.50; 0.26 1.53],...
