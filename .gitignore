@@ -1,6 +1,7 @@
 
 *.asv
 *.bak
-tests
-images
+_tests
+_images
+_notes
 **/out
