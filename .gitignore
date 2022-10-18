@@ -2,4 +2,5 @@
 *.asv
 *.bak
 tests
+images
 **/out
