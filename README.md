@@ -8,13 +8,11 @@ Extension of Matlab visualisation system by external raytracer - [POV-Ray](http:
 The project is experimental and in active development now.\
 To start working with this toolbox:
 
-1. Install it in Matlab
-2. Install [POV-Ray](http://www.povray.org/) in your system
-3. Edit ex_setup.m file according to location of POV ray and desired image quality
-4. Play with examples - try to uncomment code and explore different behaviour
-5. Send feedback about issues and suggestion for future development
-
-Try it !
+1. Install it in Matlab.
+2. Install [POV-Ray](http://www.povray.org/) in your system.
+3. Edit ex_setup.m file according to location of POV ray and desired image quality.
+4. Play with examples - try to uncomment code and explore different behaviour.
+5. Send feedback about issues and suggestion for future development.
 
 More about POV-Ray:
 https://wiki.povray.org/content/Documentation:Contents
