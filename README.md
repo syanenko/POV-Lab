@@ -3,7 +3,7 @@
 
 ![mesh_small](https://user-images.githubusercontent.com/6688301/213527450-cd21fa64-6833-4a6d-97dd-49defe29e123.png)
 
-Extension of Matlab visualisation system by external raytracer - [POV-Ray](http://www.povray.org/) to improve quality of generated images.
+Extension of Matlab visualisation system by external raytracer - [POV-Ray](http://www.povray.org/).
 
 The project is experimental and in active development now.\
 To start working with this toolbox:
