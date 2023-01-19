@@ -12,7 +12,8 @@ To start working with this toolbox:
 2. Install [POV-Ray](http://www.povray.org/) in your system.
 3. Edit ex_setup.m file according to location of POV ray and desired image quality.
 4. Play with examples - try to uncomment code and explore different behaviour.
-5. Send feedback about issues and suggestion for future development.
+5. Run applications - 'app_surface' for surface and 'app_volume' for volume visualizations.
+6. Send feedback about issues and suggestion for future development.
 
 More about POV-Ray:
 https://wiki.povray.org/content/Documentation:Contents
