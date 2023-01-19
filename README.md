@@ -16,3 +16,5 @@ Try it !
 
 More about POV-Ray:
 https://wiki.povray.org/content/Documentation:Contents
+
+[![View POV-Lab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab)
