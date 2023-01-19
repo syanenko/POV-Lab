@@ -688,7 +688,7 @@ classdef povlab < handle
                 for j=1:n
                     fprintf(o.fh, '<%0.2f, %0.2f, %0.2f>, %0.2f\n', xdata(j), ydata(j), zdata(j), width);
                 end
-                fprintf(o.fh, ['tolerance 0.1\n\nmaterial{ texture { Orange_Glass }' ...
+                fprintf(o.fh, ['tolerance 0.1\n\nmaterial{ texture { Dark_Green_Glass }' ...
                                   'interior{ I_Glass }}\n}']);
             end
         end
@@ -727,7 +727,7 @@ classdef povlab < handle
             end
             % fprintf(o.fh, '}\npigment {rgb 1}\n}');
             % TODO: Glass test
-                        fprintf(o.fh, ['}\nmaterial{ texture { Orange_Glass }' ...
+                        fprintf(o.fh, ['}\nmaterial{ texture { Dark_Green_Glass }' ...
                                           'interior{ I_Glass }}\n}']);
         end
 
