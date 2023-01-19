@@ -6,7 +6,7 @@
 Extension of Matlab visualisation system by external raytracer - [POV-Ray](http://www.povray.org/).
 
 The project is experimental and in active development now.\
-To start working with this toolbox:
+To start working with toolbox:
 
 1. Install it in Matlab.
 2. Install [POV-Ray](http://www.povray.org/) in your system.
