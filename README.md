@@ -10,7 +10,7 @@ To start working with toolbox:
 
 1. Install it in Matlab.
 2. Install [POV-Ray](http://www.povray.org/) in your system.
-3. Edit ex_setup.m file according to location of POV ray and desired image quality.
+3. Edit ex_setup.m file according to location of POV-Ray and desired image quality.
 4. Play with examples - try to uncomment code and explore different behaviour.
 5. Run applications - 'app_surface' for surface and 'app_volume' for volume visualizations.
 6. Send feedback about issues and suggestion for future development.
