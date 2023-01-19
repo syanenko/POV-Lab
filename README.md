@@ -14,7 +14,7 @@ To start working with toolbox:
 4. Play with examples - try to uncomment code and explore different behaviour.
 5. Run applications - 'app_surface' for surface and 'app_volume' for volume visualizations.
 
-Please fill free to send feedback about issues and suggestion for future development.
+Please feel free to send feedback about issues and suggestion for future development.
 
 More about POV-Ray:
 https://wiki.povray.org/content/Documentation:Contents
