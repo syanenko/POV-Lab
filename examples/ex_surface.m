@@ -17,7 +17,7 @@ pl.include_begin('camera');
     % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
     %       omnimax | panoramic | cylinder CylinderType (<int[1..4]>) | spherical
     %pl.camera();
-    pl.camera('angle', 45, 'location', [-10 -14 7], 'look_at', [0 0 0], 'type', 'perspective');
+    pl.camera('angle', 45, 'location', [-8 -10 5], 'look_at', [0 0 0], 'type', 'perspective');
     
     % pl.camera('angle', 35, 'location', [12 12 5], 'look_at', [0 1 0]);
     % pl.camera('location', [12 12 12], 'look_at', [0 1 0]);
@@ -48,7 +48,7 @@ pl.include_begin('helpers');
     % Axis
     % pl.axis();
     % pl.axis('length', [5 5 4], 'radius', 0.07);
-    pl.axis('length', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
+    % pl.axis('length', [10 10 10], 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
     
     % Grid
     % tex_grid_gray  = pl.declare("tex_grid_gray",  pl.texture('pigment', [0.5 0.5 0.5], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
@@ -56,8 +56,8 @@ pl.include_begin('helpers');
     % tex_grid_green = pl.declare("tex_grid_green", pl.texture('pigment', [0.0 1.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
     % tex_grid_blue  = pl.declare("tex_grid_blue",  pl.texture('pigment', [0.0 0.0 1.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
     
-    pl.grid('width', 10, 'height', 10);
-    %pl.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5], 'texture_odd', tex_grid_green, 'texture_even', tex_grid_gray);
+    %pl.grid('width', 10, 'height', 10);
+    % pl.grid_2D('width', 10, 'height', 10,                      'translate', [5 0 5], 'texture_odd', tex_grid_green, 'texture_even', tex_grid_gray);
     % pl.grid_2D('width', 10, 'height', 10, 'rotate', [ 0 0 90], 'translate', [0 5 5], 'texture_odd', tex_grid_blue,  'texture_even', tex_grid_gray);
     % pl.grid_2D('width', 10, 'height', 10, 'rotate', [90 0  0], 'translate', [5 5 0], 'texture_odd', tex_grid_red,   'texture_even', tex_grid_gray);
     
@@ -157,7 +157,7 @@ pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
     % pl.mesh('surface', s, 'texture_odd', 'Dark_Green_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
     % pl.mesh('surface', s, 'texture_odd', 'Ruby_Glass', 'texture_even', 'Aluminum', 'smooth', true, 'rotate', [90, 0, 0], 'scale', [1.5, 1.5, 1.5]);
     
-    pl.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'Dark_Green_Glass');
+    pl.surface('surface', s, 'smooth', false, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Tinny_Brass', 'texture_even', 'Orange_Glass');
     
     % pl.difference_begin();
     %     %pl.sphere();

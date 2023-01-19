@@ -6,15 +6,13 @@ ex_setup
 
 tic
 % Create _povlab_ object
-
 pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
-% Create scene
 
+% Create scene
 pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
 pl.include("shapes");
-
 pl.global_settings("assumed_gamma 1");
 
 % Camera
