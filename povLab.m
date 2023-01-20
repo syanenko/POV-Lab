@@ -312,17 +312,20 @@ classdef povlab < handle
         function tex = texture(o, varargin)
             % texture method help
             p = inputParser;
-            addParameter(p,'pigment_odd',  [0 0 0],  @o.check_vector3);
-            addParameter(p,'pigment_even', [0 0 0],  @o.check_vector3);
-            addParameter(p,'finish',  "tex_default", @o.check_string);
+            addParameter(p,'base', 'Polished_Chrome', @o.check_string);
+            addParameter(p,'pigment_odd',  [0 0 0],   @o.check_vector3);
+            addParameter(p,'pigment_even', [0 0 0],   @o.check_vector3);
+            addParameter(p,'finish',  "tex_default",  @o.check_string);
             parse(p,varargin{:});
+            base = p.Results.base;
             pigment_odd = p.Results.pigment_odd;
             pigment_even = p.Results.pigment_even;
             finish  = p.Results.finish;
 
-            tex = sprintf(['texture { Polished_Chrome\n' ...
+            tex = sprintf(['texture { %s\n' ...
                            '          pigment{ checker color rgb <%0.2f, %0.2f, %0.2f> color rgb <%0.2f, %0.2f, %0.2f>  }\n'...
                            '          finish { %s }}\n'], ...
+                           base, ...
                            pigment_odd(1), pigment_odd(2), pigment_odd(3), ...
                            pigment_even(1), pigment_even(2), pigment_even(3),...
                            finish);
@@ -581,6 +584,46 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        % Wire box
+        function wire_box(o, varargin)
+            % sphere method help
+            p = inputParser;
+            addParameter(p,'llf_corner', [0 0 0],      @o.check_vector3);
+            addParameter(p,'urb_corner', [0 0 0],      @o.check_vector3);
+            addParameter(p,'radius',     1.0,          @o.check_positive_float);
+            addParameter(p,'merge',      false,        @islogical);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',      [1 1 1],      @o.check_vector3);
+            addParameter(p,'rotate',     [0 0 0],      @o.check_vector3);
+            addParameter(p,'translate',  [0 0 0],      @o.check_vector3);
+            parse(p,varargin{:});
+
+            llf_corner = p.Results.llf_corner;
+            urb_corner = p.Results.urb_corner;
+            radius     = p.Results.radius;
+            merge      = p.Results.merge;
+            if(merge)
+                merge = 1;
+            else 
+                merge = 0;
+            end    
+            texture    = p.Results.texture;
+            scale      = p.Results.scale;
+            rotate     = p.Results.rotate;
+            translate  = p.Results.translate;
+
+            % Write
+            fprintf(o.fh, ['object{ Wire_Box (<%0.2f, %0.2f, %0.2f>\n'...
+                           '          <%0.2f, %0.2f, %0.2f>, %0.2f, %0.2f)\n'...
+                           '          texture { %s }\n'],...
+                           llf_corner(1), llf_corner(2), llf_corner(3), ...
+                           urb_corner(1), urb_corner(2), urb_corner(3), ...
+                           radius,...
+                           merge,...
+                           texture);
+            o.write_transforms(scale, rotate, translate);
+        end
+
         % Plot
         function plot(o, varargin)
             % plot method help
