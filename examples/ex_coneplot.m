@@ -20,7 +20,7 @@ pl.include("golds");
 pl.global_settings("assumed_gamma 1");
 
 % Camera
-pl.camera('angle', 35, 'location', [40 80 30], 'look_at', [9.5 0 0]);
+pl.camera('angle', 50, 'location', [30 50 15], 'look_at', [9 0 1]);
 
 % Lights
 pl.light('location', [40 80 30],  'color', [2 2 2], 'shadowless', true);
@@ -38,24 +38,13 @@ n = 41;
 p = 15;
 [~,n,p] = size(u);
 
-% Streamtube
-% [Sx, Sy, Sz] = meshgrid(1,1:5:n,1:5:p);
-% st = streamtube(u,v,w,Sx,Sy,Sz);
-% pl.streamtube('data', st);
-
 % Coneplot
 [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
 cp = coneplot(u,v,w,Cx,Cy,Cz,y,5);
 pl.coneplot('data', cp);
 
-axis tight equal
-view(37,32)
-box on
-colormap(hsv)
-light
-
 pl.scene_end();
-% TODO: Allow afer writing to scene in pov_coneplot
+
 img = pl.render();
 imshow(img);
 % Elapsed time
