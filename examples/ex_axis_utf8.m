@@ -18,8 +18,8 @@ pl.include_end();
 % Create _lights_ objects and put them in separate include file to save rendering time in future
 
 pl.include_begin('lights');
-    pl.light('location', [10 10 7], 'color', [3 3 3], 'shadowless', true);
-    pl.light('location', [-10 10 30],  'color', [3 3 3], 'shadowless', true);
+    pl.light('location', [10 10 7],     'color', [3 3 3], 'shadowless', true);
+    pl.light('location', [-10 10 30],   'color', [3 3 3], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [1 1 1], 'shadowless', true);
 pl.include_end();
 % Create environment objects and put them in separate include file to save rendering time in future
