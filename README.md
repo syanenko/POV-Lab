@@ -3,7 +3,7 @@
 
 ![volume_app](https://user-images.githubusercontent.com/6688301/213602009-0009baa7-1bfd-4088-9b81-380442ef1eff.png)
 
-Extension of Matlab visualisation system by external raytracer - [POV-Ray](http://www.povray.org/).
+Extends Matlab's visualisation system by external raytracer - [POV-Ray](http://www.povray.org/).
 
 The project is experimental and in active development now.\
 To start working with toolbox:
