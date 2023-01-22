@@ -325,7 +325,7 @@ classdef povlab < handle
             pigment_even = p.Results.pigment_even;
             finish  = p.Results.finish;
 
-            if exist('pigment', 'var')
+            if (~ismember('pigment',p.UsingDefaults))
                pigment_odd  = pigment;
                pigment_even = pigment;
             end

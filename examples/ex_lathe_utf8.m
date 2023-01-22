@@ -25,8 +25,12 @@ pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
     pl.light('location', [23 6 11], 'color', [0.6 0.6 0.6]);
     
     % Floor
-    tex = pl.declare("tex",   pl.texture('pigment_odd', [4.4 4.4 4.4], 'pigment_even', [0.1 0.1 0.1], 'finish', "phong 1 reflection {0.4 metallic 0.2}"));
-    pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    tex = pl.declare("tex", pl.texture('pigment_odd', [4 4 4], 'pigment_even', [0 0 0], 'finish', "phong 1 reflection {0.4 metallic 0.2}"));
+    pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);    
+    
+    % Limit
+    tex_gray = pl.declare("tex_gray", pl.texture('pigment', [0.4 0.4 0.4], 'finish', "phong 1 reflection {0.4 metallic 0.2}"));
+    pl.plane('normal', [1,0,1], 'distance', -20, 'texture', tex_gray,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
     
     % Bottle 1
     pl.lathe('points', [0.00 0.00; 0.35 0.00; 0.62 0.54; 0.21 0.83; 0.19 1.46; 0.29 1.50; 0.26 1.53],...
@@ -40,7 +44,7 @@ pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
             'spline_type', 'quadratic_spline',...
             'sturm', true,...
             'texture', 'Orange_Glass',...
-            'scale', [2.7 3.7 2.7], 'rotate', [ 90 0 0], 'translate', [7 7 0]);
+            'scale', [2.7 3.7 2.7], 'rotate', [ 90 0 0], 'translate', [6.5 7.5 0]);
     
     % Bottle 3
     pl.lathe('points', [0.00 0.00; 0.36 0.00; 0.62 0.54; 0.21 0.83; 0.19 1.46; 0.29 1.50; 0.26 1.53],...
