@@ -43,6 +43,7 @@ pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
 
     pl.axis('length', [4 4 4]);
 pl.scene_end();
+% Render and display
 
 image = pl.render();
 imshow(image);
@@ -59,6 +60,7 @@ pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');
 
     pl.axis('length', [4 4 4], 'radius', 0.07, 'tex_common', tex_axis_gray, 'tex_x', tex_axis_yellow, 'tex_y', tex_axis_yellow, 'tex_z', tex_axis_yellow);
 pl.scene_end();
+% Render and display
 
 image = pl.render();
 imshow(image);

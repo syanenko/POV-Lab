@@ -72,7 +72,7 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     end
     
 pl.scene_end();
-% Render scene and show image
+% Render and display
 
 img = pl.render();
 imshow(img);

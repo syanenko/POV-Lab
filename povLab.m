@@ -314,14 +314,21 @@ classdef povlab < handle
             % texture method help
             p = inputParser;
             addParameter(p,'base', 'Polished_Chrome', @o.check_string);
+            addParameter(p,'pigment',      [0 0 0],   @o.check_vector3);
             addParameter(p,'pigment_odd',  [0 0 0],   @o.check_vector3);
             addParameter(p,'pigment_even', [0 0 0],   @o.check_vector3);
             addParameter(p,'finish',  "tex_default",  @o.check_string);
             parse(p,varargin{:});
             base = p.Results.base;
-            pigment_odd = p.Results.pigment_odd;
+            pigment      = p.Results.pigment;
+            pigment_odd  = p.Results.pigment_odd;
             pigment_even = p.Results.pigment_even;
             finish  = p.Results.finish;
+
+            if exist('pigment', 'var')
+               pigment_odd  = pigment;
+               pigment_even = pigment;
+            end
 
             tex = sprintf(['texture { %s\n' ...
                            '          pigment{ checker color rgb <%0.2f, %0.2f, %0.2f> color rgb <%0.2f, %0.2f, %0.2f>  }\n'...
