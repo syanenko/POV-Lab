@@ -5,7 +5,7 @@ ex_setup
 % Start timer
 
 tic
-% Create _povlab_ object
+% _Povlab_ object
 
 pl = povlab( povray_version,...
              povray_path, ...
@@ -38,6 +38,7 @@ pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane_yellow, 'translate', [0 1 0]);
 
 pl.scene_end();
+% Render and display
 
 image = pl.render();
 imshow(image);
