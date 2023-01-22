@@ -54,8 +54,9 @@ classdef povlab < handle
             if nargin == 3
                 o.version = version;
                 o.pov_path = pov_path;
-                
                 o.out_dir = out_dir;
+
+                fclose('all');
                 if exist(o.out_dir, 'dir')
                     rmdir(o.out_dir, 's')
                 end
