@@ -19,7 +19,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     pl.global_settings("assumed_gamma 1");
     
     % Camera
-    pl.camera('angle', 45, 'location', [130 105 80], 'look_at', [105 35 -1], 'type', 'perspective');
+    pl.camera('angle', 48, 'location', [140 110 45], 'look_at', [105 37 1], 'type', 'perspective');
     
     % Lights
     pl.light('location', [130 105 80], 'color', [4 4 4], 'shadowless', true);    
@@ -31,7 +31,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     [m,n,p] = size(u);
     
     % Bounding box
-    tex =  pl.declare("tex_green", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.3 0.3 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
+    tex =  pl.declare("tex_green", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.2 0.2 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
     pl.wire_box('llf_corner', [80 15 0], 'urb_corner', [135 60 16], 'radius', 0.2, 'texture', tex);
     
     % Streamline
