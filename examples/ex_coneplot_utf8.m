@@ -24,7 +24,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     pl.camera('angle', 50, 'location', [30 50 15], 'look_at', [9 0 1]);
     
     % Lights
-    pl.light('location', [40 80 30],  'color', [2 2 2], 'shadowless', true);
+    pl.light('location', [30 50 15],  'color', [8 8 8], 'shadowless', true);
     pl.light('location', [0 0 0],     'color', [40 60 20], 'shadowless', true);
     
     % Wind for streams
@@ -32,8 +32,8 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     [m,n,p] = size(u);
     
     % Bounding box
-    tex =  pl.declare("tex_green", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.1 0.3 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
-    pl.wire_box('llf_corner', [0 0 0], 'urb_corner', [m n p], 'radius', 0.1, 'texture', tex);
+    tex =  pl.declare("tex", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.2 0.2 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
+    pl.wire_box('llf_corner', [0 0 0], 'urb_corner', [m n p], 'radius', 0.15, 'texture', tex);
     
     % Coneplot
     [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);

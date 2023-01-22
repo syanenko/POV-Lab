@@ -47,7 +47,7 @@ pl.scene_end();
 
 image = pl.render();
 imshow(image);
-% *Axis of custom color and thickness*  
+% *Axis of custom color and thickness*
 
 
 pl.scene_begin('scene_file', 'mesh.pov', 'image_file', 'mesh.png');

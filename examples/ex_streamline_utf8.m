@@ -32,7 +32,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     
     % Bounding box
     tex =  pl.declare("tex_green", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.2 0.2 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
-    pl.wire_box('llf_corner', [80 15 0], 'urb_corner', [135 60 16], 'radius', 0.2, 'texture', tex);
+    pl.wire_box('llf_corner', [80 15 0], 'urb_corner', [135 60 16], 'radius', 0.15, 'texture', tex);
     
     % Streamline
     [sx,sy,sz] = meshgrid(80, 0:3:n, 0:3:p);
