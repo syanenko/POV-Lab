@@ -284,7 +284,7 @@ classdef povlab < handle
             addParameter(p,'width',        2,               @o.check_positive_int);
             addParameter(p,'height',       2,               @o.check_positive_int);
             addParameter(p,'radius',       0.02,            @o.check_positive_float);
-            addParameter(p,'texture',      "tex_grid_odd",  @o.check_string); % TODO: Replace !
+            addParameter(p,'texture',      "tex_grid",      @o.check_string);
             addParameter(p,'texture_odd',  "tex_grid_odd",  @o.check_string);
             addParameter(p,'texture_even', "tex_grid_even", @o.check_string);
             addParameter(p,'scale',        [1 1 1],         @o.check_vector3);
@@ -296,7 +296,7 @@ classdef povlab < handle
             width        = p.Results.width;
             height       = p.Results.height;
             radius       = p.Results.radius;
-            texture      = p.Results.texture_odd;
+            texture      = p.Results.texture;
             texture_odd  = p.Results.texture_odd;
             texture_even = p.Results.texture_even;
             scale        = p.Results.scale;

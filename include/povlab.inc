@@ -25,11 +25,15 @@ union{
 //
 // Grid
 // 
-#declare tex_grid_even = texture { pigment{ color rgb<0.8,0.8,0.8>}
+#declare tex_grid      = texture { pigment{ color rgb<1,1,1>}
                                    finish { phong 1}}
 
 #declare tex_grid_odd  = texture { pigment{ color rgb<1,1,1>}
                                    finish { phong 1}}
+
+#declare tex_grid_even = texture { pigment{ color rgb<0.8,0.8,0.8>}
+                                   finish { phong 1}}
+
 
 #macro grid(name, cell_size, grid_width, grid_height, grid_radius, tex_odd, tex_even)
 
