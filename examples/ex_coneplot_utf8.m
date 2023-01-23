@@ -39,7 +39,6 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     [Cx, Cy, Cz] = meshgrid(1:4:m,1:4:n,1:4:p);
     cp = coneplot(u,v,w,Cx,Cy,Cz,y,5);
     pl.coneplot('data', cp);
-
 pl.scene_end();
 % Render and display
 
