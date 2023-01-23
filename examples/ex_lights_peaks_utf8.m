@@ -5,12 +5,12 @@ ex_setup
 % Start timer
 
 tic
-% Create povlab object
+% Povlab object
 
 pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
-% Create scene
+% Scene
 
 pl.scene_begin('scene_file', 'lights_peaks.pov', 'image_file', 'lights_peaks.png');
     pl.include("shapes");
@@ -32,7 +32,7 @@ pl.scene_begin('scene_file', 'lights_peaks.pov', 'image_file', 'lights_peaks.png
     end
     
 pl.scene_end();
-% Render scene and show image
+% Render and display
 
 img = pl.render();
 imshow(img);

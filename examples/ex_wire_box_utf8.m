@@ -1,4 +1,4 @@
-%% 'axis' method usage example
+%% 'wire_box' method usage example
 % Common setup for all examples
 
 ex_setup
@@ -34,7 +34,7 @@ pl.include_begin('environment');
                       'scale 1  }}']);
 pl.include_end();
 
-% Standard axis
+% Scene
 
 pl.scene_begin('scene_file', 'wire_box.pov', 'image_file', 'wire_box.png');
     pl.include("shapes");

@@ -46,7 +46,8 @@ pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
     pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Gold_Nugget', 'texture_even', 'T_Ruby_Glass');
 pl.scene_end();
 
-% Rendering and display
+% Render and display
+
 image = pl.render();
 imshow(image);
 % Scene 2
@@ -66,7 +67,8 @@ pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
 
 pl.scene_end();
 
-% Rendering and display
+% Render and display
+
 image = pl.render();
 imshow(image);
 % Scene 3
@@ -88,9 +90,10 @@ pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
 
 pl.scene_end();
 
-% Rendering and display
+% Render and display
+
 image = pl.render();
 imshow(image);
 % Display elapsed time
 
-toc % Elapsed time
+toc

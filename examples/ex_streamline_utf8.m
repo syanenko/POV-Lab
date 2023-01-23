@@ -47,7 +47,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     colormap(hsv)
     light
 pl.scene_end();
-% Rendering and display
+% Render and display
 
 img = pl.render();
 imshow(img);

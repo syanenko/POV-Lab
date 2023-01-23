@@ -41,7 +41,7 @@ pl.scene_begin('scene_file', 'lights_spiral.pov', 'image_file', 'lights_spiral.p
     end
     
 pl.scene_end();
-% Render scene and show image
+% Render and display
 
 img = pl.render();
 imshow(img);
