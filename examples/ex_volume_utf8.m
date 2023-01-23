@@ -15,9 +15,6 @@ pl = povlab( povray_version,...
 load mri;
 data = squeeze(D);
 data = data(:,:,1:27);
-
-% Check result
-% histogram(data, 100)
 % Normilize data
 
 dmax = max(data(:));
