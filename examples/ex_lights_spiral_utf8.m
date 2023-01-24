@@ -17,19 +17,18 @@ pl.scene_begin('scene_file', 'lights_spiral.pov', 'image_file', 'lights_spiral.p
     pl.global_settings("assumed_gamma 1");
     
     % Camera
-    pl.camera('angle', 25, 'location', [22 18 13], 'look_at', [0 -0.8 4], 'type', 'perspective');
+    pl.camera('angle', 28, 'location', [22 18 -5], 'look_at', [0 0 4.5], 'type', 'perspective');
     
     % Light
     pl.light('location',  [10 -10 10], 'color', [1 1 1]);
     
-    % Marks amount
-    nmarks = 100;
-    
-    % Create
+    % Create spiral
+    nmarks = 150;
+    distance = 6.5
     r = linspace(0,1,nmarks);
-    theta = linspace (0, 6*pi, nmarks);
-    x = r.*cos(theta) * 6;
-    y = r.*sin(theta) * 6;
+    theta = linspace (0, distance * pi, nmarks);
+    x = r.*cos(theta) * distance;
+    y = r.*sin(theta) * distance;
     z = theta / 3;
     
     % Display preview

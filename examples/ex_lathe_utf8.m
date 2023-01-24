@@ -25,8 +25,7 @@ pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
     pl.light('location', [2.5 4.7 12], 'color', [0.2 0.2 0.2]);
     pl.light('location', [8 2.7 12],   'color', [0.2 0.2 0.2]);
     pl.light('location', [7.5 7.5 12], 'color', [0.1 0.1 0.1]);
-
-    pl.light('location', [23 7 7], 'color', [0.1 0.1 0.1]);
+    pl.light('location', [23 7 7],     'color', [0.1 0.1 0.1]);
 
     % Walls
     tex_plane  = pl.declare("tex_plane", pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1], 'finish', "phong 1 reflection {0.05 metallic 0.4}"));    
