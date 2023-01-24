@@ -39,11 +39,11 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     pl.difference_begin();
         pl.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 1 0]);
         pl.union_begin();
-              pl.sphere('position', [2 1 2], 'radius', 0.7, 'texture', tex_red,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-              pl.sphere('position', [2 3 1], 'radius', 0.8, 'texture', tex_blue, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
-              pl.sphere('position', [1 2 3], 'radius', 1.0, 'texture', tex_pink, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+              pl.sphere('position', [2 1 1.5], 'radius', 0.7, 'texture', tex_red);
+              pl.sphere('position', [2 3 1],   'radius', 0.8, 'texture', tex_blue);
+              pl.sphere('position', [1 2 3],   'radius', 1.1, 'texture', tex_pink);
          pl.union_end('translate', [0.3 0.3 0.3]);
-    pl.difference_end('translate', [0 8 4]);
+    pl.difference_end('translate', [0 8.5 5],  'rotate', [0 10 0], 'scale', [1.15 1.15 1.15]);
     
     pl.difference_begin();
         pl.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
@@ -51,7 +51,7 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_blue, 'translate', [3.5 0 0]);
         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_green, 'translate', [2.5 2.5 0]);
         pl.cylinder('base_point', [0 0 -8], 'cap_point', [0 0 10], 'radius', 1, 'texture', tex_green, 'translate', [0 2 4.5], 'rotate', [90 90 90]);    
-    pl.difference_end('translate', [0 1.8 0]);
+    pl.difference_end('translate', [0 1.8 0], 'scale', [1.1 1.1 1.1]);
 
 pl.scene_end();
 % Render and display
