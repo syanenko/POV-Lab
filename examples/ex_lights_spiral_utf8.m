@@ -16,9 +16,11 @@ pl.scene_begin('scene_file', 'lights_spiral.pov', 'image_file', 'lights_spiral.p
     pl.include("shapes");
     pl.global_settings("assumed_gamma 1");
     
+    % Camera
     pl.camera('angle', 25, 'location', [22 18 13], 'look_at', [0 -0.8 4], 'type', 'perspective');
+    
+    % Light
     pl.light('location',  [10 -10 10], 'color', [1 1 1]);
-    pl.axis('length', [7 7 7]);
     
     % Marks amount
     nmarks = 100;
