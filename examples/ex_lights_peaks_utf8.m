@@ -16,7 +16,10 @@ pl.scene_begin('scene_file', 'lights_peaks.pov', 'image_file', 'lights_peaks.png
     pl.include("shapes");
     pl.global_settings("assumed_gamma 1");
     
+    % Camare
     pl.camera('angle', 25, 'location', [24 20 15], 'look_at', [0 0 2.5], 'type', 'perspective');
+    
+    % Light
     pl.light('location',  [10 10 10], 'color', [1 1 1]);
         
     % Light marks

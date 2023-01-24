@@ -16,7 +16,6 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     pl.include("shapes");
     
     pl.global_settings("assumed_gamma 1");
-    pl.axis('length', [4 4 4]);
 
     % Camera
     pl.camera('angle', 35, 'location', [28 15 10], 'look_at', [0 6 3.5], 'type', 'perspective');
@@ -28,7 +27,6 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     % Walls
     tex_plane  = pl.declare("tex_plane",   pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1], 'finish', "phong 1 reflection {0.05 metallic 0.4}"));    
     pl.plane('normal', [1,0,0], 'distance', -10, 'texture', tex_plane', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 1]);
-    % pl.plane('normal', [0,1,0], 'distance', 0, 'texture', tex_plane', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
     pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_plane', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
     
     % Objects textures
@@ -49,9 +47,9 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     
     pl.difference_begin();
         pl.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
-        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_pink);
+        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_red);
         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_blue, 'translate', [3.5 0 0]);
-        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_red, 'translate', [2.5 2.5 0]);
+        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8], 'radius', 1, 'texture', tex_green, 'translate', [2.5 2.5 0]);
         pl.cylinder('base_point', [0 0 -8], 'cap_point', [0 0 10], 'radius', 1, 'texture', tex_green, 'translate', [0 2 4.5], 'rotate', [90 90 90]);    
     pl.difference_end('translate', [0 1.8 0]);
 
