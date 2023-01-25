@@ -650,9 +650,9 @@ classdef povlab < handle
                         tex = sprintf('                     texture{%s}', texture);
                       else
                         if(mod(i+j,2) == 1)
-                            tex = sprintf('texture{%s}', texture_even);
+                            tex = sprintf('                     texture{%s}', texture_even);
                         else
-                            tex = sprintf('texture{%s}', texture_odd);
+                            tex = sprintf('                     texture{%s}', texture_odd);
                         end
                     end
                 end
