@@ -579,7 +579,7 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
-        % Mesh
+        % Surface
         function surface(o, varargin)
             % Creates textured mesh from surface, retuned by Matlab's 'surf'
             % function
@@ -606,17 +606,21 @@ classdef povlab < handle
             rotate       = p.Results.rotate;
             translate    = p.Results.translate;
 
-            no_tex_odd  = strcmp(texture_odd,  "");
-            no_tex_even = strcmp(texture_even, "");
-            if(no_tex_odd)
+            has_tex = ~ismember('texture', p.UsingDefaults);
+            has_tex_odd  = ~strcmp(texture_odd,  "");
+            has_tex_even = ~strcmp(texture_even, "");
+
+            use_colormap = ~has_tex_odd && ~has_tex_even && ~has_tex;
+
+            if(~has_tex_odd)
                 texture_odd = texture;
             end
-
-            if(no_tex_even)
+            
+            if(~has_tex_even)
                 texture_even = texture;
             end
 
-            if(no_tex_odd && no_tex_even)
+            if(use_colormap)
                 cdata = surface.CData;
                 cmap = colormap(cmap_name);
                 cmin = min(cdata(:));
@@ -627,7 +631,7 @@ classdef povlab < handle
             end
 
             function tex = get_texture(i,j,n)
-                if(no_tex_odd && no_tex_even)
+                if(use_colormap)
                      if(n==1)
                         mi=i+1;
                         mj=j;
@@ -642,11 +646,14 @@ classdef povlab < handle
                                     RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3),...
                                     RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
                                     RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
-                else
-                    if(mod(i+j,2) == 1)
-                        tex = sprintf('texture{%s}', texture_even);
-                    else
-                        tex = sprintf('texture{%s}', texture_odd);
+                else if(has_tex)
+                        tex = sprintf('texture{%s}', texture);
+                      else
+                        if(mod(i+j,2) == 1)
+                            tex = sprintf('texture{%s}', texture_even);
+                        else
+                            tex = sprintf('texture{%s}', texture_odd);
+                        end
                     end
                 end
             end

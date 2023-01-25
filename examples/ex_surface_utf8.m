@@ -14,7 +14,7 @@ pl = povlab( povray_version,...
 
 pl.include_begin('lights');
     pl.light('location', [-10 -17 7],   'color', [2 2 2], 'shadowless', true);
-    pl.light('location', [0 0 0],       'color', [4 4 4], 'shadowless', true);
+%    pl.light('location', [0 0 0],       'color', [4 4 4], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [1 1 1], 'shadowless', true);
 pl.include_end();
 % Environment
@@ -24,7 +24,7 @@ pl.include_begin('environment');
                       'color_map{ [0   color rgb<0.0,0.0, 0.0> ] '...
                                  '[0.4 color rgb<0.01, 0.01, 0.01>   ] '...
                                  '[0.9 color rgb<0.05, 0.05, 0.05>   ]  '...
-                                 '[1.0 color rgb<0.1,0.1,0.1>     ]} '...
+                                 '[1.0 color rgb<0.9,  0.9,  0.9>    ]} '...
                       'scale 1  }}']);
     pl.global_settings("assumed_gamma 1");
 pl.include_end();
@@ -32,24 +32,34 @@ pl.include_end();
 % Scene 1
 
 pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
-    pl.include("lights");
     pl.include("environment");    
     pl.include("textures");
     pl.include("glass");
     pl.include("metals");
        
+    % Camera
     pl.camera('angle', 35, 'location', [-10 -10 6], 'look_at', [0 0 0], 'type', 'perspective');
+
+    % Lights
+    pl.light('location', [-10 -17 7],   'color', [3 3 3], 'shadowless', true);
+    pl.light('location', [100 200 300], 'color', [2 2 2], 'shadowless', true);
+    
+    % Surface
     size = 60;
     [X,Y,Z] = peaks(size);
     s = surf(X,Y,Z);
+    % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture_odd', 'Gold_Nugget', 'texture_even', 'T_Ruby_Glass');
+    % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture', 'T_Ruby_Glass');
+    % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10]);
+    pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture_odd', 'Gold_Nugget');
 
-    pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3/10], 'texture_odd', 'Gold_Nugget', 'texture_even', 'T_Ruby_Glass');
 pl.scene_end();
 
 % Render and display
 
 image = pl.render();
 imshow(image);
+return; % DEBUG !
 % Scene 2
 
 pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
