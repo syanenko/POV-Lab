@@ -647,7 +647,7 @@ classdef povlab < handle
                                     RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
                                     RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
                 else if(has_tex)
-                        tex = sprintf('texture{%s}', texture);
+                        tex = sprintf('                     texture{%s}', texture);
                       else
                         if(mod(i+j,2) == 1)
                             tex = sprintf('texture{%s}', texture_even);
@@ -675,9 +675,6 @@ classdef povlab < handle
                         o.write_triangle(surface,i,j,i,  j+1,i+1,j+1,tex2);
                     end
                 end
-            end
-            if(~strcmp(texture, ""))
-                fprintf(o.fh, 'texture { %s }\n', texture);
             end
             o.write_transforms(scale, rotate, translate);
         end
@@ -1055,7 +1052,7 @@ classdef povlab < handle
 
         % Write transforms
         function  write_transforms(o, scale, rotate, translate)
-            fprintf(o.fh, '        scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
+            fprintf(o.fh, 'scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
         end
         
