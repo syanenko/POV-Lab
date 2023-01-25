@@ -1,4 +1,4 @@
-%% Finite Solid Primitives usage example
+%% Basic primitives usage example
 % Common setup for all examples
 
 ex_setup
