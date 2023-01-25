@@ -1,14 +1,15 @@
 % Total cleanup
-
 clear;
 clear povlab;
 close all;
-% Init outout directory
 
-povray_out_dir = get_root_dir() + "/examples/out";
-% Set version and path to _povray_ that installed in your system, set output directory for _povray_ scene files and rendered images
-
+%
+% Set version and path to POV-Ray, that installed in your system, output directory for scene files and rendered images
+%
 povray_version = "3.7";
+
+% Init outout directory
+povray_out_dir = get_root_dir() + "/examples/out";
 
 if isunix
     povray_path = '"/usr/local/bin/povray +A -W1920 -H1080 -L'+ povray_out_dir + '"';
