@@ -1,5 +1,5 @@
 //
-// POV-Lab defenitions for POV-Ray (ver. 3.7)
+// POV-Lab definitions for POV-Ray (ver. 3.7)
 // Source: https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray
 //
 #include "textures.inc"

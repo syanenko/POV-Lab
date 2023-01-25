@@ -384,7 +384,11 @@ classdef povlab < handle
 
         % Box
         function box(o, varargin)
-            % sphere method help
+            % Box defined by listing two opposite corners
+            %
+            % -- Syntax
+            % box('llf_corner', [x1 y1 z1], 'urb_corner', [x2 y2 z2]);
+            %
             p = inputParser;
             addParameter(p,'llf_corner', [0 0 0],      @o.check_vector3);
             addParameter(p,'urb_corner', [0 0 0],      @o.check_vector3);
@@ -473,6 +477,37 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        % Torus
+        function torus(o, varargin)
+            % Torus defined by major and minor radiuses
+            %
+            % -- Syntax
+            % torus('radius_maj', r1, 'radius_min' r2);
+            %
+            p = inputParser;
+            addParameter(p,'radius_maj', 1.0,          @o.check_positive_float);
+            addParameter(p,'radius_min', 0.5,          @o.check_positive_float);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            parse(p,varargin{:});
+
+            radius_maj   = p.Results.radius_maj;
+            radius_min   = p.Results.radius_min;
+            texture      = p.Results.texture;
+            scale        = p.Results.scale;
+            rotate       = p.Results.rotate;
+            translate    = p.Results.translate;
+
+            % Write
+            fprintf(o.fh, ['torus {%0.2f, %0.2f\n'...
+                           '        texture { %s }\n'],...
+                           radius_maj, radius_min,...
+                           texture);
+            o.write_transforms(scale, rotate, translate);
+        end
+        
         % Lathe surface
         function lathe(o, varargin)
             % lathe method help
