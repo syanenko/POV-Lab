@@ -1,3 +1,7 @@
+//
+// POV-Lab defenitions for POV-Ray (ver. 3.7)
+// Source: https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray
+//
 #include "textures.inc"
 
 //
@@ -85,30 +89,27 @@ union{
 //
 // Textures
 //
+#declare finish_default = finish { phong 1 reflection {0.10 metallic 0.4} }
+
 #declare tex_default = texture { Polished_Chrome
           pigment{ rgb <0.00, 0.70, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
-
 
 #declare tex_axis_common = texture { Polished_Chrome
           pigment{ rgb <0.70, 0.70, 0.70>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
-
 #declare tex_axis_x = texture { Polished_Chrome
           pigment{ rgb <1.00, 0.00, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
-
 
 #declare tex_axis_y = texture { Polished_Chrome
           pigment{ rgb <0.00, 1.00, 0.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
 
-
 #declare tex_axis_z = texture { Polished_Chrome
           pigment{ rgb <0.00, 0.00, 1.00>}
           finish { phong 1 reflection {0.10 metallic 0.4} }}
-
 
 #declare tex_plane = texture { Polished_Chrome
           pigment{ rgb <0.30, 0.30, 0.30>}

@@ -32,7 +32,7 @@ pl.scene_begin('scene_file', 'coneplot.pov', 'image_file', 'coneplot.png');
     [m,n,p] = size(u);
     
     % Bounding box
-    tex =  pl.declare("tex", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.2 0.2 0],   'finish', "phong 1 reflection {0.3 metallic 0.8}"));
+    tex =  pl.declare("tex", pl.texture('base', 'Silver1', 'pigment_odd', [0.1 0.1 0.1], 'pigment_even', [0.2 0.2 0]));
     pl.wire_box('llf_corner', [0 0 0], 'urb_corner', [m n p], 'radius', 0.15, 'texture', tex);
     
     % Coneplot

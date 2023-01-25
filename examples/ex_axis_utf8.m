@@ -55,8 +55,8 @@ pl.scene_begin('scene_file', 'axis_colored.pov', 'image_file', 'axis_colored.png
     pl.include("lights");
     pl.include("environment");
 
-    tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2]));
+    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0]));
 
     pl.axis('length', [4 4 4], 'radius', 0.07, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow, 'tex_z', tex_yellow);
 pl.scene_end();
