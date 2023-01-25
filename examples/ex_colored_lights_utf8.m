@@ -20,8 +20,8 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     pl.camera('angle', 30, 'location', [10 35 6], 'look_at', [0 13 5], 'type', 'perspective');
     
     % Wall
-    tex_wall = pl.declare("tex_wall", pl.texture('pigment', [0.3 0.3 0.3], 'finish', "phong 1 reflection {0.05 metallic 0.2}"));
-    pl.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_wall, 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    tex_wall = pl.declare("tex_wall", pl.texture('pigment', [0.3 0.3 0.3]));
+    pl.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_wall);
    
     % Lights
     rest_comp = 0.42;

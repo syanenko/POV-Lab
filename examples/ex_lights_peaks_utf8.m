@@ -29,7 +29,7 @@ pl.scene_begin('scene_file', 'lights_peaks.pov', 'image_file', 'lights_peaks.png
     zmax = max(z, [], 'all');
     for i = 1:nmarks
         for j = 1:nmarks
-            pl.sphere('position', [x(i,j) y(i,j) z(i,j)], 'radius', 0.1, 'texture', 'NBwinebottle', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+            pl.sphere('position', [x(i,j) y(i,j) z(i,j)], 'radius', 0.1, 'texture', 'NBwinebottle');
             pl.light('location',  [x(i,j) y(i,j) z(i,j)], 'color', [0.1 0.1 z(i,j) ./ zmax]);
         end
     end

@@ -29,13 +29,13 @@ pl.scene_begin('scene_file', 'grid.pov', 'image_file', 'grid.png');
     pl.include("camera");
     pl.include("lights");
 
-    tex_floor  = pl.declare("tex_floor", pl.texture('pigment', [0.6 0.6 0.6], 'finish', "phong 1 reflection {0.05 metallic 0.4}"));
-    pl.plane('normal', [0,0,1], 'distance', -0.07, 'texture', tex_floor, 'rotate', [ 0 0 0]);
+    tex_floor  = pl.declare("tex_floor", pl.texture('pigment', [0.6 0.6 0.6]));
+    pl.plane('normal', [0,0,1], 'distance', -0.07, 'texture', tex_floor);
 
-    tex_pink   = pl.declare("tex_pink",   pl.texture('pigment', [8 2 3], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-    tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0 8 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [8 8 0], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
-    tex_blue   = pl.declare("tex_blue",   pl.texture('pigment', [2 4 8], 'finish', 'phong 1 reflection {0.10 metallic 0.4}'));
+    tex_pink   = pl.declare("tex_pink",   pl.texture('pigment', [8 2 3]));
+    tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0 8 0]));
+    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [8 8 0]));
+    tex_blue   = pl.declare("tex_blue",   pl.texture('pigment', [2 4 8]));
     
     pl.grid('cell_size', 1,'width', 5, 'height', 5, 'radius', 0.04, 'texture', tex_pink,   'rotate', [ 90 0 0], 'translate', [-8 -8 0]);
     pl.grid('cell_size', 1,'width', 5, 'height', 5, 'radius', 0.04, 'texture', tex_yellow, 'rotate', [ 90 0 0], 'translate', [-13.2 -8 0]);

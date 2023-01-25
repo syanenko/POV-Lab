@@ -331,7 +331,9 @@ classdef povlab < handle
             addParameter(p,'pigment',      [0 0 0],    @o.check_vector3);
             addParameter(p,'pigment_odd',  [0 0 0],    @o.check_vector3);
             addParameter(p,'pigment_even', [0 0 0],    @o.check_vector3);
-            addParameter(p,'finish', "finish_default", @o.check_string);
+            addParameter(p,'finish', "phong 1 reflection {0.10 metallic 0.4}", @o.check_string);
+            % TODO: Fix it
+            % addParameter(p,'finish', "finish_default", @o.check_string);
             parse(p,varargin{:});
             base = p.Results.base;
             pigment      = p.Results.pigment;

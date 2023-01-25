@@ -24,17 +24,17 @@ pl.scene_begin('scene_file', 'plot.pov', 'image_file', 'plot.png');
     pl.light('location', [50 50 50], 'color', [0.9 0.9 0.9]);
     
     % Axis
-    tex_yellow = pl.declare("tex_axis_yellow", pl.texture('pigment', [2.0 2.0 0.0], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-    tex_gray   = pl.declare("tex_axis_gray",   pl.texture('pigment', [0.7 0.7 0.7], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
+    tex_yellow = pl.declare("tex_axis_yellow", pl.texture('pigment', [2.0 2.0 0.0]));
+    tex_gray   = pl.declare("tex_axis_gray",   pl.texture('pigment', [0.7 0.7 0.7]));
     pl.axis('length', [11 11 0], 'radius', 0.08, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow);
     
     % Background
-    tex_back = pl.declare("tex_back",  pl.texture('pigment', [0.2 0.2 0.2], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-    pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_back,  'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+    tex_back = pl.declare("tex_back",  pl.texture('pigment', [0.2 0.2 0.2]));
+    pl.plane('normal', [0,0,1], 'distance', 0, 'texture', tex_back);
     
     % Grid
-    tex_grid = pl.declare("tex_grid",  pl.texture('pigment', [0.8 0.8 0.8], 'finish', "phong 1 reflection {0.10 metallic 0.4}"));
-    pl.grid('texture', tex_grid, 'width', 20, 'height', 20, 'radius', 0.05 , 'rotate', [90 0  0], 'translate', [0 0 0]);
+    tex_grid = pl.declare("tex_grid",  pl.texture('pigment', [0.8 0.8 0.8]));
+    pl.grid('texture', tex_grid, 'width', 20, 'height', 20, 'radius', 0.05 , 'rotate', [90 0  0]);
     
     % Plot
     pl.plot('name', 'fgreen', 'funcion', '4 * sin(X * pi/2) * ln(X)', ...

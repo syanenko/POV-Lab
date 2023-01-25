@@ -37,7 +37,7 @@ pl.scene_begin('scene_file', 'lights_spiral.pov', 'image_file', 'lights_spiral.p
     grid on
     for n = 1:nmarks
         g =  (n / nmarks) / 1.5;
-        pl.sphere('position', [x(n) y(n) z(n)], 'radius', 0.2, 'texture', 'Dark_Green_Glass', 'scale', [1 1 1], 'rotate', [0 0 0], 'translate', [0 0 0]);
+        pl.sphere('position', [x(n) y(n) z(n)], 'radius', 0.2, 'texture', 'Dark_Green_Glass');
         pl.light('location',  [x(n) y(n) z(n)], 'color', [g 1-g g]);
     end
     
