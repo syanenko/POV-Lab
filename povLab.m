@@ -585,21 +585,23 @@ classdef povlab < handle
             % function
 
             p = inputParser;
-            addParameter(p,'surface',      0,             @o.check_surface);
-            addParameter(p,'texture',      "tex_default", @o.check_string);
-            addParameter(p,'texture_odd',  "",            @o.check_string);
-            addParameter(p,'texture_even', "",            @o.check_string);
-            addParameter(p,'smooth',       true,          @islogical);
-            addParameter(p,'colormap',     'parula',      @o.check_string);
-            addParameter(p,'scale',        [1 1 1],       @o.check_vector3);
-            addParameter(p,'rotate',       [0 0 0],       @o.check_vector3);
-            addParameter(p,'translate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'surface',      0,                @o.check_surface);
+            addParameter(p,'texture',      "tex_default",    @o.check_string);
+            addParameter(p,'texture_odd',  "",               @o.check_string);
+            addParameter(p,'texture_even', "",               @o.check_string);
+            addParameter(p,'finish',       "finish_default", @o.check_string);
+            addParameter(p,'smooth',       true,             @islogical);
+            addParameter(p,'colormap',     'parula',         @o.check_string);
+            addParameter(p,'scale',        [1 1 1],          @o.check_vector3);
+            addParameter(p,'rotate',       [0 0 0],          @o.check_vector3);
+            addParameter(p,'translate',    [0 0 0],          @o.check_vector3);
             parse(p,varargin{:});
 
             surface      = p.Results.surface;
             texture      = p.Results.texture;
             texture_odd  = p.Results.texture_odd;
-            texture_even = p.Results.texture_even;            
+            texture_even = p.Results.texture_even;
+            finish       = p.Results.finish;
             smooth       = p.Results.smooth;
             cmap_name    = p.Results.colormap;
             scale        = p.Results.scale;
@@ -639,13 +641,13 @@ classdef povlab < handle
                         mi=i;
                         mj=j+1;
                      end
-                     tex = sprintf(['                     #declare t1=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>}}\n'...
-                                    '                     #declare t2=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>}}\n'...
-                                    '                     #declare t3=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>}}\n'...
+                     tex = sprintf(['                     #declare t1=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
+                                    '                     #declare t2=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
+                                    '                     #declare t3=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
                                     '                     texture_list {t1 t2 t3}'],...
-                                    RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3),...
-                                    RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
-                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
+                                    RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3), finish,...
+                                    RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3), finish,...
+                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3), finish);
                 else if(has_tex)
                         tex = sprintf('                     texture{%s}', texture);
                       else

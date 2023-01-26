@@ -50,8 +50,8 @@ pl.scene_begin('scene_file', 'surface.pov', 'image_file', 'surface.png');
     s = surf(X,Y,Z);
     % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture_odd', 'Gold_Nugget', 'texture_even', 'T_Ruby_Glass');
     % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture', 'T_Ruby_Glass');
-    % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10]);
-    pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture_even', 'Gold_Nugget', 'texture_odd', 'T_Ruby_Glass');
+    pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'finish', 'ambient 0.001 diffuse 0.2 reflection .1 specular 24.4 roughness 0.0004');
+    % pl.surface('surface', s, 'colormap', 'turbo', 'scale', [1, 1, 3.5/10], 'texture_even', 'Gold_Nugget', 'texture_odd', 'T_Ruby_Glass');
 
 pl.scene_end();
 

@@ -17,6 +17,7 @@ elseif ispc
     % Windows version of Povray is not supporting image rendering parametrs in command line, so please
     % set up Povray from menu 'Render/Edit Settings' before using Povlab
     povray_path = "C:/Program Files/POV-Ray/v3.7/bin/pvengine64.exe";
+    % povray_path = "C:/Program Files/POV-Ray/v3.8-beta/bin/pvengine64.exe";
 elseif ismac
     % Was not tested
     povray_path = '"/usr/local/bin/povray +A -W1920 -H1080 -L'+ povray_out_dir + '"';
