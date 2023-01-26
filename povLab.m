@@ -12,7 +12,7 @@ classdef povlab < handle
 % <a href="matlab:if exist('./examples', 'dir') cd 'examples'; end;edit ex_volume">Volume</a> - Volume visualization of Matlab's 'mri' dataset
 %
     properties (Access = private)
-        version     {mustBeNonempty} = "0.060";
+        version     {mustBeNonempty} = "0.0620";
         pov_version {mustBeNonempty} = "3.7";
         pov_path    {mustBeNonempty} = "pvengine.exe";
         out_dir     {mustBeNonempty} = ".";

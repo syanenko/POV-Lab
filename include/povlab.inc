@@ -134,3 +134,6 @@ union{
 #declare coneplot_alpha = 0.8;
 #declare coneplot_interior = interior {ior 0.0};
 #declare coneplot_finish = finish   {crand 0.02};
+
+// Global settings
+global_settings { assumed_gamma 1 }
