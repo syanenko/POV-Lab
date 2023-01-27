@@ -227,7 +227,7 @@ classdef povlab < handle
             addParameter(p,'radius',     70,            @o.check_positive_float);
             addParameter(p,'falloff',    70,            @o.check_positive_float);
             addParameter(p,'tightness',  10,            @o.check_positive_float);
-            addParameter(p,'shadowless', true,          @(x) islogical(x));
+            addParameter(p,'shadowless', false,         @(x) islogical(x));
             addParameter(p,'media_interaction', true,   @(x) islogical(x));
             parse(p,varargin{:});
 
