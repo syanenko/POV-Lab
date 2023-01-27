@@ -220,10 +220,10 @@ classdef povlab < handle
         function light(o, varargin)
             % light method help
             p = inputParser;
-            addParameter(p,'location',   [100 100 100], @o.check_vector3);
-            addParameter(p,'color',      [1.0 1.0 1.0], @o.check_vector3);
+            addParameter(p,'location',   [0 0 0],       @o.check_vector3);
+            addParameter(p,'color',      [1 1 1],       @o.check_vector3);
             addParameter(p,'type',       '',            @o.check_string);
-            addParameter(p,'point_at',   [1.0 1.0 1.0], @o.check_vector3);
+            addParameter(p,'point_at',   [0 0 0],       @o.check_vector3);
             addParameter(p,'radius',     70,            @o.check_positive_float);
             addParameter(p,'falloff',    70,            @o.check_positive_float);
             addParameter(p,'tightness',  10,            @o.check_positive_float);
@@ -248,6 +248,22 @@ classdef povlab < handle
             fade_distance = p.Results.fade_distance;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
+
+            if(visible)
+                if(type == "spotlight")
+                    target = (point_at - location);
+                    max_target = max(target);
+                    fprintf(o.fh,'#declare Spotlight_Light_Source = cone { <0,0,0>,0,<%0.2f, %0.2f, %0.2f>,0.3 texture {Light_Source_Tex}}\n', ...
+                                  target(1) / max_target, ...
+                                  target(2) / max_target, ...
+                                  target(3) / max_target);
+                    looks_like = " looks_like {Spotlight_Light_Source}";
+                else
+                    looks_like = " looks_like {Point_Light_Source}";
+                end
+            else
+                looks_like = "";
+            end
             
             if((p.Results.type == ""))
                 radius    = "";
@@ -287,12 +303,6 @@ classdef povlab < handle
                 shadowless = " shadowless";
             else
                 shadowless = "";
-            end
-
-            if(visible)
-                looks_like = " looks_like {Point_Light_Source}";
-            else
-                looks_like = "";
             end
 
             if (ismember('fade_power', p.UsingDefaults))

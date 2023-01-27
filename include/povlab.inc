@@ -141,6 +141,8 @@ union{
 //
 // Light sources shapes for 'looks_like'
 //
+#declare Light_Source_Tex = texture { pigment{ rgb <2, 2, 2>}
+                                      finish { phong 1 reflection {0.1 metallic 0.2} }};
 #declare Point_Light_Source =
 union {
     sphere { <0, 0, 0>, 0.5 }
@@ -150,7 +152,6 @@ union {
     cone { <0,0,0>,0.3,<0,-1.2,0>,0 }
     cone { <0,0,0>,0.3,<0,0,1.2>,0 }
     cone { <0,0,0>,0.3,<0,0,-1.2>,0 }
-    texture { pigment{ rgb <2, 2, 2>}
-             finish { phong 1 reflection {0.1 metallic 0.2} }}
+    texture { Light_Source_Tex }
     scale <0.5, 0.5, 0.5>
 }                     
