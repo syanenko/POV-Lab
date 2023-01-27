@@ -227,18 +227,20 @@ classdef povlab < handle
             addParameter(p,'radius',     70,            @o.check_positive_float);
             addParameter(p,'falloff',    70,            @o.check_positive_float);
             addParameter(p,'tightness',  10,            @o.check_positive_float);
+            addParameter(p,'shadowless', true,          @(x) islogical(x));
             addParameter(p,'media_interaction', true,   @(x) islogical(x));
             parse(p,varargin{:});
 
-            location  = p.Results.location;
-            color     = p.Results.color;
-            type      = p.Results.type;
-            point_at  = p.Results.point_at;
-            radius    = p.Results.radius;
-            falloff   = p.Results.falloff;
-            tightness = p.Results.tightness;
+            location   = p.Results.location;
+            color      = p.Results.color;
+            type       = p.Results.type;
+            point_at   = p.Results.point_at;
+            radius     = p.Results.radius;
+            falloff    = p.Results.falloff;
+            tightness  = p.Results.tightness;
+            shadowless = p.Results.shadowless;
 
-            if((type == "") || (type == "shadowless"))
+            if((p.Results.type == ""))
                 radius    = "";
                 falloff   = "";
                 tightness = "";
@@ -255,6 +257,12 @@ classdef povlab < handle
                 point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
             end
 
+            if(shadowless)
+                shadowless = " shadowless";
+            else
+                shadowless = "";
+            end
+
             if(p.Results.media_interaction)
                 media_interaction = "";
             else
@@ -262,10 +270,10 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, media_interaction);
+                          type, radius, falloff, tightness, point_at, shadowless, media_interaction);
         end
        
         % Axis

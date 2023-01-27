@@ -21,11 +21,11 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     pl.camera('angle', 35, 'location', [28 15 10], 'look_at', [0 6 3.5], 'type', 'perspective');
     
     % Light
-    pl.light('location', [100 100 300], 'color', [0.4 0.4 0.4],                       'media_interaction', true);
-    pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'spotlight',  'media_interaction', false);
-    pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'shadowless', 'media_interaction', false);
-    pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'cylinder',   'media_interaction', true);
-    pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'parallel',   'media_interaction', true);
+    pl.light('location', [100 100 300], 'color', [0.4 0.4 0.4],                       'media_interaction', false);
+    %pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'spotlight',  'media_interaction', false, 'shadowless', true);
+    %pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'shadowless', 'media_interaction', false);
+    %pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'cylinder',   'media_interaction', true);
+    %pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'parallel',   'media_interaction', true);
     
     % Walls
     tex_plane  = pl.declare("tex_plane", pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1]));    
