@@ -2,6 +2,10 @@
 // POV-Lab definitions for POV-Ray (ver. 3.7)
 // Source: https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray
 //
+// Global settings
+global_settings { assumed_gamma 1 }
+
+// TODO: Replace with textures definitions
 #include "textures.inc"
 
 //
@@ -135,5 +139,9 @@ union{
 #declare coneplot_interior = interior {ior 0.0};
 #declare coneplot_finish = finish   {crand 0.02};
 
-// Global settings
-global_settings { assumed_gamma 1 }
+//
+// Light sources shapes for 'looks_like'
+//
+#declare Point_Light_Source = sphere { <0, 0, 0>, 0.5 
+                                       texture { pigment{ rgb <1, 1, 1>}
+                                                 finish { phong 1 reflection {0.1 metallic 0.2} }}}

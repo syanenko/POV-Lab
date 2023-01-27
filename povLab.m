@@ -228,7 +228,9 @@ classdef povlab < handle
             addParameter(p,'falloff',    70,            @o.check_positive_float);
             addParameter(p,'tightness',  10,            @o.check_positive_float);
             addParameter(p,'shadowless', false,         @(x) islogical(x));
+            addParameter(p,'visible',    false,         @(x) islogical(x));            
             addParameter(p,'media_interaction', true,   @(x) islogical(x));
+            addParameter(p,'media_attenuation', false,  @(x) islogical(x));
             parse(p,varargin{:});
 
             location   = p.Results.location;
@@ -239,6 +241,9 @@ classdef povlab < handle
             falloff    = p.Results.falloff;
             tightness  = p.Results.tightness;
             shadowless = p.Results.shadowless;
+            visible    = p.Results.visible;
+            media_interaction = p.Results.media_interaction;
+            media_attenuation = p.Results.media_attenuation;
 
             if((p.Results.type == ""))
                 radius    = "";
@@ -251,8 +256,8 @@ classdef povlab < handle
                 tightness = "";
                 point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
             else    
-                radius    = sprintf(" radius %0.2f", radius);
-                falloff   = sprintf(" falloff %0.2f", falloff);
+                radius    = sprintf(" radius %0.2f",    radius);
+                falloff   = sprintf(" falloff %0.2f",   falloff);
                 tightness = sprintf(" tightness %0.2f", tightness);
                 point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
             end
@@ -263,17 +268,29 @@ classdef povlab < handle
                 shadowless = "";
             end
 
-            if(p.Results.media_interaction)
+            if(visible)
+                looks_like = " looks_like {Point_Light_Source}";
+            else
+                looks_like = "";
+            end
+
+            if(media_interaction)
                 media_interaction = "";
             else
                 media_interaction = " media_interaction off";
             end
 
+            if(media_attenuation)
+                media_attenuation = " media_attenuation on";
+            else
+                media_attenuation = "";                
+            end
+
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, shadowless, media_interaction);
+                          type, radius, falloff, tightness, point_at, shadowless, media_interaction, media_attenuation, looks_like);
         end
        
         % Axis
