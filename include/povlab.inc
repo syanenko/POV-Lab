@@ -2,11 +2,10 @@
 // POV-Lab definitions for POV-Ray (ver. 3.7)
 // Source: https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray
 //
+#include "textures.inc"
+
 // Global settings
 global_settings { assumed_gamma 1 }
-
-// TODO: Replace with textures definitions
-#include "textures.inc"
 
 //
 // Axis
