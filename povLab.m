@@ -228,7 +228,9 @@ classdef povlab < handle
             addParameter(p,'falloff',    70,            @o.check_positive_float);
             addParameter(p,'tightness',  10,            @o.check_positive_float);
             addParameter(p,'shadowless', false,         @(x) islogical(x));
-            addParameter(p,'visible',    false,         @(x) islogical(x));            
+            addParameter(p,'visible',    false,         @(x) islogical(x));
+            addParameter(p,'fade_power',        10,     @o.check_positive_float);
+            addParameter(p,'fade_distance',     10,     @o.check_positive_float);
             addParameter(p,'media_interaction', true,   @(x) islogical(x));
             addParameter(p,'media_attenuation', false,  @(x) islogical(x));
             parse(p,varargin{:});
@@ -242,24 +244,43 @@ classdef povlab < handle
             tightness  = p.Results.tightness;
             shadowless = p.Results.shadowless;
             visible    = p.Results.visible;
+            fade_power    = p.Results.fade_power;
+            fade_distance = p.Results.fade_distance;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
-
+            
             if((p.Results.type == ""))
                 radius    = "";
                 falloff   = "";
                 tightness = "";
                 point_at  = "";
             elseif (type == "parallel")
+                type = sprintf(" %s", type);
+                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
                 radius    = "";
                 falloff   = "";
                 tightness = "";
+            else
+                type = sprintf(" %s", type);
                 point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
-            else    
-                radius    = sprintf(" radius %0.2f",    radius);
-                falloff   = sprintf(" falloff %0.2f",   falloff);
-                tightness = sprintf(" tightness %0.2f", tightness);
-                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
+                
+                if (ismember('radius', p.UsingDefaults))
+                    radius = "";
+                else
+                    radius = sprintf(" radius %0.2f", radius);
+                end
+
+                if (ismember('falloff', p.UsingDefaults))
+                    falloff = "";
+                else
+                    falloff = sprintf(" falloff %0.2f", falloff);
+                end
+
+                if (ismember('tightness', p.UsingDefaults))
+                    tightness = "";
+                else
+                    tightness = sprintf(" tightness %0.2f", tightness);
+                end
             end
 
             if(shadowless)
@@ -274,6 +295,18 @@ classdef povlab < handle
                 looks_like = "";
             end
 
+            if (ismember('fade_power', p.UsingDefaults))
+                fade_power = "";
+            else
+                fade_power = sprintf(" fade_power %0.2f", fade_power);
+            end
+
+            if (ismember('fade_distance', p.UsingDefaults))
+                fade_distance = "";
+            else
+                fade_distance = sprintf(" fade_distance %0.2f", fade_distance);
+            end
+            
             if(media_interaction)
                 media_interaction = "";
             else
@@ -283,14 +316,14 @@ classdef povlab < handle
             if(media_attenuation)
                 media_attenuation = " media_attenuation on";
             else
-                media_attenuation = "";                
+                media_attenuation = "";
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, shadowless, media_interaction, media_attenuation, looks_like);
+                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, looks_like);
         end
        
         % Axis
