@@ -222,22 +222,50 @@ classdef povlab < handle
             p = inputParser;
             addParameter(p,'location',   [100 100 100], @o.check_vector3);
             addParameter(p,'color',      [1.0 1.0 1.0], @o.check_vector3);
-            addParameter(p,'shadowless', false,         @(x) islogical(x));
+            addParameter(p,'type',       '',            @o.check_string);
+            addParameter(p,'point_at',   [1.0 1.0 1.0], @o.check_vector3);
+            addParameter(p,'radius',     70,            @o.check_positive_float);
+            addParameter(p,'falloff',    70,            @o.check_positive_float);
+            addParameter(p,'tightness',  10,            @o.check_positive_float);
+            addParameter(p,'media_interaction', true,   @(x) islogical(x));
             parse(p,varargin{:});
 
-            location   = p.Results.location;
-            color      = p.Results.color;
-            
-            shadowless = "";
-            if(p.Results.shadowless)
-                shadowless = "shadowless";
+            location  = p.Results.location;
+            color     = p.Results.color;
+            type      = p.Results.type;
+            point_at  = p.Results.point_at;
+            radius    = p.Results.radius;
+            falloff   = p.Results.falloff;
+            tightness = p.Results.tightness;
+
+            if((type == "") || (type == "shadowless"))
+                radius    = "";
+                falloff   = "";
+                tightness = "";
+                point_at  = "";
+            elseif (type == "parallel")
+                radius    = "";
+                falloff   = "";
+                tightness = "";
+                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
+            else    
+                radius    = sprintf(" radius %0.2f", radius);
+                falloff   = sprintf(" falloff %0.2f", falloff);
+                tightness = sprintf(" tightness %0.2f", tightness);
+                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
+            end
+
+            if(p.Results.media_interaction)
+                media_interaction = "";
+            else
+                media_interaction = " media_interaction off";
             end
 
             % Write
-            fprintf(o.fh,'light_source{< %0.1f, %0.1f, %0.1f> rgb<%0.2f, %0.2f, %0.2f> %s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          shadowless);
+                          type, radius, falloff, tightness, point_at, media_interaction);
         end
        
         % Axis
