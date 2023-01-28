@@ -251,17 +251,17 @@ classdef povlab < handle
 
             if(visible)
                 if(type == "spotlight")
-                    target = (point_at - location);
-                    fprintf(o.fh,'#declare Spotlight_Light_Source = cone { <0,0,0>,0,<%0.2f, %0.2f, %0.2f>,0.3 texture {Light_Source_Tex}}\n', ...
-                                  target(1), ...
-                                  target(2), ...
-                                  target(3));
-                    looks_like = " looks_like {Spotlight_Light_Source}";
+                    fprintf(o.fh,'\n#declare Shape = union { sphere { <%0.2f, %0.2f, %0.2f>, 0.25 } cone { <%0.2f,%0.2f,%0.2f>,0,<%0.2f, %0.2f, %0.2f>,0.3 } texture {Lightsource_Shape_Tex}}\n', ...
+                                  location(1), location(2), location(3), ...
+                                  location(1), location(2), location(3), ...
+                                  point_at(1), point_at(2), point_at(3));
                 else
-                    looks_like = " looks_like {Point_Light_Source}";
+                    fprintf(o.fh,'\n#declare Shape = object{Pointlight_Shape translate <%0.2f, %0.2f, %0.2f> }\n', ...
+                                  location(1), location(2), location(3));
                 end
+                shape = " Shape";
             else
-                looks_like = "";
+                shape = "";
             end
             
             if((p.Results.type == ""))
@@ -329,10 +329,10 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'union{ light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s}%s }\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, looks_like);
+                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, shape);
         end
        
         % Axis

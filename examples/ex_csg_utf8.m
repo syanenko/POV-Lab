@@ -16,13 +16,19 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     pl.include("shapes");
     
     pl.global_settings("assumed_gamma 1");
+    
+    %%%%%%%%%%%%%%%
+    pl.axis();
 
     % Camera
     pl.camera('angle', 35, 'location', [28 15 10], 'look_at', [0 6 3.5], 'type', 'perspective');
+    % pl.camera('angle', 90, 'location', [10 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
+    % pl.camera('angle', 90, 'location', [5 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
     
     % Light
-    pl.light('location', [100 100 300], 'color', [0.4 0.4 0.4], 'shadowless', true, 'media_interaction', false, 'falloff', 12);
-    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'type', 'spotlight', 'point_at', [4 5 5], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
+%    pl.light('location', [5 5 6], 'color', [1 1 1], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true);
+    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'type', 'spotlight', 'point_at', [0 5 5], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
+
 %    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
     % pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4]);
     % pl.light('location', [1 14 3],      'color', [0.2 0.2 0.2], 'type', 'spotlight', 'point_at', [ 0 0 0], 'media_interaction', false);
@@ -30,7 +36,7 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     %pl.light('location', [10 4 3],      'color', [0.2 0.2 0.2], 'type', 'parallel',   'media_interaction', true);
     
     % Walls
-    tex_plane  = pl.declare("tex_plane", pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1]));    
+    tex_plane  = pl.declare("tex_plane", pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1]));
     pl.plane('normal', [1,0,0], 'distance', -10, 'texture', 'tex_plane', 'translate', [0 0 1]);
     pl.plane('normal', [0,0,1], 'distance', 0,   'texture', tex_plane');
     
