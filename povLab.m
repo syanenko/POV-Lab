@@ -224,9 +224,9 @@ classdef povlab < handle
             addParameter(p,'color',      [1 1 1],       @o.check_vector3);
             addParameter(p,'type',       '',            @o.check_string);
             addParameter(p,'point_at',   [0 0 0],       @o.check_vector3);
-            addParameter(p,'radius',     70,            @o.check_positive_float);
-            addParameter(p,'falloff',    70,            @o.check_positive_float);
-            addParameter(p,'tightness',  10,            @o.check_positive_float);
+            addParameter(p,'radius',     30,            @o.check_positive_float);
+            addParameter(p,'falloff',    45,            @o.check_positive_float);
+            addParameter(p,'tightness',  0,            @o.check_positive_float);
             addParameter(p,'shadowless', false,         @(x) islogical(x));
             addParameter(p,'visible',    false,         @(x) islogical(x));
             addParameter(p,'fade_power',        10,     @o.check_positive_float);
@@ -257,6 +257,13 @@ classdef povlab < handle
                                   target(2), ...
                                   target(3));
                     looks_like = " looks_like {Spotlight_Shape}";
+                elseif(type == "cylinder")
+                    target = point_at - location;
+                    fprintf(o.fh,'#declare Cylinder_Shape = union { sphere { <0, 0, 0>, 0.25 } cylinder { <0,0,0>,<%0.2f, %0.2f, %0.2f>,0.15 } texture {Lightsource_Shape_Tex}}\n', ...
+                                  target(1), ...
+                                  target(2), ...
+                                  target(3));
+                    looks_like = " looks_like {Cylinder_Shape}";
                 else
                     looks_like = " looks_like {Pointlight_Shape}";
                 end
