@@ -26,8 +26,8 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     % pl.camera('angle', 90, 'location', [5 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
     
     % Light
-%    pl.light('location', [5 5 6], 'color', [1 1 1], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true);
-    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'type', 'spotlight', 'point_at', [0 5 5], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
+    pl.light('location', [4 5 6], 'color', [0.2 0.2 0.2], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true);
+    pl.light('location', [5 5 5], 'color', [1.4 1.4 1.4], 'type', 'spotlight', 'point_at', [0 5 5], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
 
 %    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
     % pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4]);
