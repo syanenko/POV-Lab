@@ -1,5 +1,7 @@
 classdef povlab < handle
-% This is the core Povlab's class, all toolbox functionality implemented here
+% This is the core class of PovLab, all toolbox functions implemented here
+%
+% <a href="https://wiki.povray.org/content/Documentation:Contents">POV Documentation</a> - Please check complete POV-Ray reference for datails
 %
 % EXAMPLES
 %
@@ -188,6 +190,8 @@ classdef povlab < handle
             %       omnimax | panoramic | cylinder CylinderType | spherical
             %
             % Please find camera() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
+            % 
+            % <a href="https://wiki.povray.org/content/Reference:Camera">POV Reference:Camera</a> - More about camera
             
             p = inputParser;
             addParameter(p,'type',     'orthographic', @o.check_string);
@@ -218,7 +222,7 @@ classdef povlab < handle
 
         % Light
         function light(o, varargin)
-            % light method help
+            % <a href="https://wiki.povray.org/content/Reference:Light_Source">POV Reference:Light Source</a> - More about light sources
             p = inputParser;
             addParameter(p,'location',   [0 0 0],          @o.check_vector3);
             addParameter(p,'color',      [1 1 1],          @o.check_vector3);
@@ -443,9 +447,8 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
-        % Texture pigment{ checker color rgb<1,1,0> color rgb<0.25,0.25,0.25>}
         function tex = texture(o, varargin)
-            % texture method help
+            % <a href="https://wiki.povray.org/content/Reference:Texture">POV Reference:Texture</a> - More about textures
             p = inputParser;
             addParameter(p,'base', 'Polished_Chrome',  @o.check_string);
             addParameter(p,'pigment',      [0 0 0],    @o.check_vector3);
@@ -703,7 +706,6 @@ classdef povlab < handle
         function surface(o, varargin)
             % Creates textured mesh from surface, retuned by Matlab's 'surf'
             % function
-
             p = inputParser;
             addParameter(p,'surface',      0,                @o.check_surface);
             addParameter(p,'texture',      "tex_default",    @o.check_string);
