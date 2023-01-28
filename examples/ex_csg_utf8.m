@@ -25,9 +25,9 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     %pl.camera('angle', 90, 'location', [10 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
     
     % Light
-    pl.light('location', [5 0 5],  'color', [0.7 0.7 0.7], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true, 'shape_scale', 1, 'shape_color', [0 2 0 0.05]);
-    pl.light('location', [5 5 5],  'color', [2.4 2.4 2.4], 'type', 'spotlight', 'point_at', [0 5 5], 'radius', 3, 'falloff', 0 , 'visible', true);
-    pl.light('location', [5 10 5], 'color', [1.4 1.4 1.4], 'type', 'cylinder', 'point_at', [0 10 5], 'radius', 2, 'visible', true);
+    pl.light('location', [5 0 5],  'color', [0.8 0.8 0.8], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true, 'shape_scale', 1, 'shape_color', [0 2 0 0]);
+    pl.light('location', [5 5 5],  'color', [8 0 0], 'type', 'spotlight', 'point_at', [3 5 5], 'radius', 3, 'falloff', 6, 'visible', true, 'shape_color', [2 0 0 0]);
+    pl.light('location', [5 10 5], 'color', [0 0 4], 'type', 'cylinder', 'point_at', [0 10 5], 'radius', 3, 'falloff', 3, 'visible', true, 'shape_color', [0 0 4 0]);
     
 %    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
     % pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4]);
