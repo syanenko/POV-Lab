@@ -137,21 +137,3 @@ union{
 #declare coneplot_alpha = 0.8;
 #declare coneplot_interior = interior {ior 0.0};
 #declare coneplot_finish = finish   {crand 0.02};
-
-//
-// Light sources shapes for 'looks_like'
-//
-#declare Lightsource_Shape_Tex = texture { pigment{ rgbt <10, 10, 10, 1>}
-                                      finish { phong 1 reflection {0.1 metallic 0.2} }};
-#declare Pointlight_Shape =
-union {
-    sphere { <0, 0, 0>, 0.5 }
-    cone { <0,0,0>,0.3,<1.2,0,0>,0 }
-    cone { <0,0,0>,0.3,<-1.2,0,0>,0 }
-    cone { <0,0,0>,0.3,<0,1.2,0>,0 }
-    cone { <0,0,0>,0.3,<0,-1.2,0>,0 }
-    cone { <0,0,0>,0.3,<0,0,1.2>,0 }
-    cone { <0,0,0>,0.3,<0,0,-1.2>,0 }
-    texture { Lightsource_Shape_Tex }
-    scale <0.5, 0.5, 0.5>
-}                     

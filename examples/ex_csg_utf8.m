@@ -22,14 +22,12 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
 
     % Camera
     pl.camera('angle', 35, 'location', [28 15 10], 'look_at', [0 6 3.5], 'type', 'perspective');
-    % pl.camera('angle', 90, 'location', [10 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
-    % pl.camera('angle', 90, 'location', [5 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
+    %pl.camera('angle', 90, 'location', [10 5 5], 'look_at', [0 5 5], 'type', 'orthographic');
     
     % Light
-    % pl.light('location', [4 5 6], 'color', [0.2 0.2 0.2], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true);
-    pl.light('location', [5 5 5], 'color', [2.4 2.4 2.4], 'type', 'spotlight', 'point_at', [0 5 5], 'radius', 2, 'falloff', 25 , 'visible', true, 'fade_power', 0.1, 'fade_distance', 10);
+    pl.light('location', [5 0 5],  'color', [0.7 0.7 0.7], 'shadowless', true, 'media_interaction', false, 'falloff', 12, 'visible', true, 'shape_scale', 1, 'shape_color', [0 2 0 0.05]);
+    pl.light('location', [5 5 5],  'color', [2.4 2.4 2.4], 'type', 'spotlight', 'point_at', [0 5 5], 'radius', 3, 'falloff', 0 , 'visible', true);
     pl.light('location', [5 10 5], 'color', [1.4 1.4 1.4], 'type', 'cylinder', 'point_at', [0 10 5], 'radius', 2, 'visible', true);
-
     
 %    pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4], 'visible', true, 'fade_power', 1, 'fade_distance', 3);
     % pl.light('location', [5 5 5], 'color', [0.4 0.4 0.4]);
@@ -49,22 +47,22 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     tex_pink  = pl.declare("tex_pink",  pl.texture('pigment', [8 2 3]));
     
     % Objects
-    pl.difference_begin();
-        pl.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'translate', [0 1 0]);
-        pl.union_begin();
-              pl.sphere('position', [2 1 1.5], 'radius', 0.7, 'texture', tex_red);
-              pl.sphere('position', [2 3 1],   'radius', 0.8, 'texture', tex_blue);
-              pl.sphere('position', [1 2 3],   'radius', 1.1, 'texture', tex_pink);
-         pl.union_end('translate', [0.3 0.3 0.3]);
-    pl.difference_end('translate', [0 8.5 5],  'rotate', [0 10 0], 'scale', [1.15 1.15 1.15]);
+%     pl.difference_begin();
+%         pl.sphere('position', [1 1 1], 'radius', 2, 'texture', tex_green, 'translate', [0 1 0]);
+%         pl.union_begin();
+%               pl.sphere('position', [2 1 1.5], 'radius', 0.7, 'texture', tex_red);
+%               pl.sphere('position', [2 3 1],   'radius', 0.8, 'texture', tex_blue);
+%               pl.sphere('position', [1 2 3],   'radius', 1.1, 'texture', tex_pink);
+%          pl.union_end('translate', [0.3 0.3 0.3]);
+%     pl.difference_end('translate', [0 8.5 5],  'rotate', [0 10 0], 'scale', [1.15 1.15 1.15]);
     
-    pl.difference_begin();
-        pl.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
-        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_red);
-        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_blue,  'translate', [3.5 0 0]);
-        pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_green, 'translate', [2.5 2.5 0]);
-        pl.cylinder('base_point', [0 0 -8], 'cap_point', [0 0 10], 'radius', 1, 'texture', tex_green, 'translate', [0 2 4.5], 'rotate', [90 90 90]);    
-    pl.difference_end('translate', [0 1.8 0], 'scale', [1.1 1.1 1.1]);
+%     pl.difference_begin();
+%         pl.cone('base_point', [1 1 0], 'base_radius', 4, 'cap_point', [1 1 6], 'cap_radius', 1.5, 'texture', tex_pink);
+%         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_red);
+%         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_blue,  'translate', [3.5 0 0]);
+%         pl.cylinder('base_point', [1 1 -1], 'cap_point', [1 1 8],  'radius', 1, 'texture', tex_green, 'translate', [2.5 2.5 0]);
+%         pl.cylinder('base_point', [0 0 -8], 'cap_point', [0 0 10], 'radius', 1, 'texture', tex_green, 'translate', [0 2 4.5], 'rotate', [90 90 90]);    
+%     pl.difference_end('translate', [0 1.8 0], 'scale', [1.1 1.1 1.1]);
 
 pl.scene_end();
 % Render and display

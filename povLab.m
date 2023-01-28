@@ -220,19 +220,21 @@ classdef povlab < handle
         function light(o, varargin)
             % light method help
             p = inputParser;
-            addParameter(p,'location',   [0 0 0],       @o.check_vector3);
-            addParameter(p,'color',      [1 1 1],       @o.check_vector3);
-            addParameter(p,'type',       '',            @o.check_string);
-            addParameter(p,'point_at',   [0 0 0],       @o.check_vector3);
-            addParameter(p,'radius',     30,            @o.check_positive_float);
-            addParameter(p,'falloff',    45,            @o.check_positive_float);
-            addParameter(p,'tightness',  0,            @o.check_positive_float);
-            addParameter(p,'shadowless', false,         @(x) islogical(x));
-            addParameter(p,'visible',    false,         @(x) islogical(x));
-            addParameter(p,'fade_power',        10,     @o.check_positive_float);
-            addParameter(p,'fade_distance',     10,     @o.check_positive_float);
-            addParameter(p,'media_interaction', true,   @(x) islogical(x));
-            addParameter(p,'media_attenuation', false,  @(x) islogical(x));
+            addParameter(p,'location',   [0 0 0],          @o.check_vector3);
+            addParameter(p,'color',      [1 1 1],          @o.check_vector3);
+            addParameter(p,'type',       '',               @o.check_string);
+            addParameter(p,'point_at',   [0 0 0],          @o.check_vector3);
+            addParameter(p,'radius',     30,               @o.check_positive_float);
+            addParameter(p,'falloff',    45,               @o.check_positive_float);
+            addParameter(p,'tightness',  0,                @o.check_positive_float);
+            addParameter(p,'shadowless', false,            @(x) islogical(x));
+            addParameter(p,'visible',    false,            @(x) islogical(x));
+            addParameter(p,'fade_power',        10,        @o.check_positive_float);
+            addParameter(p,'fade_distance',     10,        @o.check_positive_float);
+            addParameter(p,'media_interaction', true,      @(x) islogical(x));
+            addParameter(p,'media_attenuation', false,     @(x) islogical(x));
+            addParameter(p,'shape_scale',       1,         @o.check_positive_float);
+            addParameter(p,'shape_color',       [1 1 1 0], @o.check_vector4);
             parse(p,varargin{:});
 
             location   = p.Results.location;
@@ -248,8 +250,14 @@ classdef povlab < handle
             fade_distance = p.Results.fade_distance;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
+            shape_scale = p.Results.shape_scale;
+            shape_color = p.Results.shape_color;
 
             if(visible)
+                fprintf(o.fh,['#declare Lightsource_Shape_Tex = texture { pigment{ rgbt <%0.2f, %0.2f, %0.2f, %0.2f>}\n'...
+                              '                                           finish { phong 1 reflection {0.1 metallic 0.2}}}\n'], ...
+                              shape_color(1), shape_color(2), shape_color(3), shape_color(4));
+
                 if(type == "spotlight")
                     target = point_at - location;
                     fprintf(o.fh,'#declare Spotlight_Shape = union { sphere { <0, 0, 0>, 0.25 } cone { <0,0,0>,0,<%0.2f, %0.2f, %0.2f>,0.3 } texture {Lightsource_Shape_Tex}}\n', ...
@@ -266,6 +274,16 @@ classdef povlab < handle
                     looks_like = " looks_like {Cylinder_Shape}";
                 else
                     looks_like = " looks_like {Pointlight_Shape}";
+                    fprintf(o.fh,['#declare Pointlight_Shape =\n'...
+                                  '         union {sphere { <0, 0, 0>, 0.25 }\n'...
+                                  '                cone { <0, 0, 0>, 0.15, <0.6,  0, 0>,0 }\n'...
+                                  '                cone { <0, 0, 0>, 0.15, <-0.6, 0, 0>,0 }\n'...
+                                  '                cone { <0, 0, 0>, 0.15, <0,  0.6, 0>,0 }\n'...
+                                  '                cone { <0, 0 ,0>, 0.15, <0, -0.6, 0>,0 }\n'...
+                                  '                cone { <0, 0, 0>, 0.15, <0,  0, 0.6>,0 }\n'...
+                                  '                cone { <0, 0, 0>, 0.15, <0,  0,-0.6>,0 }\n'...
+                                  '                texture { Lightsource_Shape_Tex }\n'...
+                                  '                scale %0.2f}\n'], shape_scale);
                 end
             else
                 looks_like = "";
@@ -336,7 +354,7 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
                           type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, looks_like);
@@ -1163,6 +1181,15 @@ classdef povlab < handle
         %
         % Validation functions
         % ----------------------------------------------------------------------
+        % Vector of size '4'
+        function r = check_vector4(~, x)
+            r = false;
+            if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 4)
+                error("Input is not a float vector of size '4'");
+            end
+            r = true;
+        end
+
         % Vector of size '3'
         function r = check_vector3(~, x)
             r = false;
