@@ -7,7 +7,6 @@ Extends Matlab's visualisation system by external raytracer - [POV-Ray](http://w
 Useful for presentations, learning 3D graphics in schools and universities.
 Please find live examples [here](https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray) under *Examples* tab.
 
-The project is experimental and in active development now.\
 To start working with toolbox:
 
 1. Install it in Matlab.
