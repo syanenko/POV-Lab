@@ -635,7 +635,7 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
-        % Lathe surface
+        % Lathe
         function lathe(o, varargin)
             % lathe method help
             p = inputParser;
@@ -759,17 +759,19 @@ classdef povlab < handle
                      if(n==1)
                         mi=i+1;
                         mj=j;
+                        texture_list = "t1 t3 t2";
                      else
                         mi=i;
                         mj=j+1;
+                        texture_list = "t1 t2 t3";
                      end
                      tex = sprintf(['                     #declare t1=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
                                     '                     #declare t2=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
                                     '                     #declare t3=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
-                                    '                     texture_list {t1 t2 t3}'],...
+                                    '                     texture_list {%s}'],...
                                     RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3), finish,...
                                     RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3), finish,...
-                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3), finish);
+                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3), finish, texture_list);
                 else if(has_tex)
                         tex = sprintf('                     texture{%s}', texture);
                       else
@@ -792,11 +794,12 @@ classdef povlab < handle
                     tex1 = get_texture(i,j,1);
                     tex2 = get_texture(i,j,2);
                     if (smooth)
-                        o.write_smooth_triangle(surface,i,j,i+1,j,  i+1,j+1,tex1);
-                        o.write_smooth_triangle(surface,i,j,i,  j+1,i+1,j+1,tex2);
+                        o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);                        
+                        o.write_smooth_triangle(surface, i,j, i+1,j+1, i+1,j, tex1);
+                        % o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);
                     else
-                        o.write_triangle(surface,i,j,i+1,j,  i+1,j+1,tex1);
-                        o.write_triangle(surface,i,j,i,  j+1,i+1,j+1,tex2);
+                        o.write_triangle(surface, i,j, i+1,j,   i+1,j+1, tex1);
+                        o.write_triangle(surface, i,j, i,  j+1, i+1,j+1, tex2);
                     end
                 end
             end
