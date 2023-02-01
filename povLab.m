@@ -681,6 +681,7 @@ classdef povlab < handle
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'distance',  0,           @o.check_float);
+            addParameter(p,'limits',    [0 0 0 0],   @o.check_vector4);
             addParameter(p,'texture',   "tex_plane", @o.check_string);
             addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
             addParameter(p,'rotate',    [0 0 0],     @o.check_vector3);
@@ -689,16 +690,25 @@ classdef povlab < handle
 
             normal    = p.Results.normal;
             distance  = p.Results.distance;
+            limits    = p.Results.limits;
             texture   = p.Results.texture;
             scale     = p.Results.scale;
             rotate    = p.Results.rotate;
             translate = p.Results.translate;
             
+            if(ismember('limits', p.UsingDefaults))
+                clipped_by = "";
+            else
+                % TODO: Take distance into account
+                clipped_by = sprintf("clipped_by{ box { <%0.2f,%0.2f,%0.2f>, <%0.2f,%0.2f,%0.2f> }}", limits(1), limits(2), limits(2), limits(3), limits(4), limits(4));
+            end
+            
             % Write
             fprintf(o.fh,['plane { <%d, %d, %d>, %0.2f\n'...
-                          '        texture { %s }\n'],...
-                          normal(1), normal(2), normal(3), distance,...
-                          texture);
+                          '        texture { %s }\n' ...
+                          '        %s\n'],...
+                          normal(1), normal(2), normal(3), distance, texture, clipped_by);
+                          
             o.write_transforms(scale, rotate, translate);
         end
         
@@ -1169,6 +1179,7 @@ classdef povlab < handle
                 o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
             end
         % Write triangle
+        % TODO: Fix it according to make_mesh
         function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
                                   s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1),...
