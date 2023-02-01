@@ -761,29 +761,18 @@ classdef povlab < handle
                 RGB = ind2rgb(index,cmap);
             end
 
-            function tex = get_texture(i,j,n)
-                if(use_colormap)
-                     if(n==1)
-                        mi=i+1;
-                        mj=j;
-                     else
-                        mi=i;
-                        mj=j+1;
-                     end
-                     tex = sprintf('<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>',...
-                                    RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3),...
-                                    RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
-                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
-                else if(has_tex)
-                        tex = sprintf('                     texture{%s}', texture);
-                     else
-                        if(mod(i+j,2) == 1)
-                            tex = sprintf('                     texture{%s}', texture_even);
-                        else
-                            tex = sprintf('                     texture{%s}', texture_odd);
-                        end
-                    end
-                end
+            function tex = get_cmap_tex(i,j,n)
+                 if(n==1)
+                    mi=i+1;
+                    mj=j;
+                 else
+                    mi=i;
+                    mj=j+1;
+                 end
+                 tex = sprintf('<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>',...
+                                RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3),...
+                                RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
+                                RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
             end
 
             % Write data
@@ -800,8 +789,8 @@ classdef povlab < handle
             for i=1:size_x
                 for j=1:size_y
                     if(mode == 1)
-                        tex1 = get_texture(i,j,1);
-                        tex2 = get_texture(i,j,2);
+                        tex1 = get_cmap_tex(i,j,1);
+                        tex2 = get_cmap_tex(i,j,2);
                     else
                         tex1 = "";
                         tex2 = "";

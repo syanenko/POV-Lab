@@ -124,15 +124,15 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
 %     s = surf(x,y,z, FaceColor = 'interp', EdgeColor = 'interp');
     
     % With checkerd texture
-    % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
+    pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
     
     % With flat texture
     % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture', 'Aluminum');
     % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture', 'T_Winebottle_Glass');
     
     % With color map
-    finish = pl.declare("f", "finish {ambient 0.01 diffuse 0.3 reflection 0.1 specular 5.4 roughness 0.4}");
-    pl.surface('surface', s, 'colormap', 'hsv', 'scale', [1, 1, 0.35], 'finish', finish);
+    %finish = pl.declare("f", "finish {ambient 0.01 diffuse 0.3 reflection 0.1 specular 5.4 roughness 0.4}");
+    %pl.surface('surface', s, 'colormap', 'hsv', 'scale', [1, 1, 0.35], 'finish', finish);
 pl.scene_end();
 % Render and display
 
