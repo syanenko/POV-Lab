@@ -110,7 +110,7 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     %ax = axes(f);
     
     % Surface
-    t = linspace (-8, 8, 50);
+    t = linspace (-8, 8, 40);
     [x, y] = meshgrid (t, t);
     r = sqrt (x .^ 2 + y .^ 2) + eps;
     z = 18 * sin (r) ./ r;
@@ -125,6 +125,10 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     
     % With checkerd texture
     % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
+    
+    % With flat texture
+    % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture', 'Aluminum');
+    % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture', 'T_Winebottle_Glass');
     
     % With color map
     finish = pl.declare("f", "finish {ambient 0.01 diffuse 0.3 reflection 0.1 specular 5.4 roughness 0.4}");

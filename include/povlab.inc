@@ -133,18 +133,36 @@ union{
 //
 // Make mesh from array of vertices
 //
-#macro make_mesh (V, N, F, S, R, T)
-mesh {
-        #for (i, 0, N - 1)
-
-            #declare t1=texture { pigment {rgb V[i][6] } finish {F} }
-            #declare t2=texture { pigment {rgb V[i][7] } finish {F} }
-            #declare t3=texture { pigment {rgb V[i][8] } finish {F} }
-    
-            smooth_triangle { V[i][0], V[i][1], V[i][2], V[i][3], V[i][4], V[i][5]
-                              texture_list {t1 t2 t3 }}
+#macro make_mesh (mode, V, N, fin, tex, tex_odd, tex_even, S, R, T)
+mesh {  
+        #if (mode = 1)
+            #for (i, 0, N - 1)
+                #declare t1=texture { pigment {rgb V[i][6] } finish {fin} }
+                #declare t2=texture { pigment {rgb V[i][7] } finish {fin} }
+                #declare t3=texture { pigment {rgb V[i][8] } finish {fin} }
+                smooth_triangle { V[i][0], V[i][1], V[i][2], V[i][3], V[i][4], V[i][5]
+                                  texture_list {t1 t2 t3 }}
+            #end
+        #elseif (mode = 2)
+            #for (i, 0, N - 1)
+                smooth_triangle { V[i][0], V[i][1], V[i][2], V[i][3], V[i][4], V[i][5]
+                                  texture { tex }}
+            #end
+        #else
+            #local c = 1;
+            #for (i, 0, N - 1, 2)
+                #if ( mod(c,2) )
+                    #local tex = tex_odd
+                #else
+                    #local tex = tex_even
+                #end
+                #local c = c + 1;
+                smooth_triangle { V[i][0], V[i][1], V[i][2], V[i][3], V[i][4], V[i][5]
+                                  texture { tex }}
+                smooth_triangle { V[i+1][0], V[i+1][1], V[i+1][2], V[i+1][3], V[i+1][4], V[i+1][5]
+                                  texture { tex }}
+            #end
         #end
-
         scale S rotate R translate T
     }
 #end

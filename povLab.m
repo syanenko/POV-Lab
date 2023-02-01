@@ -358,7 +358,7 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
                           type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, looks_like);
@@ -735,6 +735,13 @@ classdef povlab < handle
             has_tex_even = ~strcmp(texture_even, "");
 
             use_colormap = ~has_tex_odd && ~has_tex_even && ~has_tex;
+            if(use_colormap)
+                mode = 1;
+            elseif (has_tex)
+                mode = 2;
+            else
+                mode = 3;
+            end
 
             if(~has_tex_odd)
                 texture_odd = texture;
@@ -769,7 +776,7 @@ classdef povlab < handle
                                     RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
                 else if(has_tex)
                         tex = sprintf('                     texture{%s}', texture);
-                      else
+                     else
                         if(mod(i+j,2) == 1)
                             tex = sprintf('                     texture{%s}', texture_even);
                         else
@@ -779,16 +786,26 @@ classdef povlab < handle
                 end
             end
 
-            % Write
+            % Write data
             s = size(surface.XData) - 1;
             size_x = s(1);
             size_y = s(2);
-            tnum = size_x * size_y * 2;    
-            fprintf(o.fh, '#declare V = array[%d][9] {\n', tnum);
+            tnum = size_x * size_y * 2;
+            if(mode == 1)
+                len = 9;
+            else
+                len = 6;
+            end    
+            fprintf(o.fh, '#declare V = array[%d][%d] {\n', tnum, len);
             for i=1:size_x
                 for j=1:size_y
-                    tex1 = get_texture(i,j,1);
-                    tex2 = get_texture(i,j,2);
+                    if(mode == 1)
+                        tex1 = get_texture(i,j,1);
+                        tex2 = get_texture(i,j,2);
+                    else
+                        tex1 = "";
+                        tex2 = "";
+                    end
                     if (smooth)
                         o.write_smooth_triangle(surface, i,j, i+1,j, i+1,j+1, tex1);
                         o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);
@@ -798,9 +815,13 @@ classdef povlab < handle
                     end
                 end
             end
-            fprintf(o.fh, '}\nmake_mesh (V, %d, %s, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>)\n', ...
+            
+            % Write macro call
+            fprintf(o.fh, '}\nmake_mesh (%d, V, %d, %s, %s, %s, %s, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>)\n', ...
+                          mode,....
                           tnum, ...
                           finish,...
+                          texture, texture_odd, texture_even, ...
                           scale(1),     scale(2),     scale(3), ...
                           rotate(1),    rotate(2),    rotate(3), ...
                           translate(1), translate(2), translate(3));
@@ -1172,9 +1193,9 @@ classdef povlab < handle
                     fprintf(o.fh, ['{<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f>, '...
                                     '<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f>, '...
                                     '<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f> %s}\n'], ...
-                                  s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...
-                                  s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
-                                  s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
+                                    s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...
+                                    s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
+                                    s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
         end
 
         % Write transforms
