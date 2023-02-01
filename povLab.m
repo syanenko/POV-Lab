@@ -759,19 +759,14 @@ classdef povlab < handle
                      if(n==1)
                         mi=i+1;
                         mj=j;
-                        texture_list = "t1 t3 t2";
                      else
                         mi=i;
                         mj=j+1;
-                        texture_list = "t1 t2 t3";
                      end
-                     tex = sprintf(['                     #declare t1=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
-                                    '                     #declare t2=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
-                                    '                     #declare t3=texture { pigment {rgb<%0.2f, %0.2f, %0.2f>} finish {%s} }\n'...
-                                    '                     texture_list {%s}'],...
-                                    RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3), finish,...
-                                    RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3), finish,...
-                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3), finish, texture_list);
+                     tex = sprintf('<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>',...
+                                    RGB(i,  j,  1), RGB(i,  j,  2), RGB(i,  j,  3),...
+                                    RGB(mi, mj, 1), RGB(mi, mj, 2), RGB(mi, mj, 3),...
+                                    RGB(i+1,j+1,1), RGB(i+1,j+1,2), RGB(i+1,j+1,3));
                 else if(has_tex)
                         tex = sprintf('                     texture{%s}', texture);
                       else
@@ -785,25 +780,30 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh, 'mesh {\n');
             s = size(surface.XData) - 1;
             size_x = s(1);
             size_y = s(2);
+            tnum = size_x * size_y * 2;    
+            fprintf(o.fh, '#declare V = array[%d][9] {\n', tnum);
             for i=1:size_x
                 for j=1:size_y
                     tex1 = get_texture(i,j,1);
                     tex2 = get_texture(i,j,2);
                     if (smooth)
-                        o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);                        
-                        o.write_smooth_triangle(surface, i,j, i+1,j+1, i+1,j, tex1);
-                        % o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);
+                        o.write_smooth_triangle(surface, i,j, i+1,j, i+1,j+1, tex1);
+                        o.write_smooth_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);
                     else
-                        o.write_triangle(surface, i,j, i+1,j,   i+1,j+1, tex1);
-                        o.write_triangle(surface, i,j, i,  j+1, i+1,j+1, tex2);
+                        o.write_triangle(surface, i,j, i+1,j, i+1,j+1, tex1);
+                        o.write_triangle(surface, i,j, i,j+1, i+1,j+1, tex2);
                     end
                 end
             end
-            o.write_transforms(scale, rotate, translate);
+            fprintf(o.fh, '}\nmake_mesh (V, %d, %s, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>)\n', ...
+                          tnum, ...
+                          finish,...
+                          scale(1),     scale(2),     scale(3), ...
+                          rotate(1),    rotate(2),    rotate(3), ...
+                          translate(1), translate(2), translate(3));
         end
         
         % Wire box
@@ -1169,9 +1169,9 @@ classdef povlab < handle
         % Write smooth triangle
         function  write_smooth_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     n = s.VertexNormals;
-                    fprintf(o.fh, ['    smooth_triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>,\n'...
-                                   '                     <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n'], ...
+                    fprintf(o.fh, ['{<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f>, '...
+                                    '<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f>, '...
+                                    '<%+0.2f, %+0.2f, %+0.2f>, <%+0.2f, %+0.2f, %+0.2f> %s}\n'], ...
                                   s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1), n(x1,y1,1), n(x1,y1,2), n(x1,y1,3),...
                                   s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2), n(x2,y2,1), n(x2,y2,2), n(x2,y2,3),...
                                   s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);

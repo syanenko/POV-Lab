@@ -44,7 +44,6 @@ union{
 
 #macro grid(name, cell_size, grid_width, grid_height, grid_radius, tex_odd, tex_even)
 
-
     #local grid_width_abs  = cell_size * grid_width;
     #local grid_height_abs = cell_size * grid_height;
     
@@ -129,6 +128,25 @@ union{
         #declare X = X + 0.002;  // next Nr  <<<- increase this value, if you have not enough RAM or if your computer is too slow!
     #end
 }
+#end
+
+//
+// Make mesh from array of vertices
+//
+#macro make_mesh (V, N, F, S, R, T)
+mesh {
+        #for (i, 0, N - 1)
+
+            #declare t1=texture { pigment {rgb V[i][6] } finish {F} }
+            #declare t2=texture { pigment {rgb V[i][7] } finish {F} }
+            #declare t3=texture { pigment {rgb V[i][8] } finish {F} }
+    
+            smooth_triangle { V[i][0], V[i][1], V[i][2], V[i][3], V[i][4], V[i][5]
+                              texture_list {t1 t2 t3 }}
+        #end
+
+        scale S rotate R translate T
+    }
 #end
 
 //

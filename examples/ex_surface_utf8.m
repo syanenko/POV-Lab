@@ -110,18 +110,18 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     %ax = axes(f);
     
     % Surface
-%     t = linspace (-8, 8, 50);
-%     [x, y] = meshgrid (t, t);
-%     r = sqrt (x .^ 2 + y .^ 2) + eps;
-%     z = 18 * sin (r) ./ r;
-%     s = surf(x,y,z, FaceColor = 'interp', EdgeColor = 'interp');
-
-    t = linspace (-1, 1, 3);
+    t = linspace (-8, 8, 50);
     [x, y] = meshgrid (t, t);
     r = sqrt (x .^ 2 + y .^ 2) + eps;
     z = 18 * sin (r) ./ r;
-    z = x;
     s = surf(x,y,z, FaceColor = 'interp', EdgeColor = 'interp');
+
+%     t = linspace (-1, 1, 3);
+%     [x, y] = meshgrid (t, t);
+%     r = sqrt (x .^ 2 + y .^ 2) + eps;
+%     z = 18 * sin (r) ./ r;
+%     z = x;
+%     s = surf(x,y,z, FaceColor = 'interp', EdgeColor = 'interp');
     
     % With checkerd texture
     % pl.surface('surface', s, 'scale', [1, 1, 3/10], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
