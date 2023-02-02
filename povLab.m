@@ -680,7 +680,6 @@ classdef povlab < handle
             % Creates a plane by normal and distance from origin
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
-            addParameter(p,'distance',  0,           @o.check_float);
             addParameter(p,'limits',    [0 0 0 0],   @o.check_vector4);
             addParameter(p,'texture',   "tex_plane", @o.check_string);
             addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
@@ -689,7 +688,6 @@ classdef povlab < handle
             parse(p,varargin{:});
 
             normal    = p.Results.normal;
-            distance  = p.Results.distance;
             limits    = p.Results.limits;
             texture   = p.Results.texture;
             scale     = p.Results.scale;
@@ -699,15 +697,21 @@ classdef povlab < handle
             if(ismember('limits', p.UsingDefaults))
                 clipped_by = "";
             else
-                % TODO: Take distance into account
-                clipped_by = sprintf("clipped_by{ box { <%0.2f,%0.2f,%0.2f>, <%0.2f,%0.2f,%0.2f> }}", limits(1), limits(2), limits(2), limits(3), limits(4), limits(4));
+                i = find(normal);
+                % Lower left coner
+                ll = limits(1:2); 
+                ll = [ll(1:i-1) -0.1 ll(i:end)];
+                % Upper right coner
+                ur = limits(3:4);
+                ur = [ur(1:i-1) 0.1 ur(i:end)];
+                clipped_by = sprintf("clipped_by{ box { <%0.2f,%0.2f,%0.2f>, <%0.2f,%0.2f,%0.2f> }}", ll(1), ll(2), ll(3), ur(1), ur(2), ur(3));
             end
             
             % Write
-            fprintf(o.fh,['plane { <%d, %d, %d>, %0.2f\n'...
+            fprintf(o.fh,['plane { <%d, %d, %d>, 0\n'...
                           '        texture { %s }\n' ...
                           '        %s\n'],...
-                          normal(1), normal(2), normal(3), distance, texture, clipped_by);
+                          normal(1), normal(2), normal(3), texture, clipped_by);
                           
             o.write_transforms(scale, rotate, translate);
         end

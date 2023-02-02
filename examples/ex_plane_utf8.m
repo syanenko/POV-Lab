@@ -13,7 +13,7 @@ pl = povlab( povray_version,...
 % Create _camera_ object and put it in separate include file to save rendering time in future
 
 pl.include_begin('camera');
-    pl.camera('angle', 50, 'location', [10 10 8], 'look_at', [0 0 0.7], 'type', 'perspective');
+    pl.camera('angle', 50, 'location', [9 9 7], 'look_at', [0 0 0.7], 'type', 'perspective');
 pl.include_end();
 % Create _lights_ objects and put them in separate include file to save rendering time in future
 
@@ -33,18 +33,18 @@ pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     tex_green  = pl.declare("tex_green",  pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.3 0.0], 'finish', finish));
     tex_blue   = pl.declare("tex_blue",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.1 0.3], 'finish', finish));    
     tex_yellow = pl.declare("tex_yellow", pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.3 0.3 0.0], 'finish', finish));
+    tex_gray   = pl.declare("tex_gray",   pl.texture('pigment_odd', [0.01 0.01 0.01], 'pigment_even', [0.02 0.02 0.02], 'finish', finish));
              
-    % Axis planes
-%     pl.plane('normal', [1,0,0], 'distance', -7, 'texture', tex_yellow);
-%     pl.plane('normal', [0,1,0], 'distance', -7, 'texture', tex_yellow, 'translate', [1 0 0]);
-     pl.plane('normal', [0,0,1], 'distance',  0,  'texture', tex_yellow, 'translate', [0 1 0]);
-
     % Shelfs
-    pl.plane('normal', [0,0,1], 'distance', 1, 'limits', [-1 -1 5 5], 'texture', tex_blue,  'translate', [0 0 0]);
-    pl.plane('normal', [0,0,1], 'distance', 1, 'limits', [-1 -1 4 4], 'texture', tex_green, 'translate', [0 0 1]);
-    pl.plane('normal', [0,0,1], 'distance', 1, 'limits', [-1 -1 3 3], 'texture', tex_pink,  'translate', [0 0 2]);
-    pl.plane('normal', [0,0,1], 'distance', 1, 'limits', [-1 -1 2 2], 'texture', tex_pink,  'translate', [0 0 3]);
-    pl.plane('normal', [0,0,1], 'distance', 1, 'limits', [-1 -1 1 1], 'texture', tex_pink,  'translate', [0 0 4]);
+%     pl.plane('normal', [1,0,0], 'limits', [-2 -2 2 2], 'texture', tex_blue,  'translate', [0 0 0]);
+%     pl.plane('normal', [0,1,0], 'limits', [-3 -3 3 3], 'texture', tex_green, 'translate', [0 0 0]);
+%     pl.plane('normal', [0,0,1], 'limits', [-4 -4 4 4], 'texture', tex_pink,  'translate', [0 0 0]);
+
+    pl.plane('normal', [0,0,1], 'texture', tex_gray);
+    pl.plane('normal', [0,0,1], 'limits', [-1 -1 4 4], 'texture', tex_pink,   'translate', [0 0 1]);
+    pl.plane('normal', [0,0,1], 'limits', [-1 -1 3 3], 'texture', tex_yellow, 'translate', [0 0 2]);
+    pl.plane('normal', [0,0,1], 'limits', [-1 -1 2 2], 'texture', tex_green,  'translate', [0 0 3]);
+    pl.plane('normal', [0,0,1], 'limits', [-1 -1 1 1], 'texture', tex_blue,   'translate', [0 0 4]);
 
 pl.scene_end();
 % Render and display
