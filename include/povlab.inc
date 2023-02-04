@@ -13,13 +13,11 @@ global_settings { assumed_gamma 1 }
 #macro axis( len, rad, tex_odd, tex_even)
 union{
     cylinder { <0, -len, 0>,<0, len, 0>, rad
-    
-        texture{ checker texture{ tex_odd } texture{ tex_even }
-                 translate <0.1, 0, 0.1> }}
+               texture{ checker texture{ tex_odd } texture{ tex_even }
+               translate <0.1, 0, 0.1> }}
 
     cone{<0, len, 0>, rad * 2, <0, len + rad * 7, 0>, 0 texture{tex_even}} }
-# end
-
+#end
 
 #macro axis_xyz( len_x, len_y, len_z, rad, tex_common, tex_x, tex_y, tex_z)
 union{
