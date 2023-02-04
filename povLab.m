@@ -221,6 +221,9 @@ classdef povlab < handle
         end
 
         % Light
+        % TODO !
+        % [ adaptive Adaptive ] [ area_illumination on/off ]
+        % [ jitter ] [ circular ] [ orient ]
         function light(o, varargin)
             % <a href="https://wiki.povray.org/content/Reference:Light_Source">POV Reference:Light Source</a> - More about light sources
             p = inputParser;
@@ -235,6 +238,10 @@ classdef povlab < handle
             addParameter(p,'visible',    false,            @(x) islogical(x));
             addParameter(p,'fade_power',        10,        @o.check_positive_float);
             addParameter(p,'fade_distance',     10,        @o.check_positive_float);
+            addParameter(p,'axis1',        [1 0 0],        @o.check_vector3);
+            addParameter(p,'axis2',        [0 1 0],        @o.check_vector3);
+            addParameter(p,'size1',              4,        @o.check_positive_int);
+            addParameter(p,'size2',              4,        @o.check_positive_int);
             addParameter(p,'media_interaction', true,      @(x) islogical(x));
             addParameter(p,'media_attenuation', false,     @(x) islogical(x));
             addParameter(p,'shape_scale',       1,         @o.check_positive_float);
@@ -252,6 +259,10 @@ classdef povlab < handle
             visible    = p.Results.visible;
             fade_power    = p.Results.fade_power;
             fade_distance = p.Results.fade_distance;
+            axis1 = p.Results.axis1;
+            axis2 = p.Results.axis2;
+            size1 = p.Results.size1;
+            size2 = p.Results.size2;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
             shape_scale = p.Results.shape_scale;
@@ -276,6 +287,9 @@ classdef povlab < handle
                                   target(2), ...
                                   target(3));
                     looks_like = " looks_like {Cylinder_Shape}";
+               elseif(type == "area_light")
+                    fprintf(o.fh,'#declare Area_Shape = union { plane { <0,0,1>, 0 clipped_by {box {<-0.5,-0.5,-0.5>, <0.5,0.5,0.5>}}} cylinder { <0,0,0>, <0,0,-0.8>, 0.05 } cone { <0,0,-0.6>,0.1,<0,0,-1>, 0 } texture {Lightsource_Shape_Tex}}\n');
+                    looks_like = " looks_like {Area_Shape}";
                 else
                     looks_like = " looks_like {Pointlight_Shape}";
                     fprintf(o.fh,['#declare Pointlight_Shape =\n'...
@@ -293,20 +307,33 @@ classdef povlab < handle
                 looks_like = "";
             end
             
-            if((p.Results.type == ""))
+            if(type == "")
                 radius    = "";
                 falloff   = "";
                 tightness = "";
                 point_at  = "";
+                area = "";
             elseif (type == "parallel")
                 type = sprintf(" %s", type);
-                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
+                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
                 radius    = "";
                 falloff   = "";
                 tightness = "";
+                area = "";
+            elseif(type == "area_light")
+                type = sprintf(" %s", type);
+                radius    = "";
+                falloff   = "";
+                tightness = "";
+                point_at  = "";
+                area = sprintf(" <%0.2f, %0.2f, %0.2f> <%0.2f, %0.2f, %0.2f> %d %d", ...
+                    axis1(1), axis1(2), axis1(3), ...
+                    axis2(1), axis2(2), axis2(3), ...
+                    size1, size2);
             else
                 type = sprintf(" %s", type);
-                point_at  = sprintf(" point_at <%0.1f, %0.1f, %0.1f>", point_at(1), point_at(2), point_at(3));
+                area = "";
+                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
                 
                 if (ismember('radius', p.UsingDefaults))
                     radius = "";
@@ -358,10 +385,10 @@ classdef povlab < handle
             end
 
             % Write
-            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s}\n', ...
+            fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, media_interaction, media_attenuation, looks_like);
+                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, area, media_interaction, media_attenuation, looks_like);
         end
        
         % Axis
