@@ -21,7 +21,7 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     
     % Wall
     tex_wall = pl.declare("tex_wall", pl.texture('pigment', [0.3 0.3 0.3]));
-    pl.plane('normal', [1,0,0], 'distance', 0, 'texture', tex_wall);
+    pl.plane('normal', [1,0,0], 'texture', tex_wall);
    
     % Lights
     rest_comp = 0.42;

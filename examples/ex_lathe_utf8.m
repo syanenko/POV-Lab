@@ -29,8 +29,8 @@ pl.scene_begin('scene_file', 'lathe.pov', 'image_file', 'lathe.png');
 
     % Walls
     tex_plane  = pl.declare("tex_plane", pl.texture('pigment_odd', [1.5 1.5 1.5], 'pigment_even', [0.1 0.1 0.1]));
-    pl.plane('normal', [1,0,0], 'distance', -10, 'texture', tex_plane','translate', [0 0 1]);
-    pl.plane('normal', [0,0,1], 'distance', 0,   'texture', tex_plane');
+    pl.plane('normal', [1,0,0], 'texture', tex_plane','translate', [-10 0 1]);
+    pl.plane('normal', [0,0,1], 'texture', tex_plane');
     
     % Profile
     points = [0.00 0.00; 0.35 0.00; 0.62 0.54; 0.21 0.83; 0.19 1.46; 0.29 1.50; 0.26 1.53];

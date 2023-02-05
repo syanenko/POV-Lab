@@ -793,7 +793,6 @@ classdef povlab < handle
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'limits',    [0 0 0 0],   @o.check_vector4);
             addParameter(p,'texture',   "tex_plane", @o.check_string);
-            addParameter(p,'distance',  0      ,     @o.check_float); % Depricated
             addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
             addParameter(p,'rotate',    [0 0 0],     @o.check_vector3);
             addParameter(p,'translate', [0 0 0],     @o.check_vector3);

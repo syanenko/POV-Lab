@@ -35,8 +35,8 @@ pl.scene_begin('scene_file', 'primitives.pov', 'image_file', 'primitives.png');
     
     % Floor and wall
     tex_checker = pl.declare("tex_floor", pl.texture('pigment_odd', [2.8 2.8 2.8], 'pigment_even', [0.1 0.1 0.1]));
-    pl.plane('normal', [0,0,1], 'distance', 0,   'texture', tex_checker);
-    pl.plane('normal', [1,0,0], 'distance', -10, 'texture', tex_checker, 'translate', [0 0 1]);
+    pl.plane('normal', [0,0,1], 'texture', tex_checker);
+    pl.plane('normal', [1,0,0], 'texture', tex_checker, 'translate', [-10 0 1]);
 
     % Textures
     finish = "phong 1 reflection {0.04 metallic 0.4}";
