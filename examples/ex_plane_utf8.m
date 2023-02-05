@@ -18,25 +18,21 @@ pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     
     % Lights
     % Point
-    pl.light('location', [9 9 8], 'color', [3 3 3], 'shadowless', false);
+    pl.light('type', 'spotlight', 'location', [0 0 15], 'point_at', [0 0 0], 'color', [3 3 3], 'falloff', 60, 'shadowless', false);
     
-    % Point with area
-    pl.light('location', [1 -1 5], 'color', [3 3 3], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.7], ...
-             'adaptive', 4, 'area_illumination', true, 'jitter', false, 'circular', false, 'orient', false);
-
-    % Spotlight with area
-    pl.light('type', 'spotlight', 'location', [0 4 6], 'point_at', [1 3 4.5], 'color', [3 3 3], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.7], ...
-             'adaptive', 4, 'area_illumination', false, 'jitter', false, 'circular', false, 'orient', false);
+    % Spotlights
+    % pl.light('type', 'spotlight', 'location', [0 2 6],    'point_at', [0 0 1], 'color', [1 1 1], 'shadowless', false);
+    pl.light('type', 'spotlight', 'location', [7 11 8.2], 'point_at', [0 0 7], 'color', [1 1 1], 'shadowless', false);
     
     % Axis
     pl.axis('length', [6 6 5]);
    
     % Textures
     finish = "phong 1 reflection {0.02 metallic 0.8}";
-    tex_pink   = pl.declare("tex_pink",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.8 0.2 0.3], 'finish', finish));
-    tex_green  = pl.declare("tex_green",  pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.3 0.0], 'finish', finish));
-    tex_blue   = pl.declare("tex_blue",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.1 0.3], 'finish', finish));    
-    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.3 0.3 0.0], 'finish', finish));
+    tex_pink   = pl.declare("tex_pink",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.8 0.2 0.3],    'finish', finish));
+    tex_green  = pl.declare("tex_green",  pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.3 0.0],    'finish', finish));
+    tex_blue   = pl.declare("tex_blue",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.0 0.1 0.3],    'finish', finish));    
+    tex_yellow = pl.declare("tex_yellow", pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.3 0.3 0.0],    'finish', finish));
     tex_gray   = pl.declare("tex_gray",   pl.texture('pigment_odd', [0.01 0.01 0.01], 'pigment_even', [0.02 0.02 0.02], 'finish', finish));
 
     % Floor
