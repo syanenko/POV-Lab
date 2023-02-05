@@ -180,7 +180,9 @@ classdef povlab < handle
             fprintf(o.fh, '%s\n\n', text);
         end
 
+        %
         % Camera
+        %
         function camera(o, varargin)
             % Creates camera object with desired parameters
             %
@@ -220,9 +222,9 @@ classdef povlab < handle
                             right(1), right(2), right(3));
         end
 
+        %
         % Light
-        % TODO:
-        % Spotlights and cylinder lights can be area lights too!
+        %
         function light(o, varargin)
             % <a href="https://wiki.povray.org/content/Reference:Light_Source">POV Reference:Light Source</a> - More about light sources
             p = inputParser;
@@ -242,6 +244,7 @@ classdef povlab < handle
             addParameter(p,'size1',              4,        @o.check_positive_int);
             addParameter(p,'size2',              4,        @o.check_positive_int);
             addParameter(p,'adaptive',           1,        @o.check_positive_int);
+            addParameter(p,'area_light',         false,    @(x) islogical(x));
             addParameter(p,'area_illumination',  false,    @(x) islogical(x));
             addParameter(p,'jitter',             false,    @(x) islogical(x));
             addParameter(p,'circular',           false,    @(x) islogical(x));
@@ -269,9 +272,10 @@ classdef povlab < handle
             size2 = p.Results.size2;
             adaptive = p.Results.adaptive;
             area_illumination = p.Results.area_illumination;
-            jitter   = p.Results.jitter;
-            circular = p.Results.circular;
-            orient   = p.Results.orient;
+            area_light = p.Results.area_light;
+            jitter     = p.Results.jitter;
+            circular   = p.Results.circular;
+            orient     = p.Results.orient;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
             shape_scale = p.Results.shape_scale;
@@ -296,7 +300,7 @@ classdef povlab < handle
                                   target(2), ...
                                   target(3));
                     looks_like = " looks_like {Cylinder_Shape}";
-               elseif(type == "area_light")
+               elseif(area_light)
                     fprintf(o.fh,'#declare Area_Shape = union { plane { <0,0,1>, 0 clipped_by {box {<-0.5,-0.5,-0.5>, <0.5,0.5,0.5>}}} cylinder { <0,0,0>, <0,0,-0.8>, 0.05 } cone { <0,0,-0.6>,0.1,<0,0,-1>, 0 } texture {Lightsource_Shape_Tex}}\n');
                     looks_like = " looks_like {Area_Shape}";
                 else
@@ -316,25 +320,7 @@ classdef povlab < handle
                 looks_like = "";
             end
             
-            if(type == "")
-                radius    = "";
-                falloff   = "";
-                tightness = "";
-                point_at  = "";
-                area_light = "";
-            elseif (type == "parallel")
-                type = sprintf(" %s", type);
-                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
-                radius    = "";
-                falloff   = "";
-                tightness = "";
-                area_light = "";
-            elseif(type == "area_light")
-                type = sprintf(" %s", type);
-                radius    = "";
-                falloff   = "";
-                tightness = "";
-                point_at  = "";
+            if(area_light)
 
                 if (ismember('adaptive', p.UsingDefaults))
                     adaptive = "";
@@ -366,34 +352,13 @@ classdef povlab < handle
                     orient = "";
                 end
 
-                area_light = sprintf(" <%0.2f, %0.2f, %0.2f> <%0.2f, %0.2f, %0.2f> %d %d%s%s%s%s%s", ...
+                area_light = sprintf(" area_light <%0.2f, %0.2f, %0.2f> <%0.2f, %0.2f, %0.2f> %d %d%s%s%s%s%s", ...
                     axis1(1), axis1(2), axis1(3), ...
                     axis2(1), axis2(2), axis2(3), ...
                     size1, size2, ...
                     adaptive, area_illumination, jitter, circular, orient);
-                    
             else
-                type = sprintf(" %s", type);
                 area_light = "";
-                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
-                
-                if (ismember('radius', p.UsingDefaults))
-                    radius = "";
-                else
-                    radius = sprintf(" radius %0.2f", radius);
-                end
-
-                if (ismember('falloff', p.UsingDefaults))
-                    falloff = "";
-                else
-                    falloff = sprintf(" falloff %0.2f", falloff);
-                end
-
-                if (ismember('tightness', p.UsingDefaults))
-                    tightness = "";
-                else
-                    tightness = sprintf(" tightness %0.2f", tightness);
-                end
             end
 
             if(shadowless)
@@ -424,6 +389,40 @@ classdef povlab < handle
                 media_attenuation = " media_attenuation on";
             else
                 media_attenuation = "";
+            end
+            
+            if(type == "")
+                radius    = "";
+                falloff   = "";
+                tightness = "";
+                point_at  = "";
+            elseif (type == "parallel")
+                type = sprintf(" %s", type);
+                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
+                radius    = "";
+                falloff   = "";
+                tightness = "";
+            else
+                type = sprintf(" %s", type);
+                point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
+                
+                if (ismember('radius', p.UsingDefaults))
+                    radius = "";
+                else
+                    radius = sprintf(" radius %0.2f", radius);
+                end
+
+                if (ismember('falloff', p.UsingDefaults))
+                    falloff = "";
+                else
+                    falloff = sprintf(" falloff %0.2f", falloff);
+                end
+
+                if (ismember('tightness', p.UsingDefaults))
+                    tightness = "";
+                else
+                    tightness = sprintf(" tightness %0.2f", tightness);
+                end
             end
 
             % Write
@@ -766,13 +765,14 @@ classdef povlab < handle
             if(ismember('limits', p.UsingDefaults))
                 clipped_by = "";
             else
+                delta = 0.1;
                 i = find(normal);
                 % Lower left coner
                 ll = limits(1:2); 
-                ll = [ll(1:i-1) -0.1 ll(i:end)];
+                ll = [ll(1:i-1) -delta ll(i:end)];
                 % Upper right coner
                 ur = limits(3:4);
-                ur = [ur(1:i-1) 0.1 ur(i:end)];
+                ur = [ur(1:i-1) delta ur(i:end)];
                 clipped_by = sprintf("clipped_by{ box { <%0.2f,%0.2f,%0.2f>, <%0.2f,%0.2f,%0.2f> }}", ll(1), ll(2), ll(3), ur(1), ur(2), ur(3));
             end
             
