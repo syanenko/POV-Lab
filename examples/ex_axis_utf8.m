@@ -54,7 +54,8 @@ pl.scene_begin('scene_file', 'axis_colored.pov', 'image_file', 'axis_colored.png
     pl.include("camera");
     pl.include("lights");
     pl.include("environment");
-
+    
+    % Texture
     tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2]));
     tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0]));
 

@@ -36,6 +36,11 @@ pl.scene_begin('scene_file', 'surface1.pov', 'image_file', 'surface1.png');
     % Lights
     pl.light('location', [-10 -17 7],   'color', [2 2 2], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [1 1 1], 'shadowless', true);
+
+    % Axis
+    % tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2]));
+    % tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0]));
+    % pl.axis('length', [5 5 3], 'radius', 0.03, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow, 'tex_z', tex_yellow);
     
     % Hide preview
     %f = figure('Visible', 'off');
@@ -72,6 +77,11 @@ pl.scene_begin('scene_file', 'surface2.pov', 'image_file', 'surface2.png');
     pl.light('location', [-10 -17 7],   'color', [2.5 2.5 2.5], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [1 1 1],       'shadowless', true);
 
+    % Axis
+    % tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2]));
+    % tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0]));
+    % pl.axis('length', [5 5 3], 'radius', 0.03, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow, 'tex_z', tex_yellow);
+    
     % Hide preview
     % f = figure('Visible', 'off');
     % ax = axes(f);
@@ -106,6 +116,11 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     pl.light('location', [-10 -17 7],   'color', [2.5 2.5 2.5], 'shadowless', true);
     pl.light('location', [100 200 300], 'color', [1 1 1],       'shadowless', true);
 
+    % Axis
+    % tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.2 0.2 0.2]));
+    % tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [0.6 0.6 0.0]));
+    % pl.axis('length', [5 5 3], 'radius', 0.03, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow, 'tex_z', tex_yellow);
+    
     % Hide preview
     %f = figure('Visible', 'off');
     %ax = axes(f);
