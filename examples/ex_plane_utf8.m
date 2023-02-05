@@ -18,15 +18,15 @@ pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     
     % Lights
     % Point
-    pl.light('location', [9 9 8], 'color', [1 1 1], 'shadowless', false);
+    pl.light('location', [9 9 8], 'color', [3 3 3], 'shadowless', false);
     
     % Point with area
-    pl.light('location', [2 1 6], 'color', [8 8 8], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.8], ...
+    pl.light('location', [1 -1 5], 'color', [3 3 3], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.7], ...
              'adaptive', 4, 'area_illumination', true, 'jitter', false, 'circular', false, 'orient', false);
 
     % Spotlight with area
-    pl.light('type', 'spotlight', 'location', [0 4 6], 'point_at', [1 3 4.5], 'color', [9 9 9], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.8], ...
-             'adaptive', 4, 'area_illumination', true, 'jitter', false, 'circular', false, 'orient', false);
+    pl.light('type', 'spotlight', 'location', [0 4 6], 'point_at', [1 3 4.5], 'color', [3 3 3], 'area_light', true, 'axis1', [10 0 0], 'axis2', [0 0 10], 'size1', 2, 'size2', 2, 'shadowless', false, 'visible', true, 'shape_color', [0.1 0.1 0.1 0.7], ...
+             'adaptive', 4, 'area_illumination', false, 'jitter', false, 'circular', false, 'orient', false);
     
     % Axis
     pl.axis('length', [6 6 5]);

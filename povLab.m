@@ -536,9 +536,9 @@ classdef povlab < handle
             % Write
             fprintf(o.fh,['#local gid = "gid"\n' ...
                           'grid(gid, %0.2f, %d, %d, %0.2f, %s, %s);\n'...
-                          'object { gid '],...
-                          cell_size, width, height, radius, texture_odd, texture_even);
-            o.write_transforms(scale, rotate, translate);
+                          'object { gid %s}'],...
+                          cell_size, width, height, radius, texture_odd, texture_even, ...
+                          o.trans(scale, rotate, translate));
         end
         
         %
@@ -793,6 +793,7 @@ classdef povlab < handle
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'limits',    [0 0 0 0],   @o.check_vector4);
             addParameter(p,'texture',   "tex_plane", @o.check_string);
+            addParameter(p,'distance',  0      ,     @o.check_float); % Depricated
             addParameter(p,'scale',     [1 1 1],     @o.check_vector3);
             addParameter(p,'rotate',    [0 0 0],     @o.check_vector3);
             addParameter(p,'translate', [0 0 0],     @o.check_vector3);
@@ -1007,8 +1008,10 @@ classdef povlab < handle
             p1 = p.Results.p1;
             p2 = p.Results.p2;
             p3 = p.Results.p3;
-            texture = p.Results.texture;
-            trans = transforms(o, p.Results.scale, p.Results.rotate, p.Results.translate);
+            texture   = p.Results.texture;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
 
             % Write
             fprintf(o.fh, ['triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n'...
@@ -1016,7 +1019,8 @@ classdef povlab < handle
                            p1(1),p1(2),p1(3),...
                            p2(1),p2(2),p2(3),...
                            p3(1),p3(2),p3(3),...
-                           texture, trans);
+                           texture, ...
+                           o.trans(scale, rotate, translate));
         end
         
         %
@@ -1048,10 +1052,10 @@ classdef povlab < handle
             
             % Write
             fprintf(o.fh,['#declare %s = function(X) { %s }\n'...
-                          'union {plot_function(%0.2f, %0.2f, %s, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n'],...
+                          'union {plot_function(%0.2f, %0.2f, %s, %0.2f, <%0.1f, %0.1f, %0.1f0>)\n%s}\n'],...
                           name, func,...
-                          min_x, max_x, name, width, color(1), color(2), color(3));
-            o.write_transforms(scale, rotate, translate);
+                          min_x, max_x, name, width, color(1), color(2), color(3), ...
+                          o.trans(scale, rotate, translate));
         end
 
         %
@@ -1376,7 +1380,7 @@ classdef povlab < handle
         %
         % Format transforms
         %
-        function  t = transforms(o, scale, rotate, translate)
+        function  t = trans(o, scale, rotate, translate)
             if (isequal(scale, [1 1 1]))
                scale = "";
             else
