@@ -31,7 +31,7 @@ pl.scene_begin('scene_file', 'triangle.pov', 'image_file', 'triangle.png');
 
     % Textures
     finish = "phong 1 reflection {0.02 metallic 0.8}";
-    tex_grey   = pl.declare("tex_grey",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [2.5 2.5 2.5], 'finish', finish));
+    tex_grey   = pl.declare("tex_grey",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [3 3 3], 'finish', finish));
     tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0.1 2.5 0.3], 'finish', finish));
     tex_pink   = pl.declare("tex_pink",   pl.texture('pigment', [0.8 0.2 0.3], 'finish', finish));
     tex_yellow = pl.declare("tex_yellow", pl.texture('pigment', [2 2 0], 'finish', finish));
