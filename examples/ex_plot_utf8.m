@@ -29,7 +29,7 @@ pl.scene_begin('scene_file', 'plot.pov', 'image_file', 'plot.png');
     pl.axis('length', [11 11 0], 'radius', 0.08, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_yellow);
     
     % Background
-    tex_back = pl.declare("tex_back",  pl.texture('pigment', [0.02 0.02 0.02]));
+    tex_back = pl.declare("tex_back",  pl.texture('pigment', [0.01 0.01 0.01]));
     pl.plane('normal', [0,0,1], 'texture', tex_back);
     
     % Grid
