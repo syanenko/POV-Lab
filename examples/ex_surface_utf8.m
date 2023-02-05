@@ -12,23 +12,12 @@ pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
 
-% Environment
-
-pl.include_begin('environment');
-    pl.raw(['sky_sphere{ pigment{ gradient <0,0,1> '...
-                      'color_map{ [0   color rgb<0.0,0.0, 0.0> ] '...
-                                 '[0.4 color rgb<0.01, 0.01, 0.01>   ] '...
-                                 '[0.9 color rgb<0.04, 0.04, 0.04>   ]  '...
-                                 '[1.0 color rgb<0.1,  0.1,  0.1>    ]} '...
-                      'scale 1  }}']);
-pl.include_end();
 % Scene 1
 
 
 pl.scene_begin('scene_file', 'surface1.pov', 'image_file', 'surface1.png');
     pl.include("glass");
     pl.include("metals");
-    pl.include("environment");    
        
     % Camera
     pl.camera('angle', 35, 'location', [-10 -10 6], 'look_at', [0 0 0], 'type', 'perspective');
@@ -68,7 +57,6 @@ imshow(image);
 pl.scene_begin('scene_file', 'surface2.pov', 'image_file', 'surface2.png');
     pl.include("glass");
     pl.include("metals");
-    pl.include("environment");    
 
     % Camera
     pl.camera('angle', 35, 'location', [-13 -13 8], 'look_at', [0 0.2 0], 'type', 'perspective');
@@ -107,7 +95,6 @@ imshow(image);
 pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     pl.include("glass");
     pl.include("metals");
-    pl.include("environment");    
 
     % Camera
     pl.camera('angle', 35, 'location', [-25 -25 24], 'look_at', [0 0 0.5], 'type', 'perspective');
@@ -126,22 +113,22 @@ pl.scene_begin('scene_file', 'surface3.pov', 'image_file', 'surface3.png');
     %ax = axes(f);
     
     % Surface
-    t = linspace (-8, 8, 50);
+    t = linspace (-8, 8, 60);
     [x, y] = meshgrid (t, t);
     r = sqrt (x .^ 2 + y .^ 2) + eps;
     z = 18 * sin (r) ./ r;
     s = surf(x,y,z, FaceColor = 'interp', EdgeColor = 'interp');
     
     % With checkerd texture
-    % pl.surface('surface', s, 'scale', [1, 1, 0.5], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
+    % pl.surface('surface', s, 'scale', [1, 1, 0.4], 'texture_odd', 'Aluminum', 'texture_even', 'T_Winebottle_Glass');
     
     % With flat texture
-    % pl.surface('surface', s, 'scale', [1, 1, 0.5], 'texture', 'Aluminum');
-    % pl.surface('surface', s, 'scale', [1, 1, 0.5], 'texture', 'T_Winebottle_Glass');
+    % pl.surface('surface', s, 'scale', [1, 1, 0.4], 'texture', 'Aluminum');
+    % pl.surface('surface', s, 'scale', [1, 1, 0.4], 'texture', 'T_Winebottle_Glass');
     
     % With color map
     finish = pl.declare("f", "finish {ambient 0.01 diffuse 0.3 reflection 0.1 specular 5.4 roughness 0.4}");
-    pl.surface('surface', s, 'colormap', 'hsv', 'scale', [1, 1, 0.5], 'finish', finish);
+    pl.surface('surface', s, 'colormap', 'hsv', 'scale', [1, 1, 0.4], 'finish', finish);
 pl.scene_end();
 % Render and display
 
