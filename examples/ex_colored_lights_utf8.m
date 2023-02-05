@@ -20,7 +20,7 @@ pl.scene_begin('scene_file', 'lights.pov', 'image_file', 'lights.png');
     pl.camera('angle', 30, 'location', [10 35 6], 'look_at', [0 13 5], 'type', 'perspective');
     
     % Wall
-    tex_wall = pl.declare("tex_wall", pl.texture('pigment', [0.3 0.3 0.3]));
+    tex_wall = pl.declare("tex_wall", pl.texture('pigment', [0.02 0.02 0.02]));
     pl.plane('normal', [1,0,0], 'texture', tex_wall);
    
     % Lights
