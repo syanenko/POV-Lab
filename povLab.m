@@ -218,7 +218,7 @@ classdef povlab < handle
             % <a href="https://wiki.povray.org/content/Reference:Camera">POV Reference:Camera</a> - More about camera
             
             p = inputParser;
-            addParameter(p,'type',     'orthographic', @o.check_string);
+            addParameter(p,'type',     'perspective',  @o.check_string);
             addParameter(p,'angle',    65,             @o.check_positive_float);
             addParameter(p,'location', [-10 -10 10],   @o.check_vector3);
             addParameter(p,'look_at',  [0 0 0],        @o.check_vector3);
