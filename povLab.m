@@ -14,7 +14,7 @@ classdef povlab < handle
 % <a href="matlab:if exist('./examples', 'dir') cd 'examples'; end;edit ex_volume">Volume</a> - Volume visualization of Matlab's 'mri' dataset
 %
     properties (Access = private)
-        version     {mustBeNonempty} = "0.062";
+        version     {mustBeNonempty} = "0.070";
         pov_version {mustBeNonempty} = "3.7";
         pov_path    {mustBeNonempty} = "pvengine.exe";
         out_dir     {mustBeNonempty} = ".";
@@ -79,8 +79,10 @@ classdef povlab < handle
             % include_end method help
             fclose(o.fh);
         end
-        
+
+        %
         % Scene begin
+        %
         function scene_begin(o, varargin)
             % Opens new scene, corresponding scene_end() should be included after all scene content
             %
@@ -116,7 +118,9 @@ classdef povlab < handle
             o.include("povlab");
         end
         
+        %
         % Scene end
+        %
         function scene_end(o)
         % Closes scene, opened by scene_begin(), should be included after all scene content
         %
@@ -125,56 +129,74 @@ classdef povlab < handle
             fclose(o.fh);
         end
 
+        %
         % Lights begin
+        %
         function lights_begin(o)
             % lights_begin method help
             o.fh = fopen(o.out_dir + "/lights.inc",'w');
         end
         
+        %
         % Lights end
+        %
         function lights_end(o)
             % lights_end method help
             fclose(o.fh);
         end
 
+        %
         % Helpers begin
+        %
         function helpers_begin(o)
             % helpers_begin method help
             o.fh = fopen(o.out_dir + "/helpers.inc",'w');
         end
         
+        %
         % Helpers end
+        %
         function helpers_end(o)
             % helpers_end method help
             fclose(o.fh);
         end
         
+        %
         % Global settings
+        %
         function global_settings(o, settings)
             % global_settings method help
             fprintf(o.fh, 'global_settings { %s }\n\n', settings);
         end
         
+        %
         % Include
+        %
         function include(o, text)
             % include method help
             fprintf(o.fh, '#include "%s.inc"\n', text);
         end
         
+        %
         % Declare
+        %
         function s = declare(o, symbol, text)
             % declare method help
             fprintf(o.fh, '#declare %s = %s\n', symbol, text);
             s = symbol;
         end
 
+        %
         % Macro
+        %
         function macro(o, text)
             % macro method help
             fprintf(o.fh, '#macro %s#end\n\n', text);
         end
 
+        %
         % Raw
+        %
         function raw(o, text)
             % raw method help
             fprintf(o.fh, '%s\n\n', text);
@@ -432,7 +454,9 @@ classdef povlab < handle
                           type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, area_light, media_interaction, media_attenuation, looks_like);
         end
        
+        %
         % Axis
+        %
         function axis(o, varargin)
             % Creates textured axis of desired length and radius
             %
@@ -475,7 +499,9 @@ classdef povlab < handle
                           tex_common, tex_x, tex_y, tex_z);
         end
 
+        %
         % Grid
+        %
         function grid(o, varargin)
             % grid method help
             p = inputParser;
@@ -515,6 +541,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        %
+        % Texture
+        %
         function tex = texture(o, varargin)
             % <a href="https://wiki.povray.org/content/Reference:Texture">POV Reference:Texture</a> - More about textures
             p = inputParser;
@@ -550,7 +579,9 @@ classdef povlab < handle
             end
         end
         
+        %
         % Sphere
+        %
         function sphere(o, varargin)
             % sphere method help
             p = inputParser;
@@ -577,7 +608,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % Box
+        %
         function box(o, varargin)
             % Box defined by listing two opposite corners
             %
@@ -609,7 +642,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        %
         % Cone
+        %
         function cone(o, varargin)
             % Creates a cone by base center location, base radius, cap
             % center location and cap radius
@@ -642,7 +677,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % Cylinder
+        %
         function cylinder(o, varargin)
             % cylinder method help
             p = inputParser;
@@ -672,7 +709,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % Torus
+        %
         function torus(o, varargin)
             % Torus defined by major and minor radiuses
             %
@@ -703,7 +742,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        %
         % Lathe
+        %
         function lathe(o, varargin)
             % lathe method help
             p = inputParser;
@@ -743,7 +784,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % Plane
+        %
         function plane(o, varargin)
             % Creates a plane by normal and distance from origin
             p = inputParser;
@@ -785,7 +828,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
         
+        %
         % Surface
+        %
         function surface(o, varargin)
             % Creates textured mesh from surface, retuned by Matlab's 'surf'
             % function
@@ -844,6 +889,7 @@ classdef povlab < handle
                 RGB = ind2rgb(index,cmap);
             end
 
+            % get_cmap_tex
             function tex = get_cmap_tex(i,j,n)
                  if(n==1)
                     mi=i+1;
@@ -899,7 +945,9 @@ classdef povlab < handle
                           translate(1), translate(2), translate(3));
         end
         
+        %
         % Wire box
+        %
         function wire_box(o, varargin)
             % sphere method help
             p = inputParser;
@@ -939,7 +987,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % Plot
+        %
         function plot(o, varargin)
             % plot method help
             p = inputParser;
@@ -972,21 +1022,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
-        % Set cone plot visualization parameters
-        function coneplot_material(o, varargin)
-            % coneplot_material method help
-            p = inputParser;
-            addParameter(p,'alpha', 0.8, @o.check_positive_float);
-            addParameter(p,'interior', 'ior 0.0',  @o.check_string); % I_Glass
-            addParameter(p,'finish',   'crand 0.02', @o.check_string);
-            parse(p,varargin{:});
-
-            o.declare("coneplot_alpha",    sprintf("%0.1f;", p.Results.alpha));
-            o.declare("coneplot_interior", sprintf("interior {%s};", p.Results.interior));
-            o.declare("coneplot_finish",   sprintf("finish   {%s};", p.Results.finish));
-        end
-
-        % Surface
+        %
+        % Surface2
+        %
         function surface2(o, varargin)
             % surface2 method help
             p = inputParser;
@@ -997,7 +1035,9 @@ classdef povlab < handle
             patch(o, 'data', p);
         end
         
+        %
         % Coneplot
+        %
         function coneplot(o, varargin)
             % coneplot method help
             p = inputParser;
@@ -1013,7 +1053,9 @@ classdef povlab < handle
             patch(o, 'data', fvc);
         end
         
+        %
         % Streamtube
+        %
         function streamtube(o, varargin)
             % streamtube method help
             p = inputParser;
@@ -1028,7 +1070,9 @@ classdef povlab < handle
             end
         end
 
+        %
         % Streamline
+        %
         function streamline(o, varargin)
             % streamline method help
             p = inputParser;
@@ -1054,7 +1098,9 @@ classdef povlab < handle
             end
         end
         
+        %
         % Patch
+        %
         function patch(o, varargin)
             % patch method help
             p = inputParser;
@@ -1092,7 +1138,9 @@ classdef povlab < handle
                                           'interior{ I_Glass }}\n}']);
         end
 
-        % Volume via df3
+        %
+        % Volume by df3
+        %
         function volume(o, varargin)
             % volume method help
             p = inputParser;
@@ -1178,7 +1226,9 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
         % CSG:Union
+        %
         function union_begin(o)
             % Openes union section CSG, should be closed by corresponding union_end()
             fprintf(o.fh,'union {\n');
@@ -1188,7 +1238,9 @@ classdef povlab < handle
             o.csg_end(varargin{:});
         end 
 
+        %
         % CSG:Difference
+        %
         function difference_begin(o)
             % Openes difference CSG section, should be closed by corresponding difference_end()
             fprintf(o.fh,'difference {\n');
@@ -1198,7 +1250,9 @@ classdef povlab < handle
             o.csg_end(varargin{:});
         end 
 
+        %
         % CSG:Intersection
+        %
         function intersection_begin(o)
             % Openes intersection CSG section, should be closed by corresponding intersection_end()
             fprintf(o.fh,'intersection {\n');
@@ -1208,7 +1262,9 @@ classdef povlab < handle
             o.csg_end(varargin{:});
         end
 
+        %
         % CSG:Merge
+        %
         function merge_begin(o)
             % Openes merge CSG section, should be closed by corresponding intersection_end()
             fprintf(o.fh,'merge {\n');
@@ -1218,7 +1274,9 @@ classdef povlab < handle
             o.csg_end(varargin{:});
         end
 
+        %
         % Render
+        %
         function img = render(o)
             % Rendering scene by calling a POV as system process, returns rendered image
             if isunix
@@ -1238,8 +1296,10 @@ classdef povlab < handle
     methods (Access = private)
             %
             % Helper functions
+            % ----------------------------------------------------------------------
             %
             % Closing tag for all CSG functions
+            %
             function csg_end(o, varargin)
                 % Common method for closing CSG section of scene
                 p = inputParser;
@@ -1247,19 +1307,22 @@ classdef povlab < handle
                 addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
                 addParameter(p,'translate', [0 0 0], @o.check_vector3);
                 parse(p, varargin{:});
-    
+   
                 o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
             end
-        % Write triangle
-        % TODO: Fix it according to make_mesh
+        %
+        % Write triangle TODO: Fix it according to make_mesh
+        % 
         function  write_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     fprintf(o.fh, '    triangle {<%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n%s}\n', ...
                                   s.XData(x1,y1), s.YData(x1,y1), s.ZData(x1,y1),...
                                   s.XData(x2,y2), s.YData(x2,y2), s.ZData(x2,y2),...
                                   s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), tex);
         end
-        
+
+        %
         % Write smooth triangle
+        %
         function  write_smooth_triangle(o, s, x1, y1, x2, y2, x3, y3, tex)
                     n = s.VertexNormals;
                     fprintf(o.fh, ['{<%+0.8f, %+0.8f, %+0.8f>, <%+0.8f, %+0.8f, %+0.8f>, '...
@@ -1270,7 +1333,9 @@ classdef povlab < handle
                                     s.XData(x3,y3), s.YData(x3,y3), s.ZData(x3,y3), n(x3,y3,1), n(x3,y3,2), n(x3,y3,3), tex);
         end
 
+        %
         % Write transforms
+        %
         function  write_transforms(o, scale, rotate, translate)
             fprintf(o.fh, 'scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
@@ -1279,7 +1344,9 @@ classdef povlab < handle
         %
         % Validation functions
         % ----------------------------------------------------------------------
+        %
         % Vector of size '4'
+        %
         function r = check_vector4(~, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 4)
@@ -1288,7 +1355,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Vector of size '3'
+        %
         function r = check_vector3(~, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 3)
@@ -1297,7 +1366,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Vector of size '2'
+        %
         function r = check_vector2(~, x)
             r = false;
             if (~isvector(x) || isscalar(x) || ~isfloat(x) || length(x) ~= 2)
@@ -1306,7 +1377,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Float
+        %
         function r = check_float(~, x)
             r = false;
             if ~isscalar(x)
@@ -1317,7 +1390,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Positive float
+        %
         function r = check_positive_float(~, x)
             r = false;
             if ~isscalar(x)
@@ -1330,7 +1405,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Positive float in range 0..1
+        %
         function r = check_positive_float_0_1(~, x)
             r = false;
             if ~isscalar(x)
@@ -1345,7 +1422,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Positive int
+        %
         function r = check_positive_int(~, x)
             r = false;
             if ~isscalar(x)
@@ -1358,7 +1437,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % String
+        %
         function r = check_string(~, x)
             r = false;
             if (~isstring(x) && ~ischar(x))
@@ -1367,7 +1448,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Matrix '3 x 3'
+        %
         function r = check_matrix_3x3(~, x)
             r = false;
             if (~isequal(size(x), [3 3]))
@@ -1376,7 +1459,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Matrix 3d
+        %
         function r = check_volume_size(~, x)
             r = false;
             [sx,sy,sz] = size(x);
@@ -1388,7 +1473,9 @@ classdef povlab < handle
             r = true;
         end
 
+        %
         % Points list [x1 y1; .. ;xn yn])
+        %
         function r = check_points_list(~, x)
             r = false;
             s = size(x);
@@ -1398,7 +1485,9 @@ classdef povlab < handle
             r = true;
         end
         
+        %
         % Surface
+        %
         function r = check_surface(~, x)
             r = false;
             if (~isa(x, 'matlab.graphics.chart.primitive.Surface'))
@@ -1449,10 +1538,6 @@ classdef povlab < handle
         function notify (varargin)
           notify@notify(varargin{:})
         end
-
-%         function ObjectBeingDestroyed (varargin)
-%           ObjectBeingDestroyed@ObjectBeingDestroyed(varargin{:})
-%         end
        
     end % End of hidden methods
 end
