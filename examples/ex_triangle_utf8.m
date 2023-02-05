@@ -1,4 +1,4 @@
-%% 'plot' method usage example
+%% 'triangle' method usage example
 % Common setup for all examples
 
 ex_setup
