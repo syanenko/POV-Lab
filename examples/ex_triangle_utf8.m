@@ -35,9 +35,9 @@ pl.scene_begin('scene_file', 'triangle.pov', 'image_file', 'triangle.png');
     pl.plane('normal', [0,0,1], 'limits', [-5 -5 5 5], 'texture', tex_grey);
 
     % Objects
-    pl.triangle('p1', [0 0 0], 'p2', [4 4 1], 'p3', [0 5 4], 'texture', tex_pink);
-    pl.triangle('p1', [0 0 0], 'p2', [4 -2 3], 'p3', [5 2 2], 'texture', tex_green);
-    
+    pl.triangle('p1', [0 0 0], 'p2', [4 4 1],  'p3', [0 5 4], 'texture', tex_pink,  'translate', [0 8.5 5],  'scale', [1.15 1.15 1.15]);
+    pl.triangle('p1', [0 0 0], 'p2', [4 -2 3], 'p3', [5 2 2], 'texture', tex_green,  'rotate', [0 10 0]);
+
 pl.scene_end();
 % Render and display
 

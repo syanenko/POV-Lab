@@ -1007,19 +1007,16 @@ classdef povlab < handle
             p1 = p.Results.p1;
             p2 = p.Results.p2;
             p3 = p.Results.p3;
-            texture    = p.Results.texture;
-            scale      = p.Results.scale;
-            rotate     = p.Results.rotate;
-            translate  = p.Results.translate;
+            texture = p.Results.texture;
+            trans = transforms(o, p.Results.scale, p.Results.rotate, p.Results.translate);
 
             % Write
             fprintf(o.fh, ['triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n'...
-                           '          texture { %s }\n'],...
+                           '          texture { %s }%s}\n'],...
                            p1(1),p1(2),p1(3),...
                            p2(1),p2(2),p2(3),...
                            p3(1),p3(2),p3(3),...
-                           texture);
-            o.write_transforms(scale, rotate, translate);
+                           texture, trans);
         end
         
         %
@@ -1369,11 +1366,36 @@ classdef povlab < handle
         end
 
         %
-        % Write transforms
+        % Write transforms (depricated, move to 'transforms')
         %
         function  write_transforms(o, scale, rotate, translate)
             fprintf(o.fh, 'scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
                            scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
+        end
+
+        %
+        % Format transforms
+        %
+        function  t = transforms(o, scale, rotate, translate)
+            if (isequal(scale, [1 1 1]))
+               scale = "";
+            else
+                scale = sprintf(' scale <%0.2f, %0.2f, %0.2f>', scale(1), scale(2), scale(3));
+            end
+
+            if (isequal(rotate, [0 0 0]))
+               rotate = "";
+            else
+                rotate = sprintf(' rotate <%0.2f, %0.2f, %0.2f>', rotate(1), rotate(2), rotate(3));
+            end
+
+            if (isequal(translate, [0 0 0]))
+               translate = "";
+            else
+                translate = sprintf(' translate <%0.2f, %0.2f, %0.2f>', translate(1), translate(2), translate(3));
+            end
+
+            t = sprintf('%s%s%s', scale, rotate, translate);
         end
         
         %
