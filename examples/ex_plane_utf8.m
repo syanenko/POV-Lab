@@ -5,15 +5,16 @@ ex_setup
 % Start timer
 
 tic
-% _Povlab_ object
+% Povlab object
 
 pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
+% Scene
 
 pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     % Camera
-    pl.camera('angle', 50, 'location', [6 9 7] * 1.2, 'look_at', [0 0 1], 'type', 'perspective');
+    pl.camera('angle', 50, 'location', [7 11 8.2], 'look_at', [0 0 1], 'type', 'perspective');
     
     % Lights
     % Point
@@ -53,5 +54,6 @@ pl.scene_end();
 image = pl.render();
 imshow(image);
 % Elapsed time
+
 
 toc
