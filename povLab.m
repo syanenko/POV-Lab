@@ -494,7 +494,7 @@ classdef povlab < handle
             tex_z =      p.Results.tex_z;
             radius =     p.Results.radius;
 
-            fprintf(o.fh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) }\n\n', ...
+            fprintf(o.fh,'object{ axis_xyz( %0.2f, %0.2f, %0.2f, %0.2f,\n        %s, %s, %s, %s) no_shadow }\n\n', ...
                           length(1), length(2), length(3), radius,...
                           tex_common, tex_x, tex_y, tex_z);
         end
@@ -969,7 +969,7 @@ classdef povlab < handle
                 merge = 1;
             else 
                 merge = 0;
-            end    
+            end
             texture    = p.Results.texture;
             scale      = p.Results.scale;
             rotate     = p.Results.rotate;
@@ -987,6 +987,41 @@ classdef povlab < handle
             o.write_transforms(scale, rotate, translate);
         end
 
+        %
+        % Triangle
+        %
+        function triangle(o, varargin)
+            %
+            % <a https://wiki.povray.org/content/Reference:Triangle">POV Reference:Triangle</a> - More about triangle
+            %
+            p = inputParser;
+            addParameter(p,'p1', [0 0 0],         @o.check_vector3);
+            addParameter(p,'p2', [1 1 0],         @o.check_vector3);
+            addParameter(p,'p3', [0 1 1],         @o.check_vector3);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',      [1 1 1],  @o.check_vector3);
+            addParameter(p,'rotate',     [0 0 0],  @o.check_vector3);
+            addParameter(p,'translate',  [0 0 0],  @o.check_vector3);
+            parse(p,varargin{:});
+            
+            p1 = p.Results.p1;
+            p2 = p.Results.p2;
+            p3 = p.Results.p3;
+            texture    = p.Results.texture;
+            scale      = p.Results.scale;
+            rotate     = p.Results.rotate;
+            translate  = p.Results.translate;
+
+            % Write
+            fprintf(o.fh, ['triangle { <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>\n'...
+                           '          texture { %s }\n'],...
+                           p1(1),p1(2),p1(3),...
+                           p2(1),p2(2),p2(3),...
+                           p3(1),p3(2),p3(3),...
+                           texture);
+            o.write_transforms(scale, rotate, translate);
+        end
+        
         %
         % Plot
         %
@@ -1132,10 +1167,10 @@ classdef povlab < handle
             for i=1:fnum
                 fprintf(o.fh, '<%d, %d, %d>,\n', faces(i,1)-1, faces(i,2)-1, faces(i,3)-1);
             end
-            % fprintf(o.fh, '}\npigment {rgb 1}\n}');
-            % TODO: Glass test
-                        fprintf(o.fh, ['}\nmaterial{ texture { Dark_Green_Glass }' ...
-                                          'interior{ I_Glass }}\n}']);
+
+            % TODO: Parameterize texture
+            fprintf(o.fh, ['}\nmaterial{ texture { Dark_Green_Glass }' ...
+                              'interior{ I_Glass }}\n}']);
         end
 
         %
