@@ -221,9 +221,8 @@ classdef povlab < handle
         end
 
         % Light
-        % TODO !
-        % [ adaptive Adaptive ] [ area_illumination on/off ]
-        % [ jitter ] [ circular ] [ orient ]
+        % TODO:
+        % Spotlights and cylinder lights can be area lights too!
         function light(o, varargin)
             % <a href="https://wiki.povray.org/content/Reference:Light_Source">POV Reference:Light Source</a> - More about light sources
             p = inputParser;
@@ -242,6 +241,11 @@ classdef povlab < handle
             addParameter(p,'axis2',        [0 1 0],        @o.check_vector3);
             addParameter(p,'size1',              4,        @o.check_positive_int);
             addParameter(p,'size2',              4,        @o.check_positive_int);
+            addParameter(p,'adaptive',           1,        @o.check_positive_int);
+            addParameter(p,'area_illumination',  false,    @(x) islogical(x));
+            addParameter(p,'jitter',             false,    @(x) islogical(x));
+            addParameter(p,'circular',           false,    @(x) islogical(x));
+            addParameter(p,'orient',             false,    @(x) islogical(x));
             addParameter(p,'media_interaction', true,      @(x) islogical(x));
             addParameter(p,'media_attenuation', false,     @(x) islogical(x));
             addParameter(p,'shape_scale',       1,         @o.check_positive_float);
@@ -263,6 +267,11 @@ classdef povlab < handle
             axis2 = p.Results.axis2;
             size1 = p.Results.size1;
             size2 = p.Results.size2;
+            adaptive = p.Results.adaptive;
+            area_illumination = p.Results.area_illumination;
+            jitter   = p.Results.jitter;
+            circular = p.Results.circular;
+            orient   = p.Results.orient;
             media_interaction = p.Results.media_interaction;
             media_attenuation = p.Results.media_attenuation;
             shape_scale = p.Results.shape_scale;
@@ -312,27 +321,60 @@ classdef povlab < handle
                 falloff   = "";
                 tightness = "";
                 point_at  = "";
-                area = "";
+                area_light = "";
             elseif (type == "parallel")
                 type = sprintf(" %s", type);
                 point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
                 radius    = "";
                 falloff   = "";
                 tightness = "";
-                area = "";
+                area_light = "";
             elseif(type == "area_light")
                 type = sprintf(" %s", type);
                 radius    = "";
                 falloff   = "";
                 tightness = "";
                 point_at  = "";
-                area = sprintf(" <%0.2f, %0.2f, %0.2f> <%0.2f, %0.2f, %0.2f> %d %d", ...
+
+                if (ismember('adaptive', p.UsingDefaults))
+                    adaptive = "";
+                else
+                    adaptive = sprintf(" adaptive %d", adaptive);
+                end
+
+                if(area_illumination)
+                    area_illumination = " area_illumination on";
+                else
+                    area_illumination = "";
+                end
+
+                if(jitter)
+                    jitter = " jitter";
+                else
+                    jitter = "";
+                end
+
+                if(circular)
+                    circular = " circular";
+                else
+                    circular = "";
+                end
+
+                if(orient)
+                    orient = " orient";
+                else
+                    orient = "";
+                end
+
+                area_light = sprintf(" <%0.2f, %0.2f, %0.2f> <%0.2f, %0.2f, %0.2f> %d %d%s%s%s%s%s", ...
                     axis1(1), axis1(2), axis1(3), ...
                     axis2(1), axis2(2), axis2(3), ...
-                    size1, size2);
+                    size1, size2, ...
+                    adaptive, area_illumination, jitter, circular, orient);
+                    
             else
                 type = sprintf(" %s", type);
-                area = "";
+                area_light = "";
                 point_at  = sprintf(" point_at <%0.2f, %0.2f, %0.2f>", point_at(1), point_at(2), point_at(3));
                 
                 if (ismember('radius', p.UsingDefaults))
@@ -388,7 +430,7 @@ classdef povlab < handle
             fprintf(o.fh,'light_source{<%0.1f, %0.1f, %0.1f> rgb <%0.2f, %0.2f, %0.2f>%s%s%s%s%s%s%s%s%s%s%s%s}\n', ...
                           location(1), location(2), location(3), ...
                           color(1), color(2), color(3), ...
-                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, area, media_interaction, media_attenuation, looks_like);
+                          type, radius, falloff, tightness, point_at, shadowless, fade_power, fade_distance, area_light, media_interaction, media_attenuation, looks_like);
         end
        
         % Axis

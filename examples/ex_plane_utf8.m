@@ -23,7 +23,10 @@ pl.scene_begin('scene_file', 'plane.pov', 'image_file', 'plane.png');
     % Lights
 %     pl.light('location', [9 9 6],    'color', [8 8 8], 'shadowless', true);
 %     pl.light('location', [-7 10 30], 'color', [4 4 4], 'shadowless', false);
-    pl.light('type', 'area_light', 'axis1', [40 0 0], 'axis2', [0 40 0], 'size1', 2, 'size2', 2,'location', [0 0 5], 'color', [1 1 1], 'shadowless', false, 'visible', true, 'shape_color', [0.3 0.3 0.3 0.5]);
+    pl.light('type', 'area_light', 'axis1', [40 0 0], 'axis2', [0 40 0], 'size1', 2, 'size2', 2,'location', [0 0 5], 'color', [1 1 1], 'shadowless', false, 'visible', true, 'shape_color', [0.3 0.3 0.3 0.5], ...
+        'adaptive', 4, 'area_illumination', true, 'jitter', true, 'circular', true, 'orient', true);
+    
+%    pl.light('type', 'area_light', 'axis1', [40 0 0], 'axis2', [0 40 0], 'size1', 2, 'size2', 2,'location', [0 0 5], 'color', [1 1 1], 'shadowless', false, 'visible', true, 'shape_color', [0.3 0.3 0.3 0.5]);
     
     finish = "phong 1 reflection {0.02 metallic 0.8}";
     tex_pink   = pl.declare("tex_pink",   pl.texture('pigment_odd', [0.05 0.05 0.05], 'pigment_even', [0.8 0.2 0.3], 'finish', finish));
