@@ -10,7 +10,7 @@ tic
 pl = povlab( povray_version,...
              povray_path, ...
              povray_out_dir);
-% Load data and slice data
+% Load data
 
 load mri;
 data = squeeze(D);
@@ -62,13 +62,13 @@ pl.scene_begin('scene_file', 'volume.pov', 'image_file', 'volume.png');
     pl.global_settings("assumed_gamma 1");
 
     % Camere
-    pl.camera('angle', 35, 'location', [5 5 3], 'look_at', [0 0 0.5], 'type', 'orthographic');
+    pl.camera('angle', 35, 'location', [8.5 8.5 3.4], 'look_at', [0 0 -0.2]);
 
     % Light
     pl.light('location', [5 5 3], 'color', [0.8 0.8 0.8]);
 
     % Prepare volume data for rendering
-    pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 1], 'rotate', [ 0 0 0], 'translate', [-2 -2 0]);
+    pl.volume('data', data, 'density_file', 'test_vol', 'color_map', color_map, 'scale', [4 4 2]);
     
 pl.scene_end();
 % Render and display
