@@ -32,8 +32,8 @@ pl.scene_begin('scene_file', 'vector.pov', 'image_file', 'vector.png');
    
     % Textures
     finish = "phong 1 reflection {0.02 metallic 0.8}";
-    tex_floor  = pl.declare("tex_floor",   pl.texture('pigment_odd', [0.01 0.01 0.01], 'pigment_even', [0.02 0.02 0.02], 'finish', finish));
-    tex_center = pl.declare("tex_center",  pl.texture('pigment', [0.5 0.5 0.5], 'finish', finish));
+    tex_floor  = pl.declare("tex_floor", pl.texture('pigment_odd', [0.01 0.01 0.01], 'pigment_even', [0.02 0.02 0.02], 'finish', finish));
+    tex_point = pl.declare("tex_point",  pl.texture('pigment', [0.5 0.5 0.5], 'finish', finish));
 
     tex_gray   = pl.declare("tex_gray",   pl.texture('pigment', [0.1 0.1 0.1] * 5, 'finish', finish));
     tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0.0 0.3 0.0], 'finish', finish));
@@ -44,8 +44,10 @@ pl.scene_begin('scene_file', 'vector.pov', 'image_file', 'vector.png');
     % Floor
     pl.plane('normal', [0,0,1], 'texture', tex_floor);
 
-    % Center
-    pl.sphere('radius', 0.15, 'texture', tex_center);
+    % Ponits
+    pl.sphere('position', [0  0 0], 'radius', 0.1, 'texture', tex_point);
+    pl.sphere('position', [3  2 4], 'radius', 0.07, 'texture', tex_point);
+    pl.sphere('position', [-3 2 2], 'radius', 0.07, 'texture', tex_point);
 
     % Vectors
     pl.vector('p1', [0,0,0], 'p2', [3  2 4], 'tex_odd', tex_pink,   'tex_even', tex_gray, 'radius', 0.04);

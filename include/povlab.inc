@@ -71,7 +71,7 @@ union{
     #if (!defined(local.rad))
        #local rad = 0.05;
     #end
-    
+
     // Zero lenght vector
     #local p = p2 - p1;
     #if ((p.x = 0) & (p.y = 0) & (p.z = 0))
@@ -110,8 +110,7 @@ union{
         cone { <len - arrow_len,0,0>, rad * 2 <len, 0, 0>, 0
                texture{ tex_odd }}
      rotate <0,ry,rz>
-     translate p1
-    }
+     translate p1 } 
 #end
 
 //
