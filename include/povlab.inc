@@ -26,6 +26,64 @@ union{
     #if (len_z != 0) object { axis(len_z, rad, tex_common, tex_z) rotate<90, 0, 0>}  #end }
 #end
 
+//
+// Vector
+//
+#macro vector( p1, p2, tex_odd, tex_even, optional rad)
+
+
+    #if (!defined(local.rad))
+       #local rad = 0.05;
+    #end
+
+    
+    // Zero lenght vector
+    #local p = p2 - p1;
+    #if ((p.x = 0) & (p.y = 0) & (p.z = 0))
+       #break;
+    #end
+    
+
+    // Debug reference
+    cylinder { p1, p2, rad
+           texture{  pigment{Red} }}
+
+    #debug concat("----- P: ", vstr(3, p, ", ", 3,1), "\n")
+    
+    #local len = VLength5D(<p.x, p.y, p.z, 0, 0>);
+    #debug concat("----- Len: ", str(len,3,1), "\n")
+    
+    
+    #local rz = VRotationD(<1,0,0>, <p.x, p.y, 0>, <0,0,1>);
+    
+    #debug concat("----- RZ: ", str(rz,3,1), "\n")
+    
+    #local ra = VPerp_To_Plane(p, <p.x, p.y, 0>);
+    #debug concat("----- RA: ", vstr(3, ra, ", ", 3,1), "\n")
+    
+    #local ry = VRotationD(<p.x, p.y, 0>, p, ra);
+    #debug concat("----- RY: ", str(ry,3,1), "\n")
+    
+    // Turns 90 rotation axis compensation
+    #if ((p.z < 0) | ((p.x = 0) & (p.y = 0)))
+        #if ( !((p.z < 0) & (p.x=0) & (p.y=0)) )
+            #local ry = -ry;
+        #end  
+    #end
+
+    #local arrow_len = rad * 7;
+    union {      
+        cylinder { <0,0,0>, <len - arrow_len, 0, 0>, rad
+                   texture{ checker texture{ tex_odd } texture{ tex_even }}}
+
+        
+        cone { <len - arrow_len,0,0>, rad * 2 <len, 0, 0>, 0
+               texture{ tex_even }}
+
+     rotate <0,ry,rz>
+     translate p1
+    }
+#end
 
 //
 // Grid
