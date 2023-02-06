@@ -20,7 +20,7 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     % Camera
     pl.camera('angle', 35, 'location', [28 15 10], 'look_at', [0 6 3.5], 'type', 'perspective');
     
-    % Light
+    % Lights
     pl.light('location', [100 100 300], 'color', [0.4 0.4 0.4], 'shadowless', false);
     pl.light('location', [10 4 3], 'color', [0.2 0.2 0.2], 'shadowless', true);
     
@@ -29,7 +29,7 @@ pl.scene_begin('scene_file', 'csg.pov', 'image_file', 'csg.png');
     pl.plane('normal', [1,0,0], 'texture', 'tex_plane', 'translate', [-10 0 1]);
     pl.plane('normal', [0,0,1], 'texture', tex_plane');
     
-    % Objects textures
+    % Textures
     tex_red   = pl.declare("tex_red",   pl.texture('pigment', [1 0 0]));
     tex_green = pl.declare("tex_green", pl.texture('pigment', [0 1 0]));
     tex_blue  = pl.declare("tex_blue",  pl.texture('pigment', [0 0 1]));
