@@ -2,11 +2,40 @@
 // POV-Lab definitions for POV-Ray (ver. 3.7)
 // Source: https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab-matlab-interface-to-pov-ray
 //
+#include "math.inc"
 #include "textures.inc"
 
 // Global settings
 global_settings { assumed_gamma 1 }
 
+//
+// Textures
+//
+#declare finish_default = finish { phong 1 reflection {0.10 metallic 0.4} }
+
+#declare tex_default = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.70, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_axis_common = texture { Polished_Chrome
+          pigment{ rgb <0.70, 0.70, 0.70>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_axis_x = texture { Polished_Chrome
+          pigment{ rgb <1.00, 0.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_axis_y = texture { Polished_Chrome
+          pigment{ rgb <0.00, 1.00, 0.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_axis_z = texture { Polished_Chrome
+          pigment{ rgb <0.00, 0.00, 1.00>}
+          finish { phong 1 reflection {0.10 metallic 0.4} }}
+
+#declare tex_plane = texture { Polished_Chrome
+          pigment{ rgb <0.30, 0.30, 0.30>}
+          finish { phong 1 reflection {0.1 metallic 0.2} }}
 //
 // Axis
 //
@@ -29,33 +58,35 @@ union{
 //
 // Vector
 //
-#macro vector( p1, p2, tex_odd, tex_even, optional rad)
+#macro vector(optional p1, optional p2, optional rad, optional tex_odd, optional tex_even)
 
+    #if (!defined(local.tex_odd))
+       #local tex_odd = tex_default;
+    #end
+
+    #if (!defined(local.tex_even))
+       #local tex_even = tex_default;
+    #end
 
     #if (!defined(local.rad))
        #local rad = 0.05;
     #end
-
     
     // Zero lenght vector
     #local p = p2 - p1;
     #if ((p.x = 0) & (p.y = 0) & (p.z = 0))
        #break;
     #end
-    
 
     // Debug reference
-    cylinder { p1, p2, rad
-           texture{  pigment{Red} }}
+    // cylinder { p1, p2, rad texture{  pigment{Red} }}
 
     #debug concat("----- P: ", vstr(3, p, ", ", 3,1), "\n")
     
     #local len = VLength5D(<p.x, p.y, p.z, 0, 0>);
     #debug concat("----- Len: ", str(len,3,1), "\n")
     
-    
     #local rz = VRotationD(<1,0,0>, <p.x, p.y, 0>, <0,0,1>);
-    
     #debug concat("----- RZ: ", str(rz,3,1), "\n")
     
     #local ra = VPerp_To_Plane(p, <p.x, p.y, 0>);
@@ -64,7 +95,7 @@ union{
     #local ry = VRotationD(<p.x, p.y, 0>, p, ra);
     #debug concat("----- RY: ", str(ry,3,1), "\n")
     
-    // Turns 90 rotation axis compensation
+    // Compensation
     #if ((p.z < 0) | ((p.x = 0) & (p.y = 0)))
         #if ( !((p.z < 0) & (p.x=0) & (p.y=0)) )
             #local ry = -ry;
@@ -74,12 +105,10 @@ union{
     #local arrow_len = rad * 7;
     union {      
         cylinder { <0,0,0>, <len - arrow_len, 0, 0>, rad
-                   texture{ checker texture{ tex_odd } texture{ tex_even }}}
+                   texture{ checker texture{ tex_odd } texture{ tex_even } translate <0, 0.1, 0.1>  }}
 
-        
         cone { <len - arrow_len,0,0>, rad * 2 <len, 0, 0>, 0
-               texture{ tex_even }}
-
+               texture{ tex_odd }}
      rotate <0,ry,rz>
      translate p1
     }
@@ -144,34 +173,6 @@ union{
 
 #end
 
-//
-// Textures
-//
-#declare finish_default = finish { phong 1 reflection {0.10 metallic 0.4} }
-
-#declare tex_default = texture { Polished_Chrome
-          pigment{ rgb <0.00, 0.70, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-#declare tex_axis_common = texture { Polished_Chrome
-          pigment{ rgb <0.70, 0.70, 0.70>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-#declare tex_axis_x = texture { Polished_Chrome
-          pigment{ rgb <1.00, 0.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-#declare tex_axis_y = texture { Polished_Chrome
-          pigment{ rgb <0.00, 1.00, 0.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-#declare tex_axis_z = texture { Polished_Chrome
-          pigment{ rgb <0.00, 0.00, 1.00>}
-          finish { phong 1 reflection {0.10 metallic 0.4} }}
-
-#declare tex_plane = texture { Polished_Chrome
-          pigment{ rgb <0.30, 0.30, 0.30>}
-          finish { phong 1 reflection {0.1 metallic 0.2} }}
 
 //
 // Functions

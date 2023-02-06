@@ -827,7 +827,41 @@ classdef povlab < handle
                           
             o.write_transforms(scale, rotate, translate);
         end
-        
+
+        %
+        % Vector
+        %
+        function vector(o, varargin)
+            % Create a vector from point 'p1' to 'p2'
+            p = inputParser;
+            addParameter(p,'p1',        [0 0 0], @o.check_vector3);
+            addParameter(p,'p2',        [1 0 0], @o.check_vector3);
+            addParameter(p,'radius',        1.0, @o.check_positive_float);
+            addParameter(p,'tex_odd',        "", @o.check_string);
+            addParameter(p,'tex_even',       "", @o.check_string);
+            addParameter(p,'scale',     [1 1 1], @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
+            addParameter(p,'translate', [0 0 0], @o.check_vector3);
+            parse(p,varargin{:});
+
+            p1        = p.Results.p1;
+            p2        = p.Results.p2;
+            tex_odd   = p.Results.tex_odd;
+            tex_even  = p.Results.tex_even;
+            radius    = p.Results.radius;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+            
+            % Write
+            fprintf(o.fh, 'vector ( <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f, %s, %s )\n',...
+                           p1(1), p1(2), p1(3), ...
+                           p2(1), p2(2), p2(3), ...
+                           radius, tex_odd, tex_even);
+                          
+            % o.write_transforms(scale, rotate, translate);
+        end
+
         %
         % Surface
         %
