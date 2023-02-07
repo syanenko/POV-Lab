@@ -97,19 +97,19 @@ union{
     // Debug reference
     // cylinder { p1, p2, rad texture{  pigment{Red} }}
 
-    #debug concat("----- P: ", vstr(3, p, ", ", 3,1), "\n")
+    // #debug concat("----- P: ", vstr(3, p, ", ", 3,1), "\n")
     
     #local len = VLength5D(<p.x, p.y, p.z, 0, 0>);
-    #debug concat("----- Len: ", str(len,3,1), "\n")
+    // #debug concat("----- Len: ", str(len,3,1), "\n")
     
     #local rz = VRotationD(<1,0,0>, <p.x, p.y, 0>, <0,0,1>);
-    #debug concat("----- RZ: ", str(rz,3,1), "\n")
+    // #debug concat("----- RZ: ", str(rz,3,1), "\n")
     
     #local ra = VPerp_To_Plane(p, <p.x, p.y, 0>);
-    #debug concat("----- RA: ", vstr(3, ra, ", ", 3,1), "\n")
+    // #debug concat("----- RA: ", vstr(3, ra, ", ", 3,1), "\n")
     
     #local ry = VRotationD(<p.x, p.y, 0>, p, ra);
-    #debug concat("----- RY: ", str(ry,3,1), "\n")
+    // #debug concat("----- RY: ", str(ry,3,1), "\n")
     
     // Compensation
     #if ((p.z < 0) | ((p.x = 0) & (p.y = 0)))
