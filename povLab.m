@@ -910,7 +910,7 @@ classdef povlab < handle
         end
 
         %
-        % Prism
+        % Prism (TODO: finish it)
         %
         function prism(o, varargin)
             %
