@@ -843,6 +843,7 @@ classdef povlab < handle
             addParameter(p,'p1',        [0 0 0], @o.check_vector3);
             addParameter(p,'p2',        [1 0 0], @o.check_vector3);
             addParameter(p,'radius',        1.0, @o.check_positive_float);
+            addParameter(p,'texture',        "", @o.check_string);
             addParameter(p,'tex_odd',        "", @o.check_string);
             addParameter(p,'tex_even',       "", @o.check_string);
             addParameter(p,'scale',     [1 1 1], @o.check_vector3);
@@ -852,6 +853,7 @@ classdef povlab < handle
 
             p1        = p.Results.p1;
             p2        = p.Results.p2;
+            texture   = p.Results.texture;
             tex_odd   = p.Results.tex_odd;
             tex_even  = p.Results.tex_even;
             radius    = p.Results.radius;
@@ -860,10 +862,10 @@ classdef povlab < handle
             translate = p.Results.translate;
             
             % Write
-            fprintf(o.fh, 'object {\nvector ( <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f, %s, %s )\n%s}\n\n',...
+            fprintf(o.fh, 'object {\nvector ( <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f, %s, %s, %s )\n%s}\n\n',...
                            p1(1), p1(2), p1(3), ...
                            p2(1), p2(2), p2(3), ...
-                           radius, tex_odd, tex_even, ...
+                           radius, texture, tex_odd, tex_even, ...
                            o.trans(scale, rotate, translate));
         end
 

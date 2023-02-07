@@ -58,24 +58,40 @@ union{
 //
 // Vector
 //
-#macro vector(optional p1, optional p2, optional rad, optional tex_odd, optional tex_even)
-
-    #if (!defined(local.tex_odd))
-       #local tex_odd = tex_default;
-    #end
-
-    #if (!defined(local.tex_even))
-       #local tex_even = tex_default;
-    #end
-
-    #if (!defined(local.rad))
-       #local rad = 0.05;
-    #end
+#macro vector(optional p1, optional p2, optional rad, optional tex, optional tex_odd, optional tex_even)
 
     // Zero lenght vector
     #local p = p2 - p1;
     #if ((p.x = 0) & (p.y = 0) & (p.z = 0))
        #break;
+    #end
+    
+    // Radius
+    #if (!defined(local.rad))
+       #local rad = 0.05;
+    #end
+    
+   // Body texture
+   #if ((defined(local.tex_odd)) | (defined(local.tex_even)))
+        
+        #if (!defined(local.tex_odd))
+            #local tex_odd = tex_default;
+        #end
+
+        #if (!defined(local.tex_even))
+            #local tex_even = tex_default;
+        #end
+       
+       #local tex = texture{ checker texture{ tex_odd } texture{ tex_even } translate <0, 0.1, 0.1>  }
+   #else
+        #if (!defined(local.tex))
+            #local tex = tex_default;
+        #end
+   #end
+
+    // Arrow texture
+    #if (!defined(local.tex_odd))
+        #local tex_odd = tex_default;
     #end
 
     // Debug reference
@@ -104,11 +120,12 @@ union{
 
     #local arrow_len = rad * 7;
     union {      
-        cylinder { <0,0,0>, <len - arrow_len, 0, 0>, rad
-                   texture{ checker texture{ tex_odd } texture{ tex_even } translate <0, 0.1, 0.1>  }}
+            cylinder { <0,0,0>, <len - arrow_len, 0, 0>, rad
+                       texture{ tex }}
 
-        cone { <len - arrow_len,0,0>, rad * 2 <len, 0, 0>, 0
-               texture{ tex_odd }}
+            cone { <len - arrow_len,0,0>, rad * 2 <len, 0, 0>, 0
+                   texture{ tex_odd }}
+
      rotate <0,ry,rz>
      translate p1 } 
 #end
