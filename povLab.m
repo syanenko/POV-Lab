@@ -736,10 +736,11 @@ classdef povlab < handle
 
             % Write
             fprintf(o.fh, ['torus {%0.2f, %0.2f\n'...
-                           '        texture { %s }\n'],...
+                           '        texture { %s }' ...
+                           '%s}\n\n'],...
                            radius_maj, radius_min,...
-                           texture);
-            o.write_transforms(scale, rotate, translate);
+                           texture, ...
+                           o.trans(scale, rotate, translate));
         end
         
         %
@@ -780,8 +781,11 @@ classdef povlab < handle
             end
 
             fprintf(o.fh, ['      %s\n'...
-                           '      texture { %s }\n'], sturm, texture);
-            o.write_transforms(scale, rotate, translate);
+                           '      texture { %s }' ...
+                           '%s}\n\n'], ...
+                           sturm, ...
+                           texture, ...
+                           o.trans(scale, rotate, translate));
         end
 
         %
@@ -1292,8 +1296,8 @@ classdef povlab < handle
                           'box {<0, 0, 0>, <1, 1, 1>\n'...
                                'pigment { rgbf 1 }\n'...
                                'interior { vol_interior }\n'...
-                               'hollow\n']);
-            o.write_transforms(scale, rotate, translate);
+                               'hollow%s}\n\n'], ...
+                               o.trans(scale, rotate, translate));
         end
 
         %
@@ -1377,8 +1381,8 @@ classdef povlab < handle
                 addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
                 addParameter(p,'translate', [0 0 0], @o.check_vector3);
                 parse(p, varargin{:});
-   
-                o.write_transforms(p.Results.scale, p.Results.rotate, p.Results.translate);
+
+                fprintf(o.fh,"%s}\n\n", o.trans(p.Results.scale, p.Results.rotate, p.Results.translate, false));
             end
         %
         % Write triangle TODO: Fix it according to make_mesh
@@ -1404,17 +1408,9 @@ classdef povlab < handle
         end
 
         %
-        % Write transforms (depricated, move to 'transforms')
-        %
-        function  write_transforms(o, scale, rotate, translate)
-            fprintf(o.fh, 'scale<%0.2f, %0.2f, %0.2f> rotate <%0.2f, %0.2f, %0.2f> translate <%0.2f, %0.2f, %0.2f>}\n\n',...
-                           scale(1), scale(2), scale(3), rotate(1), rotate(2), rotate(3), translate(1), translate(2), translate(3));
-        end
-
-        %
         % Format transforms
         %
-        function  t = trans(o, scale, rotate, translate)
+        function  t = trans(o, scale, rotate, translate, new_line)
             if (isequal(scale, [1 1 1]))
                scale = "";
             else
@@ -1433,9 +1429,13 @@ classdef povlab < handle
                 translate = sprintf(' translate <%0.2f, %0.2f, %0.2f>', translate(1), translate(2), translate(3));
             end
 
+            if ~exist('new_line','var')
+              new_line = true;
+            end
+            
             t = sprintf('%s%s%s', scale, rotate, translate);
-            if(~strcmp(t, ""))
-                t = sprintf('\n   %s%s%s', t);
+            if(~strcmp(t, "") && new_line)
+                t = sprintf('\n    %s', t);
             end
         end
         
