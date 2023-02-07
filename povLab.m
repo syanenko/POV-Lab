@@ -84,10 +84,11 @@ classdef povlab < handle
         % Scene begin
         %
         function scene_begin(o, varargin)
+            %
             % Opens new scene, corresponding scene_end() should be included after all scene content
             %
             % Please find scene_begin() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
-            
+            %
             p = inputParser;
             addParameter(p,'scene_file', 'out.pov', @o.check_string);
             addParameter(p,'image_file', 'out.png', @o.check_string);
@@ -122,10 +123,11 @@ classdef povlab < handle
         % Scene end
         %
         function scene_end(o)
+        %    
         % Closes scene, opened by scene_begin(), should be included after all scene content
         %
         % Please find scene_end() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
-            
+        %    
             fclose(o.fh);
         end
 
@@ -206,9 +208,11 @@ classdef povlab < handle
         % Camera
         %
         function camera(o, varargin)
-            % Creates camera object with desired parameters
             %
-            % -- Syntax
+            % Create a camera
+            %
+            % SYNTAX
+            %
             % camera('angle', 25, 'location', [35 20 19], 'look_at', [0 1 3], 'type', 'perspective');
             % type: perspective | orthographic | mesh_camera{MESHCAM_MODIFIERS} | fisheye | ultra_wide_angle |
             %       omnimax | panoramic | cylinder CylinderType | spherical
@@ -216,6 +220,7 @@ classdef povlab < handle
             % Please find camera() usage in following examples <a href="matlab:doc ex_csg">ex_csg</a>, <a href="matlab:doc ex_surface">ex_surface</a>, <a href="matlab:doc ex_lathe">ex_lathe</a>
             % 
             % <a href="https://wiki.povray.org/content/Reference:Camera">POV Reference:Camera</a> - More about camera
+            % 
             
             p = inputParser;
             addParameter(p,'type',     'perspective',  @o.check_string);
@@ -248,7 +253,11 @@ classdef povlab < handle
         % Light
         %
         function light(o, varargin)
+            %
+            % Create a light source
+            %
             % <a href="https://wiki.povray.org/content/Reference:Light_Source">POV Reference:Light Source</a> - More about light sources
+            %
             p = inputParser;
             addParameter(p,'location',   [0 0 0],          @o.check_vector3);
             addParameter(p,'color',      [1 1 1],          @o.check_vector3);
@@ -476,7 +485,7 @@ classdef povlab < handle
             % <a href="matlab:edit ex_csg">CSG</a> - Constructive solid geometry primitives and methods
             % <a href="matlab:edit ex_lathe">Lathe</a> - Lathe objects creation
             % <a href="matlab:edit ex_plot">Plot</a> - Plots 2D graph of function
-            
+            %
             p = inputParser;
             addParameter(p,'length', [5 5 5], @o.check_vector3);
             addParameter(p,'tex_common', "tex_axis_common", @o.check_string);
@@ -503,7 +512,9 @@ classdef povlab < handle
         % Grid
         %
         function grid(o, varargin)
-            % grid method help
+            %
+            % Create a grid
+            %
             p = inputParser;
             addParameter(p,'cell_size',    1,               @o.check_positive_float);
             addParameter(p,'width',        2,               @o.check_positive_int);
@@ -545,7 +556,11 @@ classdef povlab < handle
         % Texture
         %
         function tex = texture(o, varargin)
+            %
+            % Create a texture
+            %
             % <a href="https://wiki.povray.org/content/Reference:Texture">POV Reference:Texture</a> - More about textures
+            %
             p = inputParser;
             addParameter(p,'base', 'Polished_Chrome',  @o.check_string);
             addParameter(p,'pigment',      [0 0 0],    @o.check_vector3);
@@ -583,7 +598,11 @@ classdef povlab < handle
         % Sphere
         %
         function sphere(o, varargin)
-            % sphere method help
+            %
+            % Create a sphere
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Sphere">POV Reference:Sphere</a> - More about sphere
+            %
             p = inputParser;
             addParameter(p,'position',  [0 0 0],       @o.check_vector3);
             addParameter(p,'radius',    1.0,           @o.check_positive_float);
@@ -613,10 +632,14 @@ classdef povlab < handle
         % Box
         %
         function box(o, varargin)
-            % Box defined by listing two opposite corners
             %
-            % -- Syntax
+            % Create a box defined by listing two opposite corners
+            %
+            % SYNTAX
+            %
             % box('llf_corner', [x1 y1 z1], 'urb_corner', [x2 y2 z2]);
+            %            
+            % <a href="https://wiki.povray.org/content/Reference:Box">POV Reference:Box</a> - More about box
             %
             p = inputParser;
             addParameter(p,'llf_corner', [0 0 0],      @o.check_vector3);
@@ -713,10 +736,14 @@ classdef povlab < handle
         % Torus
         %
         function torus(o, varargin)
-            % Torus defined by major and minor radiuses
             %
-            % -- Syntax
+            % Create torus defined by major and minor radiuses
+            %
+            % SYNTAX
+            %
             % torus('radius_maj', r1, 'radius_min' r2);
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Torus">POV Reference:Torus</a> - More about torus
             %
             p = inputParser;
             addParameter(p,'radius_maj', 1.0,          @o.check_positive_float);
@@ -747,7 +774,11 @@ classdef povlab < handle
         % Lathe
         %
         function lathe(o, varargin)
-            % lathe method help
+            %
+            % Create lathe object
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Lathe">POV Reference:Lathe</a> - More about lathe objects
+            %
             p = inputParser;
             addParameter(p,'points', [1 0; 1 1],           @o.check_points_list);
             addParameter(p,'spline_type', 'linear_spline', @o.check_string);
@@ -792,7 +823,11 @@ classdef povlab < handle
         % Plane
         %
         function plane(o, varargin)
-            % Creates a plane by normal and distance from origin
+            %
+            % Create a plane by normal vector
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Plane">POV Reference:Plane</a> - More about plane
+            %
             p = inputParser;
             addParameter(p,'normal',    [0 1 0],     @o.check_vector3);
             addParameter(p,'limits',    [0 0 0 0],   @o.check_vector4);
@@ -838,7 +873,51 @@ classdef povlab < handle
         % Vector
         %
         function vector(o, varargin)
+            %
             % Create a vector from point 'p1' to 'p2'
+            %
+            % SYNTAX
+            %  ...
+            % 
+            p = inputParser;
+            addParameter(p,'p1',        [0 0 0], @o.check_vector3);
+            addParameter(p,'p2',        [1 0 0], @o.check_vector3);
+            addParameter(p,'radius',        1.0, @o.check_positive_float);
+            addParameter(p,'texture',        "", @o.check_string);
+            addParameter(p,'tex_odd',        "", @o.check_string);
+            addParameter(p,'tex_even',       "", @o.check_string);
+            addParameter(p,'scale',     [1 1 1], @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0], @o.check_vector3);
+            addParameter(p,'translate', [0 0 0], @o.check_vector3);
+            parse(p,varargin{:});
+
+            p1        = p.Results.p1;
+            p2        = p.Results.p2;
+            texture   = p.Results.texture;
+            tex_odd   = p.Results.tex_odd;
+            tex_even  = p.Results.tex_even;
+            radius    = p.Results.radius;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+            
+            % Write
+            fprintf(o.fh, 'object {\nvector ( <%0.2f, %0.2f, %0.2f>, <%0.2f, %0.2f, %0.2f>, %0.2f, %s, %s, %s )\n%s}\n\n',...
+                           p1(1), p1(2), p1(3), ...
+                           p2(1), p2(2), p2(3), ...
+                           radius, texture, tex_odd, tex_even, ...
+                           o.trans(scale, rotate, translate));
+        end
+
+        %
+        % Prism
+        %
+        function prism(o, varargin)
+            %
+            % Create a prism
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Prism">POV Reference:Prism</a> - More about prism
+            %
             p = inputParser;
             addParameter(p,'p1',        [0 0 0], @o.check_vector3);
             addParameter(p,'p2',        [1 0 0], @o.check_vector3);
@@ -873,8 +952,12 @@ classdef povlab < handle
         % Surface
         %
         function surface(o, varargin)
-            % Creates textured mesh from surface, retuned by Matlab's 'surf'
-            % function
+            %
+            % Create a textured mesh from data, retuned by 'surf' function
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'surface',      0,                @o.check_surface);
             addParameter(p,'texture',      "tex_default",    @o.check_string);
@@ -990,7 +1073,11 @@ classdef povlab < handle
         % Wire box
         %
         function wire_box(o, varargin)
-            % sphere method help
+            %
+            % Create a wire_box
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Shapes.inc">POV Reference:Shapes</a> - More about wire box and other shapes
+            %
             p = inputParser;
             addParameter(p,'llf_corner', [0 0 0],      @o.check_vector3);
             addParameter(p,'urb_corner', [0 0 0],      @o.check_vector3);
@@ -1033,7 +1120,9 @@ classdef povlab < handle
         %
         function triangle(o, varargin)
             %
-            % <a https://wiki.povray.org/content/Reference:Triangle">POV Reference:Triangle</a> - More about triangle
+            % Create a triangle
+            %
+            % <a href="https://wiki.povray.org/content/Reference:Triangle">POV Reference:Triangle</a> - More about triangle
             %
             p = inputParser;
             addParameter(p,'p1', [0 0 0],         @o.check_vector3);
@@ -1067,7 +1156,12 @@ classdef povlab < handle
         % Plot
         %
         function plot(o, varargin)
-            % plot method help
+            %
+            % Create a function plot
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'name',    'f',             @o.check_string);            
             addParameter(p,'funcion', 'X',             @o.check_string);
@@ -1102,7 +1196,9 @@ classdef povlab < handle
         % Surface2
         %
         function surface2(o, varargin)
-            % surface2 method help
+            %
+            % surface2 method is depricated
+            %
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -1115,7 +1211,12 @@ classdef povlab < handle
         % Coneplot
         %
         function coneplot(o, varargin)
-            % coneplot method help
+            %
+            % Create a cone plot graph from data returned by Matlab's function 'coneplot'
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -1133,7 +1234,13 @@ classdef povlab < handle
         % Streamtube
         %
         function streamtube(o, varargin)
-            % streamtube method help
+            %
+            % Create a stream tube plot graph from data returned by Matlab's function 'streamtube'
+            % (in developent now) 
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -1150,7 +1257,12 @@ classdef povlab < handle
         % Streamline
         %
         function streamline(o, varargin)
-            % streamline method help
+            %
+            % Create a stream line plot graph from data returned by Matlab's function 'streamline'
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -1178,7 +1290,9 @@ classdef povlab < handle
         % Patch
         %
         function patch(o, varargin)
-            % patch method help
+            %
+            % Patch method help
+            %
             p = inputParser;
             addParameter(p,'data', 0);
             parse(p,varargin{:});
@@ -1218,7 +1332,12 @@ classdef povlab < handle
         % Volume by df3
         %
         function volume(o, varargin)
-            % volume method help
+            %
+            % Create a volume vizualization from voxel data
+            %
+            % SYNTAX
+            %  ...
+            % 
             p = inputParser;
             addParameter(p,'data',         NaN,           @o.check_volume_size);
             addParameter(p,'intervals',    24,            @o.check_positive_int);
@@ -1306,11 +1425,15 @@ classdef povlab < handle
         % CSG:Union
         %
         function union_begin(o)
+            %
             % Openes union section CSG, should be closed by corresponding union_end()
+            %
             fprintf(o.fh,'union {\n');
         end
         function union_end(o, varargin)
+            %
             % Closes union CSG section, openened by union_begin()
+            %
             o.csg_end(varargin{:});
         end 
 
@@ -1318,11 +1441,15 @@ classdef povlab < handle
         % CSG:Difference
         %
         function difference_begin(o)
+            %
             % Openes difference CSG section, should be closed by corresponding difference_end()
+            %
             fprintf(o.fh,'difference {\n');
         end
         function difference_end(o, varargin)
+            %
             % Closes difference CSG section, openened by difference_begin()
+            %
             o.csg_end(varargin{:});
         end 
 
@@ -1330,11 +1457,15 @@ classdef povlab < handle
         % CSG:Intersection
         %
         function intersection_begin(o)
+            %
             % Openes intersection CSG section, should be closed by corresponding intersection_end()
+            %
             fprintf(o.fh,'intersection {\n');
         end
         function intersection_end(o, varargin)
+            %
             % Closes intersection CSG section, openened by intersection_begin()
+            %
             o.csg_end(varargin{:});
         end
 
@@ -1342,11 +1473,15 @@ classdef povlab < handle
         % CSG:Merge
         %
         function merge_begin(o)
+            %
             % Openes merge CSG section, should be closed by corresponding intersection_end()
+            %
             fprintf(o.fh,'merge {\n');
         end
         function merge_end(o, varargin)
+            %
             % Closes merge CSG section, openened by intersection_begin()
+            %
             o.csg_end(varargin{:});
         end
 
@@ -1354,7 +1489,9 @@ classdef povlab < handle
         % Render
         %
         function img = render(o)
+            %
             % Rendering scene by calling a POV as system process, returns rendered image
+            %
             if isunix
                 setenv('LD_LIBRARY_PATH', '/usr/local/lib/'); % TODO: Set globally (?)
                 system(sprintf('"%s" %s/%s', o.pov_path, o.out_dir, o.scene_file));
