@@ -2,7 +2,7 @@
 *.asv
 *.bak
 _tests
-_images
+_scenes
 _notes
 _ideas
 include/*.png
