@@ -1,7 +1,7 @@
 # POV-Lab
  Matlab interface to [POV-Ray](http://www.povray.org/)
 
-![surface1](https://user-images.githubusercontent.com/6688301/216836472-ed0a01a2-3430-4983-89da-e607b7c7fdc5.png)
+![surface1_github](https://user-images.githubusercontent.com/6688301/218449378-375a52ff-b11a-4ab1-b723-e509eae2ad53.png)
 
 Extends Matlab's visualisation system by external raytracer - [POV-Ray](http://www.povray.org/).\
 Useful for presentations, learning 3D graphics in schools and universities.
