@@ -20,6 +20,7 @@ Please feel free to send feedback about issues and suggestions for future develo
 About POV-Ray:\
 Officail site: [povray.org](http://www.povray.org)\
 Documentation: [wiki.povray.org](https://wiki.povray.org/content/Documentation:Contents)\
+Newsgroups: [news.povray.org/groups/](https://news.povray.org/groups/)\
 Repository: [github.com/POV-Ray/povray](https://github.com/POV-Ray/povray)
 
 [![View POV-Lab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab)
