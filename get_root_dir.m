@@ -3,7 +3,7 @@ function d = get_root_dir()
     sp = split(path,";");
     for k=1:length(sp)
         p = cell2mat(sp(k));
-        if(p(end-6:end) == "pov_lab")
+        if(p(end-5:end) == "povlab")
             d = p;
             return;
         end
