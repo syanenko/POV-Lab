@@ -23,6 +23,11 @@ Documentation: [wiki.povray.org](https://wiki.povray.org/content/Documentation:C
 Newsgroups: [news.povray.org/groups/](https://news.povray.org/groups/)\
 Repository: [github.com/POV-Ray/povray](https://github.com/POV-Ray/povray)
 
+Tutorials:\
+Basics: [https://povlab.online/povtutorial/](https://povlab.online/povtutorial/)\
+Animation: [https://povlab.online/animtutorial/](https://povlab.online/povtutorial/)\
+Isosurfaces: [https://povlab.online/isotutorial/](https://povlab.online/isotutorial/)
+
 [![View POV-Lab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab)
 
 Contact me at [LinkedIn](https://www.linkedin.com/in/sergey-yanenko-57b21a96/).
