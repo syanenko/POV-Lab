@@ -28,7 +28,7 @@ Basics: [https://povlab.online/povtutorial/](https://povlab.online/povtutorial/)
 Animation: [https://povlab.online/animtutorial/](https://povlab.online/povtutorial/)\
 Isosurfaces: [https://povlab.online/isotutorial/](https://povlab.online/isotutorial/)
 
-Videos: [Youtube POV-Ray channel](https://www.youtube.com/playlist?list=PL_L-Rlt-OWoJm6HN9t-hxXRk-b6SONXbJ)
+Videos: [POV-Ray channel on Youtube](https://www.youtube.com/playlist?list=PL_L-Rlt-OWoJm6HN9t-hxXRk-b6SONXbJ)
 
 [![View POV-Lab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/123520-pov-lab)
 
