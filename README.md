@@ -1,4 +1,4 @@
-# POV-Lab
+# *POV-Lab*
  Matlab interface to [POV-Ray](http://www.povray.org/)
 
 ![surface1_github](https://user-images.githubusercontent.com/6688301/218449378-375a52ff-b11a-4ab1-b723-e509eae2ad53.png)
