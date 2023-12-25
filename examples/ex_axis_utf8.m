@@ -18,8 +18,8 @@ pl.include_end();
 % Llights
 
 pl.include_begin('lights');
-    pl.light('location', [10 10 7],     'color', [3 3 3], 'shadowless', true);
-    pl.light('location', [-10 10 30],   'color', [3 3 3], 'shadowless', true);
+    pl.light('location', [10 10 7],     'color', [2 2 2], 'shadowless', true);
+    pl.light('location', [-10 10 30],   'color', [2 2 2], 'shadowless', true);
 pl.include_end();
 % Floor
 
@@ -37,7 +37,9 @@ pl.scene_begin('scene_file', 'axis.pov', 'image_file', 'axis.png');
     pl.include("camera");
     pl.include("lights");
     pl.include("floor");
-    
+    tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0.0 0.3 0.0]));
+
+    pl.text('text', 'Axis', 'font', 'arial.ttf', 'thickness', 0, 'offset', 0, 'texture', tex_green ,'scale', [0.7 0.7 0.7], 'rotate', [ 90 0 135], 'translate', [1 -9 3]);
     pl.axis('length', [5 5 4]);
 pl.scene_end();
 % Render and display
@@ -58,6 +60,7 @@ pl.scene_begin('scene_file', 'axis_colored.pov', 'image_file', 'axis_colored.png
     tex_pink   = pl.declare("tex_pink",   pl.texture('pigment', [0.8 0.2 0.3]*1.2));
     tex_green  = pl.declare("tex_green",  pl.texture('pigment', [0.0 0.3 0.0]));
 
+    pl.text('text', 'Axis colored', 'font', 'arial.ttf', 'thickness', 0, 'offset', 0, 'texture', tex_pink ,'scale', [0.7 0.7 0.7], 'rotate', [ 90 0 135], 'translate', [1 -9 3]);
     pl.axis('length', [5 5 4], 'radius', 0.07, 'tex_common', tex_gray, 'tex_x', tex_yellow, 'tex_y', tex_pink, 'tex_z', tex_green);
 pl.scene_end();
 % Render and display

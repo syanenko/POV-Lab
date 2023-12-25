@@ -1187,6 +1187,45 @@ classdef povlab < handle
         end
 
         %
+        % Text
+        %
+        function text(o, varargin)
+            %
+            % Create a function text
+            %
+            % SYNTAX
+            %  ...
+            % 
+            
+            p = inputParser;
+            addParameter(p,'text',      '',            @o.check_string);            
+            addParameter(p,'font',      'arial.ttf',   @o.check_string);
+            addParameter(p,'thickness', 0,             @o.check_float);
+            addParameter(p,'offset',    0,             @o.check_float);
+            addParameter(p,'texture',   "tex_default", @o.check_string);
+            addParameter(p,'scale',     [1 1 1],       @o.check_vector3);
+            addParameter(p,'rotate',    [0 0 0],       @o.check_vector3);
+            addParameter(p,'translate', [0 0 0],       @o.check_vector3);
+            parse(p,varargin{:});
+
+            text      = p.Results.text;
+            font      = p.Results.font;
+            thickness = p.Results.thickness;
+            offset    = p.Results.offset;
+            texture   = p.Results.texture;
+            scale     = p.Results.scale;
+            rotate    = p.Results.rotate;
+            translate = p.Results.translate;
+
+            % Write
+            fprintf(o.fh,['text { ttf "%s",  "%s", %0.2f, %0.2f \n'...
+                          '          texture { %s }%s}\n'],...
+                          font, text, thickness, offset,...
+                          texture,...
+                          o.trans(scale, rotate, translate));
+        end
+
+        %
         % Surface2
         %
         function surface2(o, varargin)
