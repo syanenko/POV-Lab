@@ -142,7 +142,7 @@ union{
 #declare tex_grid_even = texture { pigment{ color rgb<0.8,0.8,0.8>}
                                    finish { phong 1}}
 
-
+/* TODO: Check under HgPovray !
 #macro grid(name, cell_size, grid_width, grid_height, grid_radius, tex_odd, tex_even)
 
     #local grid_width_abs  = cell_size * grid_width;
@@ -188,7 +188,7 @@ union{
     }
 
 #end
-
+*/
 
 //
 // Functions
